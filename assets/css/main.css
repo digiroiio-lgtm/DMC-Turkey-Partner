@@ -400,3 +400,112 @@ main {
     display: none;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Generic page-section building blocks
+   (minimal additions used by content landing pages, e.g. /cop31-antalya-services/)
+   ------------------------------------------------------------------------- */
+.page-section {
+  padding-block: var(--space-4) 0;
+  border-top: 1px solid var(--color-line);
+  margin-top: var(--space-4);
+}
+
+.page-section:first-of-type {
+  border-top: none;
+  margin-top: 0;
+}
+
+.page-section__lede {
+  max-width: 60ch;
+  color: var(--color-charcoal);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  background-color: var(--color-paper);
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.cta-banner {
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  text-align: center;
+  margin-top: var(--space-3);
+}
+
+.cta-banner__actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+}
+
+.steps-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  counter-reset: step;
+}
+
+.steps-list li {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+.steps-list li::before {
+  counter-increment: step;
+  content: counter(step);
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-brand);
+  margin-bottom: var(--space-1);
+}
+
+.faq-list {
+  margin-top: var(--space-3);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-line);
+  padding-block: var(--space-2);
+}
+
+.faq-item h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-1);
+}
+
+.disclaimer {
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
+  font-size: 0.8rem;
+  color: var(--color-charcoal);
+}
