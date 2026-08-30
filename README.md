@@ -1,0 +1,1 @@
+# DMC-Turkey-Partner
