@@ -53,5 +53,110 @@
         }
       });
     });
+
+    initEventFilters();
+    initEventTracking();
+    initGuideToc();
   });
+
+  // Lightweight active-section highlighting for the "On This Page" navigation
+  // on long-form guide pages. Falls back silently if unsupported.
+  function initGuideToc() {
+    var toc = document.querySelector("[data-guide-toc]");
+    if (!toc || !("IntersectionObserver" in window)) {
+      return;
+    }
+    var links = toc.querySelectorAll("a[href^='#']");
+    var sections = [];
+    links.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      var section = document.getElementById(id);
+      if (section) {
+        sections.push({ link: link, section: section });
+      }
+    });
+    if (!sections.length) {
+      return;
+    }
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var match = sections.filter(function (item) {
+            return item.section === entry.target;
+          })[0];
+          if (match && entry.isIntersecting) {
+            links.forEach(function (link) {
+              link.removeAttribute("aria-current");
+            });
+            match.link.setAttribute("aria-current", "true");
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px" }
+    );
+    sections.forEach(function (item) {
+      observer.observe(item.section);
+    });
+  }
+
+  // Lightweight analytics dispatch. Pushes to window.dataLayer if a tag
+  // manager is present; otherwise this is a silent no-op. No PII is sent.
+  function trackEvent(name, params) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, params || {}));
+  }
+
+  // Client-side only filtering for the MICE Calendar hub. Deliberately does
+  // not write filter state to the URL, so no parameter/crawl-trap pages are
+  // generated for search engines.
+  function initEventFilters() {
+    var grid = document.querySelector("[data-event-grid]");
+    var filters = document.querySelectorAll("[data-event-filter]");
+    if (!grid || !filters.length) {
+      return;
+    }
+    var cards = grid.querySelectorAll("[data-event-card]");
+
+    function applyFilters() {
+      var active = {};
+      filters.forEach(function (select) {
+        var key = select.getAttribute("data-event-filter");
+        if (select.value) {
+          active[key] = select.value;
+        }
+      });
+      var visibleCount = 0;
+      cards.forEach(function (card) {
+        var matches = Object.keys(active).every(function (key) {
+          return card.getAttribute("data-" + key) === active[key];
+        });
+        card.hidden = !matches;
+        if (matches) {
+          visibleCount += 1;
+        }
+      });
+      var emptyState = document.querySelector("[data-event-empty]");
+      if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+      }
+      trackEvent("calendar_filter_use", { filters: active });
+    }
+
+    filters.forEach(function (select) {
+      select.addEventListener("change", applyFilters);
+    });
+  }
+
+  // Attaches lightweight click tracking to event-related outbound and
+  // commercial-routing links, without exposing internal event names in
+  // any public-facing page copy.
+  function initEventTracking() {
+    document.querySelectorAll("[data-track]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        trackEvent(el.getAttribute("data-track"), {
+          href: el.getAttribute("href")
+        });
+      });
+    });
+  }
 })();
