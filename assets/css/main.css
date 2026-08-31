@@ -511,6 +511,177 @@ main {
 }
 
 /* -------------------------------------------------------------------------
+   Events / MICE Calendar
+   Premium event intelligence hub components (homepage teaser, hub, event
+   detail pages, cluster/archive pages). Reuses existing design tokens.
+   ------------------------------------------------------------------------- */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.event-card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-paper);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.event-card__date {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.event-card__name {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.event-card__meta {
+  font-size: 0.85rem;
+  color: var(--color-charcoal);
+}
+
+.event-card__category {
+  display: inline-block;
+  align-self: flex-start;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-charcoal);
+}
+
+.event-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
+.event-card__link {
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.event-status {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-line);
+  color: var(--color-charcoal);
+}
+
+.event-status--upcoming {
+  border-color: var(--color-brand);
+  color: var(--color-brand-dark);
+}
+
+.event-status--concluded {
+  color: var(--color-charcoal);
+}
+
+.event-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding-bottom: var(--space-2);
+}
+
+.event-filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.event-filters__group label {
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-charcoal);
+}
+
+.event-filters select {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  min-width: 160px;
+}
+
+.event-facts {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2);
+  background-color: var(--color-sand);
+}
+
+.event-facts dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-charcoal);
+  margin-bottom: 0.15rem;
+}
+
+.event-facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.event-related {
+  margin-top: var(--space-3);
+}
+
+.event-related li {
+  margin-bottom: var(--space-1);
+}
+
+.reviewed-note {
+  font-size: 0.8rem;
+  color: var(--color-charcoal);
+  margin-top: var(--space-2);
+}
+
+.cluster-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.cluster-links a {
+  font-size: 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 0.2rem 0.65rem;
+}
+
+/* -------------------------------------------------------------------------
    Minimal partner/enquiry form styling
    (no prior form pattern existed on the site; kept small and reuses tokens)
    ------------------------------------------------------------------------- */

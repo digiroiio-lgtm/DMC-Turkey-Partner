@@ -53,5 +53,69 @@
         }
       });
     });
+
+    initEventFilters();
+    initEventTracking();
   });
+
+  // Lightweight analytics dispatch. Pushes to window.dataLayer if a tag
+  // manager is present; otherwise this is a silent no-op. No PII is sent.
+  function trackEvent(name, params) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, params || {}));
+  }
+
+  // Client-side only filtering for the MICE Calendar hub. Deliberately does
+  // not write filter state to the URL, so no parameter/crawl-trap pages are
+  // generated for search engines.
+  function initEventFilters() {
+    var grid = document.querySelector("[data-event-grid]");
+    var filters = document.querySelectorAll("[data-event-filter]");
+    if (!grid || !filters.length) {
+      return;
+    }
+    var cards = grid.querySelectorAll("[data-event-card]");
+
+    function applyFilters() {
+      var active = {};
+      filters.forEach(function (select) {
+        var key = select.getAttribute("data-event-filter");
+        if (select.value) {
+          active[key] = select.value;
+        }
+      });
+      var visibleCount = 0;
+      cards.forEach(function (card) {
+        var matches = Object.keys(active).every(function (key) {
+          return card.getAttribute("data-" + key) === active[key];
+        });
+        card.hidden = !matches;
+        if (matches) {
+          visibleCount += 1;
+        }
+      });
+      var emptyState = document.querySelector("[data-event-empty]");
+      if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+      }
+      trackEvent("calendar_filter_use", { filters: active });
+    }
+
+    filters.forEach(function (select) {
+      select.addEventListener("change", applyFilters);
+    });
+  }
+
+  // Attaches lightweight click tracking to event-related outbound and
+  // commercial-routing links, without exposing internal event names in
+  // any public-facing page copy.
+  function initEventTracking() {
+    document.querySelectorAll("[data-track]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        trackEvent(el.getAttribute("data-track"), {
+          href: el.getAttribute("href")
+        });
+      });
+    });
+  }
 })();
