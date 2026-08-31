@@ -682,6 +682,195 @@ main {
 }
 
 /* -------------------------------------------------------------------------
+   Guides / Planning Intelligence power pages
+   Long-form editorial components: meta strip, on-page navigation,
+   quick facts, comparison tables, checklists and callouts. Reuses existing
+   design tokens so guides stay visually consistent with the rest of the site.
+   ------------------------------------------------------------------------- */
+.guide-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-2);
+  font-size: 0.82rem;
+  color: var(--color-charcoal);
+}
+
+.guide-meta strong {
+  color: var(--color-ink);
+}
+
+.guide-toc {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-sand);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.guide-toc h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.guide-toc ol {
+  columns: 2;
+  column-gap: var(--space-4);
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.guide-toc li {
+  break-inside: avoid;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .guide-toc ol {
+    columns: 1;
+  }
+}
+
+.quick-facts {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2);
+  background-color: var(--color-sand);
+}
+
+.quick-facts dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-charcoal);
+  margin-bottom: 0.15rem;
+}
+
+.quick-facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.comparison-table-wrap {
+  overflow-x: auto;
+  margin-top: var(--space-3);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.comparison-table caption {
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-1);
+}
+
+.comparison-table th,
+.comparison-table td {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.comparison-table th {
+  background-color: var(--color-sand);
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+
+.checklist {
+  margin-top: var(--space-3);
+  display: grid;
+  gap: var(--space-1);
+  padding-left: 0;
+  list-style: none;
+}
+
+.checklist li {
+  border-bottom: 1px dashed var(--color-line);
+  padding: 0.5rem 0 0.5rem 1.6rem;
+  position: relative;
+}
+
+.checklist li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  color: var(--color-brand);
+  font-weight: 700;
+}
+
+.callout {
+  border-left: 3px solid var(--color-brand);
+  background-color: var(--color-sand);
+  padding: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.guide-card {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-paper);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.guide-card__label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.guide-card__desc {
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
+.guide-card__link {
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.guide-related {
+  margin-top: var(--space-3);
+}
+
+.guide-related li {
+  margin-bottom: var(--space-1);
+}
+
+/* -------------------------------------------------------------------------
    Minimal partner/enquiry form styling
    (no prior form pattern existed on the site; kept small and reuses tokens)
    ------------------------------------------------------------------------- */

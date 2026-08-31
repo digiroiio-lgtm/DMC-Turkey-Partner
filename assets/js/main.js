@@ -56,7 +56,48 @@
 
     initEventFilters();
     initEventTracking();
+    initGuideToc();
   });
+
+  // Lightweight active-section highlighting for the "On This Page" navigation
+  // on long-form guide pages. Falls back silently if unsupported.
+  function initGuideToc() {
+    var toc = document.querySelector("[data-guide-toc]");
+    if (!toc || !("IntersectionObserver" in window)) {
+      return;
+    }
+    var links = toc.querySelectorAll("a[href^='#']");
+    var sections = [];
+    links.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      var section = document.getElementById(id);
+      if (section) {
+        sections.push({ link: link, section: section });
+      }
+    });
+    if (!sections.length) {
+      return;
+    }
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var match = sections.filter(function (item) {
+            return item.section === entry.target;
+          })[0];
+          if (match && entry.isIntersecting) {
+            links.forEach(function (link) {
+              link.removeAttribute("aria-current");
+            });
+            match.link.setAttribute("aria-current", "true");
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px" }
+    );
+    sections.forEach(function (item) {
+      observer.observe(item.section);
+    });
+  }
 
   // Lightweight analytics dispatch. Pushes to window.dataLayer if a tag
   // manager is present; otherwise this is a silent no-op. No PII is sent.
