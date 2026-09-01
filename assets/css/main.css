@@ -952,3 +952,77 @@ main {
   font-size: 0.85rem;
   color: var(--color-charcoal);
 }
+
+.form-field fieldset,
+fieldset.form-field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.form-field legend {
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.date-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+}
+
+.form-check {
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+}
+
+.field-optional {
+  font-weight: 400;
+  color: var(--color-charcoal);
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #9c2f26;
+  font-weight: 600;
+}
+
+.proposal-success,
+.proposal-reassurance {
+  margin-top: var(--space-4);
+}
+
+.proposal-success {
+  padding: var(--space-4);
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+}
+
+.proposal-reassurance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-range {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea,
+  .form-actions .btn {
+    min-height: 2.75rem;
+  }
+}
