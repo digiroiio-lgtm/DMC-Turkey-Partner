@@ -151,14 +151,14 @@ main {
 }
 
 .btn--primary {
-  background-color: var(--color-brand);
-  border-color: var(--color-brand);
-  color: var(--color-paper);
+  background-color: #b7ff00;
+  border-color: #b7ff00;
+  color: var(--color-ink);
 }
 
 .btn--primary:hover {
-  background-color: var(--color-brand-dark);
-  border-color: var(--color-brand-dark);
+  background-color: #b7ff00;
+  border-color: #b7ff00;
 }
 
 .btn--ghost {
@@ -199,7 +199,7 @@ main {
 }
 
 .site-logo span {
-  color: var(--color-brand);
+  color: #b7ff00;
 }
 
 .site-nav {
