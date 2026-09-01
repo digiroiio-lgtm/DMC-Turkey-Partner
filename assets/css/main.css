@@ -1164,7 +1164,7 @@ main:has(.event-facts) > h1 {
   margin-bottom: 0;
   font-size: clamp(2.125rem, 5vw, 4rem);
   line-height: 1.04;
-  font-weight: 650;
+  font-weight: 600;
   letter-spacing: -0.03em;
   max-width: 900px;
 }
