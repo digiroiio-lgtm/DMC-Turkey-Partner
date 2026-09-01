@@ -264,6 +264,24 @@ main {
   border-radius: var(--radius);
 }
 
+.site-nav__toggle-icon {
+  display: block;
+  width: 1.25rem;
+  height: 0.75rem;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  position: relative;
+}
+
+.site-nav__toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+  width: 100%;
+  border-top: 2px solid currentColor;
+}
+
 .site-header__cta {
   display: flex;
   align-items: center;
@@ -370,6 +388,16 @@ main {
 }
 
 @media (max-width: 720px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .site-nav {
+    flex: 0 0 100%;
+    order: 3;
+  }
+
   .site-nav__toggle {
     display: inline-flex;
   }
