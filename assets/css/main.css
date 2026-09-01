@@ -1165,6 +1165,12 @@ fieldset.form-field {
   color: var(--color-charcoal);
 }
 
+.form-check input {
+  width: auto;
+  height: auto;
+  flex: none;
+}
+
 .field-optional {
   font-weight: 400;
   color: var(--color-charcoal);
