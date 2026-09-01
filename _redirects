@@ -1,0 +1,4 @@
+# Consolidate all public URL signals on the HTTPS non-www host.
+https://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
+http://dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
+http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!

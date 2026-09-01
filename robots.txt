@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.dmcturkeypartner.com/sitemap.xml
+Sitemap: https://dmcturkeypartner.com/sitemap.xml
