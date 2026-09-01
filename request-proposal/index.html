@@ -106,7 +106,84 @@
         </ol>
       </nav>
     <h1>Request a Proposal</h1>
-    <!-- Page content will be added in a subsequent task -->
+      <p class="page-section__lede">Tell us the essentials about your programme. Our Turkey team will review your requirements and get back to you to discuss the next steps.</p>
+      <form name="proposal-request" method="POST" action="/request-proposal/" data-netlify="true" netlify-honeypot="company-website" data-proposal-form>
+        <input type="hidden" name="form-name" value="proposal-request">
+        <p class="sr-only"><label>Company website <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+        <input type="hidden" name="source_page">
+        <input type="hidden" name="landing_page">
+        <input type="hidden" name="submission_page">
+        <input type="hidden" name="timestamp">
+        <input type="hidden" name="utm_source">
+        <input type="hidden" name="utm_medium">
+        <input type="hidden" name="utm_campaign">
+        <input type="hidden" name="utm_content">
+        <input type="hidden" name="utm_term">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="proposal-name">Your Name</label>
+            <input type="text" id="proposal-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="proposal-company">Company</label>
+            <input type="text" id="proposal-company" name="company" autocomplete="organization" required>
+          </div>
+          <div class="form-field">
+            <label for="proposal-email">Work Email</label>
+            <input type="email" id="proposal-email" name="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="form-field">
+            <label for="proposal-destination">Destination</label>
+            <select id="proposal-destination" name="destination" required>
+              <option value="">Select a destination</option>
+              <option>Istanbul</option><option>Antalya</option><option>Belek</option><option>Bodrum</option>
+              <option>Cappadocia</option><option>Izmir</option><option>Multiple Destinations</option><option>Not Decided Yet</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="proposal-group-size">Approx. Group Size</label>
+            <select id="proposal-group-size" name="group_size" required>
+              <option value="">Select an approximate size</option>
+              <option>Under 20</option><option>20–50</option><option>51–100</option><option>101–250</option>
+              <option>251–500</option><option>500+</option><option>Not Confirmed Yet</option>
+            </select>
+          </div>
+          <fieldset class="form-field">
+            <legend>Travel / Event Dates</legend>
+            <div class="date-range">
+              <label for="proposal-date-start" class="sr-only">Start date</label>
+              <input type="date" id="proposal-date-start" name="date_start">
+              <label for="proposal-date-end" class="sr-only">End date</label>
+              <input type="date" id="proposal-date-end" name="date_end">
+            </div>
+            <label class="form-check"><input type="checkbox" id="proposal-dates-unconfirmed" name="dates_unconfirmed" value="Yes"> Dates Not Confirmed</label>
+          </fieldset>
+          <div class="form-field">
+            <label for="proposal-project-type">Project Type <span class="field-optional">(optional)</span></label>
+            <select id="proposal-project-type" name="project_type">
+              <option value="">Select a project type</option>
+              <option>Meeting / Conference</option><option>Incentive Travel</option><option>Corporate Event</option>
+              <option>Group Travel</option><option>Congress / Exhibition</option><option>Gala / Special Event</option>
+              <option>White-Label DMC Support</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="proposal-brief">Tell us briefly about your project <span class="field-optional">(optional)</span></label>
+            <textarea id="proposal-brief" name="brief" placeholder="3-night incentive programme for approximately 120 guests in Antalya..."></textarea>
+          </div>
+          <p class="form-note">Prefer email? <a href="mailto:hello@dmcturkeypartner.com">hello@dmcturkeypartner.com</a></p>
+          <p class="form-error" data-proposal-error role="alert" hidden></p>
+          <div class="form-actions"><button type="submit" class="btn btn--primary">Send My Brief</button></div>
+        </div>
+      </form>
+      <section class="proposal-success" data-proposal-success hidden aria-live="polite">
+        <h2>Thank you — we’ve received your brief.</h2>
+        <p>Our team will review your requirements and contact you to discuss the next steps.</p>
+        <a class="btn btn--ghost" href="/destinations/">Explore Turkey Destinations</a>
+      </section>
+      <aside class="proposal-reassurance" aria-label="Proposal reassurance">
+        <span>Local Turkey Execution</span><span>White-Label / Agency-Safe</span><span>Multi-Destination Support</span>
+      </aside>
   </main>
   <footer class="site-footer">
     <div class="container">

@@ -57,6 +57,8 @@
     initEventFilters();
     initEventTracking();
     initGuideToc();
+    initProposalCtas();
+    initProposalForm();
   });
 
   // Lightweight active-section highlighting for the "On This Page" navigation
@@ -157,6 +159,112 @@
           href: el.getAttribute("href")
         });
       });
+    });
+  }
+
+  function proposalContext(pathname) {
+    var parts = pathname.replace(/^\/|\/$/g, "").split("/");
+    var source = parts.length ? parts.join("-") : "home";
+    var context = { source: source };
+    var destination = { istanbul: "Istanbul", antalya: "Antalya", belek: "Belek", bodrum: "Bodrum", cappadocia: "Cappadocia" };
+    var projects = {
+      "incentive-travel-turkey": "Incentive Travel",
+      "corporate-events-turkey": "Corporate Event",
+      "white-label-dmc-turkey": "White-Label DMC Support",
+      "group-travel-turkey": "Group Travel",
+      "mice-turkey": "Meeting / Conference"
+    };
+    if (parts[0] === "destinations" && destination[parts[1]]) {
+      context.destination = destination[parts[1]];
+    }
+    if (projects[parts[0]]) {
+      context.project_type = projects[parts[0]];
+    }
+    return context;
+  }
+
+  function initProposalCtas() {
+    document.querySelectorAll('a[href="/request-proposal/"]').forEach(function (link) {
+      link.addEventListener("click", function () {
+        var params = new URLSearchParams(proposalContext(window.location.pathname));
+        ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
+          var value = new URLSearchParams(window.location.search).get(key);
+          if (value) { params.set(key, value); }
+        });
+        link.href = "/request-proposal/?" + params.toString();
+        trackEvent("proposal_cta_click", { source: params.get("source") });
+      });
+    });
+  }
+
+  function initProposalForm() {
+    var form = document.querySelector("[data-proposal-form]");
+    if (!form) { return; }
+    var params = new URLSearchParams(window.location.search);
+    var landingPage = sessionStorage.getItem("proposal_landing_page") || document.referrer || window.location.href;
+    sessionStorage.setItem("proposal_landing_page", landingPage);
+    form.elements.source_page.value = params.get("source") || "direct";
+    form.elements.landing_page.value = landingPage;
+    form.elements.submission_page.value = window.location.href;
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
+      form.elements[key].value = params.get(key) || "";
+    });
+    ["destination", "project_type"].forEach(function (key) {
+      if (params.get(key) && form.elements[key]) { form.elements[key].value = params.get(key); }
+    });
+    trackEvent("proposal_form_view", { source: form.elements.source_page.value });
+    var started = false;
+    form.addEventListener("focusin", function () {
+      if (!started) {
+        started = true;
+        trackEvent("proposal_form_start", { source: form.elements.source_page.value });
+      }
+    });
+    var datesUnconfirmed = form.elements.dates_unconfirmed;
+    datesUnconfirmed.addEventListener("change", function () {
+      ["date_start", "date_end"].forEach(function (name) {
+        form.elements[name].disabled = datesUnconfirmed.checked;
+        if (datesUnconfirmed.checked) { form.elements[name].value = ""; }
+      });
+    });
+    form.addEventListener("submit", function (event) {
+      var error = document.querySelector("[data-proposal-error]");
+      var start = form.elements.date_start.value;
+      var end = form.elements.date_end.value;
+      error.hidden = true;
+      if (!datesUnconfirmed.checked && (!start || !end)) {
+        event.preventDefault();
+        error.textContent = "Please enter your travel or event dates, or select Dates Not Confirmed.";
+        error.hidden = false;
+      } else if (start && end && end < start) {
+        event.preventDefault();
+        error.textContent = "End date must be on or after the start date.";
+        error.hidden = false;
+      } else {
+        event.preventDefault();
+        form.elements.timestamp.value = new Date().toISOString();
+        trackEvent("proposal_form_submit", { source: form.elements.source_page.value });
+        var button = form.querySelector('button[type="submit"]');
+        button.disabled = true;
+        fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (response) {
+          if (!response.ok) { throw new Error("Submission failed"); }
+          form.hidden = true;
+          document.querySelector("[data-proposal-success]").hidden = false;
+          trackEvent("proposal_form_success", { source: form.elements.source_page.value });
+        }).catch(function () {
+          button.disabled = false;
+          error.textContent = "We could not send your brief. Please try again or email hello@dmcturkeypartner.com.";
+          error.hidden = false;
+          trackEvent("proposal_form_error", { source: form.elements.source_page.value });
+        });
+      }
+      if (!error.hidden) {
+        trackEvent("proposal_form_error", { source: form.elements.source_page.value });
+      }
     });
   }
 })();
