@@ -2,3 +2,7 @@
 https://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 http://dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
+
+# Case Studies has been rebuilt as Selected Works.
+/case-studies/* /selected-works/:splat 301!
+/case-studies /selected-works/ 301!
