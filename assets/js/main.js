@@ -55,6 +55,7 @@
     });
 
     initEventFilters();
+    initWorksFilters();
     initEventTracking();
     initGuideToc();
     initProposalCtas();
@@ -146,6 +147,45 @@
 
     filters.forEach(function (select) {
       select.addEventListener("change", applyFilters);
+    });
+  }
+
+  // Client-side category filtering for the Selected Works archive. Text/
+  // underline button controls toggle visibility of project cards by
+  // data-category; no filter state is written to the URL.
+  function initWorksFilters() {
+    var grid = document.querySelector("[data-works-grid]");
+    var filters = document.querySelectorAll("[data-works-filter]");
+    if (!grid || !filters.length) {
+      return;
+    }
+    var cards = grid.querySelectorAll("[data-works-card]");
+
+    function applyFilter(category) {
+      var visibleCount = 0;
+      cards.forEach(function (card) {
+        var matches = !category || card.getAttribute("data-category") === category;
+        card.hidden = !matches;
+        if (matches) {
+          visibleCount += 1;
+        }
+      });
+      filters.forEach(function (btn) {
+        var isActive = (btn.getAttribute("data-works-filter") || "") === (category || "");
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+      });
+      var emptyState = document.querySelector("[data-works-empty]");
+      if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+      }
+      trackEvent("selected_works_filter_use", { category: category || "all" });
+    }
+
+    filters.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        applyFilter(btn.getAttribute("data-works-filter"));
+      });
     });
   }
 
