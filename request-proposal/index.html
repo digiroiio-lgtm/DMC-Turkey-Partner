@@ -107,8 +107,7 @@
       </nav>
     <h1>Request a Proposal</h1>
       <p class="page-section__lede">Tell us the essentials about your programme. Our Turkey team will review your requirements and get back to you to discuss the next steps.</p>
-      <form name="proposal-request" method="POST" action="/request-proposal/" data-netlify="true" netlify-honeypot="company-website" data-proposal-form>
-        <input type="hidden" name="form-name" value="proposal-request">
+      <form name="proposal-request" method="POST" action="/api/request-proposal" data-proposal-form>
         <p class="sr-only"><label>Company website <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
         <input type="hidden" name="source_page">
         <input type="hidden" name="landing_page">

@@ -1,0 +1,9 @@
+{
+  "name": "dmc-turkey-partner",
+  "private": true,
+  "version": "1.0.0",
+  "description": "DmcTurkeyPartner.com — static site with Vercel serverless API routes.",
+  "engines": {
+    "node": ">=18"
+  }
+}
