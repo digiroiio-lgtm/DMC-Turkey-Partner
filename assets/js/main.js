@@ -57,6 +57,7 @@
     initEventFilters();
     initWorksFilters();
     initEventTracking();
+    initEventCostPageView();
     initGuideToc();
     initProposalCtas();
     initProposalForm();
@@ -195,11 +196,55 @@
   function initEventTracking() {
     document.querySelectorAll("[data-track]").forEach(function (el) {
       el.addEventListener("click", function () {
-        trackEvent(el.getAttribute("data-track"), {
-          href: el.getAttribute("href")
-        });
+        var params = { href: el.getAttribute("href") };
+        var page = el.closest ? el.closest("[data-event-cost-page]") : null;
+        if (page) {
+          Object.assign(params, eventCostContext(page));
+        }
+        trackEvent(el.getAttribute("data-track"), params);
       });
     });
+  }
+
+  // Maps an Event Costs page's data-* attributes to the flat, snake_case
+  // param names used by analytics (destination, event_type, group_size,
+  // budget_range, page_slug).
+  function eventCostContext(page) {
+    var ctx = {};
+    var map = {
+      destination: "destination",
+      eventType: "event_type",
+      groupSize: "group_size",
+      budgetRange: "budget_range",
+      pageSlug: "page_slug"
+    };
+    Object.keys(map).forEach(function (key) {
+      if (page.dataset[key]) {
+        ctx[map[key]] = page.dataset[key];
+      }
+    });
+    return ctx;
+  }
+
+  // Fires a page-view event for every Event Costs page, plus a more
+  // specific view event depending on whether the page is a destination hub,
+  // event-type hub or fully modelled scenario. Used alongside Search Console
+  // data to decide Phase 2 expansion.
+  function initEventCostPageView() {
+    var page = document.querySelector("[data-event-cost-page]");
+    if (!page) {
+      return;
+    }
+    var ctx = eventCostContext(page);
+    trackEvent("event_cost_page_view", ctx);
+    var specificEvent = {
+      destination: "event_cost_destination_view",
+      type: "event_cost_type_view",
+      scenario: "event_cost_scenario_view"
+    }[page.getAttribute("data-event-cost-page")];
+    if (specificEvent) {
+      trackEvent(specificEvent, ctx);
+    }
   }
 
   function proposalContext(pathname) {
@@ -219,6 +264,18 @@
     }
     if (projects[parts[0]]) {
       context.project_type = projects[parts[0]];
+    }
+    if (parts[0] === "event-costs" && destination[parts[1]]) {
+      context.destination = destination[parts[1]];
+    }
+    var eventCostTypes = {
+      "corporate-events": "Corporate Event",
+      "incentive-travel": "Incentive Travel",
+      conferences: "Meeting / Conference",
+      "corporate-retreats": "Corporate Retreat"
+    };
+    if (parts[0] === "event-costs" && eventCostTypes[parts[1]]) {
+      context.project_type = eventCostTypes[parts[1]];
     }
     return context;
   }
