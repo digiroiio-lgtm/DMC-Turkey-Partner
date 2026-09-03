@@ -61,18 +61,18 @@ because it exists here; publication is a deliberate, separate action.
 
 | # | slug | destination | eventType | groupSize | budget (EUR) | last reviewed |
 | - | --- | --- | --- | --- | --- | --- |
-| 01 | `/event-costs/` | — | — (pillar) | — | — | March 2026 |
-| 02 | `/event-costs/antalya/` | antalya | — (hub) | — | — | March 2026 |
-| 03 | `/event-costs/istanbul/` | istanbul | — (hub) | — | — | March 2026 |
-| 04 | `/event-costs/belek/` | belek | — (hub) | — | — | March 2026 |
-| 05 | `/event-costs/corporate-events/` | — | corporate-events (hub) | — | — | March 2026 |
-| 06 | `/event-costs/incentive-travel/` | — | incentive-travel (hub) | — | — | March 2026 |
-| 07 | `/event-costs/conferences/` | — | conferences (hub) | — | — | March 2026 |
-| 08 | `/event-costs/antalya/60-person-corporate-event/` | antalya | corporate-events | 60 | 60,000–80,000 | March 2026 |
-| 09 | `/event-costs/antalya/100-person-incentive-trip/` | antalya | incentive-travel | 100 | 140,000–190,000 | March 2026 |
-| 10 | `/event-costs/antalya/200-person-conference/` | antalya | conferences | 200 | 220,000–300,000 | March 2026 |
-| 11 | `/event-costs/istanbul/100-person-corporate-event/` | istanbul | corporate-events | 100 | 150,000–210,000 | March 2026 |
-| 12 | `/event-costs/belek/100-person-corporate-retreat/` | belek | corporate-retreats | 100 | 130,000–175,000 | March 2026 |
+| 01 | `/event-costs/` | — | — (pillar) | — | — | September 2026 |
+| 02 | `/event-costs/antalya/` | antalya | — (hub) | — | — | September 2026 |
+| 03 | `/event-costs/istanbul/` | istanbul | — (hub) | — | — | September 2026 |
+| 04 | `/event-costs/belek/` | belek | — (hub) | — | — | September 2026 |
+| 05 | `/event-costs/corporate-events/` | — | corporate-events (hub) | — | — | September 2026 |
+| 06 | `/event-costs/incentive-travel/` | — | incentive-travel (hub) | — | — | September 2026 |
+| 07 | `/event-costs/conferences/` | — | conferences (hub) | — | — | September 2026 |
+| 08 | `/event-costs/antalya/60-person-corporate-event/` | antalya | corporate-events | 60 | 60,000–80,000 | September 2026 |
+| 09 | `/event-costs/antalya/100-person-incentive-trip/` | antalya | incentive-travel | 100 | 140,000–190,000 | September 2026 |
+| 10 | `/event-costs/antalya/200-person-conference/` | antalya | conferences | 200 | 220,000–300,000 | September 2026 |
+| 11 | `/event-costs/istanbul/100-person-corporate-event/` | istanbul | corporate-events | 100 | 150,000–210,000 | September 2026 |
+| 12 | `/event-costs/belek/100-person-corporate-retreat/` | belek | corporate-retreats | 100 | 130,000–175,000 | September 2026 |
 
 Full per-scenario `costBreakdown[]`, `priceDrivers[]`, `costReductionOptions[]`,
 `premiumUpgradeOptions[]` and `relevantSelectedWorks[]` are published directly
