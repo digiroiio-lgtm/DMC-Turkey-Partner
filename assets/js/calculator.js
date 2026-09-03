@@ -671,7 +671,15 @@
     };
     var stored = readState();
     var state = normalizeState(Object.assign({}, stored || {}, preset));
-    var hasResult = Boolean(stored && stored.result) && !root.getAttribute("data-destination");
+    // Restore the previous in-session result only when the effective inputs
+    // still match what produced it — a scenario page's pre-populated defaults
+    // must never silently re-display a stale estimate for a different setup.
+    var hasResult = false;
+    if (stored && stored.result) {
+      hasResult = ["destination", "eventType", "guests", "nights", "accommodation", "programmeLevel", "gala"].every(function (key) {
+        return String(stored[key]) === String(state[key]);
+      });
+    }
 
     var wrap = el("div", "calc");
 
@@ -850,7 +858,7 @@
 
     // Restore a previous in-session result so returning visitors see their
     // last estimate without re-entering anything.
-    if (stored && stored.result) {
+    if (hasResult) {
       writeStateToForm(root, state);
       update();
       hasResult = true;
