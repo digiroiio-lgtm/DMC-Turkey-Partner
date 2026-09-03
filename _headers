@@ -10,7 +10,30 @@
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
 
-/sitemap-*.xml
+# NOTE: "/sitemap-*.xml" is NOT a valid pattern in Netlify/Cloudflare Pages
+# _headers files -- the splat wildcard is only honored as a trailing path
+# segment (e.g. "/sitemap/*"), never in the middle of a filename. Using it
+# there silently matches nothing, so every child sitemap must be listed
+# explicitly to guarantee it gets served with the correct XML Content-Type.
+/sitemap-pages.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-services.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-destinations.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-insights.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-events.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-selected-works.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-event-costs.xml
   Content-Type: application/xml; charset=utf-8
 
 /robots.txt
