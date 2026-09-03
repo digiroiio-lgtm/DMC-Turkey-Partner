@@ -1,0 +1,57 @@
+/* =========================================================================
+   DmcTurkeyPartner.com — Guides detail page styling
+   Page-specific; loaded only on long-form guide detail pages that use it.
+   ========================================================================= */
+/* -------------------------------------------------------------------------
+   Guides / Planning Intelligence power pages
+   Long-form editorial components: meta strip, on-page navigation,
+   quick facts, comparison tables, checklists and callouts. Reuses existing
+   design tokens so guides stay visually consistent with the rest of the site.
+   ------------------------------------------------------------------------- */
+.guide-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-2);
+  font-size: 0.82rem;
+  color: var(--color-charcoal);
+}
+
+.guide-meta strong {
+  color: var(--color-ink);
+}
+
+.guide-toc {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-sand);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.guide-toc h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.guide-toc ol {
+  columns: 2;
+  column-gap: var(--space-4);
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.guide-toc li {
+  break-inside: avoid;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .guide-toc ol {
+    columns: 1;
+  }
+}
+

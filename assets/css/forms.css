@@ -1,0 +1,180 @@
+/* =========================================================================
+   DmcTurkeyPartner.com — Request Proposal form styling
+   Page-specific; loaded only on /request-proposal/.
+   ========================================================================= */
+/* -------------------------------------------------------------------------
+   Minimal partner/enquiry form styling
+   (no prior form pattern existed on the site; kept small and reuses tokens)
+   ------------------------------------------------------------------------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 28px;
+  margin-top: var(--space-3);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-field label:not(.form-check),
+.form-field legend {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 42px;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 0 var(--space-2);
+}
+
+.form-field textarea {
+  height: auto;
+  resize: vertical;
+  min-height: 8rem;
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.form-note {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  color: var(--color-charcoal);
+}
+
+.form-field fieldset,
+fieldset.form-field {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* Spans the "Travel / Event Dates" group across two grid columns so it
+     never collides with the adjacent "Project Type" column. */
+  grid-column: span 2;
+}
+
+.date-range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.date-range input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 11px;
+  font-size: 0.9rem;
+  color: var(--color-charcoal);
+}
+
+.form-check input {
+  width: auto;
+  height: auto;
+  flex: none;
+}
+
+.field-optional {
+  font-weight: 400;
+  color: var(--color-charcoal);
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #9c2f26;
+  font-weight: 600;
+}
+
+.proposal-success,
+.proposal-reassurance {
+  margin-top: var(--space-4);
+}
+
+.proposal-success {
+  padding: var(--space-4);
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+}
+
+.proposal-reassurance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+}
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Lets "Project Type" backfill the gap left beside "Approx. Group Size"
+       once "Travel / Event Dates" drops to its own full-width row. */
+    grid-auto-flow: dense;
+  }
+
+  fieldset.form-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+  }
+
+  fieldset.form-field {
+    grid-column: 1 / -1;
+  }
+
+  .date-range {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea,
+  .form-actions .btn {
+    min-height: 2.75rem;
+  }
+}
+
