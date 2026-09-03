@@ -2,3 +2,10 @@ User-agent: *
 Allow: /
 
 Sitemap: https://dmcturkeypartner.com/sitemap.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-pages.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-services.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-destinations.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-insights.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-events.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-selected-works.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-event-costs.xml

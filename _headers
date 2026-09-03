@@ -3,3 +3,15 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+
+# Force the correct sitemap protocol Content-Type on every sitemap file so that
+# X-Content-Type-Options: nosniff (set above for /*) never causes crawlers to
+# reject a sitemap because the host guessed the wrong MIME type.
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+
+/sitemap-*.xml
+  Content-Type: application/xml; charset=utf-8
+
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
