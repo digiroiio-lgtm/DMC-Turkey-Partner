@@ -56,14 +56,20 @@ function buildEmail(fields) {
       })
       .join("") +
     "</table>" +
+    (fields.calculator_brief
+      ? "<h3>Calculator Lead</h3><p>" + escapeHtml(fields.calculator_brief).replace(/\n/g, "<br>") + "</p>"
+      : "") +
     (fields.brief ? "<h3>Project Brief</h3><p>" + escapeHtml(fields.brief).replace(/\n/g, "<br>") + "</p>" : "");
 
   const text =
     rows.map(function (row) { return row[0] + ": " + row[1]; }).join("\n") +
+    (fields.calculator_brief ? "\n\nCalculator Lead:\n" + fields.calculator_brief : "") +
     (fields.brief ? "\n\nProject Brief:\n" + fields.brief : "");
 
+  const isCalculatorLead = Boolean(fields.calculator_brief);
+
   return {
-    subject: "New Proposal Request — " + fields.company + " (" + fields.destination + ")",
+    subject: (isCalculatorLead ? "Calculator Lead — " : "New Proposal Request — ") + fields.company + " (" + fields.destination + ")",
     html: html,
     text: text
   };
@@ -95,7 +101,8 @@ module.exports = async function handler(req, res) {
     "source_page",
     "landing_page",
     "submission_page",
-    "timestamp"
+    "timestamp",
+    "calculator_brief"
   ]).forEach(function (name) {
     fields[name] = readField(body, name);
   });
