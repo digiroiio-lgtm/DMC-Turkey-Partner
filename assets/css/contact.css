@@ -1,0 +1,170 @@
+/* =========================================================================
+   DmcTurkeyPartner.com — Contact page styling
+   Page-specific; loaded only on /contact/.
+   ========================================================================= */
+/* -------------------------------------------------------------------------
+   Contact page — hero, intent cards, checklist grid
+   (scoped under .contact-page so other pages are unaffected)
+   ------------------------------------------------------------------------- */
+.contact-page .breadcrumbs {
+  margin-bottom: 0;
+}
+
+.contact-hero {
+  padding-block: clamp(1.75rem, 4vw, 2.25rem) clamp(3.25rem, 6vw, 6rem);
+}
+
+.contact-hero__title {
+  margin-top: clamp(1.375rem, 3vw, 2.25rem);
+  margin-bottom: 0;
+  font-size: clamp(2.125rem, 5vw, 4rem);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  max-width: 900px;
+}
+
+.contact-hero__lede {
+  margin-top: clamp(1.125rem, 2vw, 1.625rem);
+  margin-bottom: 0;
+  font-size: clamp(1.0625rem, 2vw, 1.375rem);
+  line-height: 1.55;
+  font-weight: 400;
+  max-width: 740px;
+  color: var(--color-charcoal);
+}
+
+.contact-hero__actions {
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+}
+
+.contact-hero__actions .btn {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.contact-hero__qualifier {
+  margin-top: clamp(0.75rem, 1.5vw, 1.125rem);
+  margin-bottom: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-charcoal);
+  opacity: 0.8;
+  max-width: 620px;
+}
+
+.contact-page .page-section {
+  padding-block: clamp(3.5rem, 7vw, 7rem) 0;
+}
+
+.contact-page h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.contact-page .page-section__lede {
+  max-width: 620px;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+}
+
+.contact-page .page-section__lede--wide {
+  max-width: 760px;
+}
+
+.intent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 860px) {
+  .intent-grid {
+    grid-template-columns: 1fr;
+    gap: 1.125rem;
+  }
+}
+
+.intent-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-paper);
+  padding: clamp(1.375rem, 3vw, 2.125rem);
+}
+
+.intent-card__eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.intent-card__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.intent-card__desc {
+  margin: 0;
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  line-height: 1.6;
+  color: var(--color-charcoal);
+}
+
+.intent-card__link {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.checklist--grid {
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--space-4);
+  font-size: 1rem;
+}
+
+@media (max-width: 720px) {
+  .checklist--grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-note {
+  margin-top: var(--space-3);
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  font-weight: 500;
+  max-width: 680px;
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.link-row a {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.contact-page .cta-banner {
+  margin-top: var(--space-5);
+}
+
+.contact-page .cta-banner h2 {
+  font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+}
+
