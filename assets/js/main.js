@@ -345,10 +345,15 @@
         button.disabled = true;
         fetch(form.action, {
           method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(new FormData(form)).toString()
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
         }).then(function (response) {
-          if (!response.ok) { throw new Error("Submission failed"); }
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            if (!response.ok || !data.ok) {
+              throw new Error((data && data.error) || "Submission failed");
+            }
+          });
+        }).then(function () {
           form.hidden = true;
           document.querySelector("[data-proposal-success]").hidden = false;
           trackEvent("proposal_form_success", { source: form.elements.source_page.value });
