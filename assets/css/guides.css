@@ -55,3 +55,32 @@
   }
 }
 
+
+/* Numbered process steps — keeps the step number visible, unlike .checklist */
+.steps {
+  margin-top: var(--space-3);
+  display: grid;
+  gap: var(--space-1);
+  padding-left: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  counter-increment: step;
+  border-bottom: 1px dashed var(--color-line);
+  padding: 0.5rem 0 0.5rem 2.4rem;
+  position: relative;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  min-width: 1.6rem;
+  text-align: center;
+  color: var(--color-brand);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
