@@ -426,44 +426,8 @@ main {
 }
 
 @media (max-width: 720px) {
-  .site-header__inner {
-    flex-wrap: wrap;
-    gap: var(--space-1);
-  }
-
-  .site-nav {
-    flex: 0 0 100%;
-    order: 3;
-  }
-
-  .site-nav__toggle {
-    display: inline-flex;
-  }
-
-  .site-nav__list {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .site-nav.is-open .site-nav__list {
-    display: flex;
-  }
-
-  .nav-group__menu {
-    position: static;
-    border: none;
-    box-shadow: none;
-    padding-left: var(--space-2);
-  }
-
   .site-footer__grid {
     grid-template-columns: 1fr;
-  }
-
-  .site-header__cta .btn--ghost {
-    display: none;
   }
 }
 
@@ -1442,13 +1406,25 @@ main:has(.event-facts) > h1 {
   text-transform: uppercase;
   color: var(--color-brand-dark);
   margin: 0 0 var(--space-1);
-  padding-inline: var(--space-2);
+  padding: 0 var(--space-2);
+  /* A real button so it can drive the mobile accordion. On desktop the panel
+     is always open, so it is styled as the plain label it used to be. */
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: default;
 }
 
 .nav-mega__col ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* Desktop shows every group; only the mobile drawer collapses them. */
+.nav-mega__panel {
+  display: block;
 }
 
 /* Outranks the generic ".nav-group__menu li a" weight so the hub page reads as
@@ -1499,27 +1475,283 @@ main:has(.event-facts) > h1 {
   }
 }
 
+
+/* -------------------------------------------------------------------------
+   Mobile navigation drawer (<= 720px)
+
+   The COP31 cluster pushed the menu to ~30 links, which the old inline
+   dropdown could not carry: the list ran past the viewport with the page body
+   still owning the scroll, so the lower half was unreachable. The drawer below
+   makes the panel its own scroll container and collapses COP31 into nested
+   accordions. Desktop is untouched — every rule here is inside the query.
+   ------------------------------------------------------------------------- */
 @media (max-width: 720px) {
-  /* The mobile nav renders every dropdown inline, so the mega menu collapses
-     to a single readable column rather than a fixed-width panel. */
-  .nav-group--mega {
-    position: relative;
+  /* --- Header bar: logo | CTA | menu, always on one row --- */
+  .site-header__inner {
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    padding-block: var(--space-1);
   }
 
+  .site-logo {
+    font-size: 1rem;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .site-header__cta {
+    order: 2;
+    flex: 0 0 auto;
+    gap: var(--space-1);
+    margin-left: auto;
+  }
+
+  .site-header__cta .btn--ghost {
+    display: none;
+  }
+
+  .site-header__cta .btn--primary {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .site-nav {
+    order: 3;
+    flex: 0 0 auto;
+  }
+
+  .site-nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+
+  /* --- Body scroll lock ---
+     position:fixed rather than overflow:hidden, because iOS Safari ignores
+     overflow on the body. main.js stores the offset and restores the scroll
+     position on close, so this costs no layout shift. */
+  body.nav-open {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* The drawer is a descendant of .site-header, so a z-index on the header
+     cannot lift the bar above it — they share one stacking context. The bar's
+     own controls have to outrank the drawer individually, or the close button
+     ends up underneath the panel it is meant to dismiss. */
+  body.nav-open .site-logo,
+  body.nav-open .site-header__cta,
+  body.nav-open .site-nav__toggle {
+    position: relative;
+    z-index: 210;
+  }
+
+  /* The bar has to leave the flow with the body, or it scrolls away with it. */
+  body.nav-open .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+  }
+
+  /* The header's own background is painted by the stacking-context root, so the
+     drawer inside it covers that background and the scrolling list shows
+     through behind the logo. This pseudo-element is an opaque backdrop that
+     sits above the drawer but below the bar's controls. */
+  body.nav-open .site-header::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-bar-height, 3.5rem);
+    background-color: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    z-index: 205;
+  }
+
+  /* --- The drawer itself --- */
+  .site-nav__list {
+    display: none;
+  }
+
+  body.nav-open .site-nav__list {
+    display: block;
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    /* Clears the fixed bar; main.js measures its real height. */
+    padding-top: var(--nav-bar-height, 3.5rem);
+    padding-bottom: var(--space-5);
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    background-color: var(--color-paper);
+    z-index: 190;
+  }
+
+  body.nav-open .site-nav__list > li {
+    width: 100%;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* --- Top-level accordion rows --- */
+  body.nav-open .nav-group__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-md);
+    font-weight: 600;
+    min-height: 3rem;
+  }
+
+  body.nav-open .nav-group__trigger::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transform-origin: center;
+    margin-inline-start: var(--space-2);
+    flex: 0 0 auto;
+    transition: transform 0.15s ease;
+  }
+
+  body.nav-open .nav-group.is-open > .nav-group__trigger::after {
+    transform: rotate(-135deg);
+  }
+
+  /* --- Sub-menus (Solutions, Services, Destinations, Company) --- */
+  .nav-group__menu {
+    position: static;
+    border: none;
+    box-shadow: none;
+    min-width: 0;
+    width: auto;
+    padding: 0 0 var(--space-1);
+    background-color: var(--color-sand);
+  }
+
+  body.nav-open .nav-group__menu li a {
+    display: block;
+    padding: 0.7rem var(--space-3) 0.7rem var(--space-4);
+    font-size: var(--text-sm);
+    min-height: 2.75rem;
+  }
+
+  /* --- COP31: nested accordions instead of one 30-link wall --- */
   .nav-group__menu--mega {
     padding: 0;
   }
 
-  .nav-mega {
+  body.nav-open .nav-mega {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: none;
+    margin: 0;
     padding-inline: 0;
   }
 
-  .nav-mega {
-    grid-template-columns: 1fr;
-    gap: var(--space-2);
+  body.nav-open .nav-mega__col + .nav-mega__col {
+    border-top: 1px solid var(--color-line);
   }
 
-  .nav-mega__heading {
+  body.nav-open .nav-mega__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0.85rem var(--space-3) 0.85rem var(--space-4);
+    min-height: 2.75rem;
+    cursor: pointer;
+  }
+
+  body.nav-open .nav-mega__heading::after {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-inline-start: var(--space-2);
+    flex: 0 0 auto;
+    transition: transform 0.15s ease;
+  }
+
+  body.nav-open .nav-mega__col.is-open > .nav-mega__heading::after {
+    transform: rotate(-135deg);
+  }
+
+  /* Collapsed by default; the accordion opens one group at a time. */
+  body.nav-open .nav-mega__panel {
+    display: none;
+    padding-bottom: var(--space-1);
+  }
+
+  body.nav-open .nav-mega__col.is-open > .nav-mega__panel {
+    display: block;
+  }
+
+  body.nav-open .nav-mega li a {
+    display: block;
+    padding: 0.7rem var(--space-3) 0.7rem var(--space-5);
+    font-size: var(--text-sm);
+    min-height: 2.75rem;
+  }
+
+  /* --- Hamburger turns into a close icon --- */
+  body.nav-open .site-nav__toggle-icon {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  body.nav-open .site-nav__toggle-icon::before,
+  body.nav-open .site-nav__toggle-icon::after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+  }
+
+  body.nav-open .site-nav__toggle-icon::before {
+    transform: rotate(45deg);
+  }
+
+  body.nav-open .site-nav__toggle-icon::after {
+    transform: rotate(-45deg);
+  }
+}
+
+/* Narrow phones: buy back horizontal room so the bar never wraps or overflows. */
+@media (max-width: 420px) {
+  .site-header__inner {
     padding-inline: var(--space-2);
+  }
+
+  .site-logo {
+    font-size: 0.9375rem;
+  }
+
+  .site-header__cta .btn--primary {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.7rem;
   }
 }

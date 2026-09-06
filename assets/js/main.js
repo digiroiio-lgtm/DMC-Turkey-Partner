@@ -12,47 +12,7 @@
       yearEl.textContent = new Date().getFullYear();
     }
 
-    var navToggle = document.querySelector(".site-nav__toggle");
-    var nav = document.querySelector(".site-nav");
-    if (navToggle && nav) {
-      navToggle.addEventListener("click", function () {
-        var isOpen = nav.classList.toggle("is-open");
-        navToggle.setAttribute("aria-expanded", String(isOpen));
-      });
-    }
-
-    var groups = document.querySelectorAll(".nav-group");
-    groups.forEach(function (group) {
-      var trigger = group.querySelector(".nav-group__trigger");
-      if (!trigger) {
-        return;
-      }
-      trigger.addEventListener("click", function () {
-        var isOpen = group.classList.toggle("is-open");
-        trigger.setAttribute("aria-expanded", String(isOpen));
-        groups.forEach(function (other) {
-          if (other !== group) {
-            other.classList.remove("is-open");
-            var otherTrigger = other.querySelector(".nav-group__trigger");
-            if (otherTrigger) {
-              otherTrigger.setAttribute("aria-expanded", "false");
-            }
-          }
-        });
-      });
-    });
-
-    document.addEventListener("click", function (event) {
-      groups.forEach(function (group) {
-        if (!group.contains(event.target)) {
-          group.classList.remove("is-open");
-          var trigger = group.querySelector(".nav-group__trigger");
-          if (trigger) {
-            trigger.setAttribute("aria-expanded", "false");
-          }
-        }
-      });
-    });
+    initNavigation();
 
     initEventFilters();
     initWorksFilters();
@@ -62,6 +22,207 @@
     initProposalCtas();
     initProposalForm();
   });
+
+  // Mobile breakpoint shared with the drawer rules in main.css. The drawer only
+  // exists below it; above it the desktop mega menu is untouched.
+  var MOBILE_QUERY = "(max-width: 720px)";
+
+  function isMobileNav() {
+    return window.matchMedia(MOBILE_QUERY).matches;
+  }
+
+  function initNavigation() {
+    var header = document.querySelector(".site-header");
+    var nav = document.querySelector(".site-nav");
+    var navToggle = document.querySelector(".site-nav__toggle");
+    var groups = Array.prototype.slice.call(document.querySelectorAll(".nav-group"));
+    var megaHeadings = Array.prototype.slice.call(
+      document.querySelectorAll(".nav-mega__heading")
+    );
+    if (!nav || !navToggle) {
+      return;
+    }
+
+    var lockedScrollY = 0;
+
+    function setExpanded(el, open) {
+      if (el) {
+        el.setAttribute("aria-expanded", String(open));
+      }
+    }
+
+    // The bar is fixed while the drawer is open, so the drawer needs its real
+    // height as top padding or the first link hides underneath it.
+    function measureBar() {
+      if (header) {
+        document.documentElement.style.setProperty(
+          "--nav-bar-height",
+          header.offsetHeight + "px"
+        );
+      }
+    }
+
+    function closeGroups() {
+      groups.forEach(function (group) {
+        group.classList.remove("is-open");
+        setExpanded(group.querySelector(".nav-group__trigger"), false);
+      });
+      closeMegaSections();
+    }
+
+    // Desktop keeps every COP31 panel open, so collapsing them there would only
+    // report a state the user cannot see and cannot change.
+    function closeMegaSections() {
+      if (!isMobileNav()) {
+        return;
+      }
+      megaHeadings.forEach(function (heading) {
+        heading.parentNode.classList.remove("is-open");
+        setExpanded(heading, false);
+      });
+    }
+
+    function openDrawer() {
+      measureBar();
+      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      // Taking the body out of flow collapses the document, and scroll
+      // anchoring reacts by shifting the offset ~290px so the restore lands in
+      // the wrong place. Suspend anchoring for the whole open/close cycle.
+      document.documentElement.style.overflowAnchor = "none";
+      document.body.style.top = -lockedScrollY + "px";
+      document.body.classList.add("nav-open");
+      nav.classList.add("is-open");
+      setExpanded(navToggle, true);
+      navToggle.setAttribute("aria-label", "Close menu");
+    }
+
+    function closeDrawer() {
+      if (!document.body.classList.contains("nav-open")) {
+        return;
+      }
+      document.body.classList.remove("nav-open");
+      document.body.style.top = "";
+      // The site sets html { scroll-behavior: smooth }. Left alone the restore
+      // animates and the page visibly flies back, so it is suspended for this
+      // one jump.
+      var root = document.documentElement;
+      var previousBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      window.scrollTo(0, lockedScrollY);
+      root.style.scrollBehavior = previousBehavior;
+      // Anchoring must stay off until the reflow from un-fixing the body has
+      // actually been laid out and painted. A single rAF runs before that pass,
+      // which is early enough for anchoring to still shift the offset, so this
+      // waits for the frame after it.
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          root.style.overflowAnchor = "";
+        });
+      });
+      nav.classList.remove("is-open");
+      setExpanded(navToggle, false);
+      navToggle.setAttribute("aria-label", "Open menu");
+      closeGroups();
+    }
+
+    navToggle.setAttribute("aria-label", "Open menu");
+    navToggle.addEventListener("click", function () {
+      if (document.body.classList.contains("nav-open")) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    });
+
+    // Top-level groups: one open at a time, on both desktop and mobile.
+    groups.forEach(function (group) {
+      var trigger = group.querySelector(".nav-group__trigger");
+      if (!trigger) {
+        return;
+      }
+      trigger.addEventListener("click", function () {
+        var willOpen = !group.classList.contains("is-open");
+        closeGroups();
+        if (willOpen) {
+          group.classList.add("is-open");
+          setExpanded(trigger, true);
+        }
+      });
+    });
+
+    // COP31 sub-groups. Mobile only: on desktop every panel is always visible,
+    // so the heading stays an inert label and its state must not be toggled.
+    megaHeadings.forEach(function (heading) {
+      heading.addEventListener("click", function () {
+        if (!isMobileNav()) {
+          return;
+        }
+        var column = heading.parentNode;
+        var willOpen = !column.classList.contains("is-open");
+        closeMegaSections();
+        if (willOpen) {
+          column.classList.add("is-open");
+          setExpanded(heading, true);
+        }
+      });
+    });
+
+    // Following a link should leave no drawer behind if navigation is cancelled
+    // or the target is on the current page.
+    nav.addEventListener("click", function (event) {
+      if (event.target.closest && event.target.closest("a")) {
+        closeDrawer();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && document.body.classList.contains("nav-open")) {
+        closeDrawer();
+        navToggle.focus();
+      }
+    });
+
+    // Outside-click closes desktop dropdowns. Inside the drawer everything is
+    // "outside" some group, so it would collapse the accordion on every tap.
+    document.addEventListener("click", function (event) {
+      if (isMobileNav() || nav.contains(event.target)) {
+        return;
+      }
+      closeGroups();
+    });
+
+    // Keep aria honest across breakpoints: desktop panels are always expanded.
+    function syncAria() {
+      var mobile = isMobileNav();
+      megaHeadings.forEach(function (heading) {
+        if (mobile) {
+          setExpanded(heading, heading.parentNode.classList.contains("is-open"));
+        } else {
+          setExpanded(heading, true);
+        }
+      });
+    }
+
+    var mql = window.matchMedia(MOBILE_QUERY);
+    var onBreakpointChange = function () {
+      if (!isMobileNav()) {
+        closeDrawer();
+      }
+      syncAria();
+    };
+    if (mql.addEventListener) {
+      mql.addEventListener("change", onBreakpointChange);
+    } else if (mql.addListener) {
+      mql.addListener(onBreakpointChange);
+    }
+    window.addEventListener("resize", function () {
+      if (document.body.classList.contains("nav-open")) {
+        measureBar();
+      }
+    });
+
+    syncAria();
+  }
 
   // Lightweight active-section highlighting for the "On This Page" navigation
   // on long-form guide pages. Falls back silently if unsupported.
