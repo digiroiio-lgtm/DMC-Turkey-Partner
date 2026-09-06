@@ -9,3 +9,4 @@ Sitemap: https://dmcturkeypartner.com/sitemap-insights.xml
 Sitemap: https://dmcturkeypartner.com/sitemap-events.xml
 Sitemap: https://dmcturkeypartner.com/sitemap-selected-works.xml
 Sitemap: https://dmcturkeypartner.com/sitemap-event-costs.xml
+Sitemap: https://dmcturkeypartner.com/sitemap-cop31.xml

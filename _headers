@@ -37,5 +37,9 @@
   Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=300, must-revalidate
 
+/sitemap-cop31.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=300, must-revalidate
+
 /robots.txt
   Content-Type: text/plain; charset=utf-8

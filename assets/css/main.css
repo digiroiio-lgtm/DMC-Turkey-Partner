@@ -1402,3 +1402,124 @@ main:has(.event-facts) > h1 {
   }
 }
 
+
+/* -------------------------------------------------------------------------
+   COP31 cluster
+   Mega menu for the COP31 top-level item (three grouped columns rather than
+   one flat list of thirty links), plus the small components the COP31 pages
+   add on top of the shared page-section building blocks.
+   ------------------------------------------------------------------------- */
+.nav-group--mega {
+  /* Opting out of the usual per-item relative positioning so the panel anchors
+     to the sticky .site-header instead. A 30-link menu is far wider than its
+     trigger, and anchoring it to the trigger pushes it off the viewport. */
+  position: static;
+}
+
+.nav-group__menu--mega {
+  left: 0;
+  right: 0;
+  min-width: 0;
+  border-inline: none;
+  padding: var(--space-3) 0;
+}
+
+.nav-mega {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2) var(--space-3);
+  /* Matches .container so the menu columns line up with the page beneath. */
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+.nav-mega__heading {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand-dark);
+  margin: 0 0 var(--space-1);
+  padding-inline: var(--space-2);
+}
+
+.nav-mega__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Outranks the generic ".nav-group__menu li a" weight so the hub page reads as
+   the primary destination in the menu. */
+.nav-mega .nav-mega__feature a {
+  font-weight: 600;
+}
+
+/* Tighter rhythm than the short dropdowns: this panel carries 30 links. */
+.nav-mega li a {
+  padding-block: 0.3rem;
+}
+
+.cop31-answer {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.45;
+  border-left: 3px solid var(--color-brand);
+  padding-left: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.cop31-cta__services {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+}
+
+.cop31-sources ul {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-1) var(--space-3);
+}
+
+.cop31-sources li {
+  border-bottom: 1px solid var(--color-line);
+  padding-block: var(--space-1);
+}
+
+@media (max-width: 900px) {
+  .nav-mega {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  /* The mobile nav renders every dropdown inline, so the mega menu collapses
+     to a single readable column rather than a fixed-width panel. */
+  .nav-group--mega {
+    position: relative;
+  }
+
+  .nav-group__menu--mega {
+    padding: 0;
+  }
+
+  .nav-mega {
+    padding-inline: 0;
+  }
+
+  .nav-mega {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .nav-mega__heading {
+    padding-inline: var(--space-2);
+  }
+}

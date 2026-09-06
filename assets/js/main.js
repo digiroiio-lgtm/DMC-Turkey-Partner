@@ -247,6 +247,40 @@
     }
   }
 
+  // Campaign fields carried from a landing page through to the proposal form.
+  // COP31 pages declare them as <meta name="dmc:*"> so a visitor who reaches the
+  // form via the generic header/footer CTA is still attributed to the campaign
+  // and to the service page they came from.
+  var CAMPAIGN_FIELDS = ["lead_source", "campaign", "service_interest", "page_type"];
+
+  function campaignMeta() {
+    var context = {};
+    CAMPAIGN_FIELDS.forEach(function (field) {
+      var meta = document.querySelector(
+        'meta[name="dmc:' + field.replace(/_/g, "-") + '"]'
+      );
+      if (meta && meta.content) {
+        context[field] = meta.content;
+      }
+    });
+    return context;
+  }
+
+  // Campaign context survives an intermediate page (e.g. a COP31 guide -> the
+  // services overview -> the form), so attribution is not lost mid-journey.
+  function storedCampaign(context) {
+    try {
+      if (context && context.lead_source) {
+        sessionStorage.setItem("proposal_campaign", JSON.stringify(context));
+        return context;
+      }
+      var stored = sessionStorage.getItem("proposal_campaign");
+      return stored ? JSON.parse(stored) : {};
+    } catch (error) {
+      return context || {};
+    }
+  }
+
   function proposalContext(pathname) {
     var parts = pathname.replace(/^\/|\/$/g, "").split("/");
     var source = parts.length ? parts.join("-") : "home";
@@ -277,6 +311,14 @@
     if (parts[0] === "event-costs" && eventCostTypes[parts[1]]) {
       context.project_type = eventCostTypes[parts[1]];
     }
+    var campaign = storedCampaign(campaignMeta());
+    Object.keys(campaign).forEach(function (key) {
+      context[key] = campaign[key];
+    });
+    if (campaign.lead_source === "COP31") {
+      context.destination = "Antalya";
+      context.project_type = "COP31 Antalya";
+    }
     return context;
   }
 
@@ -306,10 +348,28 @@
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
       form.elements[key].value = params.get(key) || "";
     });
+    var campaign = {};
+    CAMPAIGN_FIELDS.forEach(function (key) {
+      if (params.get(key)) { campaign[key] = params.get(key); }
+    });
+    campaign = storedCampaign(campaign);
+    CAMPAIGN_FIELDS.forEach(function (key) {
+      if (form.elements[key]) { form.elements[key].value = campaign[key] || ""; }
+    });
     ["destination", "project_type"].forEach(function (key) {
       if (params.get(key) && form.elements[key]) { form.elements[key].value = params.get(key); }
     });
-    trackEvent("proposal_form_view", { source: form.elements.source_page.value });
+    // Carried-over campaign context still pre-selects the dropdowns when the
+    // visitor arrived at the form without the query string.
+    if (campaign.lead_source === "COP31") {
+      if (!form.elements.destination.value) { form.elements.destination.value = "Antalya"; }
+      if (!form.elements.project_type.value) { form.elements.project_type.value = "COP31 Antalya"; }
+    }
+    trackEvent("proposal_form_view", {
+      source: form.elements.source_page.value,
+      lead_source: campaign.lead_source || "",
+      service_interest: campaign.service_interest || ""
+    });
     var started = false;
     form.addEventListener("focusin", function () {
       if (!started) {
@@ -356,7 +416,14 @@
         }).then(function () {
           form.hidden = true;
           document.querySelector("[data-proposal-success]").hidden = false;
-          trackEvent("proposal_form_success", { source: form.elements.source_page.value });
+          trackEvent("proposal_form_success", {
+            source: form.elements.source_page.value,
+            lead_source: form.elements.lead_source ? form.elements.lead_source.value : "",
+            campaign: form.elements.campaign ? form.elements.campaign.value : "",
+            service_interest: form.elements.service_interest
+              ? form.elements.service_interest.value
+              : ""
+          });
         }).catch(function () {
           button.disabled = false;
           error.textContent = "We could not send your brief. Please try again or email hello@dmcturkeypartner.com.";

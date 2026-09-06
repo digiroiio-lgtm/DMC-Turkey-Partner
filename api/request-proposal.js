@@ -41,6 +41,10 @@ function buildEmail(fields) {
     ["Travel/Event End", fields.date_end || "—"],
     ["Dates Not Confirmed", fields.dates_unconfirmed || "No"],
     ["Project Type", fields.project_type || "—"],
+    ["Lead Source", fields.lead_source || "—"],
+    ["Campaign", fields.campaign || "—"],
+    ["Service Interest", fields.service_interest || "—"],
+    ["Page Type", fields.page_type || "—"],
     ["Source", fields.source_page || "—"],
     ["Landing Page", fields.landing_page || "—"],
     ["Submission Page", fields.submission_page || "—"],
@@ -67,9 +71,14 @@ function buildEmail(fields) {
     (fields.brief ? "\n\nProject Brief:\n" + fields.brief : "");
 
   const isCalculatorLead = Boolean(fields.calculator_brief);
+  const prefix = fields.lead_source
+    ? sanitizeHeaderValue(fields.lead_source) + " Lead — "
+    : isCalculatorLead
+    ? "Calculator Lead — "
+    : "New Proposal Request — ";
 
   return {
-    subject: (isCalculatorLead ? "Calculator Lead — " : "New Proposal Request — ") + fields.company + " (" + fields.destination + ")",
+    subject: prefix + fields.company + " (" + fields.destination + ")",
     html: html,
     text: text
   };
@@ -102,7 +111,11 @@ module.exports = async function handler(req, res) {
     "landing_page",
     "submission_page",
     "timestamp",
-    "calculator_brief"
+    "calculator_brief",
+    "lead_source",
+    "campaign",
+    "service_interest",
+    "page_type"
   ]).forEach(function (name) {
     fields[name] = readField(body, name);
   });
