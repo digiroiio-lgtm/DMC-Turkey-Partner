@@ -1,19 +1,14 @@
 {
-  "functions": {
-    "api/request-proposal.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "redirects": [
     {
       "source": "/cop31-antalya-services",
       "destination": "/cop31-antalya/",
-      "permanent": true
+      "statusCode": 301
     },
     {
       "source": "/cop31-antalya-services/:path*",
       "destination": "/cop31-antalya/",
-      "permanent": true
+      "statusCode": 301
     }
   ],
   "headers": [
