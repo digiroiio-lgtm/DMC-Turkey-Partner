@@ -25,7 +25,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REFERENCE_PAGE = os.path.join(ROOT, "services", "event-production", "index.html")
 
 SOCIAL = SITE + "/assets/img/social-preview.png"
-SOCIAL_ALT = "DMC Partner Turkey — Turkey DMC and MICE partner"
+SOCIAL_ALT = "DMC Turkey Partner — Turkey DMC and MICE partner"
 
 
 def _chrome():
@@ -485,7 +485,7 @@ def render(page):
         '  <meta property="og:title" content="%s">' % title,
         '  <meta property="og:description" content="%s">' % description,
         '  <meta property="og:url" content="%s">' % url,
-        '  <meta property="og:site_name" content="DMC Partner Turkey">',
+        '  <meta property="og:site_name" content="DMC Turkey Partner">',
         '  <meta property="og:image" content="%s">' % SOCIAL,
         '  <meta property="og:image:alt" content="%s">' % SOCIAL_ALT,
         '  <meta name="twitter:card" content="summary_large_image">',
