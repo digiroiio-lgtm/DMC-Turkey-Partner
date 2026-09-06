@@ -1,6 +1,79 @@
+# https://dmcturkeypartner.com/robots.txt
+
+# Default: the whole site is open to crawling.
 User-agent: *
 Allow: /
 
+# ---------------------------------------------------------------------------
+# AI answer engines and their training/retrieval crawlers.
+#
+# These are listed explicitly rather than left to the wildcard above. The rule
+# is the same either way, but naming them makes the decision to be cited in AI
+# answers deliberate and reviewable, rather than something that could be
+# reversed by accident. Remove an agent below to opt out of that engine.
+# ---------------------------------------------------------------------------
+
+# OpenAI — ChatGPT search and browsing
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+# Anthropic — Claude search and browsing
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google AI Overviews / Gemini grounding
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence / Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Microsoft Copilot
+User-agent: Bingbot
+Allow: /
+
+# Common Crawl — a training corpus many models are built from
+User-agent: CCBot
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# ---------------------------------------------------------------------------
+# Sitemaps
+# ---------------------------------------------------------------------------
 Sitemap: https://dmcturkeypartner.com/sitemap.xml
 Sitemap: https://dmcturkeypartner.com/sitemap-pages.xml
 Sitemap: https://dmcturkeypartner.com/sitemap-services.xml

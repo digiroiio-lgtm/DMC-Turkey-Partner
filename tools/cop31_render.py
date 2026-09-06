@@ -252,18 +252,10 @@ def _ld(data):
     )
 
 
-ORGANIZATION = {
-    "@type": "Organization",
-    "@id": SITE + "/#organization",
-    "name": "DmcTurkeyPartner",
-    "url": SITE + "/",
-    "logo": SITE + "/assets/img/dmcturkeypartner-logo.svg",
-    "description": (
-        "Independent Turkey-based destination management company and local event "
-        "operations partner for international agencies, delegations and exhibitors."
-    ),
-    "areaServed": "Türkiye",
-}
+# Reference, not a redefinition. The canonical Organization node is emitted on
+# every page by tools/site_seo.py; restating it here with different values would
+# split one entity into competing variants.
+ORGANIZATION = {"@id": SITE + "/#organization"}
 
 
 def _schema(page):
@@ -333,7 +325,7 @@ def _schema(page):
                     "description": page["description"],
                     "inLanguage": "en",
                     "dateModified": LAST_UPDATED,
-                    "isPartOf": {"@type": "WebSite", "name": "DmcTurkeyPartner", "url": SITE + "/"},
+                    "isPartOf": {"@id": SITE + "/#website"},
                     "publisher": ORGANIZATION,
                     "about": {
                         "@type": "Event",

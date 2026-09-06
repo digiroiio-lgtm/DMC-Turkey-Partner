@@ -1,8 +1,11 @@
-# COP31 cluster generator
+# Site tooling
 
-The site is hand-written static HTML with no build step. The COP31 cluster is
-the exception: 30 pages sharing one page shell, one conversion component and one
-set of verified facts, which is more than is sensible to maintain by hand.
+The site is hand-written static HTML with no build step. These scripts cover
+the parts that must stay identical across all 131 pages — the COP31 cluster, the
+global navigation, the entity/measurement block and the sitemaps — where
+hand-editing every file would guarantee drift.
+
+All scripts are idempotent: re-running them is a no-op when nothing changed.
 
 ## Running it
 
@@ -47,3 +50,51 @@ before.
 Nothing in this cluster may assert an affiliation with UNFCCC or the official
 COP31 organising bodies. The disclaimer in `cop31_common.py` renders on every
 page.
+
+
+## Site-wide identity, analytics and verification
+
+```
+python3 tools/site_seo.py
+```
+
+Reads `tools/site_config.py` and applies to every page:
+
+- **One canonical Organization + WebSite `@graph`** with a stable `@id`
+  (`/#organization`). This replaced three different Organization names that
+  previously appeared on a handful of pages and none on the rest. Google's
+  Knowledge Graph and AI answer engines resolve an entity by consistent naming
+  plus a stable `@id`; competing variants split one business into several weak
+  entities. Per-page `Service`/`WebPage` schema references that `@id` rather
+  than restating the organisation.
+- **GA4 or GTM**, only when an ID is set in `site_config.py`. With both empty
+  no analytics script is emitted at all.
+- **Search Console / Bing verification tags**, when tokens are set.
+
+`trackEvent` in `assets/js/main.js` pushes to `dataLayer` *and* calls `gtag`
+directly, so the site's 20 custom events reach GA4 whether analytics arrives via
+gtag.js or a GTM container.
+
+Note that the CSP in `_headers` and `vercel.json` explicitly allows
+`googletagmanager.com` and the `google-analytics.com` endpoints. Without those
+allowances the analytics beacon is blocked silently — the tag appears installed
+and no data arrives.
+
+## Sitemaps
+
+```
+python3 tools/sitemaps.py          # rewrite with fresh lastmod
+python3 tools/sitemaps.py --check  # audit only; non-zero exit on a problem
+```
+
+Verifies that every indexable page appears in exactly one sitemap and that no
+sitemap lists a noindex or missing page — both are Search Console errors — then
+stamps `<lastmod>` from each file's last git commit date. The dates are taken
+from git rather than invented, because a `lastmod` that is always "today"
+teaches Google to ignore the signal.
+
+## Order of operations
+
+`cop31_build.py` regenerates COP31 pages from scratch, so it re-runs
+`cop31_nav.py` and `site_seo.py` afterwards automatically. After any content
+change, run `tools/sitemaps.py` last so `lastmod` reflects the final state.

@@ -50,6 +50,12 @@ def main():
 
     cop31_nav.main()
 
+    # Generated pages build their own <head>, so the site-wide identity and
+    # measurement block has to be re-applied after every rebuild.
+    import site_seo
+
+    site_seo.main()
+
 
 if __name__ == "__main__":
     main()

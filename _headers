@@ -1,5 +1,7 @@
+# The script-src/connect-src allowances below are exactly what GA4 (gtag.js
+# or GTM) needs; without them the analytics beacon is blocked silently.
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
@@ -42,4 +44,7 @@
   Cache-Control: public, max-age=300, must-revalidate
 
 /robots.txt
+  Content-Type: text/plain; charset=utf-8
+
+/llms.txt
   Content-Type: text/plain; charset=utf-8

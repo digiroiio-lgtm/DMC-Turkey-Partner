@@ -103,11 +103,17 @@
     });
   }
 
-  // Lightweight analytics dispatch. Pushes to window.dataLayer if a tag
-  // manager is present; otherwise this is a silent no-op. No PII is sent.
+  // Analytics dispatch. Sends each event twice over: a dataLayer push for a tag
+  // manager, and a direct gtag call so events still reach GA4 when gtag.js is
+  // loaded on its own (a dataLayer push alone is invisible to gtag.js). With
+  // neither present this is a silent no-op. No PII is sent.
   function trackEvent(name, params) {
+    var payload = params || {};
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: name }, params || {}));
+    window.dataLayer.push(Object.assign({ event: name }, payload));
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, payload);
+    }
   }
 
   // Client-side only filtering for the MICE Calendar hub. Deliberately does
