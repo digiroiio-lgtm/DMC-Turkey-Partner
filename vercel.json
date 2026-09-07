@@ -1,5 +1,17 @@
 {
+  "trailingSlash": true,
+  "cleanUrls": false,
   "redirects": [
+    {
+      "source": "/case-studies",
+      "destination": "/selected-works/",
+      "statusCode": 301
+    },
+    {
+      "source": "/case-studies/:path*",
+      "destination": "/selected-works/:path*",
+      "statusCode": 301
+    },
     {
       "source": "/cop31-antalya-services",
       "destination": "/cop31-antalya/",
@@ -20,6 +32,10 @@
           "value": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com"
         },
         {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
         },
@@ -30,6 +46,19 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
     },
@@ -47,7 +76,20 @@
       ]
     },
     {
-      "source": "/llms.txt",
+      "source": "/(llms.*\\.txt)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
       "headers": [
         {
           "key": "Content-Type",

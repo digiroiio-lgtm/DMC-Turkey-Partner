@@ -71,6 +71,47 @@ Allow: /
 User-agent: MistralAI-User
 Allow: /
 
+# DuckDuckGo AI assistant
+User-agent: DuckAssistBot
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Anthropic's legacy token, kept alongside the ClaudeBot family above so an
+# older crawler build reads the same answer as a current one.
+User-agent: anthropic-ai
+Allow: /
+
+# ---------------------------------------------------------------------------
+# Not listed above, deliberately.
+#
+# The agents below are bulk training or scraping crawlers that return no
+# citation and no referral traffic, so allowing them is a give with no get.
+# The wildcard at the top of this file still permits them; naming one here
+# with "Disallow: /" is how you opt out, and moving one up into the section
+# above is how you opt in. Either is a business decision, not a default:
+#
+#   Bytespider          ByteDance training crawl
+#   PetalBot            Huawei / Petal Search
+#   Diffbot             commercial knowledge-graph scraping
+#   ImagesiftBot        image dataset collection
+#   Omgilibot           dataset resale
+#   Timpibot            dataset collection
+#   Webzio-Extended     dataset resale
+#   AI2Bot              Allen Institute research corpus
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Structured summary for AI clients (llms.txt convention)
+# ---------------------------------------------------------------------------
+# https://dmcturkeypartner.com/llms.txt
+
 # ---------------------------------------------------------------------------
 # Sitemaps
 # ---------------------------------------------------------------------------
