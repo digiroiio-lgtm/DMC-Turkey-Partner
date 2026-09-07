@@ -22,6 +22,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import managed_blocks as mb  # noqa: E402
 import site_config as cfg  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,9 +35,32 @@ LD_BLOCK = re.compile(
 )
 
 
+def area_served():
+    """Service area as a country with the cities placed inside it.
+
+    A flat list of six names leaves an engine to guess that "Belek" is in
+    Türkiye and not in one of the other places with that name. containedInPlace
+    states it.
+    """
+    country, *cities = cfg.ORG_AREA_SERVED
+    turkiye = {"@type": "Country", "@id": cfg.SITE + "/#turkiye", "name": country}
+    return [turkiye] + [
+        {"@type": "City", "name": name, "containedInPlace": {"@id": turkiye["@id"]}}
+        for name in cities
+    ]
+
+
 def organization():
+    # Stays Organization until a real postal address exists. LocalBusiness and
+    # its TravelAgency subtype both need an address to earn a local result;
+    # emitting an addressless one just puts a weak duplicate entity into
+    # competition with this node.
+    types = "Organization"
+    if cfg.ORG_ADDRESS:
+        types = ["Organization", "TravelAgency"]
+
     node = {
-        "@type": "Organization",
+        "@type": types,
         "@id": cfg.SITE + "/#organization",
         "name": cfg.ORG_NAME,
         "alternateName": cfg.ORG_ALTERNATE_NAMES,
@@ -50,7 +74,7 @@ def organization():
         "image": {"@id": cfg.SITE + "/#logo"},
         "email": cfg.ORG_EMAIL,
         "description": cfg.ORG_DESCRIPTION,
-        "areaServed": [{"@type": "Place", "name": name} for name in cfg.ORG_AREA_SERVED],
+        "areaServed": area_served(),
         "knowsAbout": cfg.ORG_KNOWS_ABOUT,
         "contactPoint": [
             {
@@ -61,6 +85,27 @@ def organization():
             }
         ],
     }
+
+    if cfg.ORG_TELEPHONE:
+        node["telephone"] = cfg.ORG_TELEPHONE
+        node["contactPoint"].append(
+            {
+                "@type": "ContactPoint",
+                "contactType": "sales",
+                "telephone": cfg.ORG_TELEPHONE,
+                "email": cfg.ORG_EMAIL,
+                "availableLanguage": ["en", "tr"],
+                "areaServed": "TR",
+            }
+        )
+    if cfg.ORG_FOUNDING_YEAR:
+        node["foundingDate"] = cfg.ORG_FOUNDING_YEAR
+    if cfg.ORG_ADDRESS:
+        node["address"] = dict({"@type": "PostalAddress"}, **cfg.ORG_ADDRESS)
+    if cfg.ORG_GEO:
+        node["geo"] = dict({"@type": "GeoCoordinates"}, **cfg.ORG_GEO)
+    if cfg.ORG_OPENING_HOURS:
+        node["openingHours"] = cfg.ORG_OPENING_HOURS
     if cfg.ORG_SAME_AS:
         node["sameAs"] = cfg.ORG_SAME_AS
     return node
@@ -131,6 +176,12 @@ def drop_legacy_entity_nodes(html):
     """Drop hand-written Organization/WebSite JSON-LD superseded by the graph.
 
     Leaves BreadcrumbList, FAQPage, WebPage, Service and everything else alone.
+
+    Restricted to the unmanaged spans of the document. This used to sweep the
+    whole file and spared tools/page_schema.py's block only because that block
+    is a @graph with no top-level @type — luck rather than design. Scanning
+    outside the fences makes it structurally unable to delete another
+    patcher's output.
     """
 
     def replace(match):
@@ -142,7 +193,13 @@ def drop_legacy_entity_nodes(html):
             return ""
         return match.group(0)
 
-    return LD_BLOCK.sub(replace, html)
+    out, cursor = [], 0
+    for start, stop in mb.outside_fences(html):
+        out.append(html[cursor:start])
+        out.append(LD_BLOCK.sub(replace, html[start:stop]))
+        cursor = stop
+    out.append(html[cursor:])
+    return "".join(out)
 
 
 def patch(path, block):

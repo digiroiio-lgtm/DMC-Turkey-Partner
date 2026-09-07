@@ -39,6 +39,14 @@ ORG_ALTERNATE_NAMES = [
     "DMC Turkey",
 ]
 ORG_EMAIL = "hello@dmcturkeypartner.com"
+
+# Published in visible HTML on 36 pages as the Antalya operations WhatsApp
+# desk, so this is disclosed information rather than something invented here.
+ORG_TELEPHONE = "+905353998999"
+
+# /about/ states "Operating since 2006" in both its body copy and its meta
+# description. Year only — never invent a month or a day.
+ORG_FOUNDING_YEAR = "2006"
 ORG_DESCRIPTION = (
     "Turkey-based destination management company (DMC) and local event operations "
     "partner for international agencies, MICE planners, incentive houses and group "
@@ -51,6 +59,37 @@ ORG_DESCRIPTION = (
 ORG_SAME_AS = []
 
 ORG_AREA_SERVED = ["Türkiye", "Istanbul", "Antalya", "Belek", "Bodrum", "Cappadocia"]
+
+# --- Owner input still outstanding -------------------------------------------
+# Each of these is a real-world fact this repository does not contain. Every
+# emitting site is guarded by "if cfg.X", so leaving one empty suppresses the
+# property rather than shipping a guess. tools/seo_check.py reports what is
+# still unset on every run, so the gap stays visible instead of rotting in a
+# checklist. A wrong value here is worse than no value: a sameAs pointing at
+# the wrong profile merges this business with someone else's entity, and a
+# fabricated address produces a weak LocalBusiness that competes with the
+# correct Organization.
+
+# Postal address of the registered office. Nothing on the site publishes one
+# today. LocalBusiness and TravelAgency both require an address to earn a
+# local rich result, so the @type stays Organization until this is filled in;
+# see site_seo.organization(). Shape:
+#   {"streetAddress": "...", "addressLocality": "Antalya",
+#    "postalCode": "07...", "addressRegion": "Antalya", "addressCountry": "TR"}
+ORG_ADDRESS = None
+
+# {"latitude": 36.8..., "longitude": 30.7...} — only alongside ORG_ADDRESS.
+ORG_GEO = None
+
+# e.g. ["Mo-Fr 09:00-18:00"] in schema.org opening-hours syntax.
+ORG_OPENING_HOURS = []
+
+# The /event-costs/ scenario pages publish indicative budget ranges and state
+# in the same breath that they are non-binding and not a quotation. Turning
+# that into machine-readable price markup makes a claim the page disclaims, so
+# it is the owner's call, not a default. When enabled, tools/page_schema.py
+# emits a PriceSpecification with minPrice/maxPrice from data-budget-range.
+EMIT_COST_PRICE_SPEC = False
 
 ORG_KNOWS_ABOUT = [
     "Destination management",

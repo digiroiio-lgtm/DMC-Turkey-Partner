@@ -94,12 +94,15 @@ class Report:
         self.warnings.append((where, message))
 
 
-def check_page(url, rel, html, report):
+def check_page(url, rel, html, report, ids, refs):
     err = lambda m: report.error(rel, m)  # noqa: E731
     warn = lambda m: report.warn(rel, m)  # noqa: E731
 
     # --- structured data ---------------------------------------------------
-    ids, refs = set(), set()
+    # @id is a global identifier, not a per-document one, so a reference is
+    # resolved against every id on the site. That is what lets a case study
+    # say isPartOf the works collection defined on the hub, the same way every
+    # page references #organization without redefining it.
     for raw in LD_BLOCK.findall(html):
         try:
             data = json.loads(raw)
@@ -111,7 +114,7 @@ def check_page(url, rel, html, report):
             if isinstance(node, dict):
                 for key, value in node.items():
                     if key == "@id" and isinstance(value, str):
-                        (refs if set(node) == {"@id"} else ids).add(value)
+                        (refs if set(node) == {"@id"} else ids).add((rel, value))
                     elif isinstance(value, str) and ENTITY.search(value):
                         err(
                             'HTML entity in JSON-LD value %s: "%s"'
@@ -123,9 +126,6 @@ def check_page(url, rel, html, report):
                     walk(item)
 
         walk(data)
-
-    for ref in sorted(refs - ids - SITE_IDS):
-        err("JSON-LD @id reference resolves to nothing: %s" % ref)
 
     if "&amp;amp;" in html:
         err("double-escaped entity (&amp;amp;) in the document")
@@ -286,8 +286,15 @@ def main():
 
     pages = load_pages()
     report = Report()
+    ids, refs = set(), set()
     for url, (rel, html) in pages.items():
-        check_page(url, rel, html, report)
+        check_page(url, rel, html, report, ids, refs)
+
+    defined = {value for _, value in ids} | SITE_IDS
+    for rel, ref in sorted(refs):
+        if ref not in defined:
+            report.error(rel, "JSON-LD @id reference resolves to nothing: %s" % ref)
+
     check_site(pages, report)
 
     if args.as_json:

@@ -72,6 +72,7 @@ def main():
     import cop31_evergreen_link
     import cop31_nav
     import cop31_news
+    import page_schema
     import sitemaps
     import site_seo
 
@@ -84,7 +85,11 @@ def main():
     site_seo.main()
     # 4. The news -> evergreen loop, which edits the guides just regenerated.
     cop31_evergreen_link.main()
-    # 5. Sitemap coverage and lastmod, last so it sees the final state.
+    # 5. Per-page schema. After the evergreen linker, because it derives the
+    #    graph from the finished markup and the linker still edits headings
+    #    and dates. Its own fence keeps it clear of the identity block.
+    page_schema.main()
+    # 6. Sitemap coverage and lastmod, last so it sees the final state.
     sitemaps.main()
 
 

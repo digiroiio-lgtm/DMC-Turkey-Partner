@@ -1,7 +1,7 @@
 # Site tooling
 
 The site is hand-written static HTML with no build step. These scripts cover
-the parts that must stay identical across all 131 pages — the COP31 cluster, the
+the parts that must stay identical across all 137 pages — the COP31 cluster, the
 global navigation, the entity/measurement block and the sitemaps — where
 hand-editing every file would guarantee drift.
 
@@ -33,6 +33,10 @@ Safe to re-run; it skips files that already carry the menu.
 | `cop31_pages_*.py` | Page content. Each module exports `PAGES`; the builder discovers them by glob |
 | `cop31_build.py` | Writes `<slug>/index.html` for every page |
 | `cop31_nav.py` | Patches the global nav and footer across the site |
+| `managed_blocks.py` | The fence primitive every site-wide patcher builds on |
+| `page_model.py` | Reads facts back out of a page's markup. Pure; never writes |
+| `page_schema.py` | Per-page JSON-LD graph, derived from that markup |
+| `seo_check.py` | The audit CI runs. Read-only |
 
 The shared header and footer are lifted at build time from
 `services/event-production/index.html`, so generated pages stay byte-identical
@@ -139,3 +143,80 @@ a near-duplicate URL; a new URL is only justified by genuinely independent
 search intent. One story gets one article however many outlets carry it. Each
 article declares the `evergreen` guides it feeds, and the linker points those
 guides at the newest article feeding them and refreshes their Last updated date.
+
+## Per-page schema
+
+```
+python3 tools/page_schema.py --dry-run   # print what would change
+python3 tools/page_schema.py             # apply
+```
+
+Gives every non-COP31 page one connected `@graph`: a `WebPage` node, the
+`BreadcrumbList` and `FAQPage` regenerated from the visible DOM, and whatever
+its family calls for — `Service` on `/services/` and `/event-costs/`,
+`CreativeWork` on `/selected-works/`, `CollectionPage` + `ItemList` on the
+hubs, `Place` on `/destinations/`.
+
+Everything is **derived from the rendered HTML**, not from a registry keyed by
+URL. The site has no build step, so content is edited directly in the `.html`
+files; a registry would be a second copy of the truth and would go stale the
+first time someone corrected a venue name in a `<dd>`. Structured data that
+asserts something the page does not say is what Google's guidelines treat as
+spam, and the agreement between the two is what makes FAQ and breadcrumb
+markup eligible at all. Derived schema cannot drift.
+
+The COP31 cluster is skipped — `cop31_render.py` already emits linked
+`WebPage`/`Service`/`FAQPage` for it — as are the `Event`, `Article` and
+`NewsArticle` nodes elsewhere, which this patcher only ever adds alongside.
+
+`CreativeWork` rather than `Event` on the case studies is deliberate: those are
+completed private programmes nobody can attend, and `Event` would court an
+event rich result for something with no tickets. No `client` or `sponsor`
+either. The brands are already named in the visible copy, but promoting them
+into machine-readable triples materially widens reuse, and that needs the
+contracts checked first.
+
+### Fences
+
+Each site-wide patcher owns one fenced region and rewrites only between its
+own markers, which is what makes re-running it a no-op rather than an append:
+
+| Fence | Owner |
+| --- | --- |
+| `<!-- site-identity:begin/end -->` | `site_seo.py` |
+| `<!-- page-schema:begin/end -->` | `page_schema.py` |
+| `<!-- cop31-nav:begin/end -->` | `cop31_nav.py` |
+
+`managed_blocks.py` holds the primitive. Two rules it exists to enforce:
+placement is anchored rather than "before `</head>`", so the output bytes do
+not depend on which patcher ran last; and anything that *removes* nodes scans
+`outside_fences()` only, so it cannot reach into another patcher's block.
+`write_if_changed()` is the single write path, and it refuses to save a file
+whose `</head>`, `<main>`, `<h1>` or `</html>` count changed, that gained a
+double-escaped entity, or whose JSON-LD no longer parses.
+
+## Checks
+
+```
+python3 tools/seo_check.py                     # report
+python3 tools/seo_check.py --max-warnings 395  # what CI runs
+python3 tools/seo_check.py --strict            # warnings fail too
+```
+
+Errors are things that are objectively broken or that Rich Results rejects.
+Warnings are editorial calls a human may reasonably override, held down by a
+ratchet: `--max-warnings` is seeded at the current count and lowered as content
+work lands, so the number can fall but never grow. A gate that failed on day
+one would just get switched off. `.github/workflows/seo.yml` runs this and
+`sitemaps.py --check` on every push and pull request.
+
+## Waiting on real-world data
+
+`site_config.py` carries empty constants for facts this repository does not
+contain: `ORG_SAME_AS`, `ORG_ADDRESS`, `ORG_GEO`, `ORG_OPENING_HOURS`, the GA4
+and verification IDs, and `EMIT_COST_PRICE_SPEC`. Every emitting site is
+guarded, so an empty value suppresses the property rather than shipping a
+guess. A wrong `sameAs` merges this business with someone else's entity, and a
+fabricated address produces a weak `LocalBusiness` competing with the correct
+`Organization` — which is why the `@type` stays `Organization` until a real
+address exists.
