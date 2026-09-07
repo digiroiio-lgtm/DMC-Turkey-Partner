@@ -19,11 +19,11 @@ feeds (`evergreen`) and only the commercial pages that genuinely fit the story.
 """
 
 CATEGORIES = [
-    ("venue", "Venue &amp; EXPO"),
-    ("programme", "Programme &amp; Registration"),
-    ("transport", "Transport &amp; Infrastructure"),
-    ("hotels", "Hotels &amp; Accommodation"),
-    ("pavilions", "Pavilions &amp; Exhibitors"),
+    ("venue", "Venue & EXPO"),
+    ("programme", "Programme & Registration"),
+    ("transport", "Transport & Infrastructure"),
+    ("hotels", "Hotels & Accommodation"),
+    ("pavilions", "Pavilions & Exhibitors"),
     ("side-events", "Side Events"),
     ("local", "Antalya Local Updates"),
 ]
@@ -161,7 +161,7 @@ ARTICLES = [
         "slug": "cop31-antalya-transport-infrastructure-update",
         "category": "transport",
         "title": "Antalya Opens New Road Links Ahead of COP31 — What It Changes for Delegations",
-        "seo_title": "COP31 Antalya Transport &amp; Road Infrastructure Update 2026",
+        "seo_title": "COP31 Antalya Transport & Road Infrastructure Update 2026",
         "description": (
             "New arterial and hotel connection roads, the Antray tram extension toward the "
             "EXPO area and the official COP31 shuttle arrangement — and what each means for "
@@ -232,7 +232,7 @@ ARTICLES += [
         "slug": "cop31-blue-zone-green-zone-exhibitor-guide",
         "category": "pavilions",
         "title": "COP31 Blue Zone and Green Zone: What the Split Means for Pavilions and Exhibitors",
-        "seo_title": "COP31 Blue Zone vs Green Zone | Pavilion &amp; Exhibitor Update 2026",
+        "seo_title": "COP31 Blue Zone vs Green Zone | Pavilion & Exhibitor Update 2026",
         "description": (
             "How the COP31 Blue Zone and Green Zone differ, what the Presidency's partnership "
             "and Türkiye Pavilion application rounds covered, and what the split means for "
@@ -359,7 +359,7 @@ ARTICLES += [
         "slug": "cop31-antalya-hotels-accommodation-update",
         "category": "hotels",
         "title": "COP31 Antalya Accommodation: Official Platform, Shuttle Eligibility and Group Planning",
-        "seo_title": "COP31 Antalya Hotels &amp; Accommodation Update 2026",
+        "seo_title": "COP31 Antalya Hotels & Accommodation Update 2026",
         "description": (
             "How official COP31 accommodation works in Antalya, why shuttle access is tied to "
             "the official hotel list, and what delegations placing groups should settle before "

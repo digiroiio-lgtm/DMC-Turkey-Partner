@@ -167,7 +167,7 @@ def render_article(article):
             "datePublished": article["published"],
             "dateModified": article["updated"],
             "inLanguage": "en",
-            "articleSection": CATEGORY_LABEL[article["category"]].replace("&amp;", "&"),
+            "articleSection": CATEGORY_LABEL[article["category"]],
             "author": {"@id": SITE + "/#organization"},
             "publisher": {"@id": SITE + "/#organization"},
             "isPartOf": {"@id": SITE + "/#website"},
@@ -198,7 +198,7 @@ def render_article(article):
         '    <article class="news-article">',
         '    <section class="page-section news-article__head">',
         '      <p class="news-kicker"><a href="%s?c=%s">%s</a></p>'
-        % (NEWS_ROOT, article["category"], CATEGORY_LABEL[article["category"]]),
+        % (NEWS_ROOT, article["category"], esc(CATEGORY_LABEL[article["category"]])),
         "      <h1>%s</h1>" % article["title"],
         '      <p class="news-meta">Published <time datetime="%s">%s</time>'
         ' &middot; Last updated <time datetime="%s">%s</time></p>'
@@ -246,7 +246,7 @@ def _card(article, featured=False):
         % (
             " news-card--featured" if featured else "",
             article["category"],
-            CATEGORY_LABEL[article["category"]],
+            esc(CATEGORY_LABEL[article["category"]]),
             NEWS_ROOT, article["slug"], article["title"],
             article["summary"].split(". ")[0] + ".",
             article["updated"], human_date(article["updated"]),
@@ -289,7 +289,8 @@ def render_hub():
     ])
 
     chips = "".join(
-        '<button type="button" class="news-chip" data-filter="%s">%s</button>' % (slug, label)
+        '<button type="button" class="news-chip" data-filter="%s">%s</button>'
+        % (slug, esc(label))
         for slug, label in used
     )
     cards = "".join(_card(a, featured=(i == 0)) for i, a in enumerate(ordered))

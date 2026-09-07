@@ -21,7 +21,7 @@ TRANSPORT_CTA = L(
 AIRPORT = {
     "slug": "cop31-antalya-airport-transfer",
     "breadcrumb": "Airport Transfers",
-    "title": "COP31 Antalya Airport Transfers | Private &amp; Group Arrivals 2026",
+    "title": "COP31 Antalya Airport Transfers | Private & Group Arrivals 2026",
     "description": (
         "COP31 Antalya airport transfers: private and group transport between Antalya "
         "Airport, hotels and the venue. VIP vehicles, minivans, minibuses, coaches, "

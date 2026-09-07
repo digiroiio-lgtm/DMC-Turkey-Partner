@@ -5,6 +5,8 @@ re-checked before LAST_UPDATED is bumped. Nothing in this module may assert an
 affiliation between DmcTurkeyPartner and UNFCCC or the COP31 organising bodies.
 """
 
+import re
+
 SITE = "https://dmcturkeypartner.com"
 WHATSAPP_NUMBER = "905353998999"
 LAST_UPDATED = "2026-09-06"
@@ -43,9 +45,21 @@ DISCLAIMER = (
 )
 
 
+_BARE_AMP = re.compile(r"&(?!(?:[A-Za-z][A-Za-z0-9]{1,31}|#\d{1,7}|#[xX][0-9A-Fa-f]{1,6});)")
+
+
 def esc(text):
+    """Escape text for an HTML attribute or text node, idempotently.
+
+    Only bare ampersands are escaped; an existing entity such as &amp; or
+    &ndash; is left alone. Escaping blindly here once produced &amp;amp; in 21
+    page titles, because the strings these values come from already carried
+    entities. Values that are also injected raw into JSON-LD (title,
+    breadcrumb, service_interest, seo_title) are therefore authored with a
+    plain "&" and escaped only on the way into HTML.
+    """
     return (
-        text.replace("&", "&amp;")
+        _BARE_AMP.sub("&amp;", text)
         .replace("<", "&lt;")
         .replace(">", "&gt;")
         .replace('"', "&quot;")

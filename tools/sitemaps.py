@@ -80,6 +80,35 @@ def write_sitemap(name, urls, pages):
         handle.write("\n".join(lines) + "\n")
 
 
+def write_index(sitemaps, pages):
+    """Rewrite sitemap.xml so each child's lastmod is the newest page in it.
+
+    The child sitemaps are globbed as "sitemap-*.xml", which does not match
+    sitemap.xml itself, so the index used to keep whatever lastmod it was
+    first written with while its children moved on underneath it.
+    """
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for name in sitemaps:
+        stamps = [
+            git_lastmod(pages[url])
+            for url in sitemap_urls(name)
+            if url in pages
+        ]
+        stamps = [s for s in stamps if s]
+        lines.append("  <sitemap>")
+        lines.append("    <loc>%s/%s</loc>" % (SITE, name))
+        if stamps:
+            lines.append("    <lastmod>%s</lastmod>" % max(stamps))
+        lines.append("  </sitemap>")
+    lines.append("</sitemapindex>")
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as handle:
+        handle.write("\n".join(lines) + "\n")
+    print("  %-30s %d children" % ("sitemap.xml", len(sitemaps)))
+
+
 def main():
     check_only = "--check" in sys.argv
     pages = indexable_pages()
@@ -117,6 +146,8 @@ def main():
         ordered = [u for u in urls if not (u in seen or seen.add(u))]
         write_sitemap(name, ordered, pages)
         print("  %-30s %d urls" % (name, len(ordered)))
+
+    write_index(sitemaps, pages)
     return 0
 
 

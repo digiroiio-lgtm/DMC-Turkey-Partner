@@ -27,12 +27,36 @@ def collect():
     return pages
 
 
+# Keys whose values are plain text, not HTML. They are escaped on the way into
+# the page and injected raw into JSON-LD, so an entity authored here would be
+# double-escaped in one place and leak literally into structured data in the
+# other. That is exactly the bug that once put "&amp;" in 21 page titles.
+PLAIN_TEXT_KEYS = ("title", "description", "breadcrumb", "service_interest", "service_name")
+
+
+def validate_pages(pages):
+    bad = [
+        (page["slug"], key, page[key])
+        for page in pages
+        for key in PLAIN_TEXT_KEYS
+        if isinstance(page.get(key), str) and "&" in page[key] and ";" in page[key].split("&", 1)[1][:8]
+    ]
+    if bad:
+        lines = "\n".join("  %s.%s: %s" % row for row in bad)
+        raise SystemExit(
+            "HTML entities found in plain-text page keys. These are escaped on "
+            "the way into HTML and injected raw into JSON-LD, so they must be "
+            "authored as literal characters:\n" + lines
+        )
+
+
 def main():
     pages = collect()
     slugs = [p["slug"] for p in pages]
     duplicates = {s for s in slugs if slugs.count(s) > 1}
     if duplicates:
         raise SystemExit("Duplicate slugs: %s" % ", ".join(sorted(duplicates)))
+    validate_pages(pages)
 
     for page in pages:
         directory = os.path.join(ROOT, page["slug"])

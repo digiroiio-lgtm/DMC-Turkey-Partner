@@ -13,7 +13,7 @@ BACK = para(
 
 PRINTING = {
     "slug": "cop31-printing-services",
-    "breadcrumb": "Printing &amp; Collateral",
+    "breadcrumb": "Printing & Collateral",
     "title": "COP31 Printing Services in Antalya | Urgent Event Printing 2026",
     "description": (
         "Local COP31 printing in Antalya: brochures, flyers, roll-ups, banners, posters, "
@@ -127,8 +127,8 @@ PRINTING = {
 
 BRANDING = {
     "slug": "cop31-branding-signage",
-    "breadcrumb": "Branding &amp; Signage",
-    "title": "COP31 Branding &amp; Signage in Antalya | Wayfinding 2026",
+    "breadcrumb": "Branding & Signage",
+    "title": "COP31 Branding & Signage in Antalya | Wayfinding 2026",
     "description": (
         "COP31 branding and signage in Antalya: directional signs, venue dressing, wall and "
         "floor graphics, counters, desk branding, banners, sponsor boards, backdrops and "
@@ -146,7 +146,7 @@ BRANDING = {
         "corrections are possible after day one."
     ),
     "page_type": "commercial",
-    "service_interest": "COP31 Branding &amp; Signage",
+    "service_interest": "COP31 Branding & Signage",
     "service_name": "COP31 Branding and Signage in Antalya",
     "cta_label": "Request Signage Support",
     "sources": ["ifp"],
@@ -228,8 +228,8 @@ BRANDING = {
 
 AV = {
     "slug": "cop31-av-equipment-rental",
-    "breadcrumb": "AV &amp; Equipment Rental",
-    "title": "COP31 AV Equipment Rental in Antalya | Screens, Sound &amp; Crew",
+    "breadcrumb": "AV & Equipment Rental",
+    "title": "COP31 AV Equipment Rental in Antalya | Screens, Sound & Crew",
     "description": (
         "COP31 AV equipment rental in Antalya: LED screens, TVs, projectors, sound systems, "
         "microphones, lighting, presentation equipment and technicians with on-site setup, "

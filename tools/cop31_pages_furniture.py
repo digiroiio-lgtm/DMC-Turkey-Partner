@@ -14,7 +14,7 @@ BACK = para(
 FURNITURE = {
     "slug": "cop31-furniture-rental",
     "breadcrumb": "Furniture Rental",
-    "title": "COP31 Event &amp; Exhibition Furniture Rental | Antalya 2026",
+    "title": "COP31 Event & Exhibition Furniture Rental | Antalya 2026",
     "description": (
         "COP31 furniture rental in Antalya: tables, chairs, stools, counters, lounge and "
         "meeting furniture, exhibition and hospitality furniture, delivered, installed and "
@@ -122,8 +122,8 @@ FURNITURE = {
 
 COFFEE = {
     "slug": "cop31-coffee-machine-rental",
-    "breadcrumb": "Coffee &amp; Hospitality",
-    "title": "COP31 Coffee Machine &amp; Coffee Station Rental | Antalya 2026",
+    "breadcrumb": "Coffee & Hospitality",
+    "title": "COP31 Coffee Machine & Coffee Station Rental | Antalya 2026",
     "description": (
         "COP31 coffee machine and coffee station rental in Antalya: machines, stations, "
         "barista service, cups and supplies, water stations, refrigerators and hospitality "
@@ -141,7 +141,7 @@ COFFEE = {
         "locally in Antalya."
     ),
     "page_type": "commercial",
-    "service_interest": "COP31 Coffee &amp; Hospitality Equipment",
+    "service_interest": "COP31 Coffee & Hospitality Equipment",
     "service_name": "COP31 Coffee and Hospitality Equipment Rental in Antalya",
     "cta_label": "Request Hospitality Equipment",
     "sources": ["ifp"],

@@ -14,7 +14,7 @@ BACK = para(
 STANDS = {
     "slug": "cop31-exhibition-stands",
     "breadcrumb": "Exhibition Stands",
-    "title": "COP31 Exhibition Stands in Antalya | Modular &amp; Custom Stand Build 2026",
+    "title": "COP31 Exhibition Stands in Antalya | Modular & Custom Stand Build 2026",
     "description": (
         "Modular and custom COP31 exhibition stands built in Antalya: design production, "
         "graphics, furniture, AV, installation, on-site support and dismantling for the "
@@ -248,7 +248,7 @@ BOOTH = {
 PRODUCTION = {
     "slug": "cop31-event-production",
     "breadcrumb": "Event Production",
-    "title": "COP31 Event Production in Antalya | Staging, Sound &amp; Crew",
+    "title": "COP31 Event Production in Antalya | Staging, Sound & Crew",
     "description": (
         "COP31 event production in Antalya: staging, sound, screens, lighting, technical "
         "crew, setup and on-site operations for side events, receptions, briefings, "

@@ -369,16 +369,20 @@ def _schema(page):
     return "\n".join(blocks)
 
 
-def _strip(html):
+def _strip(markup):
+    """Turn an authored HTML fragment into the plain text JSON-LD needs.
+
+    JSON-LD string values are not HTML, so every entity has to be resolved
+    here. A hand-rolled table used to cover only &amp;, &nbsp; and &quot;,
+    which let &ndash;, &middot; and &rsquo; through into structured data as
+    literal entity text.
+    """
+    import html as _html
     import re
 
-    text = re.sub(r"<[^>]+>", "", html)
-    return (
-        text.replace("&amp;", "&")
-        .replace("&nbsp;", " ")
-        .replace("&quot;", '"')
-        .strip()
-    )
+    text = re.sub(r"<[^>]+>", " ", markup)
+    text = _html.unescape(text)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 # --- page assembly -----------------------------------------------------------

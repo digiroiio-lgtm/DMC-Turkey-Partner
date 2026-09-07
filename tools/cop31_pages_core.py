@@ -63,7 +63,7 @@ SERVICE_CARDS = cards([
 HUB = {
     "slug": "cop31-antalya",
     "breadcrumb": "COP31 Antalya 2026",
-    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport &amp; Local Services",
+    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport & Local Services",
     "description": (
         "Planning for COP31 Antalya 2026? Find dates, venue information, hotels, transport "
         "and local event services including exhibition stands, printing, AV, staffing and "
