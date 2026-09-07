@@ -111,6 +111,7 @@ Allow: /
 # Structured summary for AI clients (llms.txt convention)
 # ---------------------------------------------------------------------------
 # https://dmcturkeypartner.com/llms.txt
+# https://dmcturkeypartner.com/llms-full.txt
 
 # ---------------------------------------------------------------------------
 # Sitemaps

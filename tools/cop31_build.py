@@ -72,6 +72,7 @@ def main():
     import cop31_evergreen_link
     import cop31_nav
     import cop31_news
+    import llms_txt
     import page_schema
     import site_footer
     import site_head
@@ -97,7 +98,9 @@ def main():
     # 7. Head meta, which reads the h1, lede and schema dates the steps above
     #    settled.
     site_head.main()
-    # 8. Sitemap coverage and lastmod, last so it sees the final state.
+    # 8. The AI-client index, derived from the finished pages.
+    llms_txt.main()
+    # 9. Sitemap coverage and lastmod, last so it sees the final state.
     sitemaps.main()
 
 
