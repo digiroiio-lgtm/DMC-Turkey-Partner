@@ -1,0 +1,33 @@
+name: SEO
+
+# The repo has no build step and no tests, so nothing has ever verified that a
+# content edit kept the crawl surface intact. These two checks are read-only
+# and take seconds.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # tools/sitemaps.py reads <lastmod> from each file's last commit
+          # date, so a shallow clone would report every page as uncommitted.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          # tools/sitemaps.py uses glob(root_dir=...), added in 3.10.
+          python-version: '3.11'
+
+      - name: Sitemap coverage
+        run: python3 tools/sitemaps.py --check
+
+      - name: SEO audit
+        # --max-warnings is a ratchet, not a threshold. It is seeded at the
+        # count on the day the check landed and lowered as content work lands,
+        # so the number can fall but never grow. Errors always fail.
+        run: python3 tools/seo_check.py --max-warnings 395
