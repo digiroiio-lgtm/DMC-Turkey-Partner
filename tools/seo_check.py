@@ -183,17 +183,28 @@ def check_page(url, rel, html, report, ids, refs):
         elif n < 70:
             warn("meta description is only %d characters" % n)
 
+    # og:description mirroring the meta description is normal and harmless.
+    # What is worth flagging is a page with no social-specific copy at all,
+    # where a shared link repeats the search snippet verbatim.
     og_description = meta(html, "og:description", "property")
-    if og_description and og_description == description:
-        warn("og:description is a copy of the meta description")
+    twitter_description = meta(html, "twitter:description")
+    if og_description == description and (
+        not twitter_description or twitter_description == description
+    ):
+        warn("no social copy distinct from the meta description")
 
     words = len(text_of(html).split())
     if words < 250 and not noindex:
         warn("only %d words of body copy" % words)
 
-    h2s = len(re.findall(r"<h2[ >]", html))
-    if h2s - 5 < 3 and not noindex:  # five of them are footer nav column labels
-        warn("%d content <h2> headings" % max(h2s - 5, 0))
+    # Counted inside <main> only. The footer's nav column labels used to be
+    # <h2> and had to be subtracted here; tools/site_footer.py made them <p>,
+    # so every remaining h2 is real page structure.
+    body = html[html.index("<main") :] if "<main" in html else html
+    body = re.sub(r"(?s)<footer.*?</footer>", "", body)
+    h2s = len(re.findall(r"<h2[ >]", body))
+    if h2s < 3 and not noindex:
+        warn("%d content <h2> headings" % h2s)
 
 
 def check_site(pages, report):

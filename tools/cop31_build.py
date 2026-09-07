@@ -73,23 +73,31 @@ def main():
     import cop31_nav
     import cop31_news
     import page_schema
+    import site_footer
+    import site_head
     import sitemaps
     import site_seo
 
     # 1. News pages, which share the same chrome and must exist before the
     #    site-wide patchers sweep the tree.
     cop31_news.main()
-    # 2. Global nav/footer across every page, new ones included.
+    # 2. Footer normalisation first, because cop31_nav anchors on the
+    #    Company column label and expects the <p> form.
+    site_footer.main()
+    # 3. Global nav/footer across every page, new ones included.
     cop31_nav.main()
-    # 3. Identity and measurement, since generated pages build their own <head>.
+    # 4. Identity and measurement, since generated pages build their own <head>.
     site_seo.main()
-    # 4. The news -> evergreen loop, which edits the guides just regenerated.
+    # 5. The news -> evergreen loop, which edits the guides just regenerated.
     cop31_evergreen_link.main()
-    # 5. Per-page schema. After the evergreen linker, because it derives the
+    # 6. Per-page schema. After the evergreen linker, because it derives the
     #    graph from the finished markup and the linker still edits headings
     #    and dates. Its own fence keeps it clear of the identity block.
     page_schema.main()
-    # 6. Sitemap coverage and lastmod, last so it sees the final state.
+    # 7. Head meta, which reads the h1, lede and schema dates the steps above
+    #    settled.
+    site_head.main()
+    # 8. Sitemap coverage and lastmod, last so it sees the final state.
     sitemaps.main()
 
 

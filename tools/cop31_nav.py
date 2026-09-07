@@ -27,7 +27,7 @@ NAV_ANCHOR = (
 
 FOOTER_ANCHOR = (
     '        <div class="site-footer__col">\n'
-    '          <h2 class="site-footer__heading">Company</h2>'
+    '          <p class="site-footer__heading">Company</p>'
 )
 
 MARKER = 'aria-controls="nav-cop31"'
@@ -90,7 +90,7 @@ def footer_block():
     )
     return (
         '        <div class="site-footer__col">\n'
-        '          <h2 class="site-footer__heading">COP31 Antalya</h2>\n'
+        '          <p class="site-footer__heading">COP31 Antalya</p>\n'
         "          <ul>%s\n"
         "          </ul>\n"
         "        </div>\n" % items
