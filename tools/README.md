@@ -98,3 +98,44 @@ teaches Google to ignore the signal.
 `cop31_build.py` regenerates COP31 pages from scratch, so it re-runs
 `cop31_nav.py` and `site_seo.py` afterwards automatically. After any content
 change, run `tools/sitemaps.py` last so `lastmod` reflects the final state.
+
+## COP31 news layer
+
+```
+python3 tools/cop31_news.py             # hub + articles
+python3 tools/cop31_evergreen_link.py   # news -> evergreen loop
+```
+
+Both run automatically as part of `cop31_build.py`, in that order — the build
+regenerates the guide pages from scratch, so the evergreen linker has to run
+after it or its edits are discarded.
+
+`cop31_news_data.py` holds the sources and the articles. The rules it exists to
+enforce, in order of importance:
+
+1. **Never reproduce third-party text.** Read the source, extract and verify the
+   facts, then write the article fresh. No sentence-level rewriting of someone
+   else's copy, no copied headlines — the headline is written from the
+   development, not from the source's title.
+2. **Every article names its sources**, listed and linked at the foot of the
+   page and attributed in the body where a specific claim rests on one.
+   `S[...]` marks each source `official` or `media`, which drives the "Official"
+   badge; official bodies outrank media for dates, venue, registration,
+   programme, transport and accommodation.
+3. **Separate fact from interpretation.** `changed` is what was reported;
+   `means` is our own operational reading and is rendered under a heading that
+   says so. Never let inference read as fact.
+4. **No affiliation.** Nothing may imply UNFCCC or COP31-organiser status, and
+   the independent-provider disclaimer renders on every article.
+
+Where a figure could not be verified against an official publication — attendance
+estimates, the EXPO renovation budget — the articles say that explicitly rather
+than repeating a number from secondary coverage.
+
+### Adding an update
+
+Prefer editing an existing article and bumping its `updated` date over creating
+a near-duplicate URL; a new URL is only justified by genuinely independent
+search intent. One story gets one article however many outlets carry it. Each
+article declares the `evergreen` guides it feeds, and the linker points those
+guides at the newest article feeding them and refreshes their Last updated date.

@@ -43,18 +43,25 @@ def main():
         print("wrote %s/index.html" % page["slug"])
     print("%d COP31 pages generated" % len(pages))
 
-    # Generated pages inherit their chrome from the reference page, which
-    # already carries the COP31 nav. Running the patcher anyway keeps the whole
-    # site convergent whatever order the two scripts are run in.
+    # Order matters below. Pages are regenerated from scratch, so anything that
+    # patches them has to run afterwards or its edits are silently discarded.
+    import cop31_evergreen_link
     import cop31_nav
-
-    cop31_nav.main()
-
-    # Generated pages build their own <head>, so the site-wide identity and
-    # measurement block has to be re-applied after every rebuild.
+    import cop31_news
+    import sitemaps
     import site_seo
 
+    # 1. News pages, which share the same chrome and must exist before the
+    #    site-wide patchers sweep the tree.
+    cop31_news.main()
+    # 2. Global nav/footer across every page, new ones included.
+    cop31_nav.main()
+    # 3. Identity and measurement, since generated pages build their own <head>.
     site_seo.main()
+    # 4. The news -> evergreen loop, which edits the guides just regenerated.
+    cop31_evergreen_link.main()
+    # 5. Sitemap coverage and lastmod, last so it sees the final state.
+    sitemaps.main()
 
 
 if __name__ == "__main__":

@@ -21,7 +21,49 @@
     initGuideToc();
     initProposalCtas();
     initProposalForm();
+    initNewsFilters();
   });
+
+  // Category filter for the COP31 news hub. Progressive enhancement: without
+  // JS every card is already in the DOM and visible, so the hub degrades to a
+  // plain reverse-chronological list rather than an empty page.
+  function initNewsFilters() {
+    var container = document.querySelector("[data-news-filters]");
+    var grid = document.querySelector("[data-news-grid]");
+    if (!container || !grid) {
+      return;
+    }
+    var chips = Array.prototype.slice.call(container.querySelectorAll(".news-chip"));
+    var cards = Array.prototype.slice.call(grid.querySelectorAll(".news-card"));
+    var empty = document.querySelector("[data-news-empty]");
+
+    function apply(filter) {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var match = filter === "all" || card.getAttribute("data-category") === filter;
+        card.hidden = !match;
+        if (match) { shown += 1; }
+      });
+      chips.forEach(function (chip) {
+        chip.classList.toggle("is-active", chip.getAttribute("data-filter") === filter);
+      });
+      if (empty) { empty.hidden = shown !== 0; }
+      trackEvent("cop31_news_filter", { filter: filter });
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        apply(chip.getAttribute("data-filter"));
+      });
+    });
+
+    // Article kickers link back as /cop31-news/?c=<category>, so arriving from
+    // an article opens the hub already filtered to that category.
+    var requested = new URLSearchParams(window.location.search).get("c");
+    if (requested && chips.some(function (c) { return c.getAttribute("data-filter") === requested; })) {
+      apply(requested);
+    }
+  }
 
   // Mobile breakpoint shared with the drawer rules in main.css. The drawer only
   // exists below it; above it the desktop mega menu is untouched.

@@ -7,6 +7,7 @@ HUB = "/cop31-antalya/"
 
 PLAN = [
     ("/cop31-antalya/", "COP31 Antalya 2026"),
+    ("/cop31-news/", "News &amp; Latest Updates"),
     ("/cop31-antalya-participant-guide/", "Participant Guide"),
     ("/cop31-antalya-dates/", "Dates &amp; Programme"),
     ("/cop31-antalya-program/", "Conference Programme"),
