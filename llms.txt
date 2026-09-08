@@ -31,6 +31,7 @@
 - [DMC Bodrum](https://dmcturkeypartner.com/destinations/bodrum/): DMC Bodrum support for international agencies planning incentives, corporate events and groups, with hotels, venues, transport and local execution.
 - [DMC Cappadocia](https://dmcturkeypartner.com/destinations/cappadocia/): DMC Cappadocia support for incentive, corporate and group programmes, including hotels, transport, experiences, events and local operations.
 - [DMC Istanbul](https://dmcturkeypartner.com/destinations/istanbul/): DMC Istanbul services from DmcTurkeyPartner.com, covering hotel sourcing, transportation, venues and program execution in Istanbul.
+- [DMC Izmir](https://dmcturkeypartner.com/destinations/izmir/): Izmir DMC support for meetings, incentives, corporate events and group programmes across Izmir and the Aegean coast, including Cesme and Kusadasi.
 
 ## Event Costs
 

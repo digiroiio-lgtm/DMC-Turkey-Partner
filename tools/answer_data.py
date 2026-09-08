@@ -168,6 +168,12 @@ ANSWERS = {
         "more spread out, so transport planning matters more than it does in "
         "Belek."
     ),
+    "/destinations/izmir/": (
+        "Izmir is T\u00fcrkiye's third city and the gateway to the Aegean coast. "
+        "It suits mid-sized conferences and dealer meetings that want a real "
+        "city without Istanbul's scale and traffic, and it is the arrival "
+        "point for programmes running at Cesme, Alacati or Kusadasi."
+    ),
     "/destinations/cappadocia/": (
         "Cappadocia is an experience destination, not a conference base. It "
         "works best as a two- or three-night leg inside a longer programme, "
