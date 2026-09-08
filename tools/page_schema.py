@@ -39,7 +39,6 @@ Usage: python3 tools/page_schema.py [--dry-run]
 import json
 import os
 import re
-import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -61,21 +60,6 @@ SKIP_FAMILIES = {"cop31", "cop31_news", "cop31_news_hub"}
 
 # Types this patcher regenerates from the DOM and therefore supersedes.
 SUPERSEDED = {"BreadcrumbList", "FAQPage"}
-
-_lastmod_cache = {}
-
-
-def lastmod(rel):
-    if rel not in _lastmod_cache:
-        out = subprocess.run(
-            ["git", "log", "-1", "--format=%cs", "--", rel],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-        _lastmod_cache[rel] = out or None
-    return _lastmod_cache[rel]
-
 
 def breadcrumb_node(page):
     if len(page["breadcrumbs"]) < 2:
@@ -245,9 +229,14 @@ def build_graph(page):
     }
     if page["description"]:
         web_page["description"] = page["description"]
-    stamp = lastmod(page["rel"])
-    if stamp:
-        web_page["dateModified"] = stamp
+
+    # No dateModified here, deliberately. It would be the file's own last
+    # commit date, and writing that date into the file changes the file, which
+    # changes the date — the value can never settle, and the build stops being
+    # idempotent. The freshness signal lives in the sitemaps' <lastmod>, which
+    # sits outside the file it describes and therefore can converge. Pages with
+    # a genuinely stable, hand-maintained date (the COP31 cluster, the news
+    # articles) still carry one from their own generator.
 
     crumbs = breadcrumb_node(page)
     if crumbs:
