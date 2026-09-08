@@ -1366,6 +1366,9 @@ https://dmcturkeypartner.com/cookie-policy/
 
 Cookie Policy for DmcTurkeyPartner.com describing how cookies are used on this website.
 
+- Calculator entry: What you typed into the event cost calculator , so the figures survive a page change and can be carried into the proposal form instead of being retyped.
+- Where you arrived: The page you first landed on and any campaign the link carried, so an enquiry reaches us with the context of what prompted it.
+
 ### Privacy Policy
 
 https://dmcturkeypartner.com/privacy-policy/
