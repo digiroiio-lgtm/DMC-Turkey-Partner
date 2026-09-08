@@ -37,6 +37,11 @@ Safe to re-run; it skips files that already carry the menu.
 | `page_model.py` | Reads facts back out of a page's markup. Pure; never writes |
 | `page_schema.py` | Per-page JSON-LD graph, derived from that markup |
 | `seo_check.py` | The audit CI runs. Read-only |
+| `answer_data.py` | Hand-written answer capsules, keyed by URL |
+| `answer_capsule.py` | Injects them under the `<h1>` |
+| `site_head.py` | og/twitter/theme-color meta |
+| `site_footer.py` | Footer headings and contact block |
+| `llms_txt.py` | Generates `llms.txt` and `llms-full.txt` |
 
 The shared header and footer are lifted at build time from
 `services/event-production/index.html`, so generated pages stay byte-identical
@@ -220,3 +225,36 @@ guess. A wrong `sameAs` merges this business with someone else's entity, and a
 fabricated address produces a weak `LocalBusiness` competing with the correct
 `Organization` — which is why the `@type` stays `Organization` until a real
 address exists.
+
+
+## Answer capsules
+
+`tools/answer_data.py` holds a short, direct answer per URL; `answer_capsule.py`
+renders it into a fence under the `<h1>`. This is the one thing on the site that
+is deliberately **not** derived: the point of a capsule is to say what the page
+does not already say in that form, so there is no source to derive it from. A
+URL with no entry gets no capsule, and removing an entry removes the block.
+
+The pattern is older than this module — `cop31_render.py` has emitted
+`.cop31-answer` "for AI/AEO surfaces" since the COP31 cluster was built, on 30
+pages. The CSS rule now covers `.answer-capsule` with `.cop31-answer` as an
+alias, so those pages render unchanged. Pages carrying a capsule also get
+`speakable` pointing at it and the heading.
+
+A capsule earns its place only if it answers the question the title implies —
+who it is for, what is and is not included, the constraint that actually
+matters. Restating the lede makes the page longer and no clearer. Nothing in it
+may assert a certification, client relationship, price or guarantee that the
+page itself does not already make.
+
+## Convergence
+
+The generators are idempotent, so a clean checkout plus one `cop31_build.py`
+must reproduce exactly what is committed. CI asserts this with `git diff
+--quiet` after a build.
+
+That gate exists because the weaker version of it missed a real bug. Comparing
+`git status --short` compares the *list* of modified files, not their contents,
+so it reported "no change" while `strip()` left each fence's indentation behind
+and walked the following line six spaces further right on every run. Compare
+content, not filenames.

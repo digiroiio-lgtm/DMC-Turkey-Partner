@@ -52,9 +52,15 @@ def end(name):
 
 
 def strip(html, name):
-    """Remove a fence and its contents, so the patcher can re-emit it."""
+    """Remove a fence and its contents, so the patcher can re-emit it.
+
+    The indentation on the opening marker's line is consumed too. Without
+    that, a block rendered with indentation leaves its own leading spaces
+    behind on every strip, and re-running the patcher walks the following line
+    further right each time — silently, since the page still renders.
+    """
     return re.sub(
-        re.escape(begin(name)) + r".*?" + re.escape(end(name)) + r"\n?",
+        r"[ \t]*" + re.escape(begin(name)) + r".*?" + re.escape(end(name)) + r"\n?",
         "",
         html,
         flags=re.S,

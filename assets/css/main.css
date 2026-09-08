@@ -1447,6 +1447,10 @@ main:has(.event-facts) > h1 {
   padding-block: 0.3rem;
 }
 
+/* The answer capsule: the page's direct answer, directly under the h1.
+   .cop31-answer is the original name, kept as an alias so the 30 generated
+   COP31 pages keep rendering identically. */
+.answer-capsule,
 .cop31-answer {
   font-size: var(--text-lg);
   font-weight: 600;

@@ -47,6 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import managed_blocks as mb  # noqa: E402
 import page_model as pm  # noqa: E402
 import site_config as cfg  # noqa: E402
+from answer_data import ANSWERS  # noqa: E402
 from site_seo import area_served  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -252,6 +253,14 @@ def build_graph(page):
     if crumbs:
         web_page["breadcrumb"] = {"@id": crumbs["@id"]}
 
+    # Where the page carries an answer capsule, that paragraph and the heading
+    # above it are the part worth reading aloud. See tools/answer_capsule.py.
+    if page["url"] in ANSWERS:
+        web_page["speakable"] = {
+            "@type": "SpeakableSpecification",
+            "cssSelector": [".answer-capsule", "h1"],
+        }
+
     family = page["family"]
     primary = None
 
@@ -343,7 +352,14 @@ def main():
 
     for path in mb.iter_pages(ROOT):
         page = pm.read(path, ROOT)
-        if page["family"] in SKIP_FAMILIES:
+        if page["family"] in SKIP_FAMILIES or page["noindex"]:
+            # Skipping means this patcher owns no block here, so any block it
+            # left behind on an earlier run has to go. Otherwise a page that
+            # becomes noindex keeps asserting a stale graph forever — which is
+            # how 404.html ended up claiming the homepage's @id.
+            original = page["html"]
+            if not dry_run:
+                mb.write_if_changed(path, original, mb.strip(original, FENCE))
             skipped += 1
             continue
         total += 1

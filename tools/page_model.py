@@ -85,7 +85,16 @@ def definitions(markup):
 
 
 def url_for(rel):
-    directory = os.path.dirname(rel)
+    """Public URL for a file path.
+
+    Almost every page is <dir>/index.html and maps to "/<dir>/". Root-level
+    files that are not index.html keep their filename — without that, 404.html
+    resolved to "/" and was handed the homepage's identity, @id and answer
+    capsule.
+    """
+    directory, name = os.path.split(rel)
+    if name != "index.html":
+        return "/" + rel
     return "/" + directory + "/" if directory else "/"
 
 

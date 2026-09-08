@@ -71,8 +71,10 @@ def patch(path, dry_run=False):
 
     html = HEADING.sub(r'<p class="site-footer__heading">\1</p>', original)
 
+    # Indentation goes with the block; see managed_blocks.strip for why
+    # leaving it behind walks the next line right on every re-run.
     html = re.sub(
-        re.escape(CONTACT_BEGIN) + r".*?" + re.escape(CONTACT_END) + r"\n?",
+        r"[ \t]*" + re.escape(CONTACT_BEGIN) + r".*?" + re.escape(CONTACT_END) + r"\n?",
         "",
         html,
         flags=re.S,

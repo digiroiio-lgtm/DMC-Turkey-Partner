@@ -23,6 +23,21 @@ jobs:
           # tools/sitemaps.py uses glob(root_dir=...), added in 3.10.
           python-version: '3.11'
 
+      - name: Generated output is committed and converged
+        # The generators are idempotent, so a clean checkout plus one build
+        # must produce exactly what is committed. This catches both a
+        # forgotten re-run and a patcher that never settles — an earlier
+        # version of the fence logic left its indentation behind on every
+        # strip and walked the following line further right each run, which a
+        # filename-level check does not see.
+        run: |
+          python3 tools/cop31_build.py > /dev/null
+          if ! git diff --quiet; then
+            echo "Build output differs from the committed tree:"
+            git diff --stat
+            exit 1
+          fi
+
       - name: Sitemap coverage
         run: python3 tools/sitemaps.py --check
 

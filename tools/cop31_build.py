@@ -69,6 +69,7 @@ def main():
 
     # Order matters below. Pages are regenerated from scratch, so anything that
     # patches them has to run afterwards or its edits are silently discarded.
+    import answer_capsule
     import cop31_evergreen_link
     import cop31_nav
     import cop31_news
@@ -95,12 +96,14 @@ def main():
     #    graph from the finished markup and the linker still edits headings
     #    and dates. Its own fence keeps it clear of the identity block.
     page_schema.main()
-    # 7. Head meta, which reads the h1, lede and schema dates the steps above
+    # 7. Answer capsules, from the hand-written registry in answer_data.py.
+    answer_capsule.main()
+    # 8. Head meta, which reads the h1, lede and schema dates the steps above
     #    settled.
     site_head.main()
-    # 8. The AI-client index, derived from the finished pages.
+    # 9. The AI-client index, derived from the finished pages.
     llms_txt.main()
-    # 9. Sitemap coverage and lastmod, last so it sees the final state.
+    # 10. Sitemap coverage and lastmod, last so it sees the final state.
     sitemaps.main()
 
 
