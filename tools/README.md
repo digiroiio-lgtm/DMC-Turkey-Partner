@@ -1,7 +1,7 @@
 # Site tooling
 
 The site is hand-written static HTML with no build step. These scripts cover
-the parts that must stay identical across all 137 pages — the COP31 cluster, the
+the parts that must stay identical across all 138 pages — the COP31 cluster, the
 global navigation, the entity/measurement block and the sitemaps — where
 hand-editing every file would guarantee drift.
 
@@ -42,6 +42,7 @@ Safe to re-run; it skips files that already carry the menu.
 | `site_head.py` | og/twitter/theme-color meta |
 | `site_footer.py` | Footer headings and contact block |
 | `llms_txt.py` | Generates `llms.txt` and `llms-full.txt` |
+| `related_works.py` | Cross-links the case studies from their own project data |
 
 The shared header and footer are lifted at build time from
 `services/event-production/index.html`, so generated pages stay byte-identical
@@ -258,3 +259,34 @@ That gate exists because the weaker version of it missed a real bug. Comparing
 so it reported "no change" while `strip()` left each fence's indentation behind
 and walked the following line six spaces further right on every run. Compare
 content, not filenames.
+
+
+## Related works
+
+```
+python3 tools/related_works.py --dry-run
+python3 tools/related_works.py
+```
+
+Derives each case study's related links from the `<dl class="work-info">` the
+page already publishes — same event type first, then same destination, four
+links, ordered stably so repeat runs produce identical bytes. Same contract as
+the schema: correct a venue or a category in the markup and the links follow on
+the next build.
+
+## Run order
+
+`cop31_build.py` orchestrates everything and the order matters, because the
+generators rewrite pages from scratch and the patchers derive from finished
+markup:
+
+```
+cop31 pages -> cop31_news -> site_footer -> cop31_nav -> site_seo
+  -> cop31_evergreen_link -> related_works -> page_schema -> answer_capsule
+  -> site_head -> llms_txt -> sitemaps
+```
+
+`site_footer` runs before `cop31_nav` because the nav patcher anchors on the
+footer's Company column label. `related_works` runs before `page_schema` so the
+new links are in the markup the schema reads. `sitemaps` runs last so `lastmod`
+sees the final state.
