@@ -45,4 +45,4 @@ jobs:
         # --max-warnings is a ratchet, not a threshold. It is seeded at the
         # count on the day the check landed and lowered as content work lands,
         # so the number can fall but never grow. Errors always fail.
-        run: python3 tools/seo_check.py --max-warnings 191
+        run: python3 tools/seo_check.py --max-warnings 188
