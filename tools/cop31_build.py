@@ -75,6 +75,7 @@ def main():
     import cop31_news
     import llms_txt
     import page_schema
+    import related_works
     import site_footer
     import site_head
     import sitemaps
@@ -92,6 +93,9 @@ def main():
     site_seo.main()
     # 5. The news -> evergreen loop, which edits the guides just regenerated.
     cop31_evergreen_link.main()
+    # 5b. Case-study cross-links, derived from the project data on the pages.
+    #     Before page_schema, so the new links are in the markup it reads.
+    related_works.main()
     # 6. Per-page schema. After the evergreen linker, because it derives the
     #    graph from the finished markup and the linker still edits headings
     #    and dates. Its own fence keeps it clear of the identity block.

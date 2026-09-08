@@ -1255,6 +1255,24 @@ main:has(.event-facts) > h1 {
   font-size: var(--heading-h3);
 }
 
+.work-related-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.work-related-list li {
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.work-related-list span {
+  color: var(--color-charcoal);
+  font-size: var(--text-sm);
+}
+
 .work-related {
   font-size: 0.9rem;
   color: var(--color-charcoal);
