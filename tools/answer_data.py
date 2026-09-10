@@ -186,6 +186,26 @@ ANSWERS = {
         "rather than from supplier net rates. They are for shaping a budget "
         "before a brief exists. They are not quotations and are not binding."
     ),
+    "/event-costs/conferences/": (
+        "Conference budgets are driven by production, not beds. In our "
+        "published 200-person Antalya scenario the AV and production line is "
+        "18-22% of the total, roughly double the same line on an incentive, "
+        "because a plenary plus breakouts means several rooms rigged and "
+        "crewed at once."
+    ),
+    "/event-costs/corporate-events/": (
+        "The cost split that matters here is resort against city, not group "
+        "size. A resort rate absorbs the meeting space and most of the "
+        "catering; a city programme buys both separately, which is why our "
+        "published Istanbul scenario runs around 1,500-2,100 EUR per guest "
+        "against 1,000-1,333 in Antalya."
+    ),
+    "/event-costs/incentive-travel/": (
+        "On an incentive the experiences line is doing the work: 12-15% of "
+        "the total in our published 100-person Antalya scenario, against "
+        "8-10% for production. That is close to the inverse of a conference, "
+        "and it is why an incentive costs more per head."
+    ),
     "/event-cost-calculator/": (
         "The calculator gives an indicative budget range from destination, "
         "group size, duration and programme type. It uses the same benchmark "

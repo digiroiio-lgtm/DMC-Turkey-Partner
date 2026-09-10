@@ -304,17 +304,32 @@ https://dmcturkeypartner.com/event-costs/conferences/
 
 Conference budgets in Turkey depend heavily on whether the venue is a resort meeting space (Antalya/Belek, often bundled with accommodation) or a dedicated city/congress venue (Istanbul, priced separately from hotel rooms). Delegate count, session format and AV/production requirements are the other major cost drivers.
 
+- What is the biggest lever on a conference budget? The number of concurrent rooms. Every breakout stream running at the same time needs its own screen, audio, technician and often its own recording, so the AV line scales with the agenda's shape rather than with the delegate count. Compressing a three-stream agenda into two streams saves more than trimming the guest list.
+- Is a resort or a city venue cheaper for a conference? A resort usually, because the meeting space comes with the room block instead of being bought separately — you can see it in the numbers, where venue is 5–8% in our Antalya scenario against 8–10% in the Istanbul one, and Istanbul also itemises F&B that the all-inclusive rate absorbs. The city wins when the delegates need the airlift or the agenda needs the city.
+- Does the cost per delegate fall as the conference grows? Yes, up to a point. Production and staffing are largely fixed once the room set is decided, so spreading them over more delegates lowers the per-head figure. The saving stops when the group outgrows a single property and you start paying for a second hotel and shuttles between them.
+- How far out do these numbers hold? The shape holds; the absolute figures move with the room rate, which is the largest line and the most seasonal. A conference booked into high season in a resort destination will sit at the top of the published range or above it. Spring and autumn sit in the middle.
+
 ### How Much Does a Corporate Event in Turkey Cost?
 
 https://dmcturkeypartner.com/event-costs/corporate-events/
 
 Corporate events in Turkey range from resort-based team programmes and product launches to city-hotel conferences and gala dinners. Cost is driven primarily by destination (resort all-inclusive vs. city itemised pricing), hotel category, group size and production level.
 
+- Why is the same event so much more expensive in Istanbul? Because you buy separately what a resort bundles. In the Istanbul scenario F&B is 15–18% and venue 8–10%; in the Antalya one F&B is 8–10% and the meeting space often comes with the rooms. Add city real-estate rates on the accommodation itself and the per-guest figure rises by roughly half.
+- What is the smallest group that still works economically? Around 40 to 50 for a resort programme. Below that the fixed lines — production, staffing, coordination — stop being spread over enough people and the per-head figure climbs sharply. Small senior groups usually get better value from a city hotel or a premium property in Bodrum than from a large resort.
+- Can we cut cost without cutting the guest list? Usually yes, and the three levers in order are: move the dates out of peak season, simplify the production rather than the programme, and let the resort rate absorb functions instead of contracting them separately. Cutting guests is the least effective of the options because the fixed lines do not move with it.
+- Are these figures per person or total? The published ranges are total programme budgets. The per-guest figures are arithmetic on those totals and are given so you can compare programmes of different sizes; they are not a per-head price we quote against.
+
 ### How Much Does an Incentive Trip to Turkey Cost?
 
 https://dmcturkeypartner.com/event-costs/incentive-travel/
 
 Incentive trips to Turkey are typically built around all-inclusive resorts in Antalya or Belek, with activities, hosted dinners and recognition moments layered on top of accommodation. Group size, hotel category and the richness of the experience programme are the main cost drivers.
+
+- Why does an incentive cost more per head than a conference? Because the value is in the parts a conference does not buy: private venues, closed sites, hosted experiences and a gala that has to feel like an occasion rather than a dinner. Accommodation and transport are comparable; the difference sits almost entirely in the experiences and F&B lines.
+- What should we protect if the budget tightens? The experiences. Trimming them to protect the hotel standard produces a nice holiday that nobody remembers as a reward, which defeats the point of the programme. Move dates, drop a night, or reduce the group before you reduce what the group actually does.
+- How much does the destination change the figure? Less than the content does, within Türkiye. Antalya and Belek sit close together on accommodation; Bodrum runs higher for smaller premium groups; Cappadocia adds internal travel but delivers experiences that cannot be bought elsewhere. The programme design moves the number more than the map does.
+- Can we split the group across standards? Yes, and it is common — a senior tier in suites or a separate property, the main group in the base hotel. It works when the shared moments are genuinely shared and the difference is in the room rather than in the programme. Handled badly it is the fastest way to sour an incentive.
 
 ### How Much Does a Corporate Event in Istanbul Cost?
 
