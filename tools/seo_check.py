@@ -279,6 +279,30 @@ def check_site(pages, report):
                 "%d of %d <url> entries have no <lastmod>" % (len(missing), len(entries)),
             )
 
+    # A sitemap URL that robots.txt blocks is a direct contradiction: the
+    # sitemap asks Google to index it and robots.txt forbids the crawl needed
+    # to do so. Easy to introduce by widening a Disallow pattern later.
+    robots_path = os.path.join(ROOT, "robots.txt")
+    if os.path.exists(robots_path):
+        patterns = []
+        for line in open(robots_path, encoding="utf-8"):
+            line = line.split("#", 1)[0].strip()
+            if line.lower().startswith("disallow:"):
+                rule = line.split(":", 1)[1].strip()
+                if rule:
+                    patterns.append(rule)
+        matchers = [
+            re.compile("^" + re.escape(rule).replace(r"\*", ".*").replace(r"\$", "$"))
+            for rule in patterns
+        ]
+        for url in sorted(pages):
+            for rule, matcher in zip(patterns, matchers):
+                if matcher.match(url):
+                    report.error(
+                        "robots.txt",
+                        "sitemap URL %s is blocked by 'Disallow: %s'" % (url, rule),
+                    )
+
     for dead in ("_headers", "_redirects"):
         if os.path.exists(os.path.join(ROOT, dead)):
             report.error(

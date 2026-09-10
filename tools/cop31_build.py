@@ -73,6 +73,7 @@ def main():
     import cop31_evergreen_link
     import cop31_nav
     import cop31_news
+    import events_index_policy
     import llms_txt
     import page_schema
     import related_works
@@ -93,6 +94,9 @@ def main():
     site_seo.main()
     # 5. The news -> evergreen loop, which edits the guides just regenerated.
     cop31_evergreen_link.main()
+    # 5a. Withhold the index request from facets with nothing to list. Must
+    #     run before sitemaps and page_schema, which both key off noindex.
+    events_index_policy.main()
     # 5b. Case-study cross-links, derived from the project data on the pages.
     #     Before page_schema, so the new links are in the markup it reads.
     related_works.main()

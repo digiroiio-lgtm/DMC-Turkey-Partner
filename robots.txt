@@ -4,6 +4,17 @@
 User-agent: *
 Allow: /
 
+# Parameterised variants of two pages, not separate pages. The proposal CTAs
+# carry lead attribution (?source=, ?project_type=) and the news hub carries a
+# category filter (?c=), which together produce 74 unique URLs that all resolve
+# to /request-proposal/ or /cop31-news/. Their canonicals already say so, but
+# on a young site it is not worth having 74 decoy URLs queued ahead of real
+# ones. Both canonical targets are in the sitemap and internally linked, so
+# nothing becomes unreachable.
+Disallow: /*?source=
+Disallow: /*?project_type=
+Disallow: /*?c=
+
 # ---------------------------------------------------------------------------
 # AI answer engines and their training/retrieval crawlers.
 #
@@ -54,6 +65,11 @@ Allow: /
 # Microsoft Copilot
 User-agent: Bingbot
 Allow: /
+
+# Repeated because a named group ignores the "*" group above in its entirety.
+Disallow: /*?source=
+Disallow: /*?project_type=
+Disallow: /*?c=
 
 # Common Crawl — a training corpus many models are built from
 User-agent: CCBot
