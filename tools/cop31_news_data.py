@@ -75,6 +75,20 @@ S = {
     "istiklal_expo": ("İstiklal — “Bakan Kurum, Antalya EXPO Alanı’ndaki COP31 hazırlıklarını inceledi”",
                       "https://www.istiklal.com.tr/genel/bakan-kurum-antalya-expo-alanindaki-cop31-hazirliklarini-inceledi-1104335h",
                       "media"),
+    "yeniankara_roads": ("Yeni Ankara — “COP31 Antalya için geri sayım: Kurum hazırlıkları yerinde inceledi”",
+                         "https://www.yeniankara.com.tr/guncel/cop31-antalya-icin-geri-sayim-kurum-hazirliklari-yerinde-inceledi-181893",
+                         "media"),
+    "basak_roads": ("Başak Gazetesi — “Bakan Kurum COP31 Hazırlıklarını Anlattı ve Yol Açılışlarını Gerçekleştirdi”",
+                    "https://basakgazetesi.com/haber/bakan-kurum-cop31-hazirliklarini-anlatti-ve-yol-acilislarini-gerceklestirdi-895339",
+                    "media"),
+    "unfccc_seors": ("UNFCCC — Side Events and Exhibits",
+                     "https://unfccc.int/process-and-meetings/conferences/side-events-and-exhibits",
+                     "official"),
+    "seors_portal": ("UNFCCC — Side Events and Exhibits Online Registration System (SEORS)",
+                     "https://seors.unfccc.int/", "official"),
+    "tr_side_events": ("COP31 Türkiye — “COP31 opens applications for Partnerships and Side Events”",
+                       "https://cop31.tr/news-detail/side-event-partnership-applications-2026",
+                       "official"),
 }
 
 
@@ -161,14 +175,14 @@ ARTICLES = [
         "slug": "cop31-antalya-transport-infrastructure-update",
         "category": "transport",
         "title": "Antalya Opens New Road Links Ahead of COP31 — What It Changes for Delegations",
-        "seo_title": "COP31 Antalya Transport &amp; Road Infrastructure Update 2026",
+        "seo_title": "COP31 Antalya Transport & Road Infrastructure Update 2026",
         "description": (
             "New arterial and hotel connection roads, the Antray tram extension toward the "
             "EXPO area and the official COP31 shuttle arrangement — and what each means for "
             "delegation transport planning in Antalya."
         ),
         "published": "2026-09-06",
-        "updated": "2026-09-06",
+        "updated": "2026-09-11",
         "summary": (
             "Antalya has brought new road capacity into service as part of its COP31 "
             "preparations, alongside an existing rail link running toward the EXPO area and "
@@ -182,6 +196,14 @@ ARTICLES = [
             "been put into service around Antalya for COP31, made up of several main arterial "
             "routes plus a set of hotel connection roads linking accommodation areas to the "
             "wider network.",
+            "Coverage of road openings in Antalya since then sets out the programme in more "
+            "detail, attributing it to the COP31 President and Minister of Environment, "
+            "Urbanisation and Climate Change: the 38-kilometre figure is described as the "
+            "Belek tourism route, with more than 21 kilometres of work across four main "
+            "arteries and roughly 16,000 metres across twelve hotel connection roads. These "
+            "figures reach us through regional reporting of his remarks rather than an "
+            "official publication, so we treat them as indicative of the scale of the "
+            "programme rather than as confirmed measurements.",
             "Antalya's Antray light-rail network already includes an extension running from "
             "the city toward the EXPO 2016 grounds, with a branch serving Antalya Airport.",
             "UNFCCC's participant information states that complimentary shuttle services will "
@@ -223,7 +245,8 @@ ARTICLES = [
             ("/cop31-private-transfers/", "Private transfers"),
             ("/cop31-antalya-airport-transfer/", "Antalya airport transfers"),
         ],
-        "sources": ["unfccc_ifp", "tr_media_news", "yenialanya_roads", "tr_accommodation"],
+        "sources": ["unfccc_ifp", "tr_media_news", "yenialanya_roads", "tr_accommodation",
+                    "yeniankara_roads", "basak_roads"],
     },
 ]
 
@@ -232,7 +255,7 @@ ARTICLES += [
         "slug": "cop31-blue-zone-green-zone-exhibitor-guide",
         "category": "pavilions",
         "title": "COP31 Blue Zone and Green Zone: What the Split Means for Pavilions and Exhibitors",
-        "seo_title": "COP31 Blue Zone vs Green Zone | Pavilion &amp; Exhibitor Update 2026",
+        "seo_title": "COP31 Blue Zone vs Green Zone | Pavilion & Exhibitor Update 2026",
         "description": (
             "How the COP31 Blue Zone and Green Zone differ, what the Presidency's partnership "
             "and Türkiye Pavilion application rounds covered, and what the split means for "
@@ -359,7 +382,7 @@ ARTICLES += [
         "slug": "cop31-antalya-hotels-accommodation-update",
         "category": "hotels",
         "title": "COP31 Antalya Accommodation: Official Platform, Shuttle Eligibility and Group Planning",
-        "seo_title": "COP31 Antalya Hotels &amp; Accommodation Update 2026",
+        "seo_title": "COP31 Antalya Hotels & Accommodation Update 2026",
         "description": (
             "How official COP31 accommodation works in Antalya, why shuttle access is tied to "
             "the official hotel list, and what delegations placing groups should settle before "
@@ -414,5 +437,90 @@ ARTICLES += [
             ("/cop31-private-transfers/", "Private transfers"),
         ],
         "sources": ["unfccc_ifp", "tr_accommodation", "tr_media_news", "tr_guide"],
+    },
+    {
+        "slug": "cop31-official-side-events-exhibits-update",
+        "category": "side-events",
+        "title": "COP31 Official Side Events and Exhibits: Where the UNFCCC Round Now Stands",
+        "seo_title": "COP31 Side Events & Exhibits Update | SEORS Round 2026",
+        "description": (
+            "The UNFCCC side event and exhibit application window for COP31 has closed, "
+            "selection depends on the secretariat securing resources, and organisations "
+            "planning a presence in Antalya should not assume an official slot."
+        ),
+        "published": "2026-09-11",
+        "updated": "2026-09-11",
+        "summary": (
+            "The application window for official COP31 side events and exhibits ran for six days "
+            "in July and is now closed. The UNFCCC secretariat has said it is still working to "
+            "secure sufficient resources for the programme and will start selection once it can, "
+            "which means allocation is not yet settled this close to November. For organisations "
+            "planning a presence in Antalya, the practical consequence is that an official slot "
+            "cannot be treated as a fixed point in the plan."
+        ),
+        "changed": [
+            "UNFCCC opened the Side Events and Exhibits Online Registration System, SEORS, at "
+            "10:00 CEST on Wednesday 15 July 2026 and closed it at 17:00 CEST on Monday "
+            "20 July 2026. The secretariat states that SEORS is the only channel through which "
+            "side event and exhibit applications are received from Parties and observer "
+            "organisations.",
+            "Eligibility rests on observer status: an intergovernmental or non-governmental "
+            "organisation must be duly admitted by the Conference of the Parties to apply, and "
+            "an admitted organisation may apply for one side event slot and one exhibit. UN "
+            "organisations and specialised agencies apply through a separate secretariat "
+            "contact route rather than through the general SEORS submission.",
+            "The secretariat has said it continues to work to find sufficient resources to "
+            "facilitate side events and exhibits at COP31, that selection will begin once those "
+            "resources are in place, and that Parties and observer organisations will be kept "
+            "informed of the selection process through the SEORS webpage. On the published "
+            "information, allocations have not been announced.",
+            "This is a separate process from the COP31 Presidency's own rounds. Applications "
+            "for Green Zone partnerships and for side events at the Türkiye Pavilion in the "
+            "Blue Zone were run by the Presidency to a mid-August 2026 deadline, which we "
+            "covered in our update on "
+            '<a href="/cop31-news/cop31-blue-zone-green-zone-exhibitor-guide/">' "the Blue Zone "
+            "and Green Zone split</a>.",
+        ],
+        "means": [
+            ("No supplier can get you a slot",
+             "An official side event or exhibit depends on your organisation's observer status "
+             "and on the secretariat's selection. No production company, stand builder or "
+             "agency can obtain, accelerate or guarantee one, and any offer to sell you a slot "
+             "should be treated as a reason to walk away."),
+            ("Plan the production before the confirmation arrives",
+             "The risk in a late allocation is not the room, it is everything the room needs. "
+             "If a slot is confirmed weeks before the conference, the AV, crew, interpreters, "
+             "printed material and shipping all have to be arranged inside whatever time is "
+             "left, in a city where the same suppliers are already committed. Scope the "
+             "production now on the assumption you might get a slot, so that a confirmation "
+             "becomes an instruction to proceed rather than the start of a scramble."),
+            ("A one-hour room is a platform, not a programme",
+             "This is our own reading rather than official guidance. The value of an official "
+             "slot is rarely the hour itself. It is the reason it gives people to meet you, the "
+             "speakers it lets you convene and the meetings you schedule around it. Teams that "
+             "build a day around the slot get considerably more from it than teams that build "
+             "only the session."),
+            ("If no slot lands, the side programme is unaffected",
+             "Nothing about the official round governs what happens outside the venue. Briefings, "
+             "roundtables, receptions and bilateral meetings in hotel meeting rooms and private "
+             "venues along the Lara, Kundu and Belek corridor need no allocation and no zone "
+             "access at all, and for many organisations they are where the substantive contact "
+             "happens."),
+        ],
+        "means_note": (
+            "DmcTurkeyPartner has no role in the UNFCCC side event and exhibit selection process "
+            "and cannot influence it. What we provide is the local production, staffing and "
+            "logistics around whatever programme you end up running in Antalya."
+        ),
+        "evergreen": [
+            ("/cop31-antalya-program/", "COP31 Antalya programme guide"),
+            ("/cop31-antalya-participant-guide/", "COP31 participant guide"),
+        ],
+        "services": [
+            ("/cop31-event-services/", "COP31 event services"),
+            ("/cop31-av-equipment-rental/", "AV equipment rental"),
+            ("/cop31-interpreters/", "Interpreters and language support"),
+        ],
+        "sources": ["unfccc_seors", "seors_portal", "unfccc_obs", "tr_side_events", "unfccc_ifp"],
     },
 ]
