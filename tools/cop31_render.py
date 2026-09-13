@@ -29,9 +29,13 @@ SOCIAL_ALT = "DMC Turkey Partner — Turkey DMC and MICE partner"
 
 
 def _chrome():
+    import re as _re
     with open(REFERENCE_PAGE, encoding="utf-8") as handle:
         html = handle.read()
-    body_start = html.index("<body>")
+    m = _re.search(r"<body[\s>]", html)
+    if not m:
+        raise ValueError("No <body> tag found in reference page")
+    body_start = m.start()
     main_start = html.index('<main id="main-content">')
     main_end = html.index("</main>") + len("</main>")
     header = html[body_start:main_start]
@@ -330,6 +334,11 @@ def _schema(page):
                     "about": {
                         "@type": "Event",
                         "name": "COP31 — 2026 UN Climate Change Conference",
+                        "description": (
+                            "The 31st session of the Conference of the Parties (COP31) "
+                            "to the UNFCCC, hosted by Turkey in Antalya from "
+                            "9–20 November 2026 at the Antalya EXPO Center."
+                        ),
                         "startDate": "2026-11-09",
                         "endDate": "2026-11-20",
                         "eventStatus": "https://schema.org/EventScheduled",

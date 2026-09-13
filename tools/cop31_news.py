@@ -175,6 +175,11 @@ def render_article(article):
             "about": {
                 "@type": "Event",
                 "name": "COP31 — 2026 UN Climate Change Conference",
+                "description": (
+                    "The 31st session of the Conference of the Parties (COP31) "
+                    "to the UNFCCC, hosted by Turkey in Antalya from "
+                    "9–20 November 2026 at the Antalya EXPO Center."
+                ),
                 "startDate": "2026-11-09",
                 "endDate": "2026-11-20",
                 "location": {"@type": "Place", "name": "Antalya EXPO Center",
