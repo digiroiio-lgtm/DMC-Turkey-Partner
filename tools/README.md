@@ -67,18 +67,44 @@ Reads `tools/site_config.py` and applies to every page:
   plus a stable `@id`; competing variants split one business into several weak
   entities. Per-page `Service`/`WebPage` schema references that `@id` rather
   than restating the organisation.
-- **GA4 or GTM**, only when an ID is set in `site_config.py`. With both empty
-  no analytics script is emitted at all.
+- **GTM or GA4**, only when an ID is set in `site_config.py`. With both empty
+  no analytics script is emitted at all. GTM is the intended setup: the
+  container is the one tag on the page and GA4 lives inside it, so a tag can
+  be added or retired without touching the site. Never set both IDs — the
+  container's GA4 tag and gtag.js would each count the same event.
+- **Consent Mode v2 defaults**, emitted immediately before the tag whenever one
+  is configured. Every storage type starts `denied`; the banner in `main.js`
+  sends the matching `consent update` once the visitor chooses, and remembers
+  the choice under `dmc_consent` in local storage.
 - **Search Console / Bing verification tags**, when tokens are set.
+- **`data-page-type` / `data-page-slug` on `<body>`** for Selected Works,
+  Services, destinations and the three funnel landmarks (home, contact, the
+  proposal form). `initPageTypeView` in `main.js` turns them into
+  `page_type_view` plus a named `selected_work_view` / `service_view` /
+  `destination_view`. The Event Costs pages are deliberately excluded — they
+  already report `event_cost_page_view` and would otherwise be counted twice.
 
-`trackEvent` in `assets/js/main.js` pushes to `dataLayer` *and* calls `gtag`
-directly, so the site's 20 custom events reach GA4 whether analytics arrives via
-gtag.js or a GTM container.
+`trackEvent` in `assets/js/main.js` is the single dispatcher (exposed as
+`window.dmcTrack`, which `calculator.js` reuses). It pushes one `dataLayer`
+event, which is what a GTM custom-event trigger reads, and additionally calls
+`gtag` only in the GTM-less setup, where `site_seo.py` sets `dmcGtagOnly` — a
+`dataLayer` push alone is invisible to gtag.js. Sending both unconditionally
+would double-count every event once a GA4 tag exists inside a container.
 
 Note that the CSP in `_headers` and `vercel.json` explicitly allows
-`googletagmanager.com` and the `google-analytics.com` endpoints. Without those
-allowances the analytics beacon is blocked silently — the tag appears installed
-and no data arrives.
+`googletagmanager.com`, `tagmanager.google.com` (GTM Preview) and the
+`google-analytics.com` endpoints, and must be kept identical between the two
+files. Without those allowances the analytics beacon is blocked silently — the
+tag appears installed and no data arrives.
+
+### Turning measurement on
+
+1. Put the container ID in `GTM_CONTAINER_ID` in `site_config.py`.
+2. Run `python3 tools/site_seo.py` and commit the result.
+3. In the container: a GA4 Configuration tag on All Pages, then Custom Event
+   triggers on the event names the site pushes. Mark `generate_lead` as a key
+   event in GA4 — it fires only after the API confirms the brief was
+   delivered, never on the submit click.
 
 ## Sitemaps
 

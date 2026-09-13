@@ -8,13 +8,19 @@ here and re-run that script rather than editing 131 files.
 SITE = "https://dmcturkeypartner.com"
 
 # --- Measurement -------------------------------------------------------------
-# GA4 Measurement ID, e.g. "G-XXXXXXXXXX". While this is empty no analytics
-# script is emitted at all, so the site stays clean until a real ID is set.
-GA4_MEASUREMENT_ID = ""
-
-# Optional Google Tag Manager container, e.g. "GTM-XXXXXXX". If both are set,
-# GTM loads and GA4 is expected to be configured inside the container instead.
+# GTM is the intended architecture: the container is the single tag on the
+# page, and GA4 (plus anything added later, such as Ads) is configured inside
+# it. The site's own event layer only pushes to window.dataLayer, which is
+# what a GTM custom-event trigger reads, so no redeploy is needed to add or
+# retire a tag. Set GTM_CONTAINER_ID to a real "GTM-XXXXXXX" and re-run
+# tools/site_seo.py to turn measurement on across all pages.
 GTM_CONTAINER_ID = ""
+
+# Direct GA4 alternative, e.g. "G-XXXXXXXXXX". Only used when no GTM container
+# is set — never set both, or every event configured in the container would
+# also be counted by gtag.js and the site would double-count. While both are
+# empty no measurement script is emitted at all, so the site stays clean.
+GA4_MEASUREMENT_ID = ""
 
 # --- Search Console / webmaster verification ---------------------------------
 # The token from Search Console's "HTML tag" verification method: just the

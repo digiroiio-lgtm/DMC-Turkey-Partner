@@ -184,7 +184,15 @@
    * 2. Analytics
    * =======================================================================
    */
+  // Defers to the shared dispatcher in main.js (loaded first on this page), so
+  // calculator events follow the same GTM/gtag routing as the rest of the
+  // site. The local fallback only runs if main.js failed to load, in which
+  // case a dataLayer push is still better than losing the event outright.
   function trackEvent(name, params) {
+    if (typeof window.dmcTrack === "function") {
+      window.dmcTrack(name, params || {});
+      return;
+    }
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: name }, params || {}));
   }

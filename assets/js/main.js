@@ -17,12 +17,93 @@
     initEventFilters();
     initWorksFilters();
     initEventTracking();
+    initLeadLinkTracking();
     initEventCostPageView();
+    initPageTypeView();
     initGuideToc();
     initProposalCtas();
     initProposalForm();
     initNewsFilters();
+    initConsent();
   });
+
+  // Consent Mode v2. tools/site_seo.py sets every storage type to "denied"
+  // before the tag loads, so nothing is written until this grants it. The
+  // banner is built here rather than in the 137 page templates, and appears
+  // only when measurement is actually configured — with no tag on the page
+  // there is no consent to collect and no banner is shown.
+  var CONSENT_KEY = "dmc_consent";
+  var CONSENT_TYPES = [
+    "ad_storage",
+    "ad_user_data",
+    "ad_personalization",
+    "analytics_storage"
+  ];
+
+  function applyConsent(granted) {
+    if (typeof window.gtag !== "function") {
+      return;
+    }
+    var update = {};
+    CONSENT_TYPES.forEach(function (type) {
+      update[type] = granted ? "granted" : "denied";
+    });
+    window.gtag("consent", "update", update);
+  }
+
+  function storedConsent() {
+    try {
+      return localStorage.getItem(CONSENT_KEY);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function rememberConsent(value) {
+    try {
+      localStorage.setItem(CONSENT_KEY, value);
+    } catch (error) {
+      // A blocked or full store only costs us the memory of the choice; the
+      // visitor is asked again next time, which is the safe direction.
+    }
+  }
+
+  function initConsent() {
+    if (typeof window.gtag !== "function") {
+      return;
+    }
+    var decision = storedConsent();
+    if (decision) {
+      // Replay the stored decision. The default block waits 500ms for this,
+      // so a returning visitor's consent is in place before the first hit.
+      applyConsent(decision === "granted");
+      return;
+    }
+
+    var banner = document.createElement("div");
+    banner.className = "consent";
+    banner.setAttribute("role", "dialog");
+    banner.setAttribute("aria-label", "Cookie consent");
+    banner.innerHTML =
+      '<p class="consent__text">We use analytics cookies to understand how this site is used. ' +
+      'You can decline without affecting how the site works. ' +
+      '<a href="/cookie-policy/">Cookie Policy</a></p>' +
+      '<div class="consent__actions">' +
+      '<button type="button" class="btn btn--ghost" data-consent="denied">Decline</button>' +
+      '<button type="button" class="btn btn--primary" data-consent="granted">Accept</button>' +
+      "</div>";
+
+    banner.querySelectorAll("[data-consent]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var value = button.getAttribute("data-consent");
+        rememberConsent(value);
+        applyConsent(value === "granted");
+        banner.remove();
+      });
+    });
+
+    document.body.appendChild(banner);
+  }
 
   // Category filter for the COP31 news hub. Progressive enhancement: without
   // JS every card is already in the DOM and visible, so the hub degrades to a
@@ -306,18 +387,25 @@
     });
   }
 
-  // Analytics dispatch. Sends each event twice over: a dataLayer push for a tag
-  // manager, and a direct gtag call so events still reach GA4 when gtag.js is
-  // loaded on its own (a dataLayer push alone is invisible to gtag.js). With
-  // neither present this is a silent no-op. No PII is sent.
+  // Analytics dispatch. Every event is a single dataLayer push, which is what
+  // a GTM custom-event trigger reads. The direct gtag call is made only in the
+  // GTM-less setup, where the page loads gtag.js on its own and sets
+  // dmcGtagOnly (see tools/site_seo.py) — a dataLayer push alone is invisible
+  // to gtag.js. Sending both unconditionally would double-count every event
+  // once a GA4 tag exists inside a container. With no tag at all this is a
+  // silent no-op. No PII is sent.
   function trackEvent(name, params) {
     var payload = params || {};
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: name }, payload));
-    if (typeof window.gtag === "function") {
+    if (window.dmcGtagOnly && typeof window.gtag === "function") {
       window.gtag("event", name, payload);
     }
   }
+
+  // Shared with calculator.js, which loads separately on the cost calculator
+  // page and would otherwise define its own dispatcher and drift from this one.
+  window.dmcTrack = trackEvent;
 
   // Client-side only filtering for the MICE Calendar hub. Deliberately does
   // not write filter state to the URL, so no parameter/crawl-trap pages are
@@ -415,6 +503,33 @@
     });
   }
 
+  // Lead CTAs that are not proposal links: email, WhatsApp and phone. These
+  // are bound by href rather than by a data-track attribute so that any such
+  // link added later is measured without being marked up — the email CTAs on
+  // /contact/ were the site's only conversion action there and went entirely
+  // unmeasured because nothing marked them.
+  //
+  // WhatsApp links on the COP31 pages also carry data-track and so report
+  // cop31_whatsapp_click as well; that name is kept for continuity, while
+  // whatsapp_click is the one name that covers the whole site.
+  function initLeadLinkTracking() {
+    var patterns = [
+      { selector: 'a[href^="mailto:"]', event: "email_click" },
+      { selector: 'a[href^="tel:"]', event: "phone_click" },
+      { selector: 'a[href*="wa.me/"], a[href*="api.whatsapp.com"]', event: "whatsapp_click" }
+    ];
+    patterns.forEach(function (pattern) {
+      document.querySelectorAll(pattern.selector).forEach(function (link) {
+        link.addEventListener("click", function () {
+          trackEvent(pattern.event, {
+            page_type: document.body.getAttribute("data-page-type") || "",
+            page_slug: document.body.getAttribute("data-page-slug") || ""
+          });
+        });
+      });
+    });
+  }
+
   // Maps an Event Costs page's data-* attributes to the flat, snake_case
   // param names used by analytics (destination, event_type, group_size,
   // budget_range, page_slug).
@@ -453,6 +568,38 @@
     }[page.getAttribute("data-event-cost-page")];
     if (specificEvent) {
       trackEvent(specificEvent, ctx);
+    }
+  }
+
+  // Reports which kind of page was viewed, using the data-page-type /
+  // data-page-slug pair that tools/site_seo.py stamps on <body>. GA4's own
+  // page_view already counts the visit; this adds the funnel step the URL
+  // alone cannot express, so Selected Works, Services and destination
+  // interest can be segmented without maintaining a path regex in a tag.
+  //
+  // The Event Costs pages are deliberately not stamped — they already report
+  // event_cost_page_view from initEventCostPageView, and a second view event
+  // would double-count that section.
+  function initPageTypeView() {
+    var type = document.body.getAttribute("data-page-type");
+    if (!type) {
+      return;
+    }
+    var ctx = {
+      page_type: type,
+      page_slug: document.body.getAttribute("data-page-slug") || ""
+    };
+    trackEvent("page_type_view", ctx);
+    // Plus a named event for the three funnel steps that get reported on
+    // directly, mirroring how initEventCostPageView pairs a generic event
+    // with a specific one.
+    var named = {
+      selected_work: "selected_work_view",
+      service: "service_view",
+      destination: "destination_view"
+    }[type];
+    if (named) {
+      trackEvent(named, ctx);
     }
   }
 
@@ -532,15 +679,28 @@
   }
 
   function initProposalCtas() {
-    document.querySelectorAll('a[href="/request-proposal/"]').forEach(function (link) {
+    // Prefix match, not an exact one: the COP31 pages hard-code their own
+    // campaign query string on the CTA, and an exact selector skipped every
+    // one of those links, so they reported no proposal_cta_click at all.
+    document.querySelectorAll('a[href^="/request-proposal/"]').forEach(function (link) {
       link.addEventListener("click", function () {
+        var existing = new URLSearchParams((link.getAttribute("href").split("?")[1]) || "");
         var params = new URLSearchParams(proposalContext(window.location.pathname));
         ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
           var value = new URLSearchParams(window.location.search).get(key);
           if (value) { params.set(key, value); }
         });
+        // A parameter written into the markup is the more specific signal, so
+        // it wins over the one inferred from the current path.
+        existing.forEach(function (value, key) {
+          if (value) { params.set(key, value); }
+        });
         link.href = "/request-proposal/?" + params.toString();
-        trackEvent("proposal_cta_click", { source: params.get("source") });
+        trackEvent("proposal_cta_click", {
+          source: params.get("source"),
+          lead_source: params.get("lead_source") || "",
+          service_interest: params.get("service_interest") || ""
+        });
       });
     });
   }
@@ -625,14 +785,24 @@
         }).then(function () {
           form.hidden = true;
           document.querySelector("[data-proposal-success]").hidden = false;
-          trackEvent("proposal_form_success", {
+          var lead = {
             source: form.elements.source_page.value,
             lead_source: form.elements.lead_source ? form.elements.lead_source.value : "",
             campaign: form.elements.campaign ? form.elements.campaign.value : "",
             service_interest: form.elements.service_interest
               ? form.elements.service_interest.value
-              : ""
-          });
+              : "",
+            destination: form.elements.destination ? form.elements.destination.value : "",
+            project_type: form.elements.project_type ? form.elements.project_type.value : ""
+          };
+          trackEvent("proposal_form_success", lead);
+          // The same moment under GA4's recommended name, so it can be marked
+          // as a key event and imported as a Google Ads conversion without
+          // custom mapping. Both fire only after the API confirms the brief
+          // was delivered — never on the submit click alone. The value is a
+          // nominal lead score, not revenue; it exists so Ads has something
+          // to bid on. No PII: only the campaign context is sent.
+          trackEvent("generate_lead", Object.assign({ currency: "EUR", value: 1 }, lead));
         }).catch(function () {
           button.disabled = false;
           error.textContent = "We could not send your brief. Please try again or email hello@dmcturkeypartner.com.";

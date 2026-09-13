@@ -1,7 +1,10 @@
-# The script-src/connect-src allowances below are exactly what GA4 (gtag.js
-# or GTM) needs; without them the analytics beacon is blocked silently.
+# The script-src/connect-src/frame-src allowances below are exactly what GA4
+# (gtag.js or GTM) needs; without them the analytics beacon is blocked
+# silently. tagmanager.google.com is what GTM's Preview mode loads from, so
+# leaving it out makes the container impossible to debug. Keep this list
+# identical to the Content-Security-Policy in vercel.json.
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://tagmanager.google.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://tagmanager.google.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com https://tagmanager.google.com https://stats.g.doubleclick.net; frame-src https://www.googletagmanager.com https://td.doubleclick.net
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
