@@ -171,6 +171,11 @@
         <dl></dl>
         <p class="calculator-summary__edit"><a href="/event-cost-calculator/" data-track="calculator_edit_programme_click">Edit programme</a></p>
       </aside>
+      <aside class="calculator-summary" data-venue-summary hidden aria-label="Your brief from the Antalya venue matcher">
+        <h2 class="calculator-summary__title">Your Venue Brief</h2>
+        <dl></dl>
+        <p class="calculator-summary__edit"><a href="/venue-sourcing/antalya/#matcher" data-track="venue_matcher_edit_brief_click">Edit brief</a></p>
+      </aside>
       <form name="proposal-request" method="POST" action="/api/request-proposal" data-proposal-form>
         <p class="sr-only"><label>Company website <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
         <input type="hidden" name="source_page">
@@ -338,5 +343,6 @@
   </footer>
   <script src="/assets/js/main.js" defer></script>
   <script src="/assets/js/calculator.js" defer></script>
+  <script src="/assets/js/venue-matcher.js" defer></script>
 </body>
 </html>

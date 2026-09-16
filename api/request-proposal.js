@@ -63,18 +63,25 @@ function buildEmail(fields) {
     (fields.calculator_brief
       ? "<h3>Calculator Lead</h3><p>" + escapeHtml(fields.calculator_brief).replace(/\n/g, "<br>") + "</p>"
       : "") +
+    (fields.venue_brief
+      ? "<h3>Venue Matcher Brief</h3><p>" + escapeHtml(fields.venue_brief).replace(/\n/g, "<br>") + "</p>"
+      : "") +
     (fields.brief ? "<h3>Project Brief</h3><p>" + escapeHtml(fields.brief).replace(/\n/g, "<br>") + "</p>" : "");
 
   const text =
     rows.map(function (row) { return row[0] + ": " + row[1]; }).join("\n") +
     (fields.calculator_brief ? "\n\nCalculator Lead:\n" + fields.calculator_brief : "") +
+    (fields.venue_brief ? "\n\nVenue Matcher Brief:\n" + fields.venue_brief : "") +
     (fields.brief ? "\n\nProject Brief:\n" + fields.brief : "");
 
   const isCalculatorLead = Boolean(fields.calculator_brief);
+  const isVenueLead = Boolean(fields.venue_brief);
   const prefix = fields.lead_source
     ? sanitizeHeaderValue(fields.lead_source) + " Lead — "
     : isCalculatorLead
     ? "Calculator Lead — "
+    : isVenueLead
+    ? "Venue Matcher Lead — "
     : "New Proposal Request — ";
 
   return {

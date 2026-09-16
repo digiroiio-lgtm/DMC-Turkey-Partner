@@ -1,0 +1,292 @@
+/* =========================================================================
+   DmcTurkeyPartner.com — Antalya Venue Matcher
+   Page-specific; loaded only where the matcher tool is rendered.
+   Reuses the global design tokens so the tool reads as part of the site
+   rather than an embedded widget.
+   ========================================================================= */
+
+.vm {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background-color: var(--color-sand);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.vm__intro {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-md);
+}
+
+.vm__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--space-2) var(--space-3);
+}
+
+.vm__field label,
+.vm__legend {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 0.35rem;
+}
+
+.vm__field select,
+.vm__field input[type="number"] {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}
+
+.vm__field select:focus-visible,
+.vm__field input:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 1px;
+}
+
+.vm__hint {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: var(--text-xs);
+  color: var(--color-charcoal);
+}
+
+.vm__priorities {
+  border: 0;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+}
+
+.vm__checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.5rem var(--space-3);
+  margin-top: 0.5rem;
+}
+
+.vm__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.vm__check input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.vm__actions {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.vm__note {
+  font-size: var(--text-xs);
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Results
+   ------------------------------------------------------------------------- */
+.vm-result {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-3);
+}
+
+.vm-result__intro h3 {
+  font-size: var(--heading-h3);
+  margin-bottom: var(--space-1);
+}
+
+.vm-result__band,
+.vm-result__season,
+.vm-result__empty {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-2);
+}
+
+.vm-result__heading {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: var(--space-3) 0 var(--space-2);
+  color: var(--color-brand-dark);
+}
+
+.vm-zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.vm-zone {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+}
+
+.vm-zone--lead {
+  border-color: var(--color-brand);
+  border-width: 2px;
+}
+
+.vm-zone__badge {
+  display: inline-block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand-dark);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.vm-zone__title {
+  font-size: var(--text-xl);
+  margin: 0 0 0.2rem;
+}
+
+.vm-zone__transfer {
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+  margin: 0 0 var(--space-1);
+  font-weight: 600;
+}
+
+.vm-zone__profile {
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-1);
+}
+
+.vm-zone__tags {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.vm-zone__tags li {
+  font-size: var(--text-xs);
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 0.15rem 0.45rem;
+  margin: 0;
+}
+
+.vm-zone__reason {
+  font-size: var(--text-sm);
+  margin: 0 0 0.35rem;
+}
+
+.vm-zone__caution {
+  font-size: var(--text-sm);
+  margin: var(--space-1) 0 0;
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--color-line);
+  color: var(--color-charcoal);
+}
+
+.vm-types {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.vm-types__item {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  margin: 0;
+}
+
+.vm-types__item p {
+  font-size: var(--text-sm);
+  margin: 0.35rem 0 0;
+}
+
+.vm-types__best {
+  color: var(--color-charcoal);
+  font-style: italic;
+}
+
+.vm-notes {
+  padding-left: 1.1rem;
+}
+
+.vm-notes li {
+  font-size: var(--text-sm);
+  margin-bottom: 0.45rem;
+}
+
+.vm-cta {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-ink);
+  border-radius: var(--radius);
+  color: var(--color-paper);
+}
+
+.vm-cta h4 {
+  color: var(--color-paper);
+  font-size: var(--heading-h3);
+  margin: 0 0 var(--space-1);
+}
+
+.vm-cta p {
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-2);
+  color: var(--color-sand);
+}
+
+.vm-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.vm-cta__actions .btn--ghost {
+  color: var(--color-paper);
+  border-color: var(--color-paper);
+}
+
+@media (max-width: 640px) {
+  .vm {
+    padding: var(--space-2);
+  }
+
+  .vm-cta__actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* The matcher is progressive enhancement: with JavaScript unavailable the
+   form is meaningless, so hide it and show the static fallback instead. */
+.vm-noscript {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-top: var(--space-3);
+  background-color: var(--color-sand);
+}

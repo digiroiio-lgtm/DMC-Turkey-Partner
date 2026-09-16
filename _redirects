@@ -7,6 +7,11 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /case-studies/* /selected-works/:splat 301!
 /case-studies /selected-works/ 301!
 
+# /venue-sourcing/ is a destination cluster, not a hub: the overview lives at
+# /services/venue-sourcing/. Send the bare path there so a truncated URL never
+# 404s. Exact match only -- a splat here would swallow /venue-sourcing/antalya/.
+/venue-sourcing /services/venue-sourcing/ 301!
+
 # The original single COP31 page has been superseded by the /cop31-antalya/
 # cluster, which covers the same intent in depth. Consolidate its equity.
 /cop31-antalya-services/* /cop31-antalya/ 301!

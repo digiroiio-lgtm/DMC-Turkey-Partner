@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/venue-sourcing",
+      "destination": "/services/venue-sourcing/",
+      "statusCode": 301
+    },
+    {
       "source": "/cop31-antalya-services",
       "destination": "/cop31-antalya/",
       "statusCode": 301
