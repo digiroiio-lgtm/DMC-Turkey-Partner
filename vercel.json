@@ -9,6 +9,36 @@
       "source": "/cop31-antalya-services/:path*",
       "destination": "/cop31-antalya/",
       "statusCode": 301
+    },
+    {
+      "source": "/cop31-rapid-response-services",
+      "destination": "/cop31-last-minute-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-rapid-response-services/:path*",
+      "destination": "/cop31-last-minute-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-emergency-event-support",
+      "destination": "/cop31-last-minute-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-emergency-event-support/:path*",
+      "destination": "/cop31-last-minute-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/germany",
+      "destination": "/events/frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/germany/:path*",
+      "destination": "/events/frankfurt/",
+      "statusCode": 301
     }
   ],
   "headers": [

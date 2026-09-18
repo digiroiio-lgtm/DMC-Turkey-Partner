@@ -11,3 +11,13 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 # cluster, which covers the same intent in depth. Consolidate its equity.
 /cop31-antalya-services/* /cop31-antalya/ 301!
 /cop31-antalya-services /cop31-antalya/ 301!
+
+# Three near-identical COP31 urgency pages consolidated into one primary URL.
+/cop31-rapid-response-services/* /cop31-last-minute-services/ 301!
+/cop31-rapid-response-services /cop31-last-minute-services/ 301!
+/cop31-emergency-event-support/* /cop31-last-minute-services/ 301!
+/cop31-emergency-event-support /cop31-last-minute-services/ 301!
+
+# /events/germany/ merged into /events/frankfurt/ (Frankfurt IS the Germany MICE market).
+/events/germany/* /events/frankfurt/ 301!
+/events/germany /events/frankfurt/ 301!
