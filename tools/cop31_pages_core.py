@@ -63,13 +63,13 @@ SERVICE_CARDS = cards([
 HUB = {
     "slug": "cop31-antalya",
     "breadcrumb": "COP31 Antalya 2026",
-    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport &amp; Local Services",
+    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport & Local Services",
     "description": (
         "Planning for COP31 Antalya 2026? Find dates, venue information, hotels, transport "
         "and local event services including exhibition stands, printing, AV, staffing and "
         "last-minute support."
     ),
-    "h1": "COP31 Antalya 2026 – Complete Participant &amp; Local Services Guide",
+    "h1": "COP31 Antalya 2026 – Complete Participant & Local Services Guide",
     "answer": (
         "COP31, the 2026 UN Climate Change Conference, takes place in Antalya, Türkiye, "
         "from 9 to 20 November 2026 at the Antalya EXPO Center."

@@ -144,13 +144,13 @@ HOTELS = {
 ACCOMMODATION = {
     "slug": "cop31-antalya-accommodation",
     "breadcrumb": "Group Accommodation",
-    "title": "COP31 Antalya Accommodation for Delegations &amp; Event Teams | 2026",
+    "title": "COP31 Antalya Accommodation for Delegations & Event Teams | 2026",
     "description": (
         "COP31 Antalya accommodation for groups: hotel sourcing, room blocks, delegation and "
         "agency coordination, staff accommodation, meeting rooms and transport integration "
         "for November 2026."
     ),
-    "h1": "COP31 Antalya Accommodation for Delegations &amp; Event Teams",
+    "h1": "COP31 Antalya Accommodation for Delegations & Event Teams",
     "answer": (
         "We provide independent group accommodation support in Antalya for COP31: hotel "
         "sourcing, room blocks, delegation and agency coordination, staff accommodation, "

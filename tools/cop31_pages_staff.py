@@ -20,7 +20,7 @@ STAFF_CTA = L(
 EVENT_STAFF = {
     "slug": "cop31-event-staff",
     "breadcrumb": "Event Staff",
-    "title": "COP31 Event Staff in Antalya | Crew, Setup Teams &amp; Operational Support",
+    "title": "COP31 Event Staff in Antalya | Crew, Setup Teams & Operational Support",
     "description": (
         "COP31 event staff in Antalya: event crew, runners, setup and dismantling teams, "
         "registration support, operational and logistics staff and technicians for the "
@@ -117,13 +117,13 @@ EVENT_STAFF = {
 HOSTESS = {
     "slug": "cop31-hostess-staff",
     "breadcrumb": "Hostesses",
-    "title": "COP31 Hostess &amp; Registration Staff in Antalya | Guest Welcome 2026",
+    "title": "COP31 Hostess & Registration Staff in Antalya | Guest Welcome 2026",
     "description": (
         "COP31 hostess and registration staff in Antalya: guest welcome, registration desks, "
         "directional support, meeting assistance and multilingual profiles where available "
         "for the November 2026 conference."
     ),
-    "h1": "COP31 Hostess &amp; Registration Staff in Antalya",
+    "h1": "COP31 Hostess & Registration Staff in Antalya",
     "answer": (
         "We supply hostesses and registration staff in Antalya for COP31 — guest welcome, "
         "registration and welcome desks, directional support and meeting assistance — with "
@@ -224,7 +224,7 @@ INTERPRETERS = {
         "combinations where available, consecutive interpreting, meeting and delegation "
         "support for the November 2026 conference."
     ),
-    "h1": "COP31 Interpreters &amp; Language Support in Antalya",
+    "h1": "COP31 Interpreters & Language Support in Antalya",
     "answer": (
         "We source interpreters in Antalya for COP31 — Turkish–English as standard and other "
         "combinations subject to availability — for consecutive interpreting at meetings, "
