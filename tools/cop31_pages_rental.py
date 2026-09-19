@@ -94,7 +94,7 @@ PRINTING = {
     "cta_services": L(
         "/cop31-branding-signage/", "/cop31-exhibition-services/", "/cop31-pavilion-services/",
         "/cop31-exhibition-stands/", "/cop31-event-services/", "/cop31-last-minute-services/",
-        "/cop31-emergency-event-support/",
+        "/cop31-event-production/",
     ),
     "cta_heading": "Need Printing for COP31 Antalya?",
     "cta_copy": (
@@ -120,7 +120,7 @@ PRINTING = {
     "related": L(
         "/cop31-antalya/", "/cop31-branding-signage/", "/cop31-exhibition-services/",
         "/cop31-pavilion-services/", "/cop31-last-minute-services/",
-        "/cop31-emergency-event-support/", "/cop31-event-services/",
+        "/cop31-event-production/", "/cop31-event-services/",
     ),
 }
 
@@ -293,8 +293,7 @@ AV = {
             ),
             para(
                 "For equipment needed at short notice during the conference, see "
-                + A("/cop31-last-minute-services/", "last-minute services") + " and "
-                + A("/cop31-emergency-event-support/", "emergency event support")
+                + A("/cop31-last-minute-services/", "last-minute services")
                 + ". We will tell you what is genuinely available rather than take an order we "
                 "cannot fill."
             ),
@@ -326,7 +325,7 @@ AV = {
     "related": L(
         "/cop31-antalya/", "/cop31-event-production/", "/cop31-furniture-rental/",
         "/cop31-exhibition-services/", "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
-        "/cop31-last-minute-services/", "/cop31-emergency-event-support/",
+        "/cop31-last-minute-services/", "/cop31-event-staff/",
     ),
 }
 

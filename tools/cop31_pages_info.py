@@ -238,7 +238,7 @@ PARTICIPANT_GUIDE = {
                 ("Transport planned per journey, not per day",
                  "Booking individual transfers works until the schedule slips. A vehicle on disposal for the day absorbs changes; single bookings do not."),
                 ("No local contact after hours",
-                 "Problems appear during build nights and early mornings. Having a briefed local contact in advance is what makes them solvable — see " + A("/cop31-emergency-event-support/", "emergency event support") + "."),
+                 "Problems appear during build nights and early mornings. Having a briefed local contact in advance is what makes them solvable — see " + A("/cop31-last-minute-services/", "last-minute COP31 services") + "."),
             ]),
         ),
     ],

@@ -41,8 +41,6 @@ SERVICES = [
 
 URGENT = [
     ("/cop31-last-minute-services/", "Last-Minute Services"),
-    ("/cop31-rapid-response-services/", "Rapid Response Services"),
-    ("/cop31-emergency-event-support/", "Emergency Event Support"),
 ]
 
 ALL = PLAN + SERVICES + URGENT
