@@ -76,6 +76,25 @@ EVENT_STAFF = {
             ),
         ),
         section(
+            "Staff Ratios as a Starting Point",
+            lede(
+                "These are planning anchors, not guarantees. The right number depends on what "
+                "the space is doing, how long the shifts are and whether a supervisor is included."
+            ),
+            table(
+                "Indicative COP31 staffing ratios",
+                ["Space / phase", "Indicative crew", "Notes"],
+                [
+                    ["Exhibition stand, build day", "2–4 crew per 20 m²", "Heavier on day one, lighter on finishing days; a supervisor saves coordination time above 36 m²"],
+                    ["Exhibition stand, live days", "1–2 crew per 20 m²", "Split front-of-house and back-of-house; adjust for actual footfall"],
+                    ["Pavilion, live days", "4–8 crew depending on programme", "Hosting, operations and technical support are usually separate roles"],
+                    ["Side event (50–200 guests)", "2–5 crew", "Registration, ushering and on-site support; scale with guest count and session count"],
+                    ["Derig day", "Similar to build crew or slightly fewer", "Derig is faster than build but needs adequate crew or it stretches into an extra day"],
+                    ["Supervisor threshold", "1 per 4–6 staff", "Above this ratio a supervisor typically costs less than the coordination overhead it removes"],
+                ],
+            ),
+        ),
+        section(
             "Practical Notes on Staffing",
             checklist([
                 "Specify language requirements explicitly — English-speaking crew is standard, other languages depend on availability and should be requested early.",
@@ -177,6 +196,25 @@ HOSTESS = {
             ),
         ),
         section(
+            "How Many Hostesses?",
+            lede(
+                "Footfall, opening hours and break coverage matter more than floor area. "
+                "The typical failure is coverage gaps, not insufficient total headcount."
+            ),
+            table(
+                "Indicative COP31 hostess staffing guide",
+                ["Context", "Starting point", "Notes"],
+                [
+                    ["Stand or booth, up to 50 visitors/day", "1 hostess", "Only viable with no simultaneous demands — one person cannot greet, qualify and manage a desk at the same time"],
+                    ["Stand or booth, 50–150 visitors/day", "2 hostesses", "Minimum for a 10-hour day; allows a break rota without leaving the stand unattended"],
+                    ["Stand or booth, 150+ visitors/day", "3+ hostesses", "Match to visitor flow rather than floor area; one desk-dedicated, one active on the floor"],
+                    ["Pavilion reception", "2–4", "Higher headcount during session entry windows; one per entrance if multiple access points"],
+                    ["Side event registration desk", "2 minimum", "Covers queue peaks and eliminates a single point of failure; add a runner for large events"],
+                    ["Delegation hotel welcome", "1–2 per shift", "Depends on arrival spread and whether the role includes escorting guests to rooms or meetings"],
+                ],
+            ),
+        ),
+        section(
             "Briefing Makes the Difference",
             checklist([
                 "Send a short brief: what your organisation does, what the space is for, and what a good visitor interaction looks like.",
@@ -199,7 +237,7 @@ HOSTESS = {
         ("Is this the same as COP31 registration?",
          "No. We staff your own registration and welcome desks at side events, stands and hotels. Official COP31 accreditation and badge issuance are managed exclusively by UNFCCC."),
         ("How many hostesses do we need?",
-         "It depends on footfall, opening hours and break coverage rather than on space size. Two hosts on a small stand usually outperforms three on a rota that leaves gaps."),
+         "It depends on footfall, opening hours and break coverage rather than on space size. A general guide: 1 for up to 50 visitors per day, 2 for 50–150, 3 or more above that. Two hosts on a small stand usually outperforms three on a rota that leaves gaps."),
         ("Can hostesses work inside the venue?",
          "Only with appropriate accreditation, which depends on passes issued through the official process and held by your organisation."),
         ("How early should we book?",
@@ -258,6 +296,28 @@ INTERPRETERS = {
             ]),
         ),
         section(
+            "Language Availability and Rate Guidance",
+            table(
+                "Interpreter availability and indicative day rates at COP31 Antalya",
+                ["Language pair", "Availability", "Indicative day rate", "Notes"],
+                [
+                    ["Turkish ↔ English", "Core supply; book ahead for the Leaders Summit window (11–12 Nov)", "€350–€600", "Most commonly requested; scheduling is the constraint, not supply"],
+                    ["Arabic ↔ English", "Available; book early", "€450–€700", "High demand from Gulf and MENA delegations; tightest category after Turkish–English"],
+                    ["French ↔ English", "Generally available", "€400–€650", "Francophone Africa and EU institutions; book ahead for peak days"],
+                    ["Spanish ↔ English", "Generally available", "€400–€650", "Latin American delegations and Spanish-speaking NGOs"],
+                    ["German ↔ English", "Available with advance notice", "€400–€650", "German-speaking delegations and EU institutions"],
+                    ["Other combinations", "Subject to individual sourcing", "Quoted on request", "Book as far in advance as possible; availability cannot be assumed for the conference fortnight"],
+                ],
+            ),
+            para(
+                "Day rates above apply to consecutive interpretation for up to eight hours in or "
+                "near Antalya. Simultaneous interpretation — which requires booths or portable "
+                "equipment and normally two interpreters per language — is quoted separately. "
+                "Rates vary with subject matter, total days booked and any specialist preparation "
+                "the subject matter requires."
+            ),
+        ),
+        section(
             "Choosing the Right Kind of Support",
             table(
                 "Interpretation modes and when each fits",
@@ -296,7 +356,9 @@ INTERPRETERS = {
     "cta_heading": "Need an Interpreter in Antalya?",
     "faqs": [
         ("What languages can you cover at COP31?",
-         "Turkish–English is the core combination. Other language pairs can be sourced subject to availability during the conference period — we confirm before accepting a booking rather than promise in advance."),
+         "Turkish–English is the core combination. Arabic, French, Spanish and German can be sourced subject to availability. Other pairs are quoted individually — we confirm before accepting a booking rather than promise in advance."),
+        ("How much does a COP31 interpreter cost?",
+         "Indicative day rates range from €350–€600 for Turkish–English consecutive interpretation to €450–€700 for Arabic. Simultaneous interpretation requiring equipment and two interpreters per language is quoted separately. Rates depend on subject matter, total days and preparation required."),
         ("Do you interpret the official COP31 sessions?",
          "No. Formal UNFCCC sessions have their own official language arrangements. We provide independent local interpretation for meetings, bilaterals, site visits, media interactions and events around the conference."),
         ("What is consecutive interpreting?",

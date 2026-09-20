@@ -214,7 +214,7 @@ BRANDING = {
         ("Can you produce signage for a hotel meeting room?",
          "Yes. Hotel and off-site venues are where most COP31 side programmes happen, and they typically need more wayfinding than the organisers provide."),
         ("Are there restrictions on what can be installed?",
-         "Yes, and they are set by the venue or hotel — surfaces, adhesives, rigging and outdoor placement are all governed by their rules, which take precedence over any supplier's advice."),
+         "Yes, and they are set by the venue or hotel — surfaces, adhesives, rigging and outdoor placement are all governed by their rules, which take precedence over any supplier’s advice."),
         ("Do you remove signage afterwards?",
          "Yes. Removal is part of the scope, using materials and methods that avoid damage or residue charges."),
     ],
@@ -268,6 +268,36 @@ AV = {
             ]),
         ),
         section(
+            "Typical Hire Ranges",
+            lede(
+                "Day rates below are indicative ranges for planning. Conference-period hire "
+                "(9–20 November) is usually quoted as a period rate rather than daily, "
+                "which lowers the per-day equivalent for items that stay in place throughout."
+            ),
+            table(
+                "COP31 AV equipment hire rate guide — Antalya",
+                ["Item", "Day rate range", "Notes"],
+                [
+                    ["43–55″ monitor on floor stand", "€80–€150", "Most-requested item; reserve early for multiple units"],
+                    ["65–75″ monitor or TV", "€120–€220", "Suitable for stands and small meeting rooms"],
+                    ["LED screen / video wall (per m²)", "€180–€350 per m²", "Custom-sized; price depends on pitch, resolution and mounting"],
+                    ["Projector (3,000–5,000 lm) + screen", "€150–€350", "Meeting rooms and side events where a monitor or LED is over-specified"],
+                    ["PA system, small room (up to 50 pax)", "€150–€300", "Single speaker and mixer; suitable for stands and small sessions"],
+                    ["PA system, medium room (50–200 pax)", "€300–€600", "With mixing and mic inputs; operator recommended for sessions"],
+                    ["Wireless microphone — handheld or lapel", "€60–€120 per unit", "Pack rates available for four or more units"],
+                    ["Panel table microphone setup (4 positions)", "€180–€320", "Gooseneck or boundary microphones with cabling and DI"],
+                    ["Basic lighting rig", "€200–€400", "Stand or stage wash; atmospheric and architectural lighting quoted on plan"],
+                    ["AV technician / operator (per day)", "€250–€450", "Setup, testing and live support; derig is a separate half-day unless specified"],
+                ],
+            ),
+            para(
+                "Rates above assume delivery and collection within the Antalya conference zone "
+                "(Aksu EXPO Center area, Lara, Kundu, Belek). Specialist or large-format "
+                "equipment, items requiring rigging, and anything inside a venue-controlled "
+                "area may be quoted on plan rather than at a day rate."
+            ),
+        ),
+        section(
             "Specifying AV Without Over-Ordering",
             lede(
                 "AV is the category where teams most often pay for capability they never use, "
@@ -279,7 +309,7 @@ AV = {
                 "Decide whether you need an operator. Unattended equipment is cheaper until something needs changing mid-session.",
                 "Confirm power. Screen and sound loads have to be within what the space provides, and stand power is frequently underestimated.",
                 "Book for the whole period, not per day. Equipment removed and redelivered costs more than equipment left in place.",
-                "Ask what the venue or hotel already provides. Paying twice for a room's built-in system is a common and avoidable cost.",
+                "Ask what the venue or hotel already provides. Paying twice for a room’s built-in system is a common and avoidable cost.",
             ]),
         ),
         section(
@@ -309,6 +339,8 @@ AV = {
     "faqs": [
         ("What AV equipment can we rent for COP31?",
          "LED screens and video walls, monitors and TVs, projectors, sound systems, wired and wireless microphones, lighting, presentation and switching equipment, playback machines, and technicians where required."),
+        ("How much does AV hire cost at COP31?",
+         "Indicative day rates range from around €80 for a small monitor to €600 for a medium-room PA system. LED walls are priced per square metre (€180–€350/m²). An AV technician costs €250–€450 per day. Conference-period rates for equipment left in place throughout are lower than daily rates."),
         ("Do you provide a technician with the equipment?",
          "Optionally. Equipment-only rental is available for simple setups; for sessions and live events an operator is usually worth the cost."),
         ("Can you deliver and set up on our stand?",
@@ -317,7 +349,7 @@ AV = {
          "As early as the requirement is known. Local stock is progressively committed across the fortnight, and specific models and large LED go first."),
         ("Can you supply AV at short notice during the conference?",
          "Often yes, for standard items, subject to what remains uncommitted at that moment. We confirm availability before accepting the order."),
-        ("Should we rent locally or use the venue's supplier?",
+        ("Should we rent locally or use the venue’s supplier?",
          "Check what the venue or hotel already includes first — paying twice for a built-in system is a common error. We quote the gap rather than duplicating what you already have."),
         ("Can you cover several rooms at once?",
          "Yes. Repeatable small-room kits with a technician covering multiple rooms is a standard arrangement for multi-session days."),

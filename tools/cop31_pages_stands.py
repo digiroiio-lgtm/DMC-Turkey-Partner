@@ -63,12 +63,37 @@ STANDS = {
             ),
         ),
         section(
+            "Stand Sizes and Typical Cost Ranges",
+            lede(
+                "Indicative ranges for structure, panels, fascia and graphics. "
+                "Furniture, AV, lighting and dismantling are quoted as named line items "
+                "rather than assumed, so the build cost below does not include them."
+            ),
+            table(
+                "COP31 exhibition stand cost guide — structure and graphics",
+                ["Stand type", "Typical footprint", "Structure + graphics range", "Notes"],
+                [
+                    ["Shell-scheme upgrade", "Allocated shell", "€1,200–€3,500", "Panels, branded fascia, counter and stand lighting added to the organiser-supplied structure"],
+                    ["Small modular", "9–12 m²", "€3,000–€6,500", "Fastest to build; graphics fully custom; most common format for single-frontage spaces"],
+                    ["Medium modular", "18–24 m²", "€6,500–€14,000", "Covers most standard exhibition requirements, including a small meeting area"],
+                    ["Large modular", "36 m²+", "€14,000–€28,000", "Cost rises with layout complexity, finish level and number of enclosed spaces"],
+                    ["Custom build", "Any size", "Add 30–60% to modular equivalent", "Required for non-standard footprints, built-in features or architectural brand systems; longer lead time"],
+                ],
+            ),
+            para(
+                "Furniture, screens, sound and lighting are each quoted separately — "
+                "see " + A("/cop31-furniture-rental/", "furniture rental") + " and "
+                + A("/cop31-av-equipment-rental/", "AV rental") + ". "
+                "Dismantling is included when specified in the scope; confirm at quoting stage."
+            ),
+        ),
+        section(
             "What a Stand Scope Includes",
             cards([
                 ("Structure and build", "Walls, fascia, storage rooms, counters, raised areas and meeting spaces, produced and assembled locally."),
                 ("Graphics", "Printed panels, fascia branding, backdrops, floor graphics and applied vinyl from your artwork."),
                 ("Furniture", "Counters, seating, tables, stools and display furniture — see " + A("/cop31-furniture-rental/", "furniture rental") + "."),
-                ("Lighting and power", "Stand lighting and power distribution planned to the venue's rules rather than assumed."),
+                ("Lighting and power", "Stand lighting and power distribution planned to the venue’s rules rather than assumed."),
                 ("AV integration", "Screens, mounts, sound and presentation equipment built into the structure — see " + A("/cop31-av-equipment-rental/", "AV rental") + "."),
                 ("Installation", "Delivery and build during the pre-conference window, with testing and finishing before opening."),
                 ("On-site support", "A local contact across the live days for adjustments, faults and restocking."),
@@ -82,7 +107,7 @@ STANDS = {
                 ("Concept and layout", "A workable layout for the footprint, with visuals sufficient to approve direction."),
                 ("Design freeze", "The real deadline. Manufacturing, graphics production and venue approvals all sit behind this date, not behind the delivery date."),
                 ("Production", "Structure manufactured, graphics printed, furniture and AV reserved for the full conference period."),
-                ("Installation", "Build during the pre-conference window, to the venue's access schedule."),
+                ("Installation", "Build during the pre-conference window, to the venue’s access schedule."),
                 ("Live and dismantle", "Daily support through the conference, then breakdown and removal."),
             ]),
             para(
@@ -114,6 +139,8 @@ STANDS = {
          "Yes — modular systems, custom builds and branded stands, all produced locally in Antalya with graphics, furniture, AV, installation and dismantling."),
         ("What do you need to quote a stand?",
          "Space size and shape, whether it is shell scheme or space only, intended use, brand assets and any budget guidance. A floor plan speeds things up considerably."),
+        ("How much does an exhibition stand cost at COP31?",
+         "Structure and graphics range from around €3,000 for a small modular stand to €28,000 or more for a large complex. Furniture, AV, lighting and dismantling are quoted as separate line items. Custom builds add 30–60% over modular equivalents."),
         ("How late can we order a stand for COP31?",
          "It depends on the route. Custom builds need drawings, approvals and manufacturing time; modular systems remain viable much later. Send your dates and we will tell you what is still realistic."),
         ("Is a locally built stand cheaper than shipping ours?",
@@ -279,7 +306,7 @@ PRODUCTION = {
                 ("Screens and projection", "LED walls, monitors, projection and presentation switching for panels, keynotes and demonstrations."),
                 ("Lighting", "Stage, functional and atmospheric lighting for sessions and receptions."),
                 ("Technical crew", "Sound engineers, screen operators, lighting technicians and stage crew for setup, live and derig."),
-                ("Setup and derig", "Load-in, build, testing, rehearsal support and breakdown scheduled around the venue's access windows."),
+                ("Setup and derig", "Load-in, build, testing, rehearsal support and breakdown scheduled around the venue’s access windows."),
                 ("Event coordination", "Running order, cue management, speaker handling and on-site coordination during the event."),
                 ("Recording and streaming support", "Capture and feed provision where required, coordinated with your own media team."),
             ]),
@@ -309,7 +336,7 @@ PRODUCTION = {
             steps([
                 ("Format and room", "What the event is, how many people, in what room. Room dimensions and ceiling height change the answer more than the guest count does."),
                 ("Technical scope", "Sound, screens, lighting and staging specified to the format rather than over-specified to be safe."),
-                ("Schedule", "Load-in, build, testing, rehearsal, live and derig, fitted to the venue's access windows."),
+                ("Schedule", "Load-in, build, testing, rehearsal, live and derig, fitted to the venue’s access windows."),
                 ("Crew plan", "Who is on site, when, and what each person covers."),
                 ("Delivery", "Setup, testing before doors rather than on the hour, and crew present throughout the live event."),
             ]),
