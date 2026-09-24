@@ -2049,3 +2049,50 @@ main:has(.event-facts) > h1 {
     padding: var(--space-2);
   }
 }
+
+/* ─── Proof strip ─────────────────────────────────────────── */
+.proof-strip {
+  text-align: center;
+  padding-block: 2rem;
+  border-block: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface-subtle, #f9fafb);
+}
+
+.proof-strip__label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b7280);
+  margin: 0 0 1rem;
+}
+
+.proof-strip__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text, #111827);
+}
+
+.proof-strip__list li {
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .proof-strip__list {
+    gap: 0;
+  }
+  .proof-strip__list li + li::before {
+    content: "·";
+    margin: 0 1.25rem;
+    color: var(--color-text-muted, #9ca3af);
+    font-weight: 400;
+  }
+}
