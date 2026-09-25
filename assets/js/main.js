@@ -30,6 +30,7 @@
     initEmailTracking();
     initPhoneTracking();
     initBookCallTracking();
+    initStickyCta();
   });
 
   // Category filter for the COP31 news hub. Progressive enhancement: without
@@ -541,6 +542,8 @@
   }
 
   function detectCtaLocation(el) {
+    var tagged = el.closest("[data-cta-location]");
+    if (tagged)                       { return tagged.getAttribute("data-cta-location"); }
     if (el.closest(".site-header"))   { return "header"; }
     if (el.closest(".site-footer"))   { return "footer"; }
     if (el.closest(".hero"))          { return "hero"; }
@@ -714,5 +717,31 @@
         });
       });
     });
+  }
+
+  // Shown once the hero CTAs scroll out of view; hidden again from the final CTA onward.
+  function initStickyCta() {
+    var bar = document.querySelector("[data-sticky-cta]");
+    var trigger = document.querySelector("[data-sticky-trigger]");
+    if (!bar || !trigger || !("IntersectionObserver" in window)) {
+      return;
+    }
+    var hide = document.querySelector("[data-sticky-hide]");
+    var pastHero = false;
+    var atEnd = false;
+    function update() {
+      bar.hidden = !pastHero || atEnd;
+    }
+    new IntersectionObserver(function (entries) {
+      pastHero = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      update();
+    }).observe(trigger);
+    if (hide) {
+      // Huge top margin: "intersecting" means the final CTA has been reached or passed.
+      new IntersectionObserver(function (entries) {
+        atEnd = entries[0].isIntersecting;
+        update();
+      }, { rootMargin: "100000px 0px 0px 0px" }).observe(hide);
+    }
   }
 })();
