@@ -2096,3 +2096,6 @@ main:has(.event-facts) > h1 {
     font-weight: 400;
   }
 }
+.proof-strip__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; list-style: none; padding: 0; margin: 1.25rem 0 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted, #6b7280); }
+.wl-bullets { list-style: none; padding: 0; margin: 1.5rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.wl-bullets li::before { content: "✓ "; font-weight: 700; color: var(--color-accent, #0ea5e9); }
