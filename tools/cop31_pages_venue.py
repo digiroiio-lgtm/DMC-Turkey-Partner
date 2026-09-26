@@ -13,14 +13,14 @@ INFO_CTA = L(
 
 VENUE = {
     "slug": "cop31-antalya-venue",
-    "breadcrumb": "Venue &amp; Location",
-    "title": "COP31 Antalya Venue 2026 | Antalya EXPO Center Location &amp; Access",
+    "breadcrumb": "Venue & Location",
+    "title": "COP31 Antalya Venue 2026 | Antalya EXPO Center Location & Access",
     "description": (
         "COP31 2026 takes place at the Antalya EXPO Center in Antalya, Türkiye. Venue "
         "location, airport access, surrounding areas, transport overview and logistics "
         "considerations for delegations and exhibitors."
     ),
-    "h1": "COP31 Antalya Venue – Location &amp; Visitor Guide",
+    "h1": "COP31 Antalya Venue – Location & Visitor Guide",
     "answer": (
         "COP31 takes place at the Antalya EXPO Center in Antalya, Türkiye, from 9 to 20 "
         "November 2026. The venue sits east of Antalya city centre, close to Antalya Airport."
@@ -36,7 +36,7 @@ VENUE = {
         ("Conference dates", "9–20 November 2026"),
     ],
     "page_type": "informational",
-    "service_interest": "COP31 Venue &amp; Exhibitor Support",
+    "service_interest": "COP31 Venue & Exhibitor Support",
     "service_name": "COP31 Antalya Venue Support",
     "update_sensitive": False,
     "sources": ["ifp", "unfccc", "tr"],
@@ -166,13 +166,13 @@ VENUE = {
 PROGRAMME = {
     "slug": "cop31-antalya-program",
     "breadcrumb": "Conference Programme",
-    "title": "COP31 Antalya Programme 2026 | Key Dates &amp; Thematic Days",
+    "title": "COP31 Antalya Programme 2026 | Key Dates & Thematic Days",
     "description": (
         "A scannable summary of the COP31 Antalya 2026 programme: conference dates, the "
         "World Leaders Climate Action Summit, announced thematic days, and what each theme "
         "typically means for agency and delegation operations."
     ),
-    "h1": "COP31 Antalya Programme 2026 – Key Dates &amp; Thematic Days",
+    "h1": "COP31 Antalya Programme 2026 – Key Dates & Thematic Days",
     "answer": (
         "The COP31 programme runs across twelve days from 9 to 20 November 2026, with the "
         "World Leaders Climate Action Summit on 11–12 November and each conference day "

@@ -52,9 +52,7 @@ SERVICE_CARDS = cards([
     ("Temporary Staff", "/cop31-event-staff/",
      "Setup crews, runners, logistics and operational staff for build days, live days and dismantling."),
     ("Last-Minute Production", "/cop31-last-minute-services/",
-     "Fast local sourcing and production when a shipment is delayed, an item is missing or a requirement appears on site."),
-    ("Rapid Support", "/cop31-rapid-response-services/",
-     "A single Antalya contact for urgent replacement, delivery and problem-solving during the conference period."),
+     "Fast local sourcing, production and on-site problem-solving when a shipment is delayed, an item is missing or a requirement appears during COP31."),
 ])
 
 
@@ -63,13 +61,13 @@ SERVICE_CARDS = cards([
 HUB = {
     "slug": "cop31-antalya",
     "breadcrumb": "COP31 Antalya 2026",
-    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport &amp; Local Services",
+    "title": "COP31 Antalya 2026 | Dates, Venue, Hotels, Transport & Local Services",
     "description": (
         "Planning for COP31 Antalya 2026? Find dates, venue information, hotels, transport "
         "and local event services including exhibition stands, printing, AV, staffing and "
         "last-minute support."
     ),
-    "h1": "COP31 Antalya 2026 – Complete Participant &amp; Local Services Guide",
+    "h1": "COP31 Antalya 2026 – Complete Participant & Local Services Guide",
     "answer": (
         "COP31, the 2026 UN Climate Change Conference, takes place in Antalya, Türkiye, "
         "from 9 to 20 November 2026 at the Antalya EXPO Center."
@@ -187,9 +185,9 @@ HUB = {
                 "The reason to name both is that international teams often plan the first and "
                 "then discover they have no route to the second. Having a local operations "
                 "contact already briefed before the conference opens is usually the difference "
-                "between a fixable problem and a visible one. See also "
-                + A("/cop31-rapid-response-services/", "rapid response services") + " and "
-                + A("/cop31-emergency-event-support/", "emergency event support") + "."
+                "between a fixable problem and a visible one. See "
+                + A("/cop31-last-minute-services/", "last-minute COP31 services") + " for the "
+                "full scope of urgent local support."
             ),
         ),
         section(
@@ -278,8 +276,7 @@ HUB = {
         "/cop31-printing-services/", "/cop31-branding-signage/", "/cop31-av-equipment-rental/",
         "/cop31-furniture-rental/", "/cop31-coffee-machine-rental/", "/cop31-event-staff/",
         "/cop31-hostess-staff/", "/cop31-interpreters/", "/cop31-private-transfers/",
-        "/cop31-last-minute-services/", "/cop31-rapid-response-services/",
-        "/cop31-emergency-event-support/",
+        "/cop31-last-minute-services/",
     ),
     "related_heading": "The Full COP31 Antalya Cluster",
     "related_lede": "Every page in this section, grouped from planning to execution to urgent support.",

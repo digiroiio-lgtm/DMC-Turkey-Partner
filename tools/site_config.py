@@ -37,6 +37,8 @@ ORG_ALTERNATE_NAMES = [
     "DmcTurkeyPartner",
     "DmcTurkeyPartner.com",
     "DMC Turkey",
+    "Turkey DMC",
+    "Turkish DMC",
 ]
 ORG_EMAIL = "hello@dmcturkeypartner.com"
 ORG_DESCRIPTION = (
@@ -60,5 +62,7 @@ ORG_KNOWS_ABOUT = [
     "Conference and congress operations",
     "Exhibition and pavilion services",
     "Group travel operations",
+    "Ground handling Turkey",
+    "White-label DMC services",
     "COP31 Antalya 2026 local event services",
 ]

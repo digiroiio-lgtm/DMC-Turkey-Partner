@@ -15,7 +15,7 @@ BACK = para(
 PAVILION = {
     "slug": "cop31-pavilion-services",
     "breadcrumb": "Pavilion Services",
-    "title": "COP31 Pavilion Services in Antalya | Country &amp; Organisation Pavilions",
+    "title": "COP31 Pavilion Services in Antalya | Country & Organisation Pavilions",
     "description": (
         "Local COP31 pavilion services in Antalya for countries, international "
         "organisations, NGOs, corporations and climate initiatives: production, branding, "
@@ -151,7 +151,7 @@ PAVILION = {
 TRANSPORT = {
     "slug": "cop31-antalya-transport",
     "breadcrumb": "Transport",
-    "title": "COP31 Antalya Transport Guide 2026 | Shuttles, Airport &amp; Venue Travel",
+    "title": "COP31 Antalya Transport Guide 2026 | Shuttles, Airport & Venue Travel",
     "description": (
         "How transport works at COP31 Antalya 2026: official complimentary shuttles, Antalya "
         "Airport arrivals, hotel-to-venue movement, local travel options and when a dedicated "

@@ -155,7 +155,7 @@ REGISTRATION = {
 EXPO = {
     "slug": "cop31-antalya-expo-center",
     "breadcrumb": "Antalya EXPO Center",
-    "title": "Antalya EXPO Center – COP31 Venue Guide 2026 | Access &amp; Logistics",
+    "title": "Antalya EXPO Center – COP31 Venue Guide 2026 | Access & Logistics",
     "description": (
         "A COP31 venue guide to the Antalya EXPO Center: where it is, access from Antalya "
         "Airport, surrounding districts, transportation, event logistics and exhibitor "
@@ -279,14 +279,14 @@ EXPO = {
 
 RESTAURANTS = {
     "slug": "cop31-antalya-restaurants",
-    "breadcrumb": "Restaurants &amp; Dining",
-    "title": "COP31 Antalya Restaurants &amp; Private Dining Guide 2026",
+    "breadcrumb": "Restaurants & Dining",
+    "title": "COP31 Antalya Restaurants & Private Dining Guide 2026",
     "description": (
         "COP31 Antalya restaurants and private dining: business dinners, delegation dinners, "
         "group reservations, side-event dinners and private rooms across Lara, Belek and "
         "Antalya city centre."
     ),
-    "h1": "COP31 Antalya Restaurants &amp; Private Dining Guide",
+    "h1": "COP31 Antalya Restaurants & Private Dining Guide",
     "answer": (
         "Antalya has substantial restaurant capacity across Lara, Kundu, Belek and the city "
         "centre, but private rooms and group reservations during COP31 are finite and should "
@@ -298,7 +298,7 @@ RESTAURANTS = {
         "busiest fortnight of Antalya's year."
     ),
     "page_type": "informational",
-    "service_interest": "COP31 Dining &amp; Hospitality",
+    "service_interest": "COP31 Dining & Hospitality",
     "service_name": "COP31 Antalya Dining and Private Events",
     "sources": ["ifp", "tr"],
     "sections": [
