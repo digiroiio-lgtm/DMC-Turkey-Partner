@@ -6,6 +6,11 @@
 (function () {
   "use strict";
 
+  var GA4_EVENT_MAP = {
+    cop31_whatsapp_click:     "whatsapp_click",
+    cop31_proposal_cta_click: "request_proposal_click"
+  };
+
   document.addEventListener("DOMContentLoaded", function () {
     var yearEl = document.getElementById("year");
     if (yearEl) {
@@ -22,6 +27,10 @@
     initProposalCtas();
     initProposalForm();
     initNewsFilters();
+    initEmailTracking();
+    initPhoneTracking();
+    initBookCallTracking();
+    initStickyCta();
   });
 
   // Category filter for the COP31 news hub. Progressive enhancement: without
@@ -410,7 +419,8 @@
         if (page) {
           Object.assign(params, eventCostContext(page));
         }
-        trackEvent(el.getAttribute("data-track"), params);
+        var rawName = el.getAttribute("data-track");
+        trackEvent(GA4_EVENT_MAP[rawName] || rawName, params);
       });
     });
   }
@@ -531,6 +541,16 @@
     return context;
   }
 
+  function detectCtaLocation(el) {
+    var tagged = el.closest("[data-cta-location]");
+    if (tagged)                       { return tagged.getAttribute("data-cta-location"); }
+    if (el.closest(".site-header"))   { return "header"; }
+    if (el.closest(".site-footer"))   { return "footer"; }
+    if (el.closest(".hero"))          { return "hero"; }
+    if (el.closest('[class*="cta"]')) { return "cta_banner"; }
+    return "body";
+  }
+
   function initProposalCtas() {
     document.querySelectorAll('a[href="/request-proposal/"]').forEach(function (link) {
       link.addEventListener("click", function () {
@@ -540,7 +560,13 @@
           if (value) { params.set(key, value); }
         });
         link.href = "/request-proposal/?" + params.toString();
-        trackEvent("proposal_cta_click", { source: params.get("source") });
+        trackEvent("request_proposal_click", {
+          source:        params.get("source"),
+          cta_name:      link.textContent.trim(),
+          cta_location:  detectCtaLocation(link),
+          page_path:     window.location.pathname,
+          page_location: window.location.href
+        });
       });
     });
   }
@@ -583,7 +609,10 @@
     form.addEventListener("focusin", function () {
       if (!started) {
         started = true;
-        trackEvent("proposal_form_start", { source: form.elements.source_page.value });
+        trackEvent("form_start", {
+          source:    form.elements.source_page.value,
+          page_path: window.location.pathname
+        });
       }
     });
     var datesUnconfirmed = form.elements.dates_unconfirmed;
@@ -625,13 +654,18 @@
         }).then(function () {
           form.hidden = true;
           document.querySelector("[data-proposal-success]").hidden = false;
-          trackEvent("proposal_form_success", {
-            source: form.elements.source_page.value,
-            lead_source: form.elements.lead_source ? form.elements.lead_source.value : "",
-            campaign: form.elements.campaign ? form.elements.campaign.value : "",
-            service_interest: form.elements.service_interest
-              ? form.elements.service_interest.value
-              : ""
+          trackEvent("generate_lead", {
+            source:           form.elements.source_page.value,
+            lead_source:      form.elements.lead_source      ? form.elements.lead_source.value      : "",
+            campaign:         form.elements.campaign         ? form.elements.campaign.value         : "",
+            service_interest: form.elements.service_interest ? form.elements.service_interest.value : "",
+            utm_source:       form.elements.utm_source.value   || "",
+            utm_medium:       form.elements.utm_medium.value   || "",
+            utm_campaign:     form.elements.utm_campaign.value || "",
+            utm_content:      form.elements.utm_content.value  || "",
+            utm_term:         form.elements.utm_term.value     || "",
+            page_path:        window.location.pathname,
+            page_location:    form.elements.submission_page.value
           });
         }).catch(function () {
           button.disabled = false;
@@ -644,5 +678,70 @@
         trackEvent("proposal_form_error", { source: form.elements.source_page.value });
       }
     });
+  }
+
+  function initEmailTracking() {
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (link) {
+      link.addEventListener("click", function () {
+        trackEvent("email_click", {
+          email_address: link.href.replace("mailto:", "").split("?")[0],
+          cta_name:      link.textContent.trim().slice(0, 60),
+          cta_location:  detectCtaLocation(link),
+          page_path:     window.location.pathname
+        });
+      });
+    });
+  }
+
+  function initPhoneTracking() {
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (link) {
+      link.addEventListener("click", function () {
+        trackEvent("phone_click", {
+          phone_number: link.href.replace("tel:", ""),
+          cta_location: detectCtaLocation(link),
+          page_path:    window.location.pathname
+        });
+      });
+    });
+  }
+
+  function initBookCallTracking() {
+    document.querySelectorAll('a[href="/contact/"]').forEach(function (link) {
+      var text = link.textContent.trim().toLowerCase();
+      if (text.indexOf("book") === -1 && text.indexOf("call") === -1) { return; }
+      link.addEventListener("click", function () {
+        trackEvent("book_partner_call_click", {
+          cta_name:     link.textContent.trim(),
+          cta_location: detectCtaLocation(link),
+          page_path:    window.location.pathname
+        });
+      });
+    });
+  }
+
+  // Shown once the hero CTAs scroll out of view; hidden again from the final CTA onward.
+  function initStickyCta() {
+    var bar = document.querySelector("[data-sticky-cta]");
+    var trigger = document.querySelector("[data-sticky-trigger]");
+    if (!bar || !trigger || !("IntersectionObserver" in window)) {
+      return;
+    }
+    var hide = document.querySelector("[data-sticky-hide]");
+    var pastHero = false;
+    var atEnd = false;
+    function update() {
+      bar.hidden = !pastHero || atEnd;
+    }
+    new IntersectionObserver(function (entries) {
+      pastHero = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      update();
+    }).observe(trigger);
+    if (hide) {
+      // Huge top margin: "intersecting" means the final CTA has been reached or passed.
+      new IntersectionObserver(function (entries) {
+        atEnd = entries[0].isIntersecting;
+        update();
+      }, { rootMargin: "100000px 0px 0px 0px" }).observe(hide);
+    }
   }
 })();
