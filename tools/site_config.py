@@ -10,7 +10,7 @@ SITE = "https://dmcturkeypartner.com"
 # --- Measurement -------------------------------------------------------------
 # GA4 Measurement ID, e.g. "G-XXXXXXXXXX". While this is empty no analytics
 # script is emitted at all, so the site stays clean until a real ID is set.
-GA4_MEASUREMENT_ID = ""
+GA4_MEASUREMENT_ID = "G-S23J4YMLTR"
 
 # Optional Google Tag Manager container, e.g. "GTM-XXXXXXX". If both are set,
 # GTM loads and GA4 is expected to be configured inside the container instead.
