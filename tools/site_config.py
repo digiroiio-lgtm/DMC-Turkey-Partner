@@ -25,7 +25,7 @@ BING_SITE_VERIFICATION = ""
 # --- IndexNow ----------------------------------------------------------------
 # Key for instant Bing/Yandex/Seznam submission. tools/site_seo.py writes the
 # matching key file at the site root when this is set.
-INDEXNOW_KEY = ""
+INDEXNOW_KEY = "709df55c7d784cae9b54442e2dd67a81"
 
 # --- Entity ------------------------------------------------------------------
 # The canonical Organization node. A single stable @id referenced from every
