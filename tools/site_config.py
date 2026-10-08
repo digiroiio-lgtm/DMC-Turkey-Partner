@@ -66,3 +66,17 @@ ORG_KNOWS_ABOUT = [
     "White-label DMC services",
     "COP31 Antalya 2026 local event services",
 ]
+
+# Registered travel agency operating the DMC Turkey Partner brand.
+ORG_AGENCY_NAME = "ANTALYA GOLF MCD TRAVEL"
+ORG_TURSAB_NUMBER = "12434"
+ORG_PHONE = "+905353998999"
+ORG_PHONE_DISPLAY = "+90 535 399 89 99"
+ORG_ADDRESS = {
+    "@type": "PostalAddress",
+    "streetAddress": "Güzeloba, 2268 Sok No:33",
+    "postalCode": "07230",
+    "addressLocality": "Muratpaşa",
+    "addressRegion": "Antalya",
+    "addressCountry": "TR",
+}
