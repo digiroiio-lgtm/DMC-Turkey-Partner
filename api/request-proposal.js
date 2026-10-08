@@ -12,6 +12,29 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 const REQUIRED_FIELDS = ["name", "company", "email", "destination", "group_size"];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_BODY_BYTES = 24576;
+const FIELD_LIMITS = {
+  name: 120, company: 200, email: 254, destination: 120, group_size: 80,
+  date_start: 32, date_end: 32, dates_unconfirmed: 16, project_type: 120,
+  brief: 5000, calculator_brief: 6000, source_page: 1024,
+  landing_page: 1024, submission_page: 1024, lead_source: 120,
+  campaign: 120, service_interest: 120, page_type: 120
+};
+
+// Context URLs must be public pages on our site. Never forward query strings,
+// fragments, credentials or arbitrary third-party URLs to the mail provider.
+function cleanPageContext(value, allowSourceLabel) {
+  if (allowSourceLabel && /^[a-z0-9_-]{1,120}$/i.test(value)) { return value; }
+  try {
+    if (!/^https:\/\//i.test(value) && !/^\/(?!\/)/.test(value)) { return ""; }
+    const url = new URL(value, "https://dmcturkeypartner.com");
+    if (url.protocol !== "https:" || url.username || url.password || url.port ||
+        !["dmcturkeypartner.com", "www.dmcturkeypartner.com"].includes(url.hostname)) {
+      return "";
+    }
+    return "https://dmcturkeypartner.com" + url.pathname;
+  } catch (_) { return ""; }
+}
 
 function escapeHtml(value) {
   return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
@@ -70,28 +93,36 @@ function buildEmail(fields) {
     (fields.calculator_brief ? "\n\nCalculator Lead:\n" + fields.calculator_brief : "") +
     (fields.brief ? "\n\nProject Brief:\n" + fields.brief : "");
 
-  const isCalculatorLead = Boolean(fields.calculator_brief);
-  const prefix = fields.lead_source
-    ? sanitizeHeaderValue(fields.lead_source) + " Lead — "
-    : isCalculatorLead
-    ? "Calculator Lead — "
-    : "New Proposal Request — ";
-
   return {
-    subject: prefix + fields.company + " (" + fields.destination + ")",
+    // Keep identifying details out of searchable email header metadata.
+    subject: fields.calculator_brief ? "New Calculator Proposal Request" : "New Proposal Request",
     html: html,
     text: text
   };
 }
 
 module.exports = async function handler(req, res) {
+  res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     res.status(405).json({ ok: false, error: "Method not allowed" });
     return;
   }
 
-  const body = req.body && typeof req.body === "object" ? req.body : {};
+  const contentType = String((req.headers || {})["content-type"] || "").split(";")[0].trim().toLowerCase();
+  if (contentType !== "application/json") {
+    res.status(415).json({ ok: false, error: "Please submit the form as JSON." });
+    return;
+  }
+  const body = req.body;
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    res.status(400).json({ ok: false, error: "Invalid form submission." });
+    return;
+  }
+  if (Buffer.byteLength(JSON.stringify(body), "utf8") > MAX_BODY_BYTES) {
+    res.status(413).json({ ok: false, error: "Your brief is too long. Please shorten it." });
+    return;
+  }
 
   // Honeypot: bots fill hidden fields. Report success without sending mail
   // or revealing that a trap was tripped.
@@ -101,24 +132,20 @@ module.exports = async function handler(req, res) {
   }
 
   const fields = {};
-  REQUIRED_FIELDS.concat([
-    "date_start",
-    "date_end",
-    "dates_unconfirmed",
-    "project_type",
-    "brief",
-    "source_page",
-    "landing_page",
-    "submission_page",
-    "timestamp",
-    "calculator_brief",
-    "lead_source",
-    "campaign",
-    "service_interest",
-    "page_type"
-  ]).forEach(function (name) {
+  const invalid = Object.keys(FIELD_LIMITS).some(function (name) {
+    return body[name] != null && (typeof body[name] !== "string" || body[name].length > FIELD_LIMITS[name]);
+  });
+  if (invalid) {
+    res.status(400).json({ ok: false, error: "A form field is invalid or too long. Please check your brief." });
+    return;
+  }
+  Object.keys(FIELD_LIMITS).forEach(function (name) {
     fields[name] = readField(body, name);
   });
+  fields.source_page = cleanPageContext(fields.source_page, true);
+  fields.landing_page = cleanPageContext(fields.landing_page, false);
+  fields.submission_page = cleanPageContext(fields.submission_page, false);
+  fields.timestamp = new Date().toISOString();
 
   const missing = REQUIRED_FIELDS.filter(function (name) { return !fields[name]; });
   if (missing.length) {
@@ -143,6 +170,7 @@ module.exports = async function handler(req, res) {
   try {
     const resendResponse = await fetch(RESEND_ENDPOINT, {
       method: "POST",
+      signal: AbortSignal.timeout(10000),
       headers: {
         Authorization: "Bearer " + apiKey,
         "Content-Type": "application/json"
@@ -158,15 +186,15 @@ module.exports = async function handler(req, res) {
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text().catch(function () { return ""; });
-      console.error("request-proposal: Resend API error", resendResponse.status, errorBody);
+      // Upstream error bodies can contain submitted data. Log only the status.
+      console.error("request-proposal: Resend API error", resendResponse.status);
       res.status(502).json({ ok: false, error: "We could not send your brief. Please try again." });
       return;
     }
 
     res.status(200).json({ ok: true });
   } catch (err) {
-    console.error("request-proposal: unexpected error sending email", err && err.message);
+    console.error("request-proposal: email delivery failed");
     res.status(500).json({ ok: false, error: "We could not send your brief. Please try again." });
   }
 };

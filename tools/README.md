@@ -90,6 +90,20 @@ transfer arrangements require account-level verification; publishing a policy
 does not establish those arrangements. The proposal form links the privacy
 notice without bundling the enquiry with marketing permission.
 
+`docs/data-processing-review.md` records provider terms, the data flow and
+the account evidence still required. It is not an executed transfer agreement.
+The proposal endpoint uses bounded JSON fields, strips query strings from
+site-page context, keeps identifying details out of subjects and avoids logging
+provider error bodies. `vercel.json` selects Frankfurt for the function;
+this does not guarantee EU-only processing by every provider.
+
+```
+node --test tests/request-proposal.test.cjs
+```
+
+Mocks Resend without sending email and checks validation, minimisation and
+error-log redaction.
+
 Note that the CSP in `_headers` and `vercel.json` explicitly allows
 `googletagmanager.com` and the `google-analytics.com` endpoints. Without those
 allowances the analytics beacon is blocked silently — the tag appears installed
