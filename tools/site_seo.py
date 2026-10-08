@@ -14,6 +14,7 @@ Three jobs, all idempotent:
 Usage: python3 tools/site_seo.py
 """
 
+import html as html_lib
 import glob
 import json
 import os
@@ -49,6 +50,9 @@ def organization():
         },
         "image": {"@id": cfg.SITE + "/#logo"},
         "email": cfg.ORG_EMAIL,
+        "telephone": cfg.ORG_PHONE,
+        "address": cfg.ORG_ADDRESS,
+        "parentOrganization": {"@type": "TravelAgency", "@id": cfg.SITE + "/#travel-agency", "name": cfg.ORG_AGENCY_NAME, "telephone": cfg.ORG_PHONE, "address": cfg.ORG_ADDRESS, "identifier": {"@type": "PropertyValue", "propertyID": "TÜRSAB agency registration number", "value": cfg.ORG_TURSAB_NUMBER}},
         "description": cfg.ORG_DESCRIPTION,
         "areaServed": [{"@type": "Place", "name": name} for name in cfg.ORG_AREA_SERVED],
         "knowsAbout": cfg.ORG_KNOWS_ABOUT,
@@ -56,6 +60,7 @@ def organization():
             {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
+                "telephone": cfg.ORG_PHONE,
                 "email": cfg.ORG_EMAIL,
                 "availableLanguage": ["en", "tr"],
             }
@@ -145,6 +150,37 @@ def drop_legacy_entity_nodes(html):
     return LD_BLOCK.sub(replace, html)
 
 
+def agency_details(compact=False):
+    name = html_lib.escape(cfg.ORG_AGENCY_NAME)
+    address = cfg.ORG_ADDRESS
+    street = html_lib.escape(address["streetAddress"])
+    location = html_lib.escape(address["postalCode"] + " " + address["addressLocality"] + "/" + address["addressRegion"])
+    details = (
+        f'<p>DMC Turkey Partner is operated by <strong>{name}</strong>.</p>\n'
+        f'          <p>TÜRSAB Agency No: <strong>{cfg.ORG_TURSAB_NUMBER}</strong></p>\n'
+        f'          <p>{street}<br>{location}, Türkiye</p>\n'
+        f'          <p><a href="tel:{cfg.ORG_PHONE}">{cfg.ORG_PHONE_DISPLAY}</a></p>'
+    )
+    if compact:
+        return '<!-- agency-footer:begin -->\n          <div class="agency-details">' + details + '</div>\n          <!-- agency-footer:end -->\n'
+    return ('<!-- agency-section:begin -->\n    <section class="page-section"><div class="container">'
+            '<h2>Registered Travel Agency &amp; Contact Details</h2>' + details +
+            '</div></section>\n    <!-- agency-section:end -->\n')
+
+
+def patch_agency_details(html, path):
+    for kind in ("footer", "section"):
+        html = re.sub(r"[ \t]*<!-- agency-" + kind + r":begin -->.*?<!-- agency-" + kind + r":end -->\n?", "", html, flags=re.S)
+    brand = re.compile(r'(<div class="site-footer__col site-footer__col--brand">.*?)(</div>)', re.S)
+    html = brand.sub(lambda m: m.group(1).rstrip() + "\n          " + agency_details(True) + "        " + m.group(2), html, count=1)
+    if "<!-- agency-footer:begin -->" not in html and "</footer>" in html:
+        html = html.replace("</footer>", agency_details(True) + "  </footer>", 1)
+    relative = os.path.relpath(path, ROOT).replace(os.sep, "/")
+    if relative in ("about/index.html", "contact/index.html"):
+        html = html.replace("  </main>", "    " + agency_details() + "  </main>", 1)
+    return html
+
+
 def patch(path, block):
     with open(path, encoding="utf-8") as handle:
         original = handle.read()
@@ -152,6 +188,7 @@ def patch(path, block):
     if HEAD_CLOSE not in html:
         raise SystemExit("No </head> in %s" % path)
     html = html.replace(HEAD_CLOSE, block + HEAD_CLOSE, 1)
+    html = patch_agency_details(html, path)
     if html == original:
         return False
     with open(path, "w", encoding="utf-8") as handle:
