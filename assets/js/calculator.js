@@ -185,8 +185,7 @@
    * =======================================================================
    */
   function trackEvent(name, params) {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: name }, params || {}));
+    if (window.dmcPrivacy) { window.dmcPrivacy.trackEvent(name, params); }
   }
 
   /* =======================================================================

@@ -315,17 +315,9 @@
     });
   }
 
-  // Analytics dispatch. Sends each event twice over: a dataLayer push for a tag
-  // manager, and a direct gtag call so events still reach GA4 when gtag.js is
-  // loaded on its own (a dataLayer push alone is invisible to gtag.js). With
-  // neither present this is a silent no-op. No PII is sent.
+  // Consent-aware analytics dispatch. Never queue events before permission.
   function trackEvent(name, params) {
-    var payload = params || {};
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: name }, payload));
-    if (typeof window.gtag === "function") {
-      window.gtag("event", name, payload);
-    }
+    if (window.dmcPrivacy) { window.dmcPrivacy.trackEvent(name, params); }
   }
 
   // Client-side only filtering for the MICE Calendar hub. Deliberately does
@@ -488,6 +480,7 @@
   // Campaign context survives an intermediate page (e.g. a COP31 guide -> the
   // services overview -> the form), so attribution is not lost mid-journey.
   function storedCampaign(context) {
+    if (!window.dmcPrivacy || !window.dmcPrivacy.analyticsAllowed()) { return context || {}; }
     try {
       if (context && context.lead_source) {
         sessionStorage.setItem("proposal_campaign", JSON.stringify(context));
@@ -557,7 +550,7 @@
         var params = new URLSearchParams(proposalContext(window.location.pathname));
         ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
           var value = new URLSearchParams(window.location.search).get(key);
-          if (value) { params.set(key, value); }
+          if (value && window.dmcPrivacy && window.dmcPrivacy.analyticsAllowed()) { params.set(key, value); }
         });
         link.href = "/request-proposal/?" + params.toString();
         trackEvent("request_proposal_click", {
@@ -575,13 +568,19 @@
     var form = document.querySelector("[data-proposal-form]");
     if (!form) { return; }
     var params = new URLSearchParams(window.location.search);
-    var landingPage = sessionStorage.getItem("proposal_landing_page") || document.referrer || window.location.href;
-    sessionStorage.setItem("proposal_landing_page", landingPage);
+    var analyticsAllowed = window.dmcPrivacy && window.dmcPrivacy.analyticsAllowed();
+    var landingPage = window.location.origin + window.location.pathname;
+    if (analyticsAllowed) {
+      try {
+        landingPage = sessionStorage.getItem("proposal_landing_page") || landingPage;
+        sessionStorage.setItem("proposal_landing_page", landingPage);
+      } catch (error) { /* Form remains usable when storage is disabled. */ }
+    }
     form.elements.source_page.value = params.get("source") || "direct";
     form.elements.landing_page.value = landingPage;
-    form.elements.submission_page.value = window.location.href;
+    form.elements.submission_page.value = window.location.origin + window.location.pathname;
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
-      form.elements[key].value = params.get(key) || "";
+      form.elements[key].value = analyticsAllowed ? params.get(key) || "" : "";
     });
     var campaign = {};
     CAMPAIGN_FIELDS.forEach(function (key) {
