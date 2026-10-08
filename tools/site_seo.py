@@ -8,7 +8,7 @@ Three jobs, all idempotent:
    Google and AI answer engines resolve entities by a stable @id plus
    consistent naming, so this replaces every top-level Organization/WebSite
    node with one canonical @graph emitted on all pages.
-2. Measurement. Emits the GA4 (or GTM) snippet when an ID is configured.
+2. Measurement. Emits a first-party consent loader; Google tags wait for permission.
 3. Verification. Emits Search Console / Bing verification tags when set.
 
 Usage: python3 tools/site_seo.py
@@ -52,7 +52,7 @@ def organization():
         "email": cfg.ORG_EMAIL,
         "telephone": cfg.ORG_PHONE,
         "address": cfg.ORG_ADDRESS,
-        "parentOrganization": {"@type": "TravelAgency", "@id": cfg.SITE + "/#travel-agency", "name": cfg.ORG_AGENCY_NAME, "telephone": cfg.ORG_PHONE, "address": cfg.ORG_ADDRESS, "identifier": {"@type": "PropertyValue", "propertyID": "TÜRSAB agency registration number", "value": cfg.ORG_TURSAB_NUMBER}},
+        "parentOrganization": {"@type": "TravelAgency", "@id": cfg.SITE + "/#travel-agency", "name": cfg.ORG_AGENCY_NAME, "legalName": cfg.ORG_COMPANY_NAME, "telephone": cfg.ORG_PHONE, "address": cfg.ORG_ADDRESS, "identifier": {"@type": "PropertyValue", "propertyID": "TÜRSAB agency registration number", "value": cfg.ORG_TURSAB_NUMBER}},
         "description": cfg.ORG_DESCRIPTION,
         "areaServed": [{"@type": "Place", "name": name} for name in cfg.ORG_AREA_SERVED],
         "knowsAbout": cfg.ORG_KNOWS_ABOUT,
@@ -100,26 +100,8 @@ def identity_block():
     parts.append("  " + json.dumps(graph, ensure_ascii=False, separators=(",", ":")))
     parts.append("  </script>")
 
-    if cfg.GTM_CONTAINER_ID:
-        parts.append(
-            "  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
-            "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
-            "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src="
-            "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);"
-            "})(window,document,'script','dataLayer','%s');</script>" % cfg.GTM_CONTAINER_ID
-        )
-    elif cfg.GA4_MEASUREMENT_ID:
-        # gtag.js loads async so it never blocks render. Page views are sent
-        # automatically; custom events reach GA4 through trackEvent in main.js.
-        parts.append(
-            '  <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>'
-            % cfg.GA4_MEASUREMENT_ID
-        )
-        parts.append(
-            "  <script>window.dataLayer=window.dataLayer||[];"
-            "function gtag(){dataLayer.push(arguments);}gtag('js',new Date());"
-            "gtag('config','%s');</script>" % cfg.GA4_MEASUREMENT_ID
-        )
+    # No Google tag is requested before optional analytics consent.
+    parts.append('<script src="/assets/js/privacy.js" defer data-ga4="%s" data-gtm="%s"></script>' % (cfg.GA4_MEASUREMENT_ID, cfg.GTM_CONTAINER_ID))
 
     parts.append("  " + END)
     return "\n".join(parts) + "\n"
@@ -157,7 +139,8 @@ def agency_details(compact=False):
     location = html_lib.escape(address["postalCode"] + " " + address["addressLocality"] + "/" + address["addressRegion"])
     details = (
         f'<p>DMC Turkey Partner is operated by <strong>{name}</strong>.</p>\n'
-        f'          <p>TÜRSAB Agency No: <strong>{cfg.ORG_TURSAB_NUMBER}</strong></p>\n'
+        f'          <p>{html_lib.escape(cfg.ORG_COMPANY_NAME)}</p>\n'
+        f'          <p>TÜRSAB Agency No: <strong>{cfg.ORG_TURSAB_NUMBER}</strong> · <a href="{cfg.ORG_AGENCY_RECORD_URL}" target="_blank" rel="noopener">Published TÜRSAB record</a></p>\n'
         f'          <p>{street}<br>{location}, Türkiye</p>\n'
         f'          <p><a href="tel:{cfg.ORG_PHONE}">{cfg.ORG_PHONE_DISPLAY}</a></p>'
     )
@@ -169,12 +152,18 @@ def agency_details(compact=False):
 
 
 def patch_agency_details(html, path):
+    html = re.sub(r'<button type="button" class="cookie-settings-inline" data-cookie-settings>Cookie Settings</button>\n[ \t]*', "", html)
     for kind in ("footer", "section"):
         html = re.sub(r"[ \t]*<!-- agency-" + kind + r":begin -->.*?<!-- agency-" + kind + r":end -->\n?", "", html, flags=re.S)
     brand = re.compile(r'(<div class="site-footer__col site-footer__col--brand">.*?)(</div>)', re.S)
     html = brand.sub(lambda m: m.group(1).rstrip() + "\n          " + agency_details(True) + "        " + m.group(2), html, count=1)
     if "<!-- agency-footer:begin -->" not in html and "</footer>" in html:
         html = html.replace("</footer>", agency_details(True) + "  </footer>", 1)
+    html = re.sub(r'[ \t]*<li class="cookie-settings-item">.*?</li>\n?', "", html)
+    # Every footer offers a way to revisit the optional analytics choice.
+    html = html.replace('<li><a href="/cookie-policy/">Cookie Policy</a></li>', '<li><a href="/cookie-policy/">Cookie Policy</a></li>\n        <li class="cookie-settings-item"><button type="button" data-cookie-settings>Cookie Settings</button></li>', 1)
+    if "data-cookie-settings" not in html:
+        html = html.replace('</footer>', '<button type="button" class="cookie-settings-inline" data-cookie-settings>Cookie Settings</button>\n  </footer>', 1)
     relative = os.path.relpath(path, ROOT).replace(os.sep, "/")
     if relative in ("about/index.html", "contact/index.html"):
         html = html.replace("  </main>", "    " + agency_details() + "  </main>", 1)

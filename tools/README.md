@@ -67,13 +67,28 @@ Reads `tools/site_config.py` and applies to every page:
   plus a stable `@id`; competing variants split one business into several weak
   entities. Per-page `Service`/`WebPage` schema references that `@id` rather
   than restating the organisation.
-- **GA4 or GTM**, only when an ID is set in `site_config.py`. With both empty
-  no analytics script is emitted at all.
+- **Consent-controlled GA4 or GTM**: a first-party loader receives configured IDs; Google tags are requested only after analytics acceptance. Refusal leaves the site and form usable. Advertising consent stays denied.
 - **Search Console / Bing verification tags**, when tokens are set.
 
-`trackEvent` in `assets/js/main.js` pushes to `dataLayer` *and* calls `gtag`
-directly, so the site's 20 custom events reach GA4 whether analytics arrives via
-gtag.js or a GTM container.
+`trackEvent` in `assets/js/main.js` and `calculator.js` delegates to the
+consent-aware dispatcher in `privacy.js`. No events are queued before consent.
+Optional proposal-attribution storage is gated too; calculator session state
+remains available as a requested feature. Every footer includes Cookie Settings.
+
+## Privacy, cookies and website terms
+
+```
+python3 tools/legal_pages.py
+python3 tools/site_seo.py
+```
+
+`legal_pages.py` renders the three legal pages using the registered agency and
+company identity in `site_config.py`. Review the text when providers, contracts,
+processing purposes or retention practices change. The explicit review date
+must only change after an actual review. Provider contracts and international
+transfer arrangements require account-level verification; publishing a policy
+does not establish those arrangements. The proposal form links the privacy
+notice without bundling the enquiry with marketing permission.
 
 Note that the CSP in `_headers` and `vercel.json` explicitly allows
 `googletagmanager.com` and the `google-analytics.com` endpoints. Without those

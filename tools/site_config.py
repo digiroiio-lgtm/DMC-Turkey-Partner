@@ -8,8 +8,8 @@ here and re-run that script rather than editing 131 files.
 SITE = "https://dmcturkeypartner.com"
 
 # --- Measurement -------------------------------------------------------------
-# GA4 Measurement ID, e.g. "G-XXXXXXXXXX". While this is empty no analytics
-# script is emitted at all, so the site stays clean until a real ID is set.
+# GA4 Measurement ID, e.g. "G-XXXXXXXXXX". Google tags are only loaded
+# after optional analytics consent; an empty ID disables GA4.
 GA4_MEASUREMENT_ID = "G-S23J4YMLTR"
 
 # Optional Google Tag Manager container, e.g. "GTM-XXXXXXX". If both are set,
@@ -69,6 +69,9 @@ ORG_KNOWS_ABOUT = [
 
 # Registered travel agency operating the DMC Turkey Partner brand.
 ORG_AGENCY_NAME = "ANTALYA GOLF MCD TRAVEL"
+# Legal entity named alongside this agency in the TÜRSAB public record.
+ORG_COMPANY_NAME = "PMR TURİZM İNŞAAT TİCARET LİMİTED ŞİRKETİ"
+ORG_AGENCY_RECORD_URL = "https://www.tursab.org.tr/apps/Files/Content/71bb2e39-6a6f-456d-ac45-baa0a1bc0456.pdf"
 ORG_TURSAB_NUMBER = "12434"
 ORG_PHONE = "+905353998999"
 ORG_PHONE_DISPLAY = "+90 535 399 89 99"
