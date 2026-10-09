@@ -3,6 +3,7 @@
 
 from cop31_links import A, L
 from cop31_render import cards, checklist, lede, para, plain_list, section, steps, table
+from transfer_pricing import block as transfer_prices
 
 BACK = para(
     "This page is part of the "
@@ -75,6 +76,7 @@ AIRPORT = {
                 "and then need a second vehicle at the kerb."
             ),
         ),
+        transfer_prices("airport"),
         section(
             "Meet &amp; Greet and Group Arrivals",
             lede(
@@ -201,6 +203,7 @@ PRIVATE = {
                 "your schedule rather than sell you the more expensive option by default."
             ),
         ),
+        transfer_prices("shuttle-full-day"),
         section(
             "Planning Transport for the Conference Period",
             checklist([

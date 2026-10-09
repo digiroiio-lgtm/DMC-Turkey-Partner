@@ -114,6 +114,29 @@ teaches Google to ignore the signal.
 `cop31_nav.py` and `site_seo.py` afterwards automatically. After any content
 change, run `tools/sitemaps.py` last so `lastmod` reflects the final state.
 
+## Antalya transfer prices
+
+```
+python3 tools/transfer_prices_build.py
+```
+
+Every transfer price on the site comes from `tools/transfer_prices.py`: vehicles,
+the three services (airport one way, daily shuttle, full-day vehicle with
+driver), what each includes, extra hours/kilometres and the disclaimer. Prices
+are per vehicle in EUR — never per person.
+
+To change a price, edit `transfer_prices.py`, bump `PRICES_REVIEWED`, then run
+the script. It rewrites `/antalya-transfer-prices/` and refreshes the
+`<!-- transfer-prices:NAME:begin/end -->` blocks on `/event-costs/`,
+`/services/transportation-logistics/`, `/cop31-antalya-airport-transfer/`,
+`/cop31-private-transfers/` and `/cop31-antalya-transport/` (see `TARGETS`).
+`transfer_pricing.py` renders the fragments; the COP31 page sources include the
+same blocks so a full `cop31_build.py` keeps them.
+
+The script deliberately does not regenerate the COP31 cluster: several of those
+pages were edited directly after generation, and a full rebuild would revert
+those edits. Run `tools/sitemaps.py` afterwards for fresh `lastmod` dates.
+
 ## COP31 news layer
 
 ```

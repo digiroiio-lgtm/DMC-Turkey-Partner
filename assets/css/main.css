@@ -1101,6 +1101,18 @@ main:has(.event-facts) > h1 {
   font-weight: 500;
 }
 
+/* Antalya transfer prices: aligned digits so price columns compare at a glance. */
+.transfer-prices .comparison-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.page-section > p.price-note,
+.price-note {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+}
+
 .checklist {
   margin-top: var(--space-3);
   display: grid;
