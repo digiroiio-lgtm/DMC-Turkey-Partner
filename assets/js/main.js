@@ -324,7 +324,7 @@
   var OFFPEAK = {
     belek: { name: "Belek", window: "December – February", page: "/off-season-events-turkey/belek/" },
     antalya: { name: "Antalya", window: "December – February", page: "/off-season-events-turkey/antalya/" },
-    istanbul: { name: "Istanbul", window: "January – February and July – August", page: "/off-season-events-turkey/istanbul/" },
+    istanbul: { name: "Istanbul", window: "January – February", page: "/off-season-events-turkey/istanbul/" },
     cappadocia: { name: "Cappadocia", window: "December – February (excluding New Year week)", page: "/off-season-events-turkey/?destination=Cappadocia#compare" },
     bodrum: { name: "Bodrum", window: "October – April", page: "/off-season-events-turkey/?destination=Bodrum#compare" }
   };
