@@ -22,3 +22,15 @@ focused, estimate persistence after missing or reversed dates and reload, failed
 delivery followed by a successful retry, and an in-flight request that clears
 the estimate only after success. The navigation regression also checks the
 unchanged Antalya budget ranges for 100 and 200 guests.
+
+## Post-submission success modal
+
+`tests/test_success_modal.py` covers the success dialog: it opens in place
+only after the mocked API confirms success (no navigation or scrolling), shows
+the approved copy and the WhatsApp deep link (verified number, prefilled
+message, no form data), traps focus, closes on Escape, the close button and
+"Back to Website", locks the submitted form against duplicates, survives API
+failure with the form intact, sends one request on a double click, fires the
+GA4 events once without personal data, fits 320/375/390/430 px screens, and
+keeps the inline thank-you fallback (transfer form, browsers without
+`<dialog>`).

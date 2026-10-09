@@ -654,7 +654,7 @@
     primary.setAttribute("data-calc-proposal-cta", "");
     var compare = el("a", "btn btn--ghost", "Compare Alternative Dates");
     compare.setAttribute("href", "/request-proposal/?intent=compare-dates");
-    compare.setAttribute("data-calc-proposal-cta", "compare-dates");
+    compare.setAttribute("data-calc-compare-cta", "");
     actions.appendChild(primary);
     actions.appendChild(compare);
     cta.appendChild(actions);
@@ -865,10 +865,10 @@
     // Proposal CTA: stamp state into the session (belt-and-braces — update()
     // already wrote it) and track the conversion click.
     wrap.addEventListener("click", function (event) {
-      var link = event.target && event.target.closest ? event.target.closest("[data-calc-proposal-cta]") : null;
+      var link = event.target && event.target.closest ? event.target.closest("[data-calc-proposal-cta], [data-calc-compare-cta]") : null;
       if (link) {
         update();
-        trackEvent(link.getAttribute("data-calc-proposal-cta") === "compare-dates" ? "calculator_compare_dates_clicked" : "calculator_proposal_clicked", analyticsContext(state));
+        trackEvent(link.hasAttribute("data-calc-compare-cta") ? "calculator_compare_dates_clicked" : "calculator_proposal_clicked", analyticsContext(state));
       }
     });
 
