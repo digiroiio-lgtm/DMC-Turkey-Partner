@@ -34,7 +34,9 @@
   --heading-h2: clamp(2rem, 3.2vw, 2.65rem);
   --heading-h1: clamp(2.625rem, 4vw, 3.375rem);
 
-  --max-width: 1200px;
+  --max-width: 1440px;
+  --page-gutter: 20px;
+  --text-measure: 72ch;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
@@ -43,6 +45,22 @@
   --space-6: 6rem;
 
   --radius: 2px;
+}
+
+@media (max-width: 420px) {
+  :root { --page-gutter: 16px; }
+}
+
+@media (min-width: 641px) {
+  :root { --page-gutter: 28px; }
+}
+
+@media (min-width: 1024px) {
+  :root { --page-gutter: 40px; }
+}
+
+@media (min-width: 1440px) {
+  :root { --page-gutter: 48px; }
 }
 
 /* -------------------------------------------------------------------------
@@ -95,7 +113,7 @@ h3 {
 
 p {
   margin: 0 0 var(--space-2);
-  max-width: 46rem;
+  max-width: var(--text-measure);
 }
 
 a {
@@ -120,9 +138,9 @@ ul {
 }
 
 .container {
-  max-width: var(--max-width);
+  max-width: calc(var(--max-width) + 2 * var(--page-gutter));
   margin-inline: auto;
-  padding-inline: var(--space-3);
+  padding-inline: var(--page-gutter);
 }
 
 .sr-only {
@@ -156,9 +174,9 @@ main {
   display: block;
   padding-block: var(--space-5);
   min-height: 40vh;
-  max-width: var(--max-width);
+  max-width: calc(var(--max-width) + 2 * var(--page-gutter));
   margin-inline: auto;
-  padding-inline: var(--space-3);
+  padding-inline: var(--page-gutter);
 }
 
 /* -------------------------------------------------------------------------
@@ -166,14 +184,16 @@ main {
    ------------------------------------------------------------------------- */
 .btn {
   display: inline-block;
+  max-width: 100%;
   padding: 0.65rem 1.4rem;
   border-radius: var(--radius);
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.35;
   border: 1px solid transparent;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
 }
 
 .btn:hover,
@@ -272,6 +292,11 @@ main {
   box-shadow: 0 8px 24px rgba(20, 23, 28, 0.08);
 }
 
+.site-nav__list > .nav-group:last-child > .nav-group__menu {
+  left: auto;
+  right: 0;
+}
+
 .nav-group__menu li a {
   display: block;
   padding: var(--space-1) var(--space-2);
@@ -319,6 +344,26 @@ main {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
+
+@media (min-width: 721px) and (max-width: 1100px) {
+  .site-header__inner {
+    flex-wrap: wrap;
+    row-gap: var(--space-1);
+  }
+
+  .site-nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .site-nav__list {
+    justify-content: space-between;
+  }
+
+  .site-header__cta {
+    margin-left: auto;
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -447,7 +492,7 @@ main {
 }
 
 .page-section__lede {
-  max-width: 60ch;
+  max-width: var(--text-measure);
   color: var(--color-charcoal);
 }
 
@@ -936,7 +981,7 @@ main > h1,
   font-size: var(--text-md);
   font-weight: 400;
   line-height: 1.6;
-  max-width: 46rem;
+  max-width: var(--text-measure);
 }
 
 .page-section > p:not(.page-section__lede),
@@ -1056,7 +1101,7 @@ main:has(.guide-meta) .page-section > p,
 main:has(.guide-meta) .page-section li {
   font-size: var(--text-md);
   line-height: 1.7;
-  max-width: 46rem;
+  max-width: var(--text-measure);
 }
 
 /* Event details retain editorial titles while keeping facts operational. */
@@ -1076,7 +1121,7 @@ main:has(.event-facts) > h1 {
 .page--legal li {
   font-size: var(--text-base);
   line-height: 1.7;
-  max-width: 46rem;
+  max-width: var(--text-measure);
 }
 
 .event-facts dd {
@@ -1254,8 +1299,7 @@ main:has(.event-facts) > h1 {
 /* -------------------------------------------------------------------------
    Selected Works
    Editorial project archive and detail template. Reuses existing tokens.
-   All visual areas are CSS-only structural placeholders until real project
-   photography is supplied — no imagery of any kind is generated here.
+   Real project photography and placeholders share the same card layout.
    ------------------------------------------------------------------------- */
 .works-trust {
   font-size: var(--text-sm);
@@ -1314,10 +1358,21 @@ main:has(.event-facts) > h1 {
   gap: var(--space-1);
   color: inherit;
   text-decoration: none;
+  min-width: 0;
 }
 
 .work-card--featured {
   grid-column: span 2;
+}
+
+.work-card:hover,
+.work-card:focus-visible {
+  text-decoration: none;
+}
+
+.work-card:hover .work-card__link,
+.work-card:focus-visible .work-card__link {
+  text-decoration: underline;
 }
 
 .project-visual-placeholder {
@@ -1380,7 +1435,8 @@ main:has(.event-facts) > h1 {
 }
 
 .work-card__link {
-  margin-top: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-1);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -1462,6 +1518,31 @@ main:has(.event-facts) > h1 {
   border-color: var(--color-brand);
 }
 
+/* Shared rows align covers, headings and CTAs without truncating project names. */
+@supports (grid-template-rows: subgrid) {
+  .work-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 6;
+  }
+
+  .work-card__cover {
+    grid-row: 1;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .work-card__category { grid-row: 2; }
+  .work-card__title { grid-row: 3; }
+  .work-card__meta { grid-row: 4; }
+  .work-card__services { grid-row: 5; }
+  .work-card__link { grid-row: 6; }
+}
+
+.works-grid .work-card--featured .work-card__cover {
+  aspect-ratio: 21 / 9;
+}
+
 .work-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1519,24 +1600,32 @@ main:has(.event-facts) > h1 {
     grid-column: auto;
   }
 
+  .works-grid .work-card--featured .work-card__cover {
+    aspect-ratio: 4 / 3;
+  }
+
   .work-visual-duo,
   .work-visual-trio {
     grid-template-columns: 1fr;
   }
 }
 
-/* Homepage "What We Build" production showcase: dark panel so stage and
+/* Homepage "What We Build" production showcase: full-width dark band so stage and
    LED photography reads at full contrast. Bento grid on desktop, a
    swipeable scroll-snap strip on phones. */
 .showcase-home {
   border-top: none;
+  padding-block: var(--space-5) var(--space-4);
+  background-color: var(--color-ink);
+  /* Extend the paint, not the layout width: no viewport-scrollbar overflow. */
+  box-shadow: 0 0 0 100vmax var(--color-ink);
+  clip-path: inset(0 -100vmax);
 }
 
 .showcase-home__panel {
   background-color: var(--color-ink);
   color: #fff;
-  padding: var(--space-5) var(--space-4) var(--space-4);
-  border-radius: 4px;
+  padding: 0;
 }
 
 .showcase-home__header {
@@ -1667,8 +1756,8 @@ main:has(.event-facts) > h1 {
 }
 
 @media (max-width: 900px) {
-  .showcase-home__panel {
-    padding: var(--space-4) var(--space-3) var(--space-3);
+  .showcase-home {
+    padding-block: var(--space-4) var(--space-3);
   }
 
   .showcase-grid {
@@ -1689,11 +1778,6 @@ main:has(.event-facts) > h1 {
 }
 
 @media (max-width: 640px) {
-  .showcase-home__panel {
-    padding: var(--space-4) var(--space-2) var(--space-3);
-    border-radius: 0;
-  }
-
   .showcase-grid {
     grid-template-columns: none;
     grid-auto-flow: column;
@@ -1765,7 +1849,7 @@ main:has(.event-facts) > h1 {
 }
 
 .works-home__header {
-  max-width: 60ch;
+  max-width: var(--text-measure);
 }
 
 .works-home__eyebrow {
@@ -1872,9 +1956,9 @@ main:has(.event-facts) > h1 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2) var(--space-3);
   /* Matches .container so the menu columns line up with the page beneath. */
-  max-width: var(--max-width);
+  max-width: calc(var(--max-width) + 2 * var(--page-gutter));
   margin-inline: auto;
-  padding-inline: var(--space-3);
+  padding-inline: var(--page-gutter);
 }
 
 .nav-mega__heading {
@@ -2371,7 +2455,7 @@ main:has(.event-facts) > h1 {
 /* --- Article --- */
 .news-article {
   /* Measure: long-form news reads badly at full container width. */
-  max-width: 46rem;
+  max-width: var(--text-measure);
 }
 
 .news-kicker {
@@ -2585,7 +2669,7 @@ main:has(.event-facts) > h1 {
 }
 
 /* Readable legal pages and equal-choice optional analytics controls. */
-.page--legal { max-width: 850px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+.page--legal { max-width: 850px; margin: 0 auto; padding: 3rem var(--page-gutter) 5rem; }
 .page--legal h1 { margin: 1.5rem 0 1rem; }
 .page--legal h2 { margin: 2rem 0 .75rem; font-size: 1.35rem; }
 .page--legal p, .page--legal li { line-height: 1.75; }

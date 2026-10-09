@@ -73,8 +73,8 @@ def homepage_section():
             "          </span>\n"
             "        </a>"
             % (" showcase-card--large" if large else "", SLUG, anchor,
-               img(name, "(max-width: 640px) 80vw, (max-width: 900px) 50vw, %s"
-                   % ("680px" if large else "480px"), "showcase-card__img"),
+               img(name, "auto, (max-width: 640px) 80vw, (max-width: 900px) %s, %s"
+                   % ("100vw" if large else "50vw", "840px" if large else "600px"), "showcase-card__img"),
                title, line)
         )
     return (
@@ -104,7 +104,7 @@ def gallery_sections():
                 continue
             figures.append(
                 '<figure class="showcase-figure">%s<figcaption>%s</figcaption></figure>'
-                % (img(name, "(max-width: 640px) calc(100vw - 3rem), (max-width: 900px) 50vw, 380px"),
+                % (img(name, "auto, (max-width: 420px) calc(100vw - 32px), (max-width: 640px) calc(100vw - 40px), (max-width: 900px) 50vw, 480px"),
                    caption)
             )
         out.append(

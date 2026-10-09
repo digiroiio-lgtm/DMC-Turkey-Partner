@@ -789,10 +789,14 @@
     }
 
     function update() {
-      state = readStateFromForm(root);
+      var nextState = readStateFromForm(root);
+      var inputsChanged = JSON.stringify(nextState) !== JSON.stringify(state);
+      state = nextState;
       var result = computeEstimate(state);
       writeState(Object.assign({}, state, { result: { total: result.total, perGuest: result.perGuest }, brief: buildLeadBrief(state, result), updatedAt: new Date().toISOString() }));
-      renderResults(root, state, result);
+      // A number input emits change on blur after input already recalculated.
+      // Keep the rendered links intact during that blur and the CTA click.
+      if (results.hidden || inputsChanged) { renderResults(root, state, result); }
       results.hidden = false;
       refine.hidden = false;
       calculateBtn.textContent = "Recalculate";
@@ -961,8 +965,9 @@
 
     form.addEventListener("submit", function () {
       trackEvent("calculator_proposal_submitted", analyticsContext(state));
-      clearState();
     });
+    // Invalid, pending or failed submissions must retain the estimate for retry.
+    form.addEventListener("proposal:success", clearState);
   }
 
   /* =======================================================================
