@@ -3113,3 +3113,41 @@ body.offpeak-open {
   font-size: var(--text-sm);
   margin: 0 0 var(--space-2);
 }
+
+/* Bare tables scroll inside their own box instead of widening the page. */
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll > table:not([class]) {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-scroll > table:not([class]) th,
+.table-scroll > table:not([class]) td {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-scroll > table:not([class]) th {
+  background-color: var(--color-sand);
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+
+/* Scroll hint: an edge shadow appears on the side that still has content. */
+.table-scroll,
+.comparison-table-wrap {
+  background:
+    linear-gradient(to right, var(--color-paper) 30%, rgba(255, 255, 255, 0)) left center / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--color-paper) 30%, rgba(255, 255, 255, 0)) right center / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)) left center / 0.7rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)) right center / 0.7rem 100% no-repeat scroll;
+}
