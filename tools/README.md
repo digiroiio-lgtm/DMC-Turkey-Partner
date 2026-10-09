@@ -176,8 +176,8 @@ python3 tools/off_season_build.py
 
 `tools/off_season_data.py` holds the destinations, their off-peak windows, the
 season label and last-updated date. The script writes
-`/off-season-events-turkey/`, `/off-season-events-turkey/belek/` and
-`/off-season-events-turkey/antalya/` and rewrites
+`/off-season-events-turkey/`, `/off-season-events-turkey/belek/`,
+`/off-season-events-turkey/antalya/` and `/off-season-events-turkey/istanbul/` and rewrites
 the pop-up's `OFFPEAK` block in `assets/js/main.js` between
 `/* offseason-data:begin/end */`, so the pop-up, the hub table and the pages
 cannot drift apart.
