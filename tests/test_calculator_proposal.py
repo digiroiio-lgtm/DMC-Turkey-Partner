@@ -194,8 +194,8 @@ class CalculatorProposalTests(unittest.TestCase):
         self.page.locator('[name="dates_unconfirmed"]').check()
         self.api_status = 200
         self.page.get_by_role("button", name="Send My Brief", exact=True).click()
-        expect(self.page.locator("[data-proposal-success]")).to_be_visible()
-        expect(self.page.locator("[data-proposal-form]")).to_be_hidden()
+        expect(self.page.locator(".success-modal")).to_be_visible()
+        expect(self.page.locator("[data-proposal-success]")).to_be_hidden()
         self.assertEqual(len(self.api_requests), 2)
         self.assertEqual(self.api_requests[1]["calculator_brief"], estimate["brief"])
         self.assertIsNone(self.stored_estimate())
@@ -208,12 +208,13 @@ class CalculatorProposalTests(unittest.TestCase):
         self.page.locator('[name="dates_unconfirmed"]').check()
         self.defer_response = True
         self.page.get_by_role("button", name="Send My Brief", exact=True).click()
-        expect(self.page.get_by_role("button", name="Send My Brief", exact=True)).to_be_disabled()
+        expect(self.page.get_by_role("button", name="Sending…", exact=True)).to_be_disabled()
         expect(self.page.locator("[data-proposal-form]")).to_be_visible()
+        expect(self.page.locator(".success-modal")).to_have_count(0)
         self.assertEqual(len(self.pending_routes), 1)
         self.assertEqual(self.stored_estimate(), estimate)
         self.fulfill_proposal(self.pending_routes.pop(), 200)
-        expect(self.page.locator("[data-proposal-success]")).to_be_visible()
+        expect(self.page.locator(".success-modal")).to_be_visible()
         self.assertIsNone(self.stored_estimate())
 
 

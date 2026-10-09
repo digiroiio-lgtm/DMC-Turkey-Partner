@@ -178,3 +178,141 @@ fieldset.form-field {
   }
 }
 
+
+/* Post-submission success modal (assets/js/main.js, openSuccessModal). */
+.has-success-modal {
+  overflow: hidden;
+}
+
+.success-modal {
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  max-height: calc(100svh - 2rem);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(20, 23, 28, 0.22);
+}
+
+.success-modal::backdrop {
+  background-color: rgba(20, 23, 28, 0.55);
+}
+
+.success-modal__panel {
+  position: relative;
+  padding: var(--space-5, 2rem) var(--space-4, 1.5rem) var(--space-4, 1.5rem);
+  text-align: center;
+}
+
+.success-modal__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.success-modal__close:hover {
+  background-color: var(--color-sand);
+}
+
+.success-modal__icon {
+  display: block;
+  margin: 0 auto var(--space-2, 1rem);
+}
+
+.success-modal__title {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.success-modal__title:focus {
+  outline: none;
+}
+
+.success-modal__sub {
+  margin: 0.25rem 0 var(--space-2, 1rem);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.success-modal__text {
+  margin: 0 auto var(--space-2, 1rem);
+  max-width: 26rem;
+  line-height: 1.6;
+}
+
+.success-modal__divider {
+  margin: var(--space-3, 1.5rem) 0;
+  border: 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.success-modal__heading {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.success-modal__actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: var(--space-3, 1.5rem);
+}
+
+.success-modal__whatsapp,
+.success-modal__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.success-modal__whatsapp {
+  color: #fff;
+  background-color: #25d366;
+  border-color: #25d366;
+  font-weight: 700;
+}
+
+.success-modal__whatsapp:hover,
+.success-modal__whatsapp:focus-visible {
+  color: #fff;
+  background-color: #1fb958;
+  border-color: #1fb958;
+}
+
+.success-modal__note {
+  margin: var(--space-2, 1rem) 0 0;
+  font-size: 0.85rem;
+  color: var(--color-charcoal);
+}
+
+@media (max-width: 380px) {
+  .success-modal__panel {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+button[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: default;
+}
