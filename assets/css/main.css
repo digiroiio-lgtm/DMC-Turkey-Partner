@@ -3072,3 +3072,44 @@ body.offpeak-open {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* Hero secondary links: three links, separators hidden once they stack. */
+.home-hero__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.6rem;
+  row-gap: 0.35rem;
+}
+
+.home-hero__sep {
+  color: var(--color-charcoal);
+}
+
+@media (max-width: 600px) {
+  .home-hero__links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-hero__sep {
+    display: none;
+  }
+}
+
+.compare-fields {
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-brand);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+}
+
+.compare-fields[hidden] {
+  display: none;
+}
+
+.compare-fields__note {
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-2);
+}

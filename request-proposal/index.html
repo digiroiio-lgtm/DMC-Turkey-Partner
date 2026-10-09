@@ -233,6 +233,17 @@
               <option>White-Label DMC Support</option><option>Other</option>
             </select>
           </div>
+          <div class="form-field form-field--full compare-fields" data-compare-fields hidden>
+            <p class="compare-fields__note"><strong>Comparing dates:</strong> add your preferred dates above and tell us how flexible you are. Our team prepares the side-by-side comparison as part of your proposal.</p>
+            <label for="proposal-date-flexibility">Date Flexibility</label>
+            <select id="proposal-date-flexibility" name="date_flexibility" data-compare-input disabled>
+              <option value="">Select how flexible your dates are</option>
+              <option>Off-peak window only</option>
+              <option>Compare off-peak and peak-season dates side by side</option>
+              <option>Open to any dates</option>
+            </select>
+            <input type="hidden" name="request_intent" value="" data-compare-input disabled>
+          </div>
           <div class="form-field form-field--full">
             <label for="proposal-brief">Tell us briefly about your project <span class="field-optional">(optional)</span></label>
             <textarea id="proposal-brief" name="brief" placeholder="3-night incentive programme for approximately 120 guests in Antalya..."></textarea>
