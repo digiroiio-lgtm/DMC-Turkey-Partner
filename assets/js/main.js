@@ -320,13 +320,18 @@
   // <body data-offpeak="slug">. Fires after 20 s of visible time or on exit
   // intent, never over the cookie banner, the mobile drawer or a form being
   // filled, and at most once per destination per 30 days.
+  /* offseason-data:begin */
   var OFFPEAK = {
-    istanbul:   { name: "Istanbul",   window: "January – February and July – August" },
-    antalya:    { name: "Antalya",    window: "December – February" },
-    belek:      { name: "Belek",      window: "December – February" },
-    cappadocia: { name: "Cappadocia", window: "December – February (excluding New Year week)" },
-    bodrum:     { name: "Bodrum",     window: "October – April" }
+    belek: { name: "Belek", window: "December – February", page: "/off-season-events-turkey/belek/" },
+    antalya: { name: "Antalya", window: "December – February", page: "/off-season-events-turkey/?destination=Antalya#compare" },
+    istanbul: { name: "Istanbul", window: "January – February and July – August", page: "/off-season-events-turkey/?destination=Istanbul#compare" },
+    cappadocia: { name: "Cappadocia", window: "December – February (excluding New Year week)", page: "/off-season-events-turkey/?destination=Cappadocia#compare" },
+    bodrum: { name: "Bodrum", window: "October – April", page: "/off-season-events-turkey/?destination=Bodrum#compare" }
   };
+  // Percentage shown in the pop-up only when backed by like-for-like quotes (tools/off_season_data.py).
+  var OFFPEAK_SAVING = null;
+  var OFFPEAK_PEAK = "March – June and September – November";
+  /* offseason-data:end */
   var OFFPEAK_WHATSAPP = "905353998999";
   var OFFPEAK_DELAY = 20;
   var OFFPEAK_REPEAT_DAYS = 30;
@@ -399,7 +404,18 @@
       markShown();
       var message = "Hello DMC Turkey Partner — we're interested in off-peak dates in " + data.name +
         " (" + data.window + ") for a group event.\nCompany:\nGroup size:\nPreferred dates:";
-      var href = "https://wa.me/" + OFFPEAK_WHATSAPP + "?text=" + encodeURIComponent(message);
+      var whatsapp = "https://wa.me/" + OFFPEAK_WHATSAPP + "?text=" + encodeURIComponent(message);
+      var title = OFFPEAK_SAVING
+        ? "Run your " + data.name + " event for up to " + OFFPEAK_SAVING + "% less"
+        : "Plan your " + data.name + " event in the off-peak window";
+      var text = OFFPEAK_SAVING
+        ? "<strong>" + data.window + "</strong> is " + data.name + "’s off-peak window. In like-for-like quotes, off-peak dates have come in up to " +
+          OFFPEAK_SAVING + "% below peak-season rates (" + OFFPEAK_PEAK + "). Compare your dates side by side."
+        : "<strong>" + data.window + "</strong> is " + data.name + "’s off-peak window. Hotels and venues have more availability and " +
+          "room to negotiate, so agencies with flexible dates can price the same programme in more than one window. We show the dates side by side.";
+      var note = OFFPEAK_SAVING
+        ? "Indicative saving vs peak-season rates; final pricing depends on dates, group size and availability."
+        : "Indicative; final pricing depends on dates, group size and availability.";
       var returnFocus = document.activeElement;
       var root = document.createElement("div");
       root.className = "offpeak";
@@ -408,20 +424,17 @@
         '<section class="offpeak__card" role="dialog" aria-modal="true" aria-labelledby="offpeak-title" aria-describedby="offpeak-text">' +
           '<button type="button" class="offpeak__close" data-offpeak-close="close" aria-label="Close">&times;</button>' +
           '<p class="offpeak__eyebrow">Off-peak opportunity · ' + data.name + '</p>' +
-          '<h2 class="offpeak__title" id="offpeak-title">Run your ' + data.name + ' event for up to 40% less</h2>' +
-          '<p class="offpeak__text" id="offpeak-text"><strong>' + data.window + '</strong> is ' + data.name +
-            '’s off-peak window. Hotel, resort and venue rates drop sharply, so agencies can deliver the same programme ' +
-            'for up to 40% below peak-season pricing. Ask us which dates are still open.</p>' +
+          '<h2 class="offpeak__title" id="offpeak-title">' + title + '</h2>' +
+          '<p class="offpeak__text" id="offpeak-text">' + text + '</p>' +
           '<ul class="offpeak__points">' +
-            '<li>Rates vs peak season, itemised</li>' +
+            '<li>Off-peak and peak dates compared side by side</li>' +
             '<li>Same hotels, venues and production</li>' +
             '<li>Limited dates — first confirmed, first held</li>' +
           '</ul>' +
-          '<a class="btn btn--primary offpeak__cta" href="' + href + '" target="_blank" rel="noopener">' +
-            '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>' +
-            'Ask about off-peak dates on WhatsApp</a>' +
+          '<a class="btn btn--primary offpeak__cta" href="' + data.page + '">Compare Dates &amp; Event Costs</a>' +
+          '<a class="offpeak__alt" href="' + whatsapp + '" target="_blank" rel="noopener">Prefer WhatsApp? Ask there</a>' +
           '<button type="button" class="offpeak__dismiss" data-offpeak-close="no_thanks">No thanks</button>' +
-          '<p class="offpeak__note">Indicative saving vs peak-season rates; final pricing depends on dates, group size and availability.</p>' +
+          '<p class="offpeak__note">' + note + '</p>' +
         '</section>';
       document.body.appendChild(root);
       document.body.classList.add("offpeak-open");
@@ -451,6 +464,9 @@
         var closer = event.target.closest("[data-offpeak-close]");
         if (closer) { close(closer.getAttribute("data-offpeak-close")); return; }
         if (event.target.closest(".offpeak__cta")) {
+          trackEvent("offpeak_popup_compare_click", { destination: slug });
+          close(null);
+        } else if (event.target.closest(".offpeak__alt")) {
           trackEvent("offpeak_popup_whatsapp_click", { destination: slug });
           close(null);
         }
