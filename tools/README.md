@@ -137,6 +137,24 @@ The script deliberately does not regenerate the COP31 cluster: several of those
 pages were edited directly after generation, and a full rebuild would revert
 those edits. Run `tools/sitemaps.py` afterwards for fresh `lastmod` dates.
 
+## Production showcase
+
+```
+python3 tools/production_showcase_build.py
+```
+
+`tools/production_showcase_data.py` lists the categories and every showcase
+photo (file name, category, alt text, caption). The script writes
+`/production-showcase/` and refreshes the homepage "What We Build" section
+between `<!-- production-showcase:begin/end -->` in `index.html`.
+
+To add a photo: save it as `assets/img/showcase/<descriptive-name>.webp` (about
+1024 px wide) plus a `-640.webp` copy, add a `PHOTOS` entry, and run the script.
+Use English, descriptive file names, and alt text that describes what is
+visible. Name a city only when the venue or campaign confirms it; otherwise say
+Türkiye. `HOMEPAGE` picks the six homepage cards; the first one is the large
+card.
+
 ## COP31 news layer
 
 ```
