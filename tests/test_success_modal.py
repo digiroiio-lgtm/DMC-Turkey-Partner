@@ -225,6 +225,8 @@ class SuccessModalTests(unittest.TestCase):
         dialog.get_by_role("link", name="Continue on WhatsApp").evaluate(
             "e => { e.addEventListener('click', ev => ev.preventDefault()); e.click(); }")
         dialog.get_by_role("button", name="Close").click()
+        expect(dialog).to_be_hidden()
+        self.page.wait_for_function("window.__events.some(e => e.name === 'success_modal_close')")
         events = self.page.evaluate("window.__events")
         names = [e["name"] for e in events]
         for name in ("generate_lead", "success_modal_view", "whatsapp_click_after_lead", "success_modal_close"):
@@ -255,6 +257,16 @@ class SuccessModalTests(unittest.TestCase):
                     self.assertLessEqual(target["x"] + target["width"], box["x"] + box["width"])
                     self.assertGreaterEqual(target["width"], 44, selector)
                 self.assertGreater(dialog.locator(".success-modal__whatsapp").bounding_box()["width"], width * 0.6)
+
+    def test_origin_page_param_is_src_and_legacy_source_still_works(self):
+        for query, expected in (("?src=venue-sourcing", "venue-sourcing"), ("?source=hotel-sourcing", "hotel-sourcing"), ("", "direct")):
+            with self.subTest(query=query):
+                self.open_form("/request-proposal/" + query)
+                self.assertEqual(self.page.locator('[name="source_page"]').input_value(), expected)
+        self.page.goto(self.base_url + "/services/venue-sourcing/", wait_until="networkidle")
+        href = self.page.locator('a[href^="/request-proposal/?"]').first.get_attribute("href")
+        self.assertIn("src=", href)
+        self.assertNotRegex(href, r"[?&]source=")
 
     def test_off_season_form_uses_the_modal(self):
         self.open_form("/off-season-events-turkey/belek/")

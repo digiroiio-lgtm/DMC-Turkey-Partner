@@ -658,7 +658,7 @@
   function proposalContext(pathname) {
     var parts = pathname.replace(/^\/|\/$/g, "").split("/");
     var source = parts.length ? parts.join("-") : "home";
-    var context = { source: source };
+    var context = { src: source };
     var destination = { istanbul: "Istanbul", antalya: "Antalya", belek: "Belek", bodrum: "Bodrum", cappadocia: "Cappadocia" };
     var projects = {
       "incentive-travel-turkey": "Incentive Travel",
@@ -716,7 +716,7 @@
         });
         link.href = "/request-proposal/?" + params.toString();
         trackEvent("request_proposal_click", {
-          source:        params.get("source"),
+          source:        params.get("src") || params.get("source"),
           cta_name:      link.textContent.trim(),
           cta_location:  detectCtaLocation(link),
           page_path:     window.location.pathname,
@@ -738,7 +738,8 @@
         sessionStorage.setItem("proposal_landing_page", landingPage);
       } catch (error) { /* Form remains usable when storage is disabled. */ }
     }
-    form.elements.source_page.value = params.get("source") || "direct";
+    // `src` carries the originating page; GA4 treats a bare `source` parameter as a campaign source.
+    form.elements.source_page.value = params.get("src") || params.get("source") || "direct";
     form.elements.landing_page.value = landingPage;
     form.elements.submission_page.value = window.location.origin + window.location.pathname;
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
