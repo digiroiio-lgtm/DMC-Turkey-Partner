@@ -659,6 +659,7 @@
         }).then(function () {
           form.hidden = true;
           document.querySelector("[data-proposal-success]").hidden = false;
+          form.dispatchEvent(new CustomEvent("proposal:success"));
           trackEvent("generate_lead", {
             source:           form.elements.source_page.value,
             lead_source:      form.elements.lead_source      ? form.elements.lead_source.value      : "",
