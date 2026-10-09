@@ -38,9 +38,9 @@
     // activities, entertainment, meeting facilities and production.
     destinations: {
       antalya:    { label: "Antalya",    coefficient: 1.00, hotel: 1.00, ground: 1.00 },
-      // Belek sits inside the Antalya resort region and is priced on the same
-      // resort basis. No separate Belek coefficients exist, so none are applied.
-      belek:      { label: "Belek",      coefficient: 1.00, hotel: 1.00, ground: 1.00, sharesBasisWith: "Antalya" },
+      // Belek is in the Antalya resort region; owner planning assumption: priced
+      // 10% above Antalya across hotel and ground costs.
+      belek:      { label: "Belek",      coefficient: 1.10, hotel: 1.10, ground: 1.10, premiumOver: "Antalya", premiumPct: 10 },
       istanbul:   { label: "Istanbul",   coefficient: 1.15, hotel: 1.50, ground: 1.15 },
       bodrum:     { label: "Bodrum",     coefficient: 1.20, hotel: 1.25, ground: 1.10 },
       cappadocia: { label: "Cappadocia", coefficient: 1.10, hotel: 1.15, ground: 1.05 }
@@ -448,8 +448,9 @@
       }).join(", "));
     }
     bullets.push("Standard local DMC coordination");
-    if (CONFIG.destinations[state.destination].sharesBasisWith) {
-      bullets.push(CONFIG.destinations[state.destination].label + " is priced on our " + CONFIG.destinations[state.destination].sharesBasisWith + "-region resort planning basis; no separate " + CONFIG.destinations[state.destination].label + " coefficients are applied");
+    var destCfg = CONFIG.destinations[state.destination];
+    if (destCfg.premiumOver) {
+      bullets.push(destCfg.label + " is planned about " + destCfg.premiumPct + "% above our " + destCfg.premiumOver + " basis (planning assumption, not a quotation)");
     }
     return bullets;
   }
