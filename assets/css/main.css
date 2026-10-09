@@ -1373,6 +1373,23 @@ main:has(.event-facts) > h1 {
   aspect-ratio: 16 / 9;
 }
 
+/* Three-up row for portrait project photos. */
+.work-visual-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.work-visual-trio .work-photo img {
+  aspect-ratio: 4 / 5;
+}
+
+/* Portrait stage photos cropped to 16:9 keep the stage, not the ceiling. */
+.work-photo--stage {
+  object-position: 50% 45%;
+}
+
 .work-card:hover .work-card__photo,
 .work-card:focus-visible .work-card__photo {
   border-color: var(--color-brand);
@@ -1435,7 +1452,8 @@ main:has(.event-facts) > h1 {
     grid-column: auto;
   }
 
-  .work-visual-duo {
+  .work-visual-duo,
+  .work-visual-trio {
     grid-template-columns: 1fr;
   }
 }
