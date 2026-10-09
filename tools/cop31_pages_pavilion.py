@@ -3,6 +3,7 @@
 
 from cop31_links import A, L
 from cop31_render import cards, checklist, lede, para, plain_list, section, steps, table
+from transfer_pricing import block as transfer_prices
 
 BACK = para(
     "This page is part of the "
@@ -271,6 +272,7 @@ TRANSPORT = {
                 ("Airport Transfers", "/cop31-antalya-airport-transfer/", "Arrivals and departures at Antalya Airport, including meet-and-greet and staged group arrivals."),
                 ("Event Services", "/cop31-event-services/", "Transport planned together with the rest of your programme rather than as a separate track."),
             ]),
+            transfer_prices("cop31-transport"),
         ),
     ],
     "cta_services": L(

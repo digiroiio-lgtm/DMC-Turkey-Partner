@@ -586,6 +586,12 @@
     CAMPAIGN_FIELDS.forEach(function (key) {
       if (params.get(key)) { campaign[key] = params.get(key); }
     });
+    // A form embedded on a landing page (e.g. /antalya-transfer-prices/)
+    // takes its attribution from that page's dmc:* meta tags.
+    if (!campaign.lead_source) {
+      var meta = campaignMeta();
+      if (meta.lead_source) { campaign = meta; }
+    }
     campaign = storedCampaign(campaign);
     CAMPAIGN_FIELDS.forEach(function (key) {
       if (form.elements[key]) { form.elements[key].value = campaign[key] || ""; }

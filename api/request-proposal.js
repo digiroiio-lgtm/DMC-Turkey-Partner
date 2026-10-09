@@ -51,6 +51,16 @@ function buildEmail(fields) {
     ["Submitted At", fields.timestamp || new Date().toISOString()]
   ];
 
+  // Transfer quote fields (/antalya-transfer-prices/), shown only when sent.
+  [
+    ["Transfer Service", fields.service_type],
+    ["Luggage", fields.luggage],
+    ["Pick-up Point", fields.pickup],
+    ["Drop-off Point", fields.dropoff]
+  ].forEach(function (row) {
+    if (row[1]) { rows.splice(rows.length - 1, 0, row); }
+  });
+
   const html =
     "<h2>New Proposal Request</h2>" +
     "<table>" +
@@ -115,7 +125,11 @@ module.exports = async function handler(req, res) {
     "lead_source",
     "campaign",
     "service_interest",
-    "page_type"
+    "page_type",
+    "service_type",
+    "luggage",
+    "pickup",
+    "dropoff"
   ]).forEach(function (name) {
     fields[name] = readField(body, name);
   });
