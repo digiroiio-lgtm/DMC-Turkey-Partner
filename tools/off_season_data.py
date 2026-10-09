@@ -65,7 +65,7 @@ DESTINATIONS = [
         "slug": "bodrum", "name": "Bodrum", "window": "October – April",
         "events": "Premium incentives, private groups, corporate hospitality",
         "scope": "Coastal: depends on which hotels stay open",
-        "page": None,
+        "page": "/off-season-events-turkey/bodrum/",
     },
 ]
 
