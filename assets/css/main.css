@@ -3113,3 +3113,31 @@ body.offpeak-open {
   font-size: var(--text-sm);
   margin: 0 0 var(--space-2);
 }
+
+/* Bare tables scroll inside their own box instead of widening the page. */
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll > table:not([class]) {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-scroll > table:not([class]) th,
+.table-scroll > table:not([class]) td {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-scroll > table:not([class]) th {
+  background-color: var(--color-sand);
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
