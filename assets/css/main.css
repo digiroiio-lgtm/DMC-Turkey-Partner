@@ -3141,3 +3141,13 @@ body.offpeak-open {
   font-family: var(--font-serif);
   font-weight: 500;
 }
+
+/* Scroll hint: an edge shadow appears on the side that still has content. */
+.table-scroll,
+.comparison-table-wrap {
+  background:
+    linear-gradient(to right, var(--color-paper) 30%, rgba(255, 255, 255, 0)) left center / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--color-paper) 30%, rgba(255, 255, 255, 0)) right center / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)) left center / 0.7rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)) right center / 0.7rem 100% no-repeat scroll;
+}
