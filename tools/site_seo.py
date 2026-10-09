@@ -46,8 +46,8 @@ def organization():
         "logo": {
             "@type": "ImageObject",
             "@id": cfg.SITE + "/#logo",
-            "url": cfg.SITE + "/assets/img/dmcturkeypartner-logo.svg",
-            "contentUrl": cfg.SITE + "/assets/img/dmcturkeypartner-logo.svg",
+            "url": cfg.SITE + "/assets/img/brand/dmc-turkey-partner-logo.png",
+            "contentUrl": cfg.SITE + "/assets/img/brand/dmc-turkey-partner-logo.png",
         },
         "image": {"@id": cfg.SITE + "/#logo"},
         "email": cfg.ORG_EMAIL,

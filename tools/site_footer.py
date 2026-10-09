@@ -69,7 +69,7 @@ def render():
     <div class="container">
       <div class="site-footer__grid">
         <div class="site-footer__col site-footer__col--brand">
-          <a class="site-logo site-logo--footer" href="/" aria-label="DmcTurkeyPartner.com home">Dmc<span>Turkey</span>Partner</a>
+          <a class="site-logo site-logo--footer" href="/" aria-label="DMC Turkey Partner — home"><img src="/assets/img/brand/dmc-turkey-partner-logo.svg" width="1214" height="410" alt="DMC Turkey Partner" loading="lazy"></a>
           <p>Local DMC, MICE and white-label event execution across Turkey.</p>
           <a class="btn btn--primary" href="/request-proposal/">Request a Proposal</a>
         </div>
