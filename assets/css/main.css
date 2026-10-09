@@ -458,6 +458,45 @@ main {
   margin-top: var(--space-3);
 }
 
+/* Fixed column counts where the item count is known, so rows stay even. */
+.card-grid--four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card-grid--five {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .card-grid--four,
+  .card-grid--five {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-grid--five > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid--four,
+  .card-grid--five {
+    grid-template-columns: 1fr;
+  }
+
+  .card-grid--five > :last-child {
+    grid-column: auto;
+  }
+}
+
+.section-more {
+  margin-top: var(--space-3);
+}
+
+.page-section--flush {
+  border-top: none;
+}
+
 .card {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
@@ -484,6 +523,11 @@ main {
   padding: var(--space-4);
   text-align: center;
   margin-top: var(--space-3);
+}
+
+/* Global p max-width would otherwise pin centred banner copy to the left. */
+.cta-banner p {
+  margin-inline: auto;
 }
 
 .cta-banner__actions {
@@ -545,35 +589,42 @@ main {
   font-size: 1.15em;
 }
 
-.home-hero__trust {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-3);
-  list-style: none;
-  margin: var(--space-4) 0 0;
-  padding: 0;
-  font-size: var(--text-sm);
-  color: var(--color-charcoal);
-}
-
-.home-hero__trust li {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
 .home-hero .hero-actions {
   align-items: center;
 }
 
-.home-hero__trust svg {
-  width: 1.3rem;
-  height: 1.3rem;
+/* What happens after a brief is sent: shown under proposal CTAs. */
+.cta-expect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-charcoal);
+}
+
+.cta-expect li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.cta-expect li::before {
+  content: "";
   flex: none;
-  fill: none;
-  stroke: #8fc000;
-  stroke-width: 1.6;
-  stroke-linecap: round;
+  width: 0.45rem;
+  height: 0.8rem;
+  margin-top: -0.2rem;
+  border: solid #6f9800;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.cta-banner .cta-expect {
+  justify-content: center;
 }
 
 .home-hero__links {
@@ -619,12 +670,19 @@ main {
     text-align: center;
   }
 
-  .home-hero__trust {
+  .cta-expect {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-banner .cta-expect {
+    align-items: center;
   }
 }
 
 .steps-list {
+  list-style: none;
+  padding-left: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-3);
