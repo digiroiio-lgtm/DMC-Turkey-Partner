@@ -53,7 +53,7 @@ DESTINATIONS = [
         "slug": "istanbul", "name": "Istanbul", "window": "January – February and July – August",
         "events": "Meetings, conferences, corporate events, premium group programmes",
         "scope": "City: business hotels, city venues, short-stay programmes",
-        "page": None,
+        "page": "/off-season-events-turkey/istanbul/",
     },
     {
         "slug": "cappadocia", "name": "Cappadocia", "window": "December – February (excluding New Year week)",
