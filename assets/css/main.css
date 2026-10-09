@@ -2672,6 +2672,7 @@ main:has(.event-facts) > h1 {
 }
 
 .proof-strip__label {
+  max-width: none;
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -2680,11 +2681,10 @@ main:has(.event-facts) > h1 {
 }
 
 .proof-strip__list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem 1.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -2695,18 +2695,32 @@ main:has(.event-facts) > h1 {
 }
 
 .proof-strip__list li {
-  white-space: nowrap;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
-@media (min-width: 640px) {
+.proof-strip__list a {
+  color: inherit;
+}
+
+.proof-strip__role {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: var(--color-charcoal);
+}
+
+@media (min-width: 1200px) {
   .proof-strip__list {
-    gap: 0;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
-  .proof-strip__list li + li::before {
-    content: "·";
-    margin: 0 1.25rem;
-    color: var(--color-text-muted, #9ca3af);
-    font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .proof-strip__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 .proof-strip__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; list-style: none; padding: 0; margin: 1.25rem 0 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted, #6b7280); }
