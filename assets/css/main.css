@@ -501,6 +501,129 @@ main {
   margin-top: var(--space-3);
 }
 
+/* Home hero: copy left, location-pin image right; stacks on mobile. */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.home-hero__eyebrow {
+  display: inline-block;
+  margin: 0 0 var(--space-3);
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #b7ff00;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #5c7a00;
+}
+
+.page-section.home-hero h1 {
+  font-size: clamp(2.5rem, 5.2vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  max-width: 13ch;
+  margin-bottom: var(--space-3);
+}
+
+.home-hero__accent {
+  color: #9fd400;
+}
+
+.home-hero__cta {
+  padding: 1.05rem 1.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.home-hero__cta span {
+  margin-left: 1.5rem;
+  font-size: 1.15em;
+}
+
+.home-hero__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  color: var(--color-charcoal);
+}
+
+.home-hero__trust li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.home-hero .hero-actions {
+  align-items: center;
+}
+
+.home-hero__trust svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: none;
+  fill: none;
+  stroke: #8fc000;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.home-hero__links {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.home-hero__media {
+  justify-self: end;
+  width: 100%;
+  max-width: 560px;
+}
+
+.home-hero__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .home-hero__media {
+    justify-self: center;
+    max-width: min(88vw, 520px);
+  }
+}
+
+@media (max-width: 720px) {
+  .page-section.home-hero h1 {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+
+  .home-hero__media {
+    max-width: min(80vw, 380px);
+  }
+
+  .home-hero__cta {
+    width: 100%;
+    text-align: center;
+  }
+
+  .home-hero__trust {
+    flex-direction: column;
+  }
+}
+
 .steps-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
