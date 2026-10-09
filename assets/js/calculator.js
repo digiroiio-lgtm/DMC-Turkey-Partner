@@ -38,6 +38,9 @@
     // activities, entertainment, meeting facilities and production.
     destinations: {
       antalya:    { label: "Antalya",    coefficient: 1.00, hotel: 1.00, ground: 1.00 },
+      // Belek sits inside the Antalya resort region and is priced on the same
+      // resort basis. No separate Belek coefficients exist, so none are applied.
+      belek:      { label: "Belek",      coefficient: 1.00, hotel: 1.00, ground: 1.00, sharesBasisWith: "Antalya" },
       istanbul:   { label: "Istanbul",   coefficient: 1.15, hotel: 1.50, ground: 1.15 },
       bodrum:     { label: "Bodrum",     coefficient: 1.20, hotel: 1.25, ground: 1.10 },
       cappadocia: { label: "Cappadocia", coefficient: 1.10, hotel: 1.15, ground: 1.05 }
@@ -150,19 +153,19 @@
     // Only works matching the current programme are shown beneath a result.
     works: [
       { slug: "cw-enerji-dealer-sales-meeting",        title: "CW Enerji Dealer & Sales Meeting",        meta: "Dealer incentive meeting, Nirvana Cosmopolitan, Antalya.",       destinations: ["antalya"],    eventTypes: ["incentive"] },
-      { slug: "bellona-dealer-meeting",                title: "Bellona Dealer Meeting",                  meta: "Dealer incentive meeting, Belek.",                            destinations: ["antalya"],    eventTypes: ["incentive", "corporate-event"] },
+      { slug: "bellona-dealer-meeting",                title: "Bellona Dealer Meeting",                  meta: "Dealer incentive meeting, Belek.",                            destinations: ["antalya", "belek"],    eventTypes: ["incentive", "corporate-event"] },
       { slug: "anadolu-sigorta-100th-anniversary",     title: "Anadolu Sigorta 100th Anniversary",       meta: "Corporate anniversary event, Kremlin Palace, Antalya.",       destinations: ["antalya"],    eventTypes: ["corporate-event", "gala-event", "incentive"] },
       { slug: "turkiye-is-bankasi-aktob-conference",   title: "Türkiye İş Bankası AKTOB Conference",     meta: "Corporate conference, Antalya.",                              destinations: ["antalya"],    eventTypes: ["conference", "congress"] },
-      { slug: "23rd-national-surgery-congress",        title: "23rd National Surgery Congress",          meta: "Association congress, Susesi Luxury Resort, Belek.",           destinations: ["antalya"],    eventTypes: ["conference", "congress"] },
+      { slug: "23rd-national-surgery-congress",        title: "23rd National Surgery Congress",          meta: "Association congress, Susesi Luxury Resort, Belek.",           destinations: ["antalya", "belek"],    eventTypes: ["conference", "congress"] },
       { slug: "swarovski-meeting-akra-antalya",        title: "Swarovski Meeting",                       meta: "Corporate meeting, Akra Antalya.",                             destinations: ["antalya"],    eventTypes: ["corporate-event", "conference", "corporate-retreat"] },
-      { slug: "vakifbank-management-summit-titanic-belek", title: "VakıfBank Management Summit",         meta: "Corporate management summit, Titanic Deluxe Golf Belek.",      destinations: ["antalya"],    eventTypes: ["corporate-event", "corporate-retreat"] },
-      { slug: "eksim-holding-management-summit",       title: "Eksim Holding Management Summit",         meta: "Management summit, Calista Luxury Resort, Belek.",             destinations: ["antalya"],    eventTypes: ["corporate-retreat", "corporate-event"] },
-      { slug: "pierre-fabre-titanic-belek",            title: "Pierre Fabre Corporate Event",            meta: "Corporate event, Titanic Belek.",                             destinations: ["antalya"],    eventTypes: ["corporate-retreat", "corporate-event", "incentive"] },
+      { slug: "vakifbank-management-summit-titanic-belek", title: "VakıfBank Management Summit",         meta: "Corporate management summit, Titanic Deluxe Golf Belek.",      destinations: ["antalya", "belek"],    eventTypes: ["corporate-event", "corporate-retreat"] },
+      { slug: "eksim-holding-management-summit",       title: "Eksim Holding Management Summit",         meta: "Management summit, Calista Luxury Resort, Belek.",             destinations: ["antalya", "belek"],    eventTypes: ["corporate-retreat", "corporate-event"] },
+      { slug: "pierre-fabre-titanic-belek",            title: "Pierre Fabre Corporate Event",            meta: "Corporate event, Titanic Belek.",                             destinations: ["antalya", "belek"],    eventTypes: ["corporate-retreat", "corporate-event", "incentive"] },
       { slug: "dosso-dossi-fashion-show",              title: "Dosso Dossi Fashion Show",                meta: "Fashion show production, The Land of Legends, Antalya.",       destinations: ["antalya"],    eventTypes: ["product-launch", "brand-experience", "gala-event"] },
       { slug: "altin-kiraz-festival-press-launch",     title: "Altın Kiraz Festival — Press Launch",     meta: "Festival press launch, Korkuteli, Antalya.",                   destinations: ["antalya"],    eventTypes: ["product-launch", "brand-experience"] },
       { slug: "mapfre-sigorta-corporate-event",        title: "MAPFRE Sigorta Corporate Event",          meta: "Corporate event production, Antalya.",                         destinations: ["antalya"],    eventTypes: ["brand-experience", "corporate-event", "gala-event"] },
       { slug: "turk-telekom-business-partners-meeting", title: "Türk Telekom Business Partners Meeting", meta: "Business partners meeting, Rixos Sungate, Kemer.",             destinations: ["antalya"],    eventTypes: ["corporate-event", "conference"] },
-      { slug: "temsa-corporate-event-calista-belek",   title: "TEMSA Corporate Event",                   meta: "Corporate event, Calista Luxury Resort, Belek.",               destinations: ["antalya"],    eventTypes: ["corporate-event"] }
+      { slug: "temsa-corporate-event-calista-belek",   title: "TEMSA Corporate Event",                   meta: "Corporate event, Calista Luxury Resort, Belek.",               destinations: ["antalya", "belek"],    eventTypes: ["corporate-event"] }
     ],
 
     copy: {
@@ -445,6 +448,9 @@
       }).join(", "));
     }
     bullets.push("Standard local DMC coordination");
+    if (CONFIG.destinations[state.destination].sharesBasisWith) {
+      bullets.push(CONFIG.destinations[state.destination].label + " is priced on our " + CONFIG.destinations[state.destination].sharesBasisWith + "-region resort planning basis; no separate " + CONFIG.destinations[state.destination].label + " coefficients are applied");
+    }
     return bullets;
   }
 
@@ -640,17 +646,23 @@
     // Conversion CTA — shown only after the estimate has been delivered.
     var cta = el("div", "calc__cta");
     cta.appendChild(el("h3", "calc__heading", "Planning Something Like This?"));
-    cta.appendChild(el("p", null, "Turn this estimate into an actual programme. Share your dates and a few project details and our local Turkey team can prepare a tailored programme and proposal."));
+    cta.appendChild(el("p", null, "Turn this estimate into an actual programme. Your programme details carry over to the proposal form. Our local Turkey team prepares the tailored proposal, and can price alternative dates side by side for you."));
     var actions = el("div", "cta-banner__actions");
-    var primary = el("a", "btn btn--primary", "Request a Detailed Proposal");
+    var primary = el("a", "btn btn--primary", "Request a Tailored Proposal");
     primary.setAttribute("href", "/request-proposal/");
     primary.setAttribute("data-calc-proposal-cta", "");
-    var secondary = el("a", "btn btn--ghost", "Book a Partner Call");
-    secondary.setAttribute("href", "/contact/");
-    secondary.setAttribute("data-track", "calculator_partner_call_click");
+    var compare = el("a", "btn btn--ghost", "Compare Alternative Dates");
+    compare.setAttribute("href", "/request-proposal/?intent=compare-dates");
+    compare.setAttribute("data-calc-proposal-cta", "compare-dates");
     actions.appendChild(primary);
-    actions.appendChild(secondary);
+    actions.appendChild(compare);
     cta.appendChild(actions);
+    var callNote = el("p", "calc__cta-note");
+    var callLink = el("a", null, "Prefer to talk it through? Book a Partner Call");
+    callLink.setAttribute("href", "/contact/");
+    callLink.setAttribute("data-track", "calculator_partner_call_click");
+    callNote.appendChild(callLink);
+    cta.appendChild(callNote);
     container.appendChild(cta);
 
     // Disclaimer — directly beneath the estimate, per the brief.
@@ -855,7 +867,7 @@
       var link = event.target && event.target.closest ? event.target.closest("[data-calc-proposal-cta]") : null;
       if (link) {
         update();
-        trackEvent("calculator_proposal_clicked", analyticsContext(state));
+        trackEvent(link.getAttribute("data-calc-proposal-cta") === "compare-dates" ? "calculator_compare_dates_clicked" : "calculator_proposal_clicked", analyticsContext(state));
       }
     });
 
@@ -872,6 +884,27 @@
    * 7. Proposal page integration
    * =======================================================================
    */
+  function isCompareIntent() {
+    return new URLSearchParams(window.location.search).get("intent") === "compare-dates";
+  }
+
+  // "Compare Alternative Dates": switch on the date-comparison fields of the
+  // proposal form. The comparison itself is prepared by our team as a proposal.
+  function initCompareIntent() {
+    var form = document.querySelector("[data-proposal-form]");
+    var block = document.querySelector("[data-compare-fields]");
+    if (!form || !block || !isCompareIntent()) { return; }
+    block.hidden = false;
+    Array.prototype.forEach.call(block.querySelectorAll("[data-compare-input]"), function (input) { input.disabled = false; });
+    var flex = form.elements.date_flexibility;
+    if (flex) { flex.required = true; }
+    var intent = form.elements.request_intent;
+    if (intent) { intent.disabled = false; intent.value = "Compare alternative dates"; }
+    var title = document.querySelector("h1");
+    if (title) { title.textContent = "Compare Alternative Dates"; }
+    trackEvent("compare_dates_form_view", { page_path: window.location.pathname });
+  }
+
   function initProposalIntegration() {
     var form = document.querySelector("[data-proposal-form]");
     var summary = document.querySelector("[data-calculator-summary]");
@@ -957,7 +990,7 @@
     var briefField = document.createElement("input");
     briefField.setAttribute("type", "hidden");
     briefField.setAttribute("name", "calculator_brief");
-    briefField.value = stored.brief || "";
+    briefField.value = (stored.brief || "") + (isCompareIntent() ? "\nRequest: Compare alternative dates (team to prepare a side-by-side comparison proposal)" : "");
     form.appendChild(briefField);
 
     summary.hidden = false;
@@ -983,6 +1016,7 @@
       });
     }
     roots.forEach(buildCalculator);
+    initCompareIntent();
     initProposalIntegration();
   });
 
