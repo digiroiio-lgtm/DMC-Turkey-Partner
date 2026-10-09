@@ -31,6 +31,7 @@
     initPhoneTracking();
     initBookCallTracking();
     initStickyCta();
+    initOffPeakOffer();
   });
 
   // Category filter for the COP31 news hub. Progressive enhancement: without
@@ -313,6 +314,148 @@
     sections.forEach(function (item) {
       observer.observe(item.section);
     });
+  }
+
+  // Off-peak opportunity pop-up, shown only on destination pages that carry
+  // <body data-offpeak="slug">. Fires after 20 s of visible time or on exit
+  // intent, never over the cookie banner, the mobile drawer or a form being
+  // filled, and at most once per destination per 30 days.
+  var OFFPEAK = {
+    istanbul:   { name: "Istanbul",   window: "January – February and July – August" },
+    antalya:    { name: "Antalya",    window: "December – February" },
+    belek:      { name: "Belek",      window: "December – February" },
+    cappadocia: { name: "Cappadocia", window: "December – February (excluding New Year week)" },
+    bodrum:     { name: "Bodrum",     window: "October – April" }
+  };
+  var OFFPEAK_WHATSAPP = "905353998999";
+  var OFFPEAK_DELAY = 20;
+  var OFFPEAK_REPEAT_DAYS = 30;
+
+  function initOffPeakOffer() {
+    var slug = document.body.getAttribute("data-offpeak");
+    var data = slug && OFFPEAK[slug];
+    if (!data) { return; }
+    var storeKey = "dmc_offpeak_" + slug;
+    var shownThisLoad = false;
+
+    function alreadyShown() {
+      if (shownThisLoad) { return true; }
+      try {
+        var at = parseInt(localStorage.getItem(storeKey), 10);
+        return at > 0 && Date.now() - at < OFFPEAK_REPEAT_DAYS * 864e5;
+      } catch (error) { return false; }
+    }
+    function markShown() {
+      shownThisLoad = true;
+      try { localStorage.setItem(storeKey, String(Date.now())); } catch (error) { /* once per page load */ }
+    }
+    if (alreadyShown()) { return; }
+
+    function blocked() {
+      var banner = document.querySelector(".cookie-banner");
+      if (banner && !banner.hidden) { return true; }
+      if (document.body.classList.contains("nav-open")) { return true; }
+      if (document.querySelector('[role="dialog"]:not([hidden])')) { return true; }
+      var active = document.activeElement;
+      return !!(active && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName));
+    }
+
+    var elapsed = 0;
+    var ticker = setInterval(function () {
+      if (document.hidden || blocked()) { return; }
+      elapsed += 1;
+      if (elapsed >= OFFPEAK_DELAY) { open("timer"); }
+    }, 1000);
+
+    function onMouseOut(event) {
+      if (!event.relatedTarget && event.clientY <= 0 && elapsed >= 3 && !blocked()) { open("exit"); }
+    }
+    document.addEventListener("mouseout", onMouseOut);
+
+    var lastY = window.scrollY;
+    var lastT = Date.now();
+    function onScroll() {
+      var now = Date.now();
+      var y = window.scrollY;
+      var depth = (y + window.innerHeight) / document.documentElement.scrollHeight;
+      // A fast flick back up after reading half the page: leaving intent on touch.
+      if (window.matchMedia("(max-width: 720px)").matches && depth < 0.9 && lastY - y > 600 &&
+          now - lastT < 400 && lastY / document.documentElement.scrollHeight > 0.5 && elapsed >= 3 && !blocked()) {
+        open("scroll");
+      }
+      if (now - lastT > 400) { lastY = y; lastT = now; }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    function stop() {
+      clearInterval(ticker);
+      document.removeEventListener("mouseout", onMouseOut);
+      window.removeEventListener("scroll", onScroll);
+    }
+
+    function open(trigger) {
+      if (alreadyShown()) { stop(); return; }
+      stop();
+      markShown();
+      var message = "Hello DMC Turkey Partner — we're interested in off-peak dates in " + data.name +
+        " (" + data.window + ") for a group event.\nCompany:\nGroup size:\nPreferred dates:";
+      var href = "https://wa.me/" + OFFPEAK_WHATSAPP + "?text=" + encodeURIComponent(message);
+      var returnFocus = document.activeElement;
+      var root = document.createElement("div");
+      root.className = "offpeak";
+      root.innerHTML =
+        '<div class="offpeak__backdrop" data-offpeak-close="backdrop"></div>' +
+        '<section class="offpeak__card" role="dialog" aria-modal="true" aria-labelledby="offpeak-title" aria-describedby="offpeak-text">' +
+          '<button type="button" class="offpeak__close" data-offpeak-close="close" aria-label="Close">&times;</button>' +
+          '<p class="offpeak__eyebrow">Off-peak opportunity · ' + data.name + '</p>' +
+          '<h2 class="offpeak__title" id="offpeak-title">Run your ' + data.name + ' event for up to 40% less</h2>' +
+          '<p class="offpeak__text" id="offpeak-text"><strong>' + data.window + '</strong> is ' + data.name +
+            '’s off-peak window. Hotel, resort and venue rates drop sharply, so agencies can deliver the same programme ' +
+            'for up to 40% below peak-season pricing. Ask us which dates are still open.</p>' +
+          '<ul class="offpeak__points">' +
+            '<li>Rates vs peak season, itemised</li>' +
+            '<li>Same hotels, venues and production</li>' +
+            '<li>Limited dates — first confirmed, first held</li>' +
+          '</ul>' +
+          '<a class="btn btn--primary offpeak__cta" href="' + href + '" target="_blank" rel="noopener">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>' +
+            'Ask about off-peak dates on WhatsApp</a>' +
+          '<button type="button" class="offpeak__dismiss" data-offpeak-close="no_thanks">No thanks</button>' +
+          '<p class="offpeak__note">Indicative saving vs peak-season rates; final pricing depends on dates, group size and availability.</p>' +
+        '</section>';
+      document.body.appendChild(root);
+      document.body.classList.add("offpeak-open");
+      var card = root.querySelector(".offpeak__card");
+      requestAnimationFrame(function () { root.classList.add("is-visible"); });
+      root.querySelector(".offpeak__cta").focus();
+      trackEvent("offpeak_popup_view", { destination: slug, trigger: trigger });
+
+      function close(method) {
+        document.removeEventListener("keydown", onKey, true);
+        document.body.classList.remove("offpeak-open");
+        root.remove();
+        if (returnFocus && returnFocus.focus) { returnFocus.focus(); }
+        if (method) { trackEvent("offpeak_popup_dismiss", { destination: slug, method: method }); }
+      }
+      function onKey(event) {
+        if (event.key === "Escape") { event.preventDefault(); close("esc"); return; }
+        if (event.key !== "Tab") { return; }
+        var items = card.querySelectorAll("a[href], button");
+        var first = items[0];
+        var last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+      document.addEventListener("keydown", onKey, true);
+      root.addEventListener("click", function (event) {
+        var closer = event.target.closest("[data-offpeak-close]");
+        if (closer) { close(closer.getAttribute("data-offpeak-close")); return; }
+        if (event.target.closest(".offpeak__cta")) {
+          trackEvent("offpeak_popup_whatsapp_click", { destination: slug });
+          close(null);
+        }
+      });
+    }
   }
 
   // Consent-aware analytics dispatch. Never queue events before permission.
