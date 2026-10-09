@@ -409,16 +409,29 @@ main {
 .site-footer {
   background-color: var(--color-sand);
   border-top: 1px solid var(--color-line);
-  padding-block: var(--space-5) var(--space-3);
+  padding-block: var(--space-5);
 }
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1.3fr) repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 32px;
+}
+
+.site-footer__col {
+  min-width: 0;
+}
+
+.site-footer__col--brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
 }
 
 .site-footer__col--brand p {
+  margin: 0;
   color: var(--color-charcoal);
   font-size: 0.9rem;
   font-weight: 400;
@@ -443,35 +456,72 @@ main {
   font-weight: 400;
 }
 
+.site-footer__company {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+  color: var(--color-charcoal);
+  font-size: 0.85rem;
+}
+
+.site-footer__company .agency-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 24px 32px;
+}
+
+.site-footer__company p {
+  margin: 0 0 var(--space-1);
+}
+
+.site-footer__company p:last-child {
+  margin-bottom: 0;
+}
+
 .site-footer__bottom {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-line);
   font-size: 0.85rem;
   color: var(--color-charcoal);
 }
 
+.site-footer__bottom p {
+  margin: 0;
+}
+
 .site-footer__legal {
   display: flex;
-  gap: var(--space-2);
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
 }
 
 /* -------------------------------------------------------------------------
    Responsive
    ------------------------------------------------------------------------- */
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
+  .site-footer {
+    padding-block: 48px;
+  }
+
   .site-footer__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+
+  .site-footer__col--brand {
+    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 720px) {
-  .site-footer__grid {
+@media (max-width: 640px) {
+  .site-footer__grid,
+  .site-footer__company .agency-details {
     grid-template-columns: 1fr;
   }
 }

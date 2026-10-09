@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert the COP31 mega menu and footer column into every page on the site.
+"""Synchronize the COP31 mega menu and shared footer on every site page.
 
 The site has no build step, so global chrome lives duplicated in each
 index.html. This script performs that edit idempotently: running it twice is a
@@ -16,6 +16,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from cop31_links import PLAN, SERVICES, URGENT  # noqa: E402
+from site_footer import replace_footer  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -83,20 +84,6 @@ def nav_block():
     )
 
 
-def footer_block():
-    items = "".join(
-        '\n          <li><a href="%s">%s</a></li>' % (href, label)
-        for href, label in [PLAN[0]] + PLAN[1:5] + SERVICES[:4] + [URGENT[0]]
-    )
-    return (
-        '        <div class="site-footer__col">\n'
-        '          <h2 class="site-footer__heading">COP31 Antalya</h2>\n'
-        "          <ul>%s\n"
-        "          </ul>\n"
-        "        </div>\n" % items
-    )
-
-
 def strip_nav(html):
     """Remove a previously injected nav block, marked or legacy.
 
@@ -113,15 +100,14 @@ def strip_nav(html):
     return LEGACY_NAV.sub("", html)
 
 
-def patch(path, nav, footer):
+def patch(path, nav):
     with open(path, encoding="utf-8") as handle:
         original = handle.read()
     if NAV_ANCHOR not in original or FOOTER_ANCHOR not in original:
         raise SystemExit("Unexpected chrome in %s — anchors not found" % path)
 
     html = strip_nav(original).replace(NAV_ANCHOR, nav + NAV_ANCHOR, 1)
-    if 'site-footer__heading">COP31 Antalya' not in html:
-        html = html.replace(FOOTER_ANCHOR, footer + FOOTER_ANCHOR, 1)
+    html = replace_footer(html)
 
     if html == original:
         return False
@@ -132,14 +118,13 @@ def patch(path, nav, footer):
 
 def main():
     nav = nav_block()
-    footer = footer_block()
     changed = 0
     total = 0
     for path in sorted(glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)):
         if os.sep + ".git" + os.sep in path:
             continue
         total += 1
-        if patch(path, nav, footer):
+        if patch(path, nav):
             changed += 1
     print("patched %d of %d HTML files" % (changed, total))
 
