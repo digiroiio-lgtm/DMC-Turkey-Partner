@@ -47,7 +47,7 @@ DESTINATIONS = [
         "slug": "antalya", "name": "Antalya", "window": "December – February",
         "events": "Conferences, corporate events, city and resort incentives",
         "scope": "City and coast: city hotels, venues such as the EXPO Center, transfers",
-        "page": None,
+        "page": "/off-season-events-turkey/antalya/",
     },
     {
         "slug": "istanbul", "name": "Istanbul", "window": "January – February and July – August",

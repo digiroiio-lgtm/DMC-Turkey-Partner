@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Build the off-season hub, the Belek off-season page and the pop-up data.
+"""Build the off-season hub, the Belek and Antalya off-season pages and the pop-up data.
 
 Usage: python3 tools/off_season_build.py
 
 Writes:
   off-season-events-turkey/index.html
   off-season-events-turkey/belek/index.html
+  off-season-events-turkey/antalya/index.html
 and rewrites the block between `/* offseason-data:begin */` and
 `/* offseason-data:end */` in assets/js/main.js, so the pop-up and the pages
 share one source (tools/off_season_data.py). Idempotent.
@@ -27,6 +28,8 @@ import site_seo  # noqa: E402
 HUB_URL = SITE + data.HUB
 BELEK_PATH = data.HUB + "belek/"
 BELEK_URL = SITE + BELEK_PATH
+ANTALYA_PATH = data.HUB + "antalya/"
+ANTALYA_URL = SITE + ANTALYA_PATH
 PEAK = "March – June and September – November"
 
 # Published Belek reference ranges, copied verbatim from /event-costs/belek/
@@ -37,6 +40,17 @@ BELEK_REFERENCE = [
     ("4-night golf incentive (5-star AI resort + golf)", "30–80", "4", "€750–1,100"),
     ("3-night conference + team-building (5-star)", "100–300", "3", "€450–650"),
     ("5-night premium incentive (ultra-luxury AI resort)", "30–80", "5", "€1,000–1,500"),
+]
+
+# Published Antalya reference ranges, copied verbatim from /event-costs/antalya/
+# (reviewed September 2026). Never recomputed here.
+ANTALYA_REFERENCE = [
+    ("3-night corporate conference (5-star AI resort)", "50–150", "3", "€400–600"),
+    ("3-night corporate conference (4-star AI resort)", "50–150", "3", "€300–450"),
+    ("4-night incentive trip (5-star AI resort)", "50–150", "4", "€500–750"),
+    ("4-night incentive trip with gala (5-star AI resort)", "50–150", "4", "€600–900"),
+    ("3-night dealer/partner meeting (5-star AI resort)", "100–300", "3", "€350–550"),
+    ("5-night corporate event with programme (5-star AI resort)", "50–100", "5", "€700–1,100"),
 ]
 
 EXPECT = (
@@ -88,6 +102,24 @@ def faq_belek():
         ("Can a golf incentive run in winter?",
          "Course availability and playing conditions vary in winter, so golf is confirmed per course and date and "
          "an indoor alternative is planned alongside it."),
+        ("How do you calculate the difference between off-peak and peak dates?",
+         "We price the same programme twice, in the off-peak window and in a peak-season window: same hotel "
+         "category, scope, group size and nights. The difference is shown line by line in your proposal."),
+    ]
+
+
+def faq_antalya():
+    return [
+        ("When is the off-peak window for events in Antalya?",
+         "December – February is the core off-peak window. New Year week and public-holiday weeks can be priced "
+         "differently, and March – June and September – November are the busiest MICE months."),
+        ("How is this different from the Belek off-season page?",
+         "This page covers Antalya city and coast: city hotels, venues such as the Antalya EXPO Center and "
+         "programmes that combine city and resort. Resort-based meetings and golf incentives in Belek are covered "
+         "on the Belek page."),
+        ("Are Antalya hotels and venues open in winter?",
+         "Many city hotels operate all year, but resorts and venues differ in which facilities they keep open from "
+         "December to February. We confirm availability for your exact dates before we quote."),
         ("How do you calculate the difference between off-peak and peak dates?",
          "We price the same programme twice, in the off-peak window and in a peak-season window: same hotel "
          "category, scope, group size and nights. The difference is shown line by line in your proposal."),
@@ -264,7 +296,7 @@ def render_hub():
         "      <h2>Antalya and Belek: What Each Covers</h2>",
         '      <div class="card-grid">'
         '<article class="card"><h3><a href="%s">Belek</a></h3><p>Resort-based programmes: conference wings inside all-inclusive resorts, packaged rates, golf incentives, dealer meetings and retreats.</p></article>'
-        '<article class="card"><h3><a href="/destinations/antalya/">Antalya</a></h3><p>City and coast: city hotels, venues such as the Antalya EXPO Center, airport and city transfers, and programmes that combine city and resort. A dedicated off-season guide is in preparation; request Antalya dates in the form below.</p></article></div>' % BELEK_PATH,
+        '<article class="card"><h3><a href="%s">Antalya</a></h3><p>City and coast: city hotels, venues such as the Antalya EXPO Center, airport and city transfers, and programmes that combine city and resort. See the <a href="%s">Antalya off-season guide</a>.</p></article></div>' % (BELEK_PATH, ANTALYA_PATH, ANTALYA_PATH),
         "    </section>",
         '    <section class="page-section">',
         "      <h2>How We Compare Costs</h2>",
@@ -300,8 +332,8 @@ def render_belek():
         "      " + hero_buttons(),
         "      " + EXPECT,
         '      <div class="offseason-callout"><p><strong>Scope of this page:</strong> resort-based programmes in Belek. '
-        'For city hotels, city venues and the EXPO Center see <a href="/destinations/antalya/">Antalya</a>; for the '
-        'all-year overview of Belek see the <a href="/destinations/belek/">Belek destination guide</a>.</p></div>',
+        'For city hotels, city venues and the EXPO Center see the <a href="%s">Antalya off-season page</a>; for the '
+        'all-year overview of Belek see the <a href="/destinations/belek/">Belek destination guide</a>.</p></div>' % ANTALYA_PATH,
         "    </section>",
         '    <section class="page-section">',
         "      <h2>Suitable Date Windows</h2>",
@@ -344,10 +376,83 @@ def render_belek():
         '<a href="%s">Off-season events in Turkey</a><a href="/destinations/belek/">Belek destination guide</a>'
         '<a href="/event-costs/belek/">Belek event costs</a>'
         '<a href="/selected-works/vakifbank-management-summit-titanic-belek/">VakıfBank summit, Titanic Belek</a>'
-        '<a href="/destinations/antalya/">Antalya destination guide</a></p></section>' % data.HUB,
+        '<a href="%s">Antalya off-season guide</a><a href="/destinations/antalya/">Antalya destination guide</a></p></section>' % (data.HUB, ANTALYA_PATH),
     ])
     return assemble(head_html(title, description, BELEK_URL, "Off-Season Events", "Belek Off-Season",
                               schema("Off-Season Events in Belek", BELEK_URL, description,
+                                     [(n, p) for n, p in crumbs], faqs)), body)
+
+
+# --- Antalya page ---------------------------------------------------------------
+
+def render_antalya():
+    title = "Off-Season Events in Antalya | Off-Peak Dates &amp; Costs"
+    description = ("Off-peak dates for conferences, corporate events and city-and-coast incentives in Antalya. See the "
+                   "planning window, reference costs and operating conditions, and compare dates side by side.")
+    faqs = faq_antalya()
+    crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Antalya", ANTALYA_PATH)]
+    ref_rows = [list(r) for r in ANTALYA_REFERENCE]
+    body = "\n".join([
+        crumbs_html(crumbs),
+        '    <section class="page-section" data-cta-location="hero">',
+        "      <h1>Off-Season Events in Antalya: Off-Peak Dates &amp; Planning Windows</h1>",
+        "      " + season_note(),
+        '      <p class="page-section__lede">Antalya combines a city with a coastline: city hotels, the Antalya EXPO '
+        "Center and resort hotels all within reach of Antalya Airport. From December to February demand from "
+        "conference and incentive groups is lower, which gives agencies with flexible dates more availability "
+        "and more room to negotiate for conferences, corporate events and city-and-coast programmes.</p>",
+        "      " + hero_buttons('<a class="btn btn--ghost" href="%s">Off-season in Belek</a>' % BELEK_PATH),
+        "      " + EXPECT,
+        '      <div class="offseason-callout"><p><strong>Scope of this page:</strong> Antalya city and coast. '
+        'Resort-based meetings and golf incentives in the Belek resort district are covered on the '
+        '<a href="%s">Belek off-season page</a>; for an all-year overview see the '
+        '<a href="/destinations/antalya/">Antalya destination guide</a>.</p></div>' % BELEK_PATH,
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Suitable Date Windows</h2>",
+        "      " + table("Antalya planning windows (%s)" % data.SEASON_LABEL, ["Window", "Role", "What to expect"], [
+            ["December – February", "Core off-peak window", "Best availability and the most room to negotiate. Which hotels and venues are open is confirmed per brief."],
+            ["New Year week and public holidays", "Exceptions", "Demand and rates can differ sharply; these weeks are usually priced separately."],
+            [PEAK, "Peak MICE months", "The comparison baseline: the busiest conference and incentive months."],
+            ["July – August", "Summer leisure peak", "Published rates carry a 15–25% premium."],
+        ]),
+        '      <p class="section-more">Demand in Antalya is higher around COP31 (9–20 November 2026, Antalya EXPO Center). See the <a href="/cop31-antalya/">COP31 Antalya guide</a> before planning dates near it.</p>',
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Events That Fit the Off-Peak Window</h2>",
+        '      <div class="card-grid">'
+        "<article class=\"card\"><h3>Conferences &amp; corporate events</h3><p>City-hotel and resort conferences where meeting space, AV and a gala dinner are the core of the programme.</p></article>"
+        "<article class=\"card\"><h3>Dealer &amp; partner meetings</h3><p>Groups of 100–300 that want a city or coastal hotel close to the airport.</p></article>"
+        "<article class=\"card\"><h3>City-and-coast incentives</h3><p>Old City, hammam and Turquoise Coast experiences combined with a hotel base, with indoor alternatives planned alongside.</p></article>"
+        "<article class=\"card\"><h3>Exhibitions &amp; large meetings</h3><p>Programmes that need a venue such as the Antalya EXPO Center rather than a hotel ballroom; availability is confirmed per brief.</p></article></div>",
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Cost Comparison</h2>",
+        "      <p>Published reference ranges for Antalya, shown for the spring and autumn programme season (April – June and September – November). They are the starting point for the comparison, not an off-peak price.</p>",
+        "      " + table("Antalya reference ranges, per person (reviewed September 2026)",
+                         ["Programme type", "Group size (pax)", "Nights", "Budget range (€/pax)"], ref_rows),
+        '      <p class="price-note">All-in per-person totals: hotel accommodation, venue hire or ballroom use, full-board F&amp;B (or equivalent), airport transfers, programme activities and DMC management fee. Flights excluded. Peak July – August carries a 15–25% premium. Source: <a href="/event-costs/antalya/">Antalya event costs</a>.</p>',
+        '      <div class="offseason-callout"><h3>How the comparison works</h3>'
+        "<p>For your dates we price the off-peak window and a peak-season window side by side for the same programme: same hotel category, scope, group size and nights. %s</p>"
+        '<p><a class="btn btn--primary" href="#compare">Compare Dates &amp; Event Costs</a></p></div>' % esc(saving_sentence()),
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Operating Conditions</h2>",
+        '      <div class="card-grid">'
+        "<article class=\"card\"><h3>Hotel and venue availability</h3><p>Hotels and venues keep different facilities open from December to February. We confirm which properties, rooms and venues are available for your dates before we quote.</p></article>"
+        '<article class="card"><h3>Getting around</h3><p>Antalya Airport is 13 km from the city centre (15–30 minutes). Indicative vehicle prices are on the <a href="/antalya-transfer-prices/">Antalya transfer prices</a> page.</p></article>'
+        "<article class=\"card\"><h3>Weather and indoor plan</h3><p>Days are cooler and shorter, so programmes are planned indoor-first (ballroom, spa, hammam, city culture) with outdoor sessions as weather-dependent additions.</p></article></div>",
+        "    </section>",
+        faq_html(faqs),
+        form_html(fixed_destination="Antalya"),
+        '    <section class="page-section"><h2>Related</h2><p class="cluster-links">'
+        '<a href="%s">Off-season events in Turkey</a><a href="/destinations/antalya/">Antalya destination guide</a>'
+        '<a href="/event-costs/antalya/">Antalya event costs</a>'
+        '<a href="/antalya-transfer-prices/">Antalya transfer prices</a>'
+        '<a href="%s">Belek off-season guide</a></p></section>' % (data.HUB, BELEK_PATH),
+    ])
+    return assemble(head_html(title, description, ANTALYA_URL, "Off-Season Events", "Antalya Off-Season",
+                              schema("Off-Season Events in Antalya", ANTALYA_URL, description,
                                      [(n, p) for n, p in crumbs], faqs)), body)
 
 
@@ -397,6 +502,7 @@ def write_page(rel, html):
 def main():
     write_page("off-season-events-turkey/index.html", render_hub())
     write_page("off-season-events-turkey/belek/index.html", render_belek())
+    write_page("off-season-events-turkey/antalya/index.html", render_antalya())
     print("%s assets/js/main.js" % ("updated" if write_js() else "unchanged"))
     print("saving claim: %s" % (("up to %d%%" % data.saving_percent()) if data.saving_percent() else "none (percentage-free)"))
 
