@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Build the off-season hub, the Belek, Antalya, Istanbul and Bodrum off-season pages and the pop-up data.
+"""Build the off-season hub, the Belek, Antalya, Istanbul, Bodrum and Cappadocia off-season pages and the pop-up data.
 
 Usage: python3 tools/off_season_build.py
 
@@ -10,6 +10,7 @@ Writes:
   off-season-events-turkey/antalya/index.html
   off-season-events-turkey/istanbul/index.html
   off-season-events-turkey/bodrum/index.html
+  off-season-events-turkey/cappadocia/index.html
 and rewrites the block between `/* offseason-data:begin */` and
 `/* offseason-data:end */` in assets/js/main.js, so the pop-up and the pages
 share one source (tools/off_season_data.py). Idempotent.
@@ -37,6 +38,9 @@ ISTANBUL_URL = SITE + ISTANBUL_PATH
 BODRUM_PATH = data.HUB + "bodrum/"
 BODRUM_URL = SITE + BODRUM_PATH
 BODRUM_PEAK = "May – June, September and July – August"
+CAPPADOCIA_PATH = data.HUB + "cappadocia/"
+CAPPADOCIA_URL = SITE + CAPPADOCIA_PATH
+CAPPADOCIA_PEAK = "April – June and September – October"
 PEAK = "March – June and September – November"
 
 # Published Belek reference ranges, copied verbatim from /event-costs/belek/
@@ -75,6 +79,13 @@ ISTANBUL_REFERENCE = [
 BODRUM_REFERENCE = [
     ("Boutique hotel incentive: boutique hotel, gulet day, gala dinner (May – June, October)", "15–80 (typical)", "4", "€700–1,200"),
     ("Executive retreat: private villa, superyacht charter, VIP programme", "Small executive groups", "3–4", "€1,500–3,000"),
+]
+
+# Published Cappadocia figures, copied verbatim: the first row from the /event-costs/
+# hub table, the second from /destinations/cappadocia/ (reviewed September 2026).
+CAPPADOCIA_REFERENCE = [
+    ("Cave hotel incentive (April – June, September – October)", "15–100 (ideal)", "3", "€800–1,200"),
+    ("Cave hotel, balloon, private valley dinner", "15–100 (ideal)", "3", "€800–1,400"),
 ]
 
 EXPECT = (
@@ -182,6 +193,23 @@ def faq_bodrum():
         ("Can we still plan a gulet or yacht programme outside summer?",
          "Gulet and yacht programmes depend on operator availability and sea conditions, and they are best from "
          "May to October. Outside those months we plan hotel-based and indoor programmes instead."),
+        ("How do you calculate the difference between off-peak and peak dates?",
+         "We price the same programme twice, in the off-peak window and in a peak-season window: same hotel "
+         "category, scope, group size and nights. The difference is shown line by line in your proposal."),
+    ]
+
+
+def faq_cappadocia():
+    return [
+        ("When is the off-peak window for events in Cappadocia?",
+         "December – February, excluding New Year week, is the planning window. It is cold and can be snowy, so "
+         "it suits small groups that want a quiet cave-hotel stay rather than a balloon-led programme."),
+        ("Can we still plan a balloon flight in winter?",
+         "Balloon flights are weather-dependent and cancellations are much more frequent from November to March, "
+         "so a balloon is never guaranteed. We plan a backup morning and an alternative experience."),
+        ("Are cave hotels open and available in winter?",
+         "Properties differ in which rooms and services they keep open from December to February. We confirm "
+         "availability for your exact dates before we quote."),
         ("How do you calculate the difference between off-peak and peak dates?",
          "We price the same programme twice, in the off-peak window and in a peak-season window: same hotel "
          "category, scope, group size and nights. The difference is shown line by line in your proposal."),
@@ -662,6 +690,78 @@ def render_bodrum():
                                      [(n, p) for n, p in crumbs], faqs)), body)
 
 
+# --- Cappadocia page ------------------------------------------------------------
+
+def render_cappadocia():
+    title = "Off-Season Events in Cappadocia | Off-Peak Dates &amp; Costs"
+    description = ("Off-peak dates for incentives and executive groups in Cappadocia. See the planning window, "
+                   "reference costs and operating conditions, including balloon reliability, and compare dates side by side.")
+    faqs = faq_cappadocia()
+    crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Cappadocia", CAPPADOCIA_PATH)]
+    ref_rows = [list(r) for r in CAPPADOCIA_REFERENCE]
+    body = "\n".join([
+        crumbs_html(crumbs),
+        '    <section class="page-section" data-cta-location="hero">',
+        "      <h1>Off-Season Events in Cappadocia: Off-Peak Dates &amp; Planning Windows</h1>",
+        "      " + season_note(),
+        '      <p class="page-section__lede">Cappadocia suits small and mid-sized groups that want an experience rather '
+        "than a conference: cave hotels, valley walks and private dinners. The planning window is December to "
+        "February, excluding New Year week. It is the quietest and coldest part of the year, and hot air balloon "
+        "flights are far less reliable, so this window works best for groups that are comfortable without a "
+        "guaranteed balloon.</p>",
+        "      " + hero_buttons('<a class="btn btn--ghost" href="%s">Off-season in Bodrum</a>' % BODRUM_PATH),
+        "      " + EXPECT,
+        '      <div class="offseason-callout"><p><strong>Scope of this page:</strong> incentives and executive groups '
+        'in Cappadocia. There is no convention centre, so large conferences are better placed in '
+        '<a href="%s">Istanbul</a> or <a href="%s">Antalya</a>. For an all-year overview see the '
+        '<a href="/destinations/cappadocia/">Cappadocia destination guide</a>.</p></div>' % (ISTANBUL_PATH, ANTALYA_PATH),
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Suitable Date Windows</h2>",
+        "      " + table("Cappadocia planning windows (%s)" % data.SEASON_LABEL, ["Window", "Role", "What to expect"], [
+            ["December – February", "Core off-peak window", "Cold, with snow possible. Quietest period and the most room to negotiate; balloon cancellations are frequent (30–40% between October and April). Confirmed per brief."],
+            ["New Year week", "Excluded", "Demand and rates differ sharply, so it is priced separately."],
+            [CAPPADOCIA_PEAK, "Comparison baseline", "The best incentive season: mild weather and a lower balloon cancellation rate."],
+            ["July – August", "Hot and crowded", "Hot and busy; not the preferred months for groups."],
+        ]),
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Events That Fit the Off-Peak Window</h2>",
+        '      <div class="card-grid">'
+        "<article class=\"card\"><h3>Quiet incentives</h3><p>Small reward groups of 15–100 in cave hotels, with valley walks, private dinners and cultural experiences instead of a balloon-led day.</p></article>"
+        "<article class=\"card\"><h3>Executive groups</h3><p>Leadership groups that want a distinctive setting and small boardroom sessions of 10–30 in a cave-hotel meeting room.</p></article>"
+        "<article class=\"card\"><h3>Experience-led retreats</h3><p>Two- to four-day programmes with free exploration time, planned indoor-first for winter weather.</p></article></div>",
+        '      <p class="section-more">Ideal groups are 15–100 guests; up to 150 across several properties. Cave hotels are boutique scale, around 20–40 rooms each.</p>',
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Cost Comparison</h2>",
+        "      <p>Published reference figures for Cappadocia, based on the best incentive season (April – June and September – October). They are the starting point for the comparison, not an off-peak price.</p>",
+        "      " + table("Cappadocia reference ranges, per person (reviewed September 2026)",
+                         ["Programme type", "Group size (pax)", "Nights", "Budget range (€/pax)"], ref_rows),
+        '      <p class="price-note">Planning ranges per person; flights excluded. Sources: the <a href="/event-costs/">Turkey event costs overview</a> and the <a href="/destinations/cappadocia/">Cappadocia destination guide</a>. Cappadocia has no separate event-cost page yet.</p>',
+        '      <div class="offseason-callout"><h3>How the comparison works</h3>'
+        "<p>For your dates we price the off-peak window and a peak-season window side by side for the same programme: same hotel category, scope, group size and nights. %s</p>"
+        '<p><a class="btn btn--primary" href="#compare">Compare Dates &amp; Event Costs</a></p></div>' % esc(saving_sentence(CAPPADOCIA_PEAK)),
+        "    </section>",
+        '    <section class="page-section">',
+        "      <h2>Operating Conditions</h2>",
+        '      <div class="card-grid">'
+        "<article class=\"card\"><h3>Balloon reliability</h3><p>Flights are weather-dependent. Cancellations are far more frequent from November to March, so we plan a backup morning and a non-balloon highlight.</p></article>"
+        "<article class=\"card\"><h3>Hotel availability</h3><p>Cave hotels differ in which rooms and services they keep open in winter. We confirm availability for your dates before we quote.</p></article>"
+        "<article class=\"card\"><h3>Getting there and around</h3><p>Nevşehir Kapadokya Airport (NAV) is 45–60 minutes from Göreme and Ürgüp; Kayseri Airport (ASR) is 75–90 minutes. Minibuses suit the narrow valley roads, and cold or snowy conditions can affect transfers.</p></article></div>",
+        "    </section>",
+        faq_html(faqs),
+        form_html(fixed_destination="Cappadocia"),
+        '    <section class="page-section"><h2>Related</h2><p class="cluster-links">'
+        '<a href="%s">Off-season events in Turkey</a><a href="/destinations/cappadocia/">Cappadocia destination guide</a>'
+        '<a href="/event-costs/">Turkey event costs</a>'
+        '<a href="%s">Bodrum off-season guide</a><a href="%s">Istanbul off-season guide</a></p></section>' % (data.HUB, BODRUM_PATH, ISTANBUL_PATH),
+    ])
+    return assemble(head_html(title, description, CAPPADOCIA_URL, "Off-Season Events", "Cappadocia Off-Season",
+                              schema("Off-Season Events in Cappadocia", CAPPADOCIA_URL, description,
+                                     [(n, p) for n, p in crumbs], faqs)), body)
+
+
 # --- pop-up data block ------------------------------------------------------------
 
 JS_BEGIN = "/* offseason-data:begin */"
@@ -711,6 +811,7 @@ def main():
     write_page("off-season-events-turkey/antalya/index.html", render_antalya())
     write_page("off-season-events-turkey/istanbul/index.html", render_istanbul())
     write_page("off-season-events-turkey/bodrum/index.html", render_bodrum())
+    write_page("off-season-events-turkey/cappadocia/index.html", render_cappadocia())
     print("%s assets/js/main.js" % ("updated" if write_js() else "unchanged"))
     print("saving claim: %s" % (("up to %d%%" % data.saving_percent()) if data.saving_percent() else "none (percentage-free)"))
 

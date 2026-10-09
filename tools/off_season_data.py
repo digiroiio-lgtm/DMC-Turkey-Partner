@@ -59,7 +59,7 @@ DESTINATIONS = [
         "slug": "cappadocia", "name": "Cappadocia", "window": "December – February (excluding New Year week)",
         "events": "Incentives, executive groups, destination experiences",
         "scope": "Boutique and cave-hotel stays, activity-led programmes",
-        "page": None,
+        "page": "/off-season-events-turkey/cappadocia/",
     },
     {
         "slug": "bodrum", "name": "Bodrum", "window": "October – April",
