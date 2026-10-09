@@ -24,6 +24,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import site_config as cfg  # noqa: E402
+from site_footer import replace_footer  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -132,7 +133,7 @@ def drop_legacy_entity_nodes(html):
     return LD_BLOCK.sub(replace, html)
 
 
-def agency_details(compact=False):
+def agency_details():
     name = html_lib.escape(cfg.ORG_AGENCY_NAME)
     address = cfg.ORG_ADDRESS
     street = html_lib.escape(address["streetAddress"])
@@ -144,8 +145,6 @@ def agency_details(compact=False):
         f'          <p>{street}<br>{location}, Türkiye</p>\n'
         f'          <p><a href="tel:{cfg.ORG_PHONE}">{cfg.ORG_PHONE_DISPLAY}</a></p>'
     )
-    if compact:
-        return '<!-- agency-footer:begin -->\n          <div class="agency-details">' + details + '</div>\n          <!-- agency-footer:end -->\n'
     return ('<!-- agency-section:begin -->\n    <section class="page-section"><div class="container">'
             '<h2>Registered Travel Agency &amp; Contact Details</h2>' + details +
             '</div></section>\n    <!-- agency-section:end -->\n')
@@ -155,15 +154,8 @@ def patch_agency_details(html, path):
     html = re.sub(r'<button type="button" class="cookie-settings-inline" data-cookie-settings>Cookie Settings</button>\n[ \t]*', "", html)
     for kind in ("footer", "section"):
         html = re.sub(r"[ \t]*<!-- agency-" + kind + r":begin -->.*?<!-- agency-" + kind + r":end -->\n?", "", html, flags=re.S)
-    brand = re.compile(r'(<div class="site-footer__col site-footer__col--brand">.*?)(</div>)', re.S)
-    html = brand.sub(lambda m: m.group(1).rstrip() + "\n          " + agency_details(True) + "        " + m.group(2), html, count=1)
-    if "<!-- agency-footer:begin -->" not in html and "</footer>" in html:
-        html = html.replace("</footer>", agency_details(True) + "  </footer>", 1)
-    html = re.sub(r'[ \t]*<li class="cookie-settings-item">.*?</li>\n?', "", html)
-    # Every footer offers a way to revisit the optional analytics choice.
-    html = html.replace('<li><a href="/cookie-policy/">Cookie Policy</a></li>', '<li><a href="/cookie-policy/">Cookie Policy</a></li>\n        <li class="cookie-settings-item"><button type="button" data-cookie-settings>Cookie Settings</button></li>', 1)
-    if "data-cookie-settings" not in html:
-        html = html.replace('</footer>', '<button type="button" class="cookie-settings-inline" data-cookie-settings>Cookie Settings</button>\n  </footer>', 1)
+    # The shared footer owns the agency band and Cookie Settings control.
+    html = replace_footer(html)
     relative = os.path.relpath(path, ROOT).replace(os.sep, "/")
     if relative in ("about/index.html", "contact/index.html"):
         html = html.replace("  </main>", "    " + agency_details() + "  </main>", 1)

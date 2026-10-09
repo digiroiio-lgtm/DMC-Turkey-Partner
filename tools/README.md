@@ -54,6 +54,19 @@ page.
 
 ## Site-wide identity, analytics and verification
 
+### Shared footer
+
+```
+python3 tools/site_footer.py          # synchronize the footer on all pages
+python3 tools/site_footer.py --check  # audit without writing
+```
+
+`site_footer.py` owns the five-column navigation and separate registered agency
+band. Link labels point to existing category pages; identity and contact values
+come from `site_config.py`. It updates only the footer, preserving page content,
+metadata and scripts. `site_seo.py` and `cop31_nav.py` use the same renderer, and generated pages
+inherit it from the event-production reference page.
+
 ```
 python3 tools/site_seo.py
 ```
