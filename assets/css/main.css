@@ -3030,3 +3030,45 @@ body.offpeak-open {
     transform: none;
   }
 }
+
+/* Off-season hub and Belek page. */
+.offseason-callout {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-sand);
+  border-left: 4px solid #b7ff00;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.offseason-callout p {
+  margin: 0 0 var(--space-1);
+}
+
+.offseason-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.offseason-callout h3 {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-lg);
+}
+
+.offseason-compare {
+  scroll-margin-top: 5rem;
+}
+
+.offseason-compare .cta-expect {
+  margin-top: var(--space-3);
+}
+
+/* Pop-up secondary WhatsApp link. */
+.offpeak__alt {
+  display: block;
+  margin: var(--space-2) auto 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

@@ -168,6 +168,29 @@ visible. Name a city only when the venue or campaign confirms it; otherwise say
 Türkiye. `HOMEPAGE` picks the six homepage cards; the first one is the large
 card.
 
+## Off-season hub
+
+```
+python3 tools/off_season_build.py
+```
+
+`tools/off_season_data.py` holds the destinations, their off-peak windows, the
+season label and last-updated date. The script writes
+`/off-season-events-turkey/` and `/off-season-events-turkey/belek/` and rewrites
+the pop-up's `OFFPEAK` block in `assets/js/main.js` between
+`/* offseason-data:begin/end */`, so the pop-up, the hub table and the pages
+cannot drift apart.
+
+**Saving claim rule:** a percentage is published only when `QUOTE_COMPARISONS`
+contains real like-for-like quotes (same scope, group size and nights; one
+off-peak, one peak). While it is empty every page and the pop-up use the
+percentage-free message. No saving is derived from the event-costs reference
+ranges.
+
+To add a destination page: set its `page` in `DESTINATIONS`, add a render
+function modelled on `render_belek()` with its own content, and list it in
+`sitemap-destinations.xml`.
+
 ## COP31 news layer
 
 ```

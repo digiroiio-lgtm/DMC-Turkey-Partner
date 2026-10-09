@@ -55,6 +55,7 @@ function buildEmail(fields) {
   [
     ["Transfer Service", fields.service_type],
     ["Luggage", fields.luggage],
+    ["Date Flexibility", fields.date_flexibility],
     ["Pick-up Point", fields.pickup],
     ["Drop-off Point", fields.dropoff]
   ].forEach(function (row) {
@@ -128,6 +129,7 @@ module.exports = async function handler(req, res) {
     "page_type",
     "service_type",
     "luggage",
+    "date_flexibility",
     "pickup",
     "dropoff"
   ]).forEach(function (name) {
