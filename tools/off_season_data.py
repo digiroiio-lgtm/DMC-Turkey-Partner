@@ -50,7 +50,7 @@ DESTINATIONS = [
         "page": "/off-season-events-turkey/antalya/",
     },
     {
-        "slug": "istanbul", "name": "Istanbul", "window": "January – February and July – August",
+        "slug": "istanbul", "name": "Istanbul", "window": "January – February",
         "events": "Meetings, conferences, corporate events, premium group programmes",
         "scope": "City: business hotels, city venues, short-stay programmes",
         "page": "/off-season-events-turkey/istanbul/",
