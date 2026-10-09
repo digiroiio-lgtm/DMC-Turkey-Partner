@@ -1443,6 +1443,15 @@ main:has(.event-facts) > h1 {
   aspect-ratio: 4 / 5;
 }
 
+/* Landscape photos in a three-up row, and portrait photos in a two-up. */
+.work-visual-trio--landscape .work-photo img {
+  aspect-ratio: 4 / 3;
+}
+
+.work-visual-duo--portrait .work-photo img {
+  aspect-ratio: 4 / 5;
+}
+
 /* Portrait stage photos cropped to 16:9 keep the stage, not the ceiling. */
 .work-photo--stage {
   object-position: 50% 45%;
