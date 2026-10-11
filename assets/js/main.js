@@ -28,6 +28,7 @@
     initProposalForm();
     initNewsFilters();
     initEmailTracking();
+    initFamCampaign();
     initPhoneTracking();
     initBookCallTracking();
     initStickyCta();
@@ -1018,6 +1019,17 @@
       document.body.style.paddingRight = "";
       return false;
     }
+  }
+
+  // UK Agency Fam Trip campaign: the script does nothing unless the campaign is
+  // enabled (campaign/uk-fam-trip.json). The landing page loads it directly.
+  function initFamCampaign() {
+    if (document.querySelector('script[data-fam-campaign]')) { return; }
+    var script = document.createElement("script");
+    script.src = "/assets/js/uk-fam-campaign.js";
+    script.defer = true;
+    script.setAttribute("data-fam-campaign", "");
+    document.head.appendChild(script);
   }
 
   function initEmailTracking() {

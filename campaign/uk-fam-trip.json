@@ -1,0 +1,12 @@
+{
+  "_comment": "Single source of campaign settings. Keys mirror the launch variables: CAMPAIGN_ENABLED=enabled, CAMPAIGN_NAME=campaignName, TARGET_COUNTRY=targetCountry, POPUP_DELAY_MS=popupDelayMs, POPUP_SCROLL_THRESHOLD=popupScrollThreshold, DISMISSAL_DAYS=dismissalDays, CAMPAIGN_PERIOD=campaignPeriod, APPLICATION_STATUS=applicationStatus. After editing run: python3 tools/fam_trip_build.py && python3 tools/sitemaps.py",
+  "enabled": false,
+  "campaignName": "uk_fam_trip_2027",
+  "targetCountry": "GB",
+  "popupDelayMs": 15000,
+  "popupScrollThreshold": 50,
+  "dismissalDays": 7,
+  "campaignPeriod": "January–March 2027 (proposed)",
+  "applicationStatus": "Register Interest",
+  "formspreeEndpoint": ""
+}

@@ -84,10 +84,12 @@
       if (loaded) { location.reload(); return; }
     }
     hideBanner();
+    window.dispatchEvent(new CustomEvent("dmc:consent-choice"));
   }
 
   window.dmcPrivacy = {
     analyticsAllowed: function () { return choice === true; },
+    hasChoice: function () { return choice !== null; },
     trackEvent: function (name, params) {
       if (choice !== true) { return; }
       var clean = Object.assign({}, params || {});

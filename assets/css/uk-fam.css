@@ -1,0 +1,280 @@
+/* UK Agency Fam Trip 2027: pop-up (loaded on demand) and landing page. */
+
+.has-fam-popup {
+  overflow: hidden;
+}
+
+.fam-popup {
+  width: min(760px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(20, 23, 28, 0.3);
+}
+
+.fam-popup::backdrop {
+  background-color: rgba(20, 23, 28, 0.6);
+}
+
+.fam-popup__panel {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.fam-popup__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.fam-popup__eyebrow {
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-color: var(--color-sand);
+  border-radius: 999px;
+}
+
+.fam-popup__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.fam-popup__close:hover {
+  background-color: var(--color-sand);
+}
+
+.fam-popup__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1179 / 798;
+  max-height: min(300px, 34vh);
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: var(--color-sand);
+}
+
+.fam-popup__title {
+  margin: 1rem 0 0.5rem;
+  font-size: clamp(1.4rem, 3.6vw, 1.85rem);
+  line-height: 1.2;
+}
+
+.fam-popup__title:focus {
+  outline: none;
+}
+
+.fam-popup__text {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.fam-popup__badges,
+.fam-popup__benefits {
+  margin: 0 0 0.9rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fam-popup__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.fam-popup__badges li {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+}
+
+.fam-popup__benefits li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.25rem 0;
+}
+
+.fam-popup__tick {
+  flex: none;
+}
+
+.fam-popup__actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.fam-popup__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  box-sizing: border-box;
+  font-weight: 700;
+  color: var(--color-ink);
+  background-color: #b7ff00;
+  border-color: #b7ff00;
+}
+
+.fam-popup__later {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  color: var(--color-ink);
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.fam-popup__note {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--color-charcoal);
+}
+
+@media (min-width: 641px) {
+  .fam-popup__panel {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  .fam-popup__actions {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+/* Phones: bottom sheet. */
+@media (max-width: 640px) {
+  .fam-popup {
+    width: 100%;
+    max-width: 100%;
+    max-height: 88vh;
+    max-height: 88dvh;
+    margin: auto 0 0;
+    border-radius: 16px 16px 0 0;
+    border-bottom: 0;
+  }
+
+  .fam-popup__image {
+    max-height: 30vh;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fam-popup[open] {
+    animation: fam-popup-in 0.18s ease-out;
+  }
+
+  @keyframes fam-popup-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* --- Landing page ---------------------------------------------------------------- */
+
+.fam-eyebrow {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5c7a00;
+}
+
+.fam-programme {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fam-programme li {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid #b7ff00;
+  border-radius: var(--radius);
+  background-color: var(--color-paper);
+}
+
+.fam-programme strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.fam-apply {
+  scroll-margin-top: 5rem;
+}
+
+.fam-closed,
+.fam-success {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-sand);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}
+
+.fam-success h2:focus {
+  outline: none;
+}
+
+.fam-form__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.fam-form__check input {
+  margin-top: 0.25rem;
+  flex: none;
+}
+
+.fam-form [hidden],
+.fam-closed[hidden],
+.fam-success[hidden] {
+  display: none;
+}
+
+.fam-hero-image {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  aspect-ratio: 1179 / 798;
+  margin-top: var(--space-3);
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: var(--color-sand);
+}

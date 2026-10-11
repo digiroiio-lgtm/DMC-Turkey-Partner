@@ -220,6 +220,43 @@ The Selected Works cards on `index.html` show category, venue, city and a scope 
 anywhere in the repository; add them as a short `<p class="work-card__scale">` line (and
 quote text on the project page) only once the client has approved them.
 
+## UK Agency Fam Trip 2027 campaign
+
+Disabled by default. Settings live in `campaign/uk-fam-trip.json` (one file); after editing run
+`python3 tools/fam_trip_build.py && python3 tools/sitemaps.py`.
+
+| Launch variable | JSON key | Default |
+| --- | --- | --- |
+| `CAMPAIGN_ENABLED` | `enabled` | `false` |
+| `CAMPAIGN_NAME` | `campaignName` | `uk_fam_trip_2027` |
+| `TARGET_COUNTRY` | `targetCountry` | `GB` |
+| `POPUP_DELAY_MS` | `popupDelayMs` | `15000` |
+| `POPUP_SCROLL_THRESHOLD` | `popupScrollThreshold` | `50` |
+| `DISMISSAL_DAYS` | `dismissalDays` | `7` |
+| `CAMPAIGN_PERIOD` | `campaignPeriod` | `January–March 2027 (proposed)` |
+| `APPLICATION_STATUS` | `applicationStatus` | `Register Interest` |
+| (Formspree form URL) | `formspreeEndpoint` | empty (form stays closed) |
+
+* **Pop-up** (`assets/js/uk-fam-campaign.js`, loaded by `main.js` on every page): UK visitors only
+  (`/api/geo` reads Vercel's `x-vercel-ip-country`; unknown country = no pop-up), after a cookie choice,
+  15 s or 50% scroll, once per session, 7-day suppression after dismissal, permanent after an application,
+  never on the landing page, COP31 pages, quotation/contact pages or while a field has focus.
+* **Landing page** `/uk-agency-fam-trip/`: `noindex` and absent from the sitemap while disabled.
+* **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden
+  fields: `campaign_source`, `lead_status=New`, `submitted_at`, `consent_timestamp`, `landing_page`, UTM
+  (only with analytics consent), `marketing_optin_status`. Spam control: Formspree honeypot (`_gotcha`),
+  a 3-second minimum fill time and Formspree's own filtering.
+* **Lead lifecycle** (maintained in Formspree or an exported sheet; no CRM is built):
+  New → Qualified → Invited → Confirmed → Attended → RFP → Won.
+* **GA4 events**: `fam_popup_view`, `fam_popup_click`, `fam_popup_dismiss`, `fam_landing_view`,
+  `fam_form_start`, `fam_form_submit`, `fam_lead_success` (recommended key event; mark it in GA4 admin).
+* **Launch checklist**: create the Formspree form and put its `https://formspree.io/f/…` URL in the JSON;
+  set `enabled` to `true`; run the two commands above; confirm hosted arrangements, privacy wording and
+  the pop-up image licence; submit one real test application and check the Formspree dashboard and the
+  notification email; verify the events in GA4 DebugView.
+* The pop-up/landing image is an owned event photo (`assets/img/mapfre-sigorta-antalya-gala-dinner*.webp`);
+  replace it with a licensed Antalya/Belek resort photo when available.
+
 ## COP31 news layer
 
 ```
