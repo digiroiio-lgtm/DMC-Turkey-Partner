@@ -213,6 +213,13 @@ German cookie banner (`assets/js/privacy.js`, chosen by `<html lang="de">`). `to
 `tools/cop31_nav.py` and `tools/site_seo.py` skip the chrome of `lang="de"` pages, so re-running
 them will not overwrite it. Adding a nav item means adding its German label to `CHROME_DE`.
 
+## Homepage reference cards
+
+The Selected Works cards on `index.html` show category, venue, city and a scope line
+(`work-card__services`). Participant numbers, outcomes and client quotes are not stored
+anywhere in the repository; add them as a short `<p class="work-card__scale">` line (and
+quote text on the project page) only once the client has approved them.
+
 ## COP31 news layer
 
 ```
