@@ -65,7 +65,7 @@ def proposal_url(slug, service_interest, page_type):
     and pre-selects the destination / project type dropdowns.
     """
     params = [
-        ("source", slug),
+        ("src", slug),
         ("lead_source", "COP31"),
         ("campaign", "COP31 Antalya 2026"),
         ("service_interest", service_interest),

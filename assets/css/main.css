@@ -756,6 +756,19 @@ main {
   }
 }
 
+/* Phones: `main` (4rem) and the hero section (2.5rem) both add top padding, which
+   left ~106px between the header and the eyebrow. Drop main's top padding on the
+   homepage so the hero starts about 2rem below the header; content-driven height. */
+@media (max-width: 767px) {
+  .main--home {
+    padding-top: 0;
+  }
+
+  .main--home > .home-hero {
+    padding-top: 2rem;
+  }
+}
+
 @media (max-width: 720px) {
   .page-section.home-hero h1 {
     font-size: clamp(2.25rem, 11vw, 3rem);
