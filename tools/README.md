@@ -193,6 +193,33 @@ To add a destination page: set its `page` in `DESTINATIONS`, add a render
 function modelled on `render_belek()` with its own content, and list it in
 `sitemap-destinations.xml`.
 
+## Market pages (UK agencies, German)
+
+```
+python3 tools/market_pages_build.py
+```
+
+Writes `/dmc-turkey-uk-agencies/` (English) and `/de/dmc-tuerkei/` (German,
+`lang="de"`). Only facts that already exist on the site are used. The German page is
+linked with hreflang (de / en / x-default) to `/dmc-turkey/`, which carries the
+reciprocal tags. Have a native speaker review the German copy before promoting it.
+
+Form and success-modal copy is English by default; a form can override it with a JSON
+object in `data-i18n` (keys in `FORM_TEXT_DEFAULTS`, `assets/js/main.js`). The German page
+uses this for the button states, validation/error messages, the modal and the WhatsApp message.
+
+The German page also has a translated header and footer (`CHROME_DE` in the generator) and a
+German cookie banner (`assets/js/privacy.js`, chosen by `<html lang="de">`). `tools/site_footer.py`,
+`tools/cop31_nav.py` and `tools/site_seo.py` skip the chrome of `lang="de"` pages, so re-running
+them will not overwrite it. Adding a nav item means adding its German label to `CHROME_DE`.
+
+## Homepage reference cards
+
+The Selected Works cards on `index.html` show category, venue, city and a scope line
+(`work-card__services`). Participant numbers, outcomes and client quotes are not stored
+anywhere in the repository; add them as a short `<p class="work-card__scale">` line (and
+quote text on the project page) only once the client has approved them.
+
 ## COP31 news layer
 
 ```

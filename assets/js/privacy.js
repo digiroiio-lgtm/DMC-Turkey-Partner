@@ -107,11 +107,26 @@
   banner.className = "cookie-banner";
   banner.setAttribute("aria-labelledby", "cookie-banner-title");
   banner.hidden = choice !== null;
-  banner.innerHTML = '<div><h2 id="cookie-banner-title">Your privacy choices</h2>' +
-    '<p>We use essential storage for your preferences and requested features. With your permission, Google Analytics helps us understand site use. You can use the site and send a brief without analytics.</p>' +
-    '<a href="/cookie-policy/">Cookie Policy</a> · <a href="/privacy-policy/">Privacy Policy</a></div>' +
-    '<div class="cookie-banner__actions"><button type="button" class="btn btn--ghost" data-cookie-reject>Reject optional analytics</button>' +
-    '<button type="button" class="btn btn--ghost" data-cookie-accept>Accept optional analytics</button></div>';
+  var BANNER_TEXT = document.documentElement.lang === "de" ? {
+    title: "Ihre Datenschutz-Einstellungen",
+    body: "Wir verwenden notwendige Speicherung f\u00fcr Ihre Einstellungen und angeforderte Funktionen. Mit Ihrer Erlaubnis hilft uns Google Analytics, die Nutzung der Website zu verstehen. Sie k\u00f6nnen die Website nutzen und eine Anfrage senden, auch ohne Analyse.",
+    cookies: "Cookie-Richtlinie (Englisch)",
+    privacy: "Datenschutzerkl\u00e4rung (Englisch)",
+    reject: "Optionale Analyse ablehnen",
+    accept: "Optionale Analyse akzeptieren"
+  } : {
+    title: "Your privacy choices",
+    body: "We use essential storage for your preferences and requested features. With your permission, Google Analytics helps us understand site use. You can use the site and send a brief without analytics.",
+    cookies: "Cookie Policy",
+    privacy: "Privacy Policy",
+    reject: "Reject optional analytics",
+    accept: "Accept optional analytics"
+  };
+  banner.innerHTML = '<div><h2 id="cookie-banner-title">' + BANNER_TEXT.title + '</h2>' +
+    '<p>' + BANNER_TEXT.body + '</p>' +
+    '<a href="/cookie-policy/">' + BANNER_TEXT.cookies + '</a> \u00b7 <a href="/privacy-policy/">' + BANNER_TEXT.privacy + '</a></div>' +
+    '<div class="cookie-banner__actions"><button type="button" class="btn btn--ghost" data-cookie-reject>' + BANNER_TEXT.reject + '</button>' +
+    '<button type="button" class="btn btn--ghost" data-cookie-accept>' + BANNER_TEXT.accept + '</button></div>';
   document.body.appendChild(banner);
   banner.querySelector("[data-cookie-reject]").addEventListener("click", function () { saveChoice(false); });
   banner.querySelector("[data-cookie-accept]").addEventListener("click", function () { saveChoice(true); });
