@@ -204,6 +204,10 @@ Writes `/dmc-turkey-uk-agencies/` (English) and `/de/dmc-tuerkei/` (German,
 linked with hreflang (de / en / x-default) to `/dmc-turkey/`, which carries the
 reciprocal tags. Have a native speaker review the German copy before promoting it.
 
+Form and success-modal copy is English by default; a form can override it with a JSON
+object in `data-i18n` (keys in `FORM_TEXT_DEFAULTS`, `assets/js/main.js`). The German page
+uses this for the button states, validation/error messages, the modal and the WhatsApp message.
+
 ## COP31 news layer
 
 ```

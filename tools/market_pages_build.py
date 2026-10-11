@@ -118,11 +118,13 @@ def form_html(L, prefix):
              ("Cappadocia", L["cappadocia"]), ("Multiple Destinations", L["multi"]), ("Not Decided Yet", L["nd"])]
     types = [("Meeting / Conference", L["t_conf"]), ("Incentive Travel", L["t_inc"]), ("Corporate Event", L["t_corp"]),
              ("Group Travel", L["t_grp"]), ("White-Label DMC Support", L["t_wl"]), ("Other", L["t_oth"])]
+    i18n = L.get("i18n")
+    i18n_attr = ' data-i18n="%s"' % esc(json.dumps(i18n, ensure_ascii=False, separators=(",", ":"))) if i18n else ""
     opt = lambda pairs: "".join('<option value="%s">%s</option>' % (v, esc(t)) for v, t in pairs)
     return '''    <section class="page-section" id="anfrage">
       <h2>%(h2)s</h2>
       <p class="page-section__lede">%(lede)s</p>
-      <form name="%(name)s" method="POST" action="/api/request-proposal" data-proposal-form>
+      <form name="%(name)s" method="POST" action="/api/request-proposal" data-proposal-form%(i18n_attr)s>
         <p class="sr-only"><label>Company website <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
         <input type="hidden" name="source_page"><input type="hidden" name="landing_page"><input type="hidden" name="submission_page"><input type="hidden" name="timestamp">
         <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content"><input type="hidden" name="utm_term">
@@ -153,7 +155,7 @@ def form_html(L, prefix):
         <p>%(ok_p)s</p>
       </section>
       <ul class="cta-expect">%(expect)s</ul>
-    </section>''' % dict(L, p=prefix, dests=opt(dests), sizes=opt(sizes), types=opt(types))
+    </section>''' % dict(L, p=prefix, dests=opt(dests), sizes=opt(sizes), types=opt(types), i18n_attr=i18n_attr)
 
 
 # --- UK page ---------------------------------------------------------------------
@@ -311,6 +313,23 @@ def render_de():
              s0="Unter 20", s_nc="Noch nicht bestätigt", cappadocia="Kappadokien", multi="Mehrere Zielorte", nd="Noch nicht entschieden",
              t_conf="Meeting / Konferenz", t_inc="Incentive-Reise", t_corp="Firmenevent", t_grp="Gruppenreise",
              t_wl="White-Label-DMC-Unterstützung", t_oth="Sonstiges",
+             i18n={
+                 "sending": "Wird gesendet\u2026",
+                 "sent": "Anfrage gesendet",
+                 "error": "Ihre Anfrage konnte nicht gesendet werden. Ihre Angaben sind weiterhin vorhanden: Bitte versuchen Sie es erneut oder schreiben Sie an hello@dmcturkeypartner.com.",
+                 "datesRequired": "Bitte geben Sie Ihre Reise- bzw. Veranstaltungsdaten ein oder wählen Sie „Termine noch nicht bestätigt“.",
+                 "dateOrder": "Das Enddatum darf nicht vor dem Startdatum liegen.",
+                 "modalClose": "Schließen",
+                 "modalTitle": "Vielen Dank!",
+                 "modalSub": "Wir haben Ihre Anfrage erhalten.",
+                 "modalDesc": "Wir melden uns innerhalb von 24 Stunden und senden Ihr detailliertes Angebot innerhalb von 3–5 Werktagen.",
+                 "modalFasterTitle": "Schneller eine Antwort?",
+                 "modalFasterText": "Bei dringenden Anfragen oder für ein schnelleres Gespräch erreichen Sie unser Team auch direkt über WhatsApp.",
+                 "modalWhatsapp": "Weiter auf WhatsApp",
+                 "modalBack": "Zurück zur Website",
+                 "modalNote": "Ihre Anfrage wurde bereits gesendet. Sie müssen sie nicht erneut senden.",
+                 "whatsappMessage": "Hallo DMC Turkey Partner, ich habe soeben über Ihre Website eine Event-Anfrage gesendet. Ich möchte meine Anforderungen gerne mit Ihrem Team besprechen.",
+             },
              expect="<li>Antwort innerhalb von 24 Stunden</li><li>Detailliertes Angebot in 3–5 Werktagen</li><li>Feste Ansprechperson nach Bestätigung</li>")
     body = "\n".join([
         crumbs_html(crumbs),

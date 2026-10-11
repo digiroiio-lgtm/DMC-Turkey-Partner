@@ -336,6 +336,41 @@
   var WHATSAPP_NUMBER = "905353998999";
   var OFFPEAK_WHATSAPP = WHATSAPP_NUMBER;
   var SUCCESS_WHATSAPP_MESSAGE = "Hello DMC Turkey Partner, I\u2019ve just submitted an event proposal request through your website. I\u2019d like to discuss my requirements with your team.";
+
+  // Form and success-modal copy. English by default; a form can override any key with
+  // a JSON object in data-i18n (used by the German page), e.g. data-i18n='{"sending":"Wird gesendet\u2026"}'.
+  var FORM_TEXT_DEFAULTS = {
+    sending: "Sending\u2026",
+    sent: "Brief Sent",
+    error: "We could not send your brief. Your details are still here: please try again or email hello@dmcturkeypartner.com.",
+    datesRequired: "Please enter your travel or event dates, or select Dates Not Confirmed.",
+    dateOrder: "End date must be on or after the start date.",
+    modalClose: "Close",
+    modalTitle: "Thank you!",
+    modalSub: "We\u2019ve received your brief.",
+    modalDesc: "We will reply within 24 hours and send your side-by-side proposal within 3\u20135 business days.",
+    modalFasterTitle: "Need a faster response?",
+    modalFasterText: "For urgent requests or a quicker discussion, you can also reach our team directly on WhatsApp.",
+    modalWhatsapp: "Continue on WhatsApp",
+    modalBack: "Back to Website",
+    modalNote: "Your request has already been submitted. No need to send it again.",
+    whatsappMessage: SUCCESS_WHATSAPP_MESSAGE
+  };
+
+  function formText(form) {
+    var text = Object.assign({}, FORM_TEXT_DEFAULTS);
+    try {
+      var custom = JSON.parse(form.getAttribute("data-i18n") || "{}");
+      Object.keys(custom).forEach(function (key) {
+        if (typeof custom[key] === "string" && key in text) { text[key] = custom[key]; }
+      });
+    } catch (error) { /* keep the English defaults */ }
+    return text;
+  }
+
+  function escapeHtmlText(value) {
+    return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
   var OFFPEAK_DELAY = 20;
   var OFFPEAK_REPEAT_DAYS = 30;
 
@@ -790,6 +825,7 @@
         if (datesUnconfirmed.checked) { form.elements[name].value = ""; }
       });
     });
+    var text = formText(form);
     var submitting = false;
     var sent = false;
     var button = form.querySelector('button[type="submit"]');
@@ -803,10 +839,10 @@
       // One request at a time, and no second request for a brief already accepted.
       if (submitting || sent) { return; }
       if (!datesUnconfirmed.checked && (!start || !end)) {
-        error.textContent = "Please enter your travel or event dates, or select Dates Not Confirmed.";
+        error.textContent = text.datesRequired;
         error.hidden = false;
       } else if (start && end && end < start) {
-        error.textContent = "End date must be on or after the start date.";
+        error.textContent = text.dateOrder;
         error.hidden = false;
       } else {
         submitting = true;
@@ -814,7 +850,7 @@
         trackEvent("proposal_form_submit", { source: form.elements.source_page.value });
         button.disabled = true;
         button.setAttribute("aria-busy", "true");
-        button.textContent = "Sending\u2026";
+        button.textContent = text.sending;
         fetch(form.action, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -849,12 +885,12 @@
             lead_source:      form.elements.lead_source ? form.elements.lead_source.value : "",
             service_interest: form.elements.service_interest ? form.elements.service_interest.value : ""
           };
-          if (!form.hasAttribute("data-success-inline") && openSuccessModal(context, button)) {
+          if (!form.hasAttribute("data-success-inline") && openSuccessModal(context, button, text)) {
             // The form stays where it is; it is locked so the same brief cannot be sent twice.
             // aria-disabled (not disabled) keeps the button focusable so focus can return to it.
             button.disabled = false;
             button.setAttribute("aria-disabled", "true");
-            button.textContent = "Brief Sent";
+            button.textContent = text.sent;
           } else {
             // Fallback: inline thank-you section (no dialog support, or inline form).
             button.textContent = buttonLabel;
@@ -869,7 +905,7 @@
           button.textContent = buttonLabel;
           error.textContent = failure && failure.validation && failure.message
             ? failure.message
-            : "We could not send your brief. Your details are still here: please try again or email hello@dmcturkeypartner.com.";
+            : text.error;
           error.hidden = false;
           trackEvent("proposal_form_error", { source: form.elements.source_page.value });
         });
@@ -886,42 +922,42 @@
   // browser has no dialog support so the caller can use the inline fallback.
   var successDialog = null;
 
-  function buildSuccessDialog() {
+  function buildSuccessDialog(text) {
     var dialog = document.createElement("dialog");
     dialog.className = "success-modal";
     dialog.setAttribute("aria-modal", "true");
     dialog.setAttribute("aria-labelledby", "success-modal-title");
     dialog.setAttribute("aria-describedby", "success-modal-desc");
-    var whatsapp = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(SUCCESS_WHATSAPP_MESSAGE);
+    var whatsapp = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text.whatsappMessage);
     dialog.innerHTML =
       '<div class="success-modal__panel">' +
-        '<button type="button" class="success-modal__close" aria-label="Close" data-success-close="close_button">' +
+        '<button type="button" class="success-modal__close" aria-label="' + escapeHtmlText(text.modalClose) + '" data-success-close="close_button">' +
           '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>' +
         '</button>' +
         '<svg class="success-modal__icon" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true" focusable="false"><circle cx="28" cy="28" r="28" fill="#1f9d55"/><path d="M16 29l8 8 16-17" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>' +
-        '<h2 id="success-modal-title" class="success-modal__title" tabindex="-1">Thank you!</h2>' +
-        '<p class="success-modal__sub">We\u2019ve received your brief.</p>' +
-        '<p id="success-modal-desc" class="success-modal__text">We will reply within 24 hours and send your side-by-side proposal within 3\u20135 business days.</p>' +
+        '<h2 id="success-modal-title" class="success-modal__title" tabindex="-1">' + escapeHtmlText(text.modalTitle) + '</h2>' +
+        '<p class="success-modal__sub">' + escapeHtmlText(text.modalSub) + '</p>' +
+        '<p id="success-modal-desc" class="success-modal__text">' + escapeHtmlText(text.modalDesc) + '</p>' +
         '<hr class="success-modal__divider">' +
-        '<h3 class="success-modal__heading">Need a faster response?</h3>' +
-        '<p class="success-modal__text">For urgent requests or a quicker discussion, you can also reach our team directly on WhatsApp.</p>' +
+        '<h3 class="success-modal__heading">' + escapeHtmlText(text.modalFasterTitle) + '</h3>' +
+        '<p class="success-modal__text">' + escapeHtmlText(text.modalFasterText) + '</p>' +
         '<div class="success-modal__actions">' +
           '<a class="btn success-modal__whatsapp" href="' + whatsapp + '" target="_blank" rel="noopener" data-success-whatsapp>' +
             '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#fff" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.97L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.3 14.96l-.3-.19-3.07.89.92-3-.2-.31A8.1 8.1 0 0 1 12.04 3.8zm-3.1 3.9c-.2 0-.52.08-.8.38-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.07 3.3 5.1 4.5 2.53 1 3.04.8 3.59.75.55-.05 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35-.3-.15-1.77-.87-2.04-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46.13-.6.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.5z"/></svg>' +
-            '<span>Continue on WhatsApp</span></a>' +
-          '<button type="button" class="btn btn--ghost success-modal__back" data-success-close="back_to_website">Back to Website</button>' +
+            '<span>' + escapeHtmlText(text.modalWhatsapp) + '</span></a>' +
+          '<button type="button" class="btn btn--ghost success-modal__back" data-success-close="back_to_website">' + escapeHtmlText(text.modalBack) + '</button>' +
         '</div>' +
-        '<p class="success-modal__note">Your request has already been submitted. No need to send it again.</p>' +
+        '<p class="success-modal__note">' + escapeHtmlText(text.modalNote) + '</p>' +
       '</div>';
     return dialog;
   }
 
-  function openSuccessModal(context, returnFocusTo) {
+  function openSuccessModal(context, returnFocusTo, text) {
     var closeMethod = "dismiss";
     if (typeof HTMLDialogElement !== "function" || typeof HTMLDialogElement.prototype.showModal !== "function") { return false; }
     try {
       if (!successDialog) {
-        successDialog = buildSuccessDialog();
+        successDialog = buildSuccessDialog(text || FORM_TEXT_DEFAULTS);
         document.body.appendChild(successDialog);
       }
       var dialog = successDialog;

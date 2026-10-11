@@ -9,7 +9,7 @@ import threading
 import unittest
 from functools import partial
 from http.server import ThreadingHTTPServer
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 from playwright.sync_api import expect, sync_playwright
 
@@ -145,6 +145,54 @@ class MarketPageBrowserTests(unittest.TestCase):
                 self.assertEqual(self.requests[0]["lead_source"], lead_source)
                 self.assertEqual(self.requests[0]["destination"], "Antalya")
                 self.assertEqual(self.requests[0]["group_size"], "51–100")
+
+    def fill_german_form(self):
+        form = self.page.locator("form[data-proposal-form]")
+        form.locator('[name="name"]').fill("Market Tester")
+        form.locator('[name="company"]').fill("Test Company")
+        form.locator('[name="email"]').fill("market@example.invalid")
+        form.locator('[name="destination"]').select_option("Antalya")
+        form.locator('[name="group_size"]').select_option("51–100")
+        form.locator('[name="dates_unconfirmed"]').check()
+        return form
+
+    def test_german_modal_and_whatsapp_message_are_localised(self):
+        self.open(PAGES["de"])
+        self.fill_german_form().locator("button[type=submit]").click()
+        dialog = self.page.locator("dialog.success-modal")
+        expect(dialog.locator("h2")).to_have_text("Vielen Dank!")
+        expect(dialog).to_contain_text("Wir haben Ihre Anfrage erhalten.")
+        expect(dialog).to_contain_text("Weiter auf WhatsApp")
+        expect(dialog.get_by_role("button", name="Schließen")).to_be_visible()
+        expect(dialog).not_to_contain_text("Thank you")
+        href = dialog.get_by_role("link", name="Weiter auf WhatsApp").get_attribute("href")
+        text = parse_qs(urlsplit(href).query)["text"][0]
+        self.assertTrue(text.startswith("Hallo DMC Turkey Partner"))
+        expect(self.page.locator("form[data-proposal-form] button[type=submit]")).to_have_text("Anfrage gesendet")
+
+    def test_german_validation_and_error_messages_are_localised(self):
+        self.open(PAGES["de"])
+        form = self.fill_german_form()
+        form.locator('[name="dates_unconfirmed"]').uncheck()
+        form.locator("button[type=submit]").click()
+        expect(self.page.locator("[data-proposal-error]")).to_contain_text("Bitte geben Sie Ihre Reise")
+        form.locator('[name="date_start"]').fill("2027-02-10")
+        form.locator('[name="date_end"]').fill("2027-02-01")
+        form.locator("button[type=submit]").click()
+        expect(self.page.locator("[data-proposal-error]")).to_have_text("Das Enddatum darf nicht vor dem Startdatum liegen.")
+
+    def test_english_pages_keep_english_defaults(self):
+        self.open(PAGES["uk"])
+        self.assertIsNone(self.page.locator("form[data-proposal-form]").get_attribute("data-i18n"))
+        form = self.page.locator("form[data-proposal-form]")
+        form.locator('[name="name"]').fill("Market Tester")
+        form.locator('[name="company"]').fill("Test Company")
+        form.locator('[name="email"]').fill("market@example.invalid")
+        form.locator('[name="destination"]').select_option("Antalya")
+        form.locator('[name="group_size"]').select_option("51–100")
+        form.locator('[name="dates_unconfirmed"]').check()
+        form.locator("button[type=submit]").click()
+        expect(self.page.locator("dialog.success-modal h2")).to_have_text("Thank you!")
 
 
 if __name__ == "__main__":
