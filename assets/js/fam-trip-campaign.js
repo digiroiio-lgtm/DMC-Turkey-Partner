@@ -11,7 +11,7 @@
 
   /* fam-config:begin */
   var CONFIG = {
-      "enabled": false,
+      "enabled": true,
       "campaignName": "uk_fam_trip_2027",
       "targetCountries": [
           "GB",
