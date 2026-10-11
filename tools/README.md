@@ -220,6 +220,59 @@ The Selected Works cards on `index.html` show category, venue, city and a scope 
 anywhere in the repository; add them as a short `<p class="work-card__scale">` line (and
 quote text on the project page) only once the client has approved them.
 
+## Agency Fam Trip 2027 campaign (Europe + US)
+
+Disabled by default. Settings live in `campaign/uk-fam-trip.json` (one file; the file name is kept for
+history); after editing run `python3 tools/fam_trip_build.py && python3 tools/sitemaps.py`.
+
+| Launch variable | JSON key | Default |
+| --- | --- | --- |
+| `CAMPAIGN_ENABLED` | `enabled` | `false` |
+| `CAMPAIGN_NAME` | `campaignName` | `uk_fam_trip_2027` (kept so existing Formspree/GA4 reporting stays comparable) |
+| `TARGET_COUNTRIES` | `targetCountries` | GB IE DE AT CH NL BE LU PL FR SE NO DK FI US |
+| `POPUP_DELAY_MS` | `popupDelayMs` | `15000` |
+| `POPUP_SCROLL_THRESHOLD` | `popupScrollThreshold` | `50` |
+| `DISMISSAL_DAYS` | `dismissalDays` | `7` |
+| `CAMPAIGN_PERIOD` | `campaignPeriod` | `January–March 2027 (proposed)` |
+| `APPLICATION_STATUS` | `applicationStatus` | `Register Interest` |
+| (Formspree form URL) | `formspreeEndpoint` | `https://formspree.io/f/mqpelgrv` |
+
+* **Pop-up** (`assets/js/fam-trip-campaign.js`, loaded by `main.js` on every page): visitors from the target
+  countries only, after a cookie choice, 15 s or 50% scroll, once per session, 7-day suppression after
+  dismissal, permanent after an application, never on the landing page, COP31 pages, quotation/contact
+  pages or while a field has focus. Pop-up is English, CTA "Register Your Interest".
+* **Geo**: `/api/geo` returns Vercel's `x-vercel-ip-country` and `x-vercel-ip-timezone`. Unknown country =
+  no automatic pop-up; the generic headline is shown on the landing page.
+* **Bot / VPN / data-centre filtering is best-effort.** Filters in place: server-side bot user-agent list,
+  `navigator.webdriver` and headless/bot user agents, and an IP-timezone vs browser-timezone continent
+  mismatch (typical for VPNs). Vercel does not expose ASN/data-centre data, so data-centre IPs that
+  present a normal browser cannot be recognised here. For stronger filtering enable Vercel Firewall /
+  BotID (or put the site behind Cloudflare with bot score + ASN rules) and keep the same client logic.
+* **Dynamic headline**: pop-up title and landing H1 read "Exclusive Invitation for [UK/Irish/German/…]
+  MICE Agencies" (adjectives in `ADJECTIVE` in the JS), with the fixed sub-line "Experience Antalya &
+  Belek in 2027. Discover Your Local DMC Partner." The server-rendered HTML (title, H1
+  "Exclusive MICE Agency Fam Trip Invitation", canonical) is generic and identical for everybody; the swap
+  is client-side only, so there are no per-country indexable pages. Unknown/untargeted/suspect geo = generic.
+* **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
+  from the sitemap while disabled.
+* **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden
+  fields: `campaign_source`, `lead_status=New`, `submitted_at`, `consent_timestamp`, `landing_page`, UTM
+  (only with analytics consent), `marketing_optin_status`, `visitor_country` (IP country, 2-letter code; not
+  the same as the user-entered company `country`). Spam control: Formspree honeypot (`_gotcha`),
+  a 3-second minimum fill time and Formspree's own filtering.
+* **Lead lifecycle** (maintained in Formspree or an exported sheet; no CRM is built):
+  New → Qualified → Invited → Confirmed → Attended → RFP → Won.
+* **GA4 events**: `fam_popup_view`, `fam_popup_click`, `fam_popup_dismiss`, `fam_landing_view`,
+  `fam_form_start`, `fam_form_submit`, `fam_lead_success`, all with `campaign_name` and `visitor_country`
+  (no personal data). Register `visitor_country` as an event-scoped custom dimension and mark
+  `fam_lead_success` as a key event in GA4 admin (not configured by this repo).
+* **Launch checklist**: submit one real test application and check the Formspree dashboard and the
+  notification email; set `enabled` to `true`; run the two commands above; confirm hosted arrangements,
+  eligibility wording for the broadened audience, privacy wording and the pop-up image licence; verify the
+  events in GA4 DebugView and real geo on the Vercel deployment from a few target countries.
+* The pop-up/landing image is an owned event photo (`assets/img/mapfre-sigorta-antalya-gala-dinner*.webp`);
+  replace it with a licensed Antalya/Belek resort photo when available.
+
 ## COP31 news layer
 
 ```
