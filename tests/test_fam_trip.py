@@ -97,14 +97,22 @@ class FamTripTests(unittest.TestCase):
         elif url.path == "/api/geo":
             self.geo_hits += 1
             route.fulfill(status=200, content_type="application/json", body=json.dumps({"country": self.country, "timezone": self.edge_zone, "bot": self.bot}))
-        elif url.path == "/assets/js/fam-trip-campaign.js" and self.enabled:
-            source = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
-            source = source.replace('"enabled": false', '"enabled": true')
+        elif url.path == "/assets/js/fam-trip-campaign.js":
+            source = self.campaign_js(enabled=self.enabled)
             route.fulfill(status=200, content_type="application/javascript", body=source)
         else:
             route.continue_()
 
     # -- helpers ----------------------------------------------------------------------
+
+    def campaign_js(self, enabled=True, endpoint=None):
+        """The shipped script with the enabled flag (and optionally the endpoint) forced, so the
+        tests do not depend on whether the campaign is currently switched on in the JSON."""
+        source = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
+        source = re.sub(r'"enabled": (true|false)', '"enabled": %s' % ("true" if enabled else "false"), source, count=1)
+        if endpoint is not None:
+            source = source.replace(ENDPOINT, endpoint)
+        return source
 
     def open(self, path="/", width=None, consent=True, clock=True):
         if width:
@@ -139,8 +147,14 @@ class FamTripTests(unittest.TestCase):
         self.open(LANDING, clock=False)
         expect(self.page.locator("[data-fam-closed]")).to_be_visible()
         expect(self.page.locator("[data-fam-form]")).to_be_hidden()
-        self.assertIn('content="noindex, follow"', (ROOT / "agency-fam-trip-2027/index.html").read_text())
-        self.assertNotIn("agency-fam-trip-2027", (ROOT / "sitemap-pages.xml").read_text())
+
+    def test_indexing_follows_the_enabled_flag(self):
+        enabled = json.loads((ROOT / "campaign/uk-fam-trip.json").read_text())["enabled"]
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        listed = "agency-fam-trip-2027" in (ROOT / "sitemap-pages.xml").read_text()
+        self.assertEqual('content="index, follow"' in page, enabled)
+        self.assertEqual('content="noindex, follow"' in page, not enabled)
+        self.assertEqual(listed, enabled)
 
     def test_target_visitor_sees_the_popup_after_15_seconds_with_approved_copy(self):
         self.open("/")
@@ -396,9 +410,7 @@ class FamTripTests(unittest.TestCase):
 
     def test_form_stays_closed_without_a_formspree_endpoint(self):
         self.context.route("**/assets/js/fam-trip-campaign.js", lambda route: route.fulfill(
-            status=200, content_type="application/javascript",
-            body=(ROOT / "assets/js/fam-trip-campaign.js").read_text().replace('"enabled": false', '"enabled": true').replace(ENDPOINT, "")), times=1)
-        self.enabled = False
+            status=200, content_type="application/javascript", body=self.campaign_js(enabled=True, endpoint="")), times=1)
         self.open(LANDING, clock=False)
         expect(self.page.locator("[data-fam-form]")).to_be_hidden()
         expect(self.page.locator("[data-fam-closed]")).to_be_visible()
@@ -489,7 +501,7 @@ class FamTripStaticTests(unittest.TestCase):
         js = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
         block = re.search(r"var CONFIG = (\{.*?\});\s*/\* fam-config:end", js, re.S).group(1)
         self.assertEqual(json.loads(block), settings)
-        self.assertIs(settings["enabled"], False)
+        self.assertIsInstance(settings["enabled"], bool)
         self.assertEqual(settings["formspreeEndpoint"], ENDPOINT)
         self.assertEqual(settings["targetCountries"], TARGETS)
 
