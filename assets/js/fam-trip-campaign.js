@@ -1,6 +1,6 @@
 /*
- * UK Agency Fam Trip 2027 campaign: pop-up (every page) and application form
- * (/uk-agency-fam-trip/). Disabled by default: with enabled=false this file does
+ * Agency Fam Trip 2027 campaign: pop-up (every page, Europe + US visitors only)
+ * and application form (/agency-fam-trip-2027/). Disabled by default: with enabled=false this file does
  * nothing except fill the landing page's "applications open soon" state.
  *
  * Settings live in campaign/uk-fam-trip.json; `python3 tools/fam_trip_build.py`
@@ -9,33 +9,66 @@
 (function () {
   "use strict";
 
-  /* uk-fam-config:begin */
+  /* fam-config:begin */
   var CONFIG = {
       "enabled": false,
       "campaignName": "uk_fam_trip_2027",
-      "targetCountry": "GB",
+      "targetCountries": [
+          "GB",
+          "IE",
+          "DE",
+          "AT",
+          "CH",
+          "NL",
+          "BE",
+          "LU",
+          "PL",
+          "FR",
+          "SE",
+          "NO",
+          "DK",
+          "FI",
+          "US"
+      ],
       "popupDelayMs": 15000,
       "popupScrollThreshold": 50,
       "dismissalDays": 7,
       "campaignPeriod": "January–March 2027 (proposed)",
       "applicationStatus": "Register Interest",
-      "formspreeEndpoint": ""
+      "formspreeEndpoint": "https://formspree.io/f/mqpelgrv"
   };
-  /* uk-fam-config:end */
+  /* fam-config:end */
 
-  window.DMC_UK_FAM = CONFIG;
+  window.DMC_FAM_TRIP = CONFIG;
 
-  var LANDING = "/uk-agency-fam-trip/";
+  var LANDING = "/agency-fam-trip-2027/";
   var STATE_KEY = "dmc_fam_state_v1";
   var SHOWN_KEY = "dmc_fam_shown";
   var GEO_KEY = "dmc_fam_geo";
-  var CSS_HREF = "/assets/css/uk-fam.css";
+  var CSS_HREF = "/assets/css/fam-trip.css";
   var IMAGE = "/assets/img/mapfre-sigorta-antalya-gala-dinner";
-  var onLanding = location.pathname.indexOf(LANDING) === 0 || location.pathname === "/uk-agency-fam-trip";
+  var onLanding = location.pathname.indexOf(LANDING) === 0 || location.pathname === "/agency-fam-trip-2027";
+
+  var visitorCountry = "";
+  var GENERIC_HEADLINE = "Exclusive MICE Agency Fam Trip Invitation";
+  var SUBLINE = "Experience Antalya & Belek in 2027. Discover Your Local DMC Partner.";
+  var ADJECTIVE = {
+    GB: "UK", IE: "Irish", DE: "German", AT: "Austrian", CH: "Swiss", NL: "Dutch", BE: "Belgian", LU: "Luxembourg",
+    PL: "Polish", FR: "French", SE: "Swedish", NO: "Norwegian", DK: "Danish", FI: "Finnish", US: "US"
+  };
+
+  // Personalised only for a trustworthy, targeted country; otherwise the generic headline.
+  function headline(country) {
+    var adjective = country && CONFIG.targetCountries.indexOf(country) !== -1 ? ADJECTIVE[country] : "";
+    return adjective ? "Exclusive Invitation for " + adjective + " MICE Agencies" : GENERIC_HEADLINE;
+  }
 
   function track(name, extra) {
     if (!window.dmcPrivacy) { return; }
-    window.dmcPrivacy.trackEvent(name, Object.assign({ campaign_name: CONFIG.campaignName }, extra || {}));
+    var params = { campaign_name: CONFIG.campaignName };
+    // Country code only (derived from the IP at the edge); never an address or other personal data.
+    if (visitorCountry) { params.visitor_country = visitorCountry; }
+    window.dmcPrivacy.trackEvent(name, Object.assign(params, extra || {}));
   }
 
   function readState() {
@@ -58,7 +91,14 @@
     var form = root.querySelector("[data-fam-form]");
     var success = root.querySelector("[data-fam-success]");
     var error = root.querySelector("[data-fam-error]");
-    track("fam_landing_view");
+    // The landing view is counted by country when the edge geo is trustworthy; the form works regardless.
+    // The server-rendered H1 is the generic, indexable version; it is swapped client-side only.
+    resolveGeo().then(function (country) {
+      visitorCountry = country;
+      var title = document.querySelector("[data-fam-headline]");
+      if (title) { title.textContent = headline(country); }
+      track("fam_landing_view");
+    });
 
     // The form opens only when the campaign is enabled AND a Formspree endpoint is set.
     // Otherwise the page stays in its "applications open soon" state and nothing is submitted.
@@ -109,6 +149,7 @@
       // Bots fill the honeypot or submit within moments of loading the page.
       if (form.elements._gotcha.value || Date.now() - loadedAt < 3000) { fail("Please review your details and try again.", null); return; }
 
+      form.elements.visitor_country.value = visitorCountry;
       form.elements.submitted_at.value = new Date().toISOString();
       form.elements.consent_timestamp.value = form.elements.submitted_at.value;
       form.elements.marketing_optin_status.value = form.elements.marketing_optin.checked ? "Yes" : "No";
@@ -182,19 +223,50 @@
     });
   }
 
-  function isTargetCountry() {
+  // Broad region of an IANA timezone ("Europe/Berlin" -> "Europe"); "" when unknown.
+  function tzRegion(zone) {
+    var match = /^(Europe|America|Asia|Africa|Australia|Pacific|Atlantic|Indian|Antarctica|Arctic)\//.exec(zone || "");
+    return match ? match[1] : "";
+  }
+
+  // Best-effort filter for automation. Cannot detect data-centre IP ranges (the edge does
+  // not expose ASN data); see tools/README.md for the stronger options.
+  function looksAutomated() {
+    if (navigator.webdriver) { return true; }
+    return /bot|crawl|spider|headless|lighthouse|phantom|puppeteer|playwright|selenium/i.test(navigator.userAgent || "");
+  }
+
+  // Resolves to the visitor's country code when the visit is trustworthy enough for an
+  // automatic pop-up; "" otherwise (unknown geo, automation, or an IP/browser mismatch
+  // that suggests a VPN or proxy).
+  function resolveGeo() {
+    if (looksAutomated()) { return Promise.resolve(""); }
     try {
       var cached = sessionStorage.getItem(GEO_KEY);
-      if (cached) { return Promise.resolve(cached === CONFIG.targetCountry); }
+      if (cached !== null) { return Promise.resolve(cached); }
     } catch (error) { /* ignore */ }
     return fetch("/api/geo", { cache: "no-store", credentials: "omit" })
       .then(function (response) { return response.ok ? response.json() : {}; })
       .then(function (data) {
-        var country = data && typeof data.country === "string" ? data.country : "";
-        try { if (country) { sessionStorage.setItem(GEO_KEY, country); } } catch (error) { /* ignore */ }
-        return country === CONFIG.targetCountry;
+        var country = data && typeof data.country === "string" && /^[A-Z]{2}$/.test(data.country) ? data.country : "";
+        if (!country || (data && data.bot)) { country = ""; }
+        var browserZone = "";
+        try { browserZone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (error) { /* ignore */ }
+        var edgeRegion = tzRegion(data && data.timezone);
+        var browserRegion = tzRegion(browserZone);
+        // The IP says one continent, the device clock another: treat as VPN/proxy.
+        if (country && edgeRegion && browserRegion && edgeRegion !== browserRegion) { country = ""; }
+        try { sessionStorage.setItem(GEO_KEY, country); } catch (error) { /* ignore */ }
+        return country;
       })
-      .catch(function () { return false; });
+      .catch(function () { return ""; });
+  }
+
+  function isTargetCountry() {
+    return resolveGeo().then(function (country) {
+      visitorCountry = country;
+      return Boolean(country) && CONFIG.targetCountries.indexOf(country) !== -1;
+    });
   }
 
   function loadStyles() {
@@ -221,15 +293,15 @@
     dialog.setAttribute("aria-describedby", "fam-popup-desc");
     dialog.innerHTML =
       '<div class="fam-popup__panel">' +
-        '<div class="fam-popup__top"><p class="fam-popup__eyebrow">Exclusive UK Agency Invitation</p>' +
+        '<div class="fam-popup__top"><p class="fam-popup__eyebrow">Antalya &amp; Belek Fam Trip 2027</p>' +
           '<button type="button" class="fam-popup__close" aria-label="Close" data-fam-dismiss="close_button">' +
             '<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></button></div>' +
         '<img class="fam-popup__image" src="' + IMAGE + '-640.webp" srcset="' + IMAGE + '-640.webp 640w, ' + IMAGE + '.webp 1179w" sizes="(max-width: 640px) 100vw, 712px" width="1179" height="798" alt="Gala dinner with stage lighting and LED screens at a corporate event in Antalya">' +
-        '<h2 id="fam-popup-title" class="fam-popup__title" tabindex="-1">Experience Antalya &amp; Belek. Become Our UK Agency Partner.</h2>' +
-        '<p id="fam-popup-desc" class="fam-popup__text">Join a curated familiarisation trip for UK incentive and MICE decision-makers. Discover venues, meet our local operations team and explore white-label delivery opportunities.</p>' +
+        '<h2 id="fam-popup-title" class="fam-popup__title" tabindex="-1">' + headline(visitorCountry) + '</h2>' +
+        '<p id="fam-popup-desc" class="fam-popup__text"><strong>' + SUBLINE.replace("&", "&amp;") + '</strong> Join a curated familiarisation trip for incentive and MICE agency decision-makers. Discover venues, meet our local operations team and explore white-label delivery opportunities.</p>' +
         '<ul class="fam-popup__badges"><li>3 Nights</li><li>2027</li><li>Limited Applications</li></ul>' +
         '<ul class="fam-popup__benefits"><li>' + CHECK + 'Hosted accommodation and local programme</li><li>' + CHECK + 'Hotel inspections and DMC networking</li><li>' + PLANE + 'Flights arranged by participants</li></ul>' +
-        '<div class="fam-popup__actions"><a class="btn fam-popup__cta" href="' + LANDING + '?src=fam-popup" data-fam-cta>Apply for an Invitation <span aria-hidden="true">→</span></a>' +
+        '<div class="fam-popup__actions"><a class="btn fam-popup__cta" href="' + LANDING + '?src=fam-popup" data-fam-cta>Register Your Interest <span aria-hidden="true">→</span></a>' +
           '<button type="button" class="fam-popup__later" data-fam-dismiss="maybe_later">Maybe Later</button></div>' +
         '<p class="fam-popup__note">Applications are reviewed individually. Participation is subject to confirmation.</p>' +
       '</div>';

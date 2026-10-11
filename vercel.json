@@ -1,8 +1,18 @@
 {
   "redirects": [
     {
+      "source": "/agency-fam-trip-2027",
+      "destination": "/agency-fam-trip-2027/",
+      "statusCode": 301
+    },
+    {
       "source": "/uk-agency-fam-trip",
-      "destination": "/uk-agency-fam-trip/",
+      "destination": "/agency-fam-trip-2027/",
+      "statusCode": 301
+    },
+    {
+      "source": "/uk-agency-fam-trip/",
+      "destination": "/agency-fam-trip-2027/",
       "statusCode": 301
     },
     {

@@ -1026,7 +1026,7 @@
   function initFamCampaign() {
     if (document.querySelector('script[data-fam-campaign]')) { return; }
     var script = document.createElement("script");
-    script.src = "/assets/js/uk-fam-campaign.js";
+    script.src = "/assets/js/fam-trip-campaign.js";
     script.defer = true;
     script.setAttribute("data-fam-campaign", "");
     document.head.appendChild(script);

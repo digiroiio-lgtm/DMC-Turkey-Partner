@@ -5,6 +5,7 @@ The static server is local and ephemeral; proposal API responses are mocked.
 """
 
 import json
+import re
 import os
 import shutil
 import threading
@@ -110,6 +111,17 @@ class SuccessModalTests(unittest.TestCase):
     def submit(self):
         self.page.locator("[data-proposal-form] button[type=submit]").click()
 
+    def wait_until_closed(self, dialog):
+        """Wait for the dialog's asynchronous `close` event to have run.
+
+        dialog.close() hides the dialog at once but queues the `close` event as a later task;
+        the page releases the scroll lock and reports success_modal_close from that handler
+        (in that order, in one task). So the lock class disappearing is the observable signal
+        that the event has fired. Playwright retries this assertion until it holds.
+        """
+        expect(dialog).to_be_hidden()
+        expect(self.page.locator("html")).not_to_have_class(re.compile(r"has-success-modal"))
+
     def events_named(self, name):
         return [e for e in self.page.evaluate("window.__events") if e["name"] == name]
 
@@ -155,8 +167,9 @@ class SuccessModalTests(unittest.TestCase):
         dialog = self.page.locator("dialog.success-modal")
         expect(dialog).to_be_visible()
         self.page.keyboard.press("Escape")
-        expect(dialog).to_be_hidden()
+        self.wait_until_closed(dialog)
         self.assertEqual(self.page.evaluate("getComputedStyle(document.documentElement).overflow"), "visible")
+        self.assertEqual(len(self.events_named("success_modal_close")), 1)
         self.assertEqual(self.events_named("success_modal_close")[0]["params"]["method"], "escape")
         button = self.page.locator("[data-proposal-form] button[type=submit]")
         expect(button).to_have_text("Brief Sent")
@@ -171,8 +184,9 @@ class SuccessModalTests(unittest.TestCase):
         self.submit()
         dialog = self.page.locator("dialog.success-modal")
         dialog.get_by_role("button", name="Back to Website").click()
-        expect(dialog).to_be_hidden()
+        self.wait_until_closed(dialog)
         self.assertEqual(len(self.api_requests), 1)
+        self.assertEqual(len(self.events_named("success_modal_close")), 1)
         self.assertEqual(self.events_named("success_modal_close")[0]["params"]["method"], "back_to_website")
 
     def test_focus_is_trapped_in_the_modal(self):
@@ -225,8 +239,7 @@ class SuccessModalTests(unittest.TestCase):
         dialog.get_by_role("link", name="Continue on WhatsApp").evaluate(
             "e => { e.addEventListener('click', ev => ev.preventDefault()); e.click(); }")
         dialog.get_by_role("button", name="Close").click()
-        expect(dialog).to_be_hidden()
-        self.page.wait_for_function("window.__events.some(e => e.name === 'success_modal_close')")
+        self.wait_until_closed(dialog)
         events = self.page.evaluate("window.__events")
         names = [e["name"] for e in events]
         for name in ("generate_lead", "success_modal_view", "whatsapp_click_after_lead", "success_modal_close"):

@@ -1,4 +1,4 @@
-"""Regression tests for the UK Agency Fam Trip campaign (pop-up, landing page, form).
+"""Regression tests for the Agency Fam Trip campaign (pop-up, landing page, form).
 
 Everything external is mocked: /api/geo, Formspree and the clock. The campaign ships
 disabled, so most tests rewrite the served settings block to enable it.
@@ -18,10 +18,19 @@ from playwright.sync_api import expect, sync_playwright
 
 from test_calculator_proposal import ROOT, StaticHandler
 
-ENDPOINT = "https://formspree.io/f/testform"
-LANDING = "/uk-agency-fam-trip/"
+ENDPOINT = "https://formspree.io/f/mqpelgrv"
+LANDING = "/agency-fam-trip-2027/"
+HEADLINES = {"GB": "UK", "IE": "Irish", "DE": "German", "AT": "Austrian", "CH": "Swiss", "NL": "Dutch", "BE": "Belgian",
+             "LU": "Luxembourg", "PL": "Polish", "FR": "French", "SE": "Swedish", "NO": "Norwegian", "DK": "Danish",
+             "FI": "Finnish", "US": "US"}
+BROWSER_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+GENERIC = "Exclusive MICE Agency Fam Trip Invitation"
+SUBLINE = "Experience Antalya & Belek in 2027. Discover Your Local DMC Partner."
+TARGETS = "GB IE DE AT CH NL BE LU PL FR SE NO DK FI US".split()
+ZONES = {"GB": "Europe/London", "DE": "Europe/Berlin", "US": "America/New_York", "FR": "Europe/Paris"}
 RECORDER = """
 (() => {
+  Object.defineProperty(Navigator.prototype, 'webdriver', { get: () => false, configurable: true });
   let current;
   Object.defineProperty(window, 'dmcPrivacy', {
     configurable: true,
@@ -54,10 +63,13 @@ class FamTripTests(unittest.TestCase):
         cls.addClassCleanup(cls.browser.close)
 
     def setUp(self):
-        self.context = self.browser.new_context(viewport={"width": 1365, "height": 900})
+        self.context = self.browser.new_context(viewport={"width": 1365, "height": 900}, timezone_id="Europe/London",
+                                           user_agent=BROWSER_UA)
         self.addCleanup(self.context.close)
         self.enabled = True
         self.country = "GB"
+        self.edge_zone = None
+        self.bot = False
         self.formspree_status = 200
         self.formspree_hits = []
         self.geo_hits = 0
@@ -84,11 +96,10 @@ class FamTripTests(unittest.TestCase):
             route.abort()
         elif url.path == "/api/geo":
             self.geo_hits += 1
-            route.fulfill(status=200, content_type="application/json", body=json.dumps({"country": self.country}))
-        elif url.path == "/assets/js/uk-fam-campaign.js" and self.enabled:
-            source = (ROOT / "assets/js/uk-fam-campaign.js").read_text()
-            source = source.replace('"enabled": false', '"enabled": true').replace(
-                '"formspreeEndpoint": ""', '"formspreeEndpoint": "%s"' % ENDPOINT)
+            route.fulfill(status=200, content_type="application/json", body=json.dumps({"country": self.country, "timezone": self.edge_zone, "bot": self.bot}))
+        elif url.path == "/assets/js/fam-trip-campaign.js" and self.enabled:
+            source = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
+            source = source.replace('"enabled": false', '"enabled": true')
             route.fulfill(status=200, content_type="application/javascript", body=source)
         else:
             route.continue_()
@@ -128,22 +139,23 @@ class FamTripTests(unittest.TestCase):
         self.open(LANDING, clock=False)
         expect(self.page.locator("[data-fam-closed]")).to_be_visible()
         expect(self.page.locator("[data-fam-form]")).to_be_hidden()
-        self.assertIn('content="noindex, follow"', (ROOT / "uk-agency-fam-trip/index.html").read_text())
-        self.assertNotIn("uk-agency-fam-trip", (ROOT / "sitemap-pages.xml").read_text())
+        self.assertIn('content="noindex, follow"', (ROOT / "agency-fam-trip-2027/index.html").read_text())
+        self.assertNotIn("agency-fam-trip-2027", (ROOT / "sitemap-pages.xml").read_text())
 
-    def test_uk_visitor_sees_the_popup_after_15_seconds_with_approved_copy(self):
+    def test_target_visitor_sees_the_popup_after_15_seconds_with_approved_copy(self):
         self.open("/")
         self.fast_forward(14000)
         expect(self.popup()).to_have_count(0)
         self.page.clock.run_for(1500)
         dialog = self.popup()
         expect(dialog).to_be_visible()
-        expect(dialog.locator(".fam-popup__eyebrow")).to_have_text("EXCLUSIVE UK AGENCY INVITATION", use_inner_text=True)
-        expect(dialog.locator("h2")).to_have_text("Experience Antalya & Belek. Become Our UK Agency Partner.")
-        expect(dialog).to_contain_text("Join a curated familiarisation trip for UK incentive and MICE decision-makers.")
+        expect(dialog.locator(".fam-popup__eyebrow")).to_have_text("ANTALYA & BELEK FAM TRIP 2027", use_inner_text=True)
+        expect(dialog.locator("h2")).to_have_text("Exclusive Invitation for UK MICE Agencies")
+        expect(dialog).to_contain_text(SUBLINE)
+        expect(dialog).to_contain_text("Join a curated familiarisation trip for incentive and MICE agency decision-makers.")
         for text in ("3 Nights", "2027", "Limited Applications", "Hosted accommodation and local programme",
                      "Hotel inspections and DMC networking", "Flights arranged by participants",
-                     "Apply for an Invitation", "Maybe Later",
+                     "Register Your Interest", "Maybe Later",
                      "Applications are reviewed individually. Participation is subject to confirmation."):
             expect(dialog).to_contain_text(text)
         self.assertEqual(self.page.evaluate("document.activeElement.id"), "fam-popup-title")
@@ -152,8 +164,57 @@ class FamTripTests(unittest.TestCase):
         self.assertEqual(view[0]["params"]["campaign_name"], "uk_fam_trip_2027")
         self.assertEqual(self.page.evaluate("getComputedStyle(document.documentElement).overflow"), "hidden")
 
+    def test_every_target_country_sees_the_popup_and_events_carry_the_country(self):
+        for country in TARGETS:
+            with self.subTest(country=country):
+                self.country = country
+                self.page.close()
+                self.page = self.context.new_page()
+                self.open("/")
+                self.fast_forward(16000)
+                expect(self.popup()).to_be_visible()
+                self.assertEqual(self.events("fam_popup_view")[0]["params"]["visitor_country"], country)
+                expect(self.popup().locator("h2")).to_have_text("Exclusive Invitation for %s MICE Agencies" % HEADLINES[country])
+                expect(self.popup()).to_contain_text(SUBLINE)
+
+    def test_non_target_unknown_bot_and_vpn_traffic_never_see_the_popup(self):
+        cases = [("TR", None, False), ("IN", None, False), (None, None, False), ("DE", None, True),
+                 ("DE", "America/New_York", False), ("US", "America/New_York", False)]
+        for country, zone, bot in cases:
+            with self.subTest(country=country, zone=zone, bot=bot):
+                self.country, self.edge_zone, self.bot = country, zone, bot
+                self.page.close()
+                self.page = self.context.new_page()
+                self.open("/")
+                self.fast_forward(20000)
+                expect(self.popup()).to_have_count(0)
+                self.assertEqual(self.events("fam_popup_view"), [])
+
+    def test_matching_edge_and_browser_timezone_is_accepted(self):
+        self.country, self.edge_zone = "GB", "Europe/Dublin"
+        self.open("/")
+        self.fast_forward(16000)
+        expect(self.popup()).to_be_visible()
+
+    def test_headless_user_agent_never_sees_the_popup(self):
+        context = self.browser.new_context(user_agent="Mozilla/5.0 HeadlessChrome/124.0 Safari/537.36")
+        self.addCleanup(context.close)
+        context.add_init_script(RECORDER)
+        context.route("**/*", self.route)
+        self.page = context.new_page()
+        self.open("/")
+        self.fast_forward(20000)
+        expect(self.popup()).to_have_count(0)
+
+    def test_automated_browsers_never_see_the_popup(self):
+        self.context.add_init_script("Object.defineProperty(Navigator.prototype, 'webdriver', { get: () => true, configurable: true });")
+        self.open("/")
+        self.fast_forward(20000)
+        expect(self.popup()).to_have_count(0)
+        self.assertEqual(self.geo_hits, 0)
+
     def test_non_uk_and_unknown_country_never_see_the_popup(self):
-        for country in ("DE", None):
+        for country in ("TR", None):
             with self.subTest(country=country):
                 self.country = country
                 self.page.close()
@@ -240,8 +301,8 @@ class FamTripTests(unittest.TestCase):
     def test_primary_cta_goes_to_the_landing_page_and_is_tracked(self):
         self.open("/")
         self.fast_forward(16000)
-        self.popup().get_by_role("link", name="Apply for an Invitation").click()
-        self.page.wait_for_url("**/uk-agency-fam-trip/?src=fam-popup")
+        self.popup().get_by_role("link", name="Register Your Interest").click()
+        self.page.wait_for_url("**/agency-fam-trip-2027/?src=fam-popup")
         self.assertEqual(len(self.events("fam_popup_click")), 0)  # new page: recorder reset
         self.page.go_back()
 
@@ -282,7 +343,7 @@ class FamTripTests(unittest.TestCase):
 
     def test_landing_page_content_and_open_form(self):
         self.open(LANDING, clock=False)
-        expect(self.page.locator("h1")).to_have_text("Discover Antalya & Belek With Your Future DMC Partner")
+        expect(self.page.locator("h1")).to_have_text("Exclusive Invitation for UK MICE Agencies")
         for text in ("Why Join", "Proposed 3-Night Programme", "Indicative programme, subject to confirmation.",
                      "Who Should Apply", "at least two international group programmes annually",
                      "International flights are expected to be arranged by participants.",
@@ -292,10 +353,51 @@ class FamTripTests(unittest.TestCase):
         expect(self.page.locator("[data-fam-closed]")).to_be_hidden()
         self.assertEqual(len(self.events("fam_landing_view")), 1)
 
+    def test_landing_headline_is_personalised_per_country_but_seo_markup_is_fixed(self):
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        self.assertIn("<h1 data-fam-headline>%s</h1>" % GENERIC, page)
+        self.assertIn('<link rel="canonical" href="https://dmcturkeypartner.com/agency-fam-trip-2027/">', page)
+        for country, adjective in HEADLINES.items():
+            with self.subTest(country=country):
+                self.country = country
+                self.page.close()
+                self.page = self.context.new_page()
+                self.open(LANDING, clock=False)
+                expect(self.page.locator("h1")).to_have_text("Exclusive Invitation for %s MICE Agencies" % adjective)
+                expect(self.page.locator("main")).to_contain_text(SUBLINE)
+                self.assertIn(self.page.title(), "Antalya & Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner")
+                self.assertEqual(self.page.locator('link[rel="canonical"]').get_attribute("href"),
+                                 "https://dmcturkeypartner.com/agency-fam-trip-2027/")
+                self.assertEqual(self.events("fam_landing_view")[0]["params"]["visitor_country"], country)
+
+    def test_landing_headline_is_generic_when_country_is_unknown_untargeted_or_suspect(self):
+        for country, zone in ((None, None), ("TR", None), ("IN", None), ("DE", "America/New_York")):
+            with self.subTest(country=country, zone=zone):
+                self.country, self.edge_zone = country, zone
+                self.page.close()
+                self.page = self.context.new_page()
+                self.open(LANDING, clock=False)
+                self.page.wait_for_timeout(400)
+                expect(self.page.locator("h1")).to_have_text(GENERIC)
+                # A valid but untargeted country is still reported; a suspect or unknown one is not.
+                params = self.events("fam_landing_view")[0]["params"]
+                self.assertEqual(params.get("visitor_country"), country if country in ("TR", "IN") else None)
+
+    def test_ip_country_is_sent_separately_from_the_company_country(self):
+        self.country = "DE"
+        self.open(LANDING)
+        self.fill(country="Ireland")
+        self.submit_after_wait()
+        expect(self.page.locator("[data-fam-success]")).to_be_visible()
+        body = self.formspree_hits[0]
+        self.assertRegex(body, r'name="visitor_country"\r\n\r\nDE')
+        self.assertRegex(body, r'name="country"\r\n\r\nIreland')
+        self.assertEqual(self.events("fam_lead_success")[0]["params"]["visitor_country"], "DE")
+
     def test_form_stays_closed_without_a_formspree_endpoint(self):
-        self.context.route("**/assets/js/uk-fam-campaign.js", lambda route: route.fulfill(
+        self.context.route("**/assets/js/fam-trip-campaign.js", lambda route: route.fulfill(
             status=200, content_type="application/javascript",
-            body=(ROOT / "assets/js/uk-fam-campaign.js").read_text().replace('"enabled": false', '"enabled": true')), times=1)
+            body=(ROOT / "assets/js/fam-trip-campaign.js").read_text().replace('"enabled": false', '"enabled": true').replace(ENDPOINT, "")), times=1)
         self.enabled = False
         self.open(LANDING, clock=False)
         expect(self.page.locator("[data-fam-form]")).to_be_hidden()
@@ -384,11 +486,12 @@ class FamTripStaticTests(unittest.TestCase):
     def test_settings_block_matches_the_json_file(self):
         settings = json.loads((ROOT / "campaign/uk-fam-trip.json").read_text())
         settings = {k: v for k, v in settings.items() if not k.startswith("_")}
-        js = (ROOT / "assets/js/uk-fam-campaign.js").read_text()
-        block = re.search(r"var CONFIG = (\{.*?\});\s*/\* uk-fam-config:end", js, re.S).group(1)
+        js = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
+        block = re.search(r"var CONFIG = (\{.*?\});\s*/\* fam-config:end", js, re.S).group(1)
         self.assertEqual(json.loads(block), settings)
         self.assertIs(settings["enabled"], False)
-        self.assertEqual(settings["formspreeEndpoint"], "")
+        self.assertEqual(settings["formspreeEndpoint"], ENDPOINT)
+        self.assertEqual(settings["targetCountries"], TARGETS)
 
     def test_csp_allows_formspree_for_fetch_only(self):
         csp = next(h["value"] for rule in json.loads((ROOT / "vercel.json").read_text())["headers"]
@@ -397,9 +500,9 @@ class FamTripStaticTests(unittest.TestCase):
         self.assertIn("form-action 'self'", csp)
 
     def test_landing_page_metadata(self):
-        page = (ROOT / "uk-agency-fam-trip/index.html").read_text()
-        self.assertIn('<link rel="canonical" href="https://dmcturkeypartner.com/uk-agency-fam-trip/">', page)
-        self.assertIn("Antalya &amp; Belek Fam Trip 2027 for UK MICE Agencies | DMC Turkey Partner", page)
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        self.assertIn('<link rel="canonical" href="https://dmcturkeypartner.com/agency-fam-trip-2027/">', page)
+        self.assertIn("Antalya &amp; Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner", page)
         self.assertIn('property="og:title"', page)
 
 

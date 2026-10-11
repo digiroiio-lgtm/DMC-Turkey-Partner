@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Build the UK Agency Fam Trip 2027 landing page and apply the campaign settings.
+"""Build the Agency Fam Trip 2027 landing page and apply the campaign settings.
 
 Usage: python3 tools/fam_trip_build.py   (then: python3 tools/sitemaps.py)
 
 Reads campaign/uk-fam-trip.json (single source of settings) and:
-  * writes uk-agency-fam-trip/index.html (noindex while enabled=false),
-  * rewrites the config block in assets/js/uk-fam-campaign.js.
+  * writes agency-fam-trip-2027/index.html (noindex while enabled=false),
+  * rewrites the config block in assets/js/fam-trip-campaign.js.
 Idempotent. While the campaign is disabled the page is noindex and tools/sitemaps.py
 does not list it; set "enabled": true and a Formspree endpoint to launch.
 """
@@ -22,15 +22,15 @@ from cop31_common import SITE, esc  # noqa: E402
 from cop31_render import FOOTER, HEADER, ROOT  # noqa: E402
 import site_seo  # noqa: E402
 
-PATH = "/uk-agency-fam-trip/"
+PATH = "/agency-fam-trip-2027/"
 URL = SITE + PATH
 SETTINGS = os.path.join(ROOT, "campaign", "uk-fam-trip.json")
-JS = os.path.join(ROOT, "assets", "js", "uk-fam-campaign.js")
-JS_BEGIN = "/* uk-fam-config:begin */"
-JS_END = "/* uk-fam-config:end */"
+JS = os.path.join(ROOT, "assets", "js", "fam-trip-campaign.js")
+JS_BEGIN = "/* fam-config:begin */"
+JS_END = "/* fam-config:end */"
 
-TITLE = "Antalya & Belek Fam Trip 2027 for UK MICE Agencies | DMC Turkey Partner"
-DESCRIPTION = ("Register your interest in a curated Antalya and Belek familiarisation trip for UK incentive and MICE "
+TITLE = "Antalya & Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner"
+DESCRIPTION = ("Register your interest in a curated Antalya and Belek familiarisation trip for incentive and MICE "
                "agencies. Explore venues, local operations and white-label partnerships.")
 IMAGE = "/assets/img/mapfre-sigorta-antalya-gala-dinner"
 
@@ -56,10 +56,10 @@ def write_js_config(cfg):
 def head(cfg):
     robots = "index, follow" if cfg["enabled"] else "noindex, follow"
     web = {"@context": "https://schema.org", "@type": "WebPage", "name": TITLE, "url": URL, "description": DESCRIPTION,
-           "inLanguage": "en-GB", "isPartOf": {"@id": SITE + "/#website"}, "publisher": {"@id": SITE + "/#organization"}}
+           "inLanguage": "en", "isPartOf": {"@id": SITE + "/#website"}, "publisher": {"@id": SITE + "/#organization"}}
     crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
               "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-                                  {"@type": "ListItem", "position": 2, "name": "UK Agency Fam Trip 2027", "item": URL}]}
+                                  {"@type": "ListItem", "position": 2, "name": "Agency Fam Trip 2027", "item": URL}]}
     ld = "\n".join('  <script type="application/ld+json">\n  %s\n  </script>' % json.dumps(d, ensure_ascii=False, separators=(",", ":"))
                    for d in (web, crumbs))
     return "\n".join([
@@ -80,15 +80,15 @@ def head(cfg):
         '  <meta property="og:description" content="%s">' % esc(DESCRIPTION),
         '  <meta property="og:url" content="%s">' % URL,
         '  <meta property="og:site_name" content="DMC Turkey Partner">',
-        '  <meta property="og:locale" content="en_GB">',
+        '  <meta property="og:locale" content="en">',
         '  <meta property="og:image" content="%s%s.webp">' % (SITE, IMAGE),
         '  <meta name="twitter:card" content="summary_large_image">',
         '  <meta name="twitter:image" content="%s%s.webp">' % (SITE, IMAGE),
-        '  <meta name="dmc:lead-source" content="UK Fam Trip">',
+        '  <meta name="dmc:lead-source" content="Agency Fam Trip">',
         '  <meta name="dmc:page-type" content="campaign-landing">',
         '  <link rel="stylesheet" href="/assets/css/main.css">',
         '  <link rel="stylesheet" href="/assets/css/forms.css">',
-        '  <link rel="stylesheet" href="/assets/css/uk-fam.css">',
+        '  <link rel="stylesheet" href="/assets/css/fam-trip.css">',
         ld, "</head>",
     ])
 
@@ -115,15 +115,15 @@ def form_section(cfg):
     hidden = "".join('<input type="hidden" name="%s"%s>' % (n, ' value="%s"' % v if v else "") for n, v in [
         ("campaign_source", ""), ("lead_status", "New"), ("submitted_at", ""), ("consent_timestamp", ""),
         ("landing_page", ""), ("submission_source", ""), ("marketing_optin_status", ""),
-        ("utm_source", ""), ("utm_medium", ""), ("utm_campaign", ""), ("utm_content", ""), ("utm_term", ""),
-        ("_subject", "UK Agency Fam Trip 2027 application")])
+        ("utm_source", ""), ("utm_medium", ""), ("utm_campaign", ""), ("utm_content", ""), ("utm_term", ""), ("visitor_country", ""),
+        ("_subject", "Agency Fam Trip 2027 application")])
     return '''    <section class="page-section fam-apply" id="apply" data-fam-apply>
       <h2>Apply for the 2027 Fam Trip</h2>
       <p class="page-section__lede">Status: %(status)s. Proposed period: %(period)s. Applications are reviewed individually.</p>
       <div class="fam-closed" data-fam-closed>
         <p><strong>Applications are not open yet.</strong> We will open the application form once the programme and hosted arrangements are confirmed. To be told when it opens, email <a href="mailto:hello@dmcturkeypartner.com">hello@dmcturkeypartner.com</a>.</p>
       </div>
-      <form class="fam-form" name="uk-fam-trip-application" method="POST" novalidate data-fam-form hidden>
+      <form class="fam-form" name="fam-trip-application" method="POST" novalidate data-fam-form hidden>
         <p class="sr-only"><label>Leave this field empty <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
         %(hidden)s
         <div class="form-grid">
@@ -174,10 +174,11 @@ def page_body(cfg):
     card = lambda h, p: '<article class="card"><h3>%s</h3><p>%s</p></article>' % (h, p)
     return "\n".join([
         '      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>'
-        '<li aria-current="page">UK Agency Fam Trip 2027</li></ol></nav>',
+        '<li aria-current="page">Agency Fam Trip 2027</li></ol></nav>',
         '    <section class="page-section" data-cta-location="hero">',
-        '      <p class="fam-eyebrow">UK Agency Fam Trip 2027</p>',
-        "      <h1>Discover Antalya &amp; Belek With Your Future DMC Partner</h1>",
+        '      <p class="fam-eyebrow">Agency Fam Trip 2027</p>',
+        '      <h1 data-fam-headline>Exclusive MICE Agency Fam Trip Invitation</h1>',
+        '      <p class="fam-subline"><strong>Experience Antalya &amp; Belek in 2027. Discover Your Local DMC Partner.</strong></p>',
         '      <p class="page-section__lede">Experience the destination, meet the people behind the operations and explore how '
         "DMC Turkey Partner can support your agency’s programmes in Türkiye.</p>",
         '      <div class="hero-actions"><a class="btn btn--primary" href="#apply">Register Your Interest</a></div>',
@@ -203,7 +204,7 @@ def page_body(cfg):
         "    </section>",
         '    <section class="page-section">',
         "      <h2>Who Should Apply</h2>",
-        "      <ul><li>UK-based incentive and MICE agencies.</li><li>Corporate event and group travel planners.</li>"
+        "      <ul><li>Incentive and MICE agencies based in Europe and the United States.</li><li>Corporate event and group travel planners.</li>"
         "<li>Agency owners, directors and senior decision-makers.</li>"
         "<li>Professionals managing international group programmes.</li></ul>",
         "      <p>Priority is given to applicants whose agencies organise at least two international group programmes annually.</p>",
@@ -229,13 +230,13 @@ def render(cfg):
 
 def main():
     cfg = load()
-    path = os.path.join(ROOT, "uk-agency-fam-trip", "index.html")
+    path = os.path.join(ROOT, "agency-fam-trip-2027", "index.html")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as handle:
         handle.write(render(cfg) + "\n")
     site_seo.patch(path, site_seo.identity_block())
-    print("wrote /uk-agency-fam-trip/ (%s)" % ("ENABLED" if cfg["enabled"] else "disabled, noindex"))
-    print("%s assets/js/uk-fam-campaign.js" % ("updated" if write_js_config(cfg) else "unchanged"))
+    print("wrote /agency-fam-trip-2027/ (%s)" % ("ENABLED" if cfg["enabled"] else "disabled, noindex"))
+    print("%s assets/js/fam-trip-campaign.js" % ("updated" if write_js_config(cfg) else "unchanged"))
     if cfg["enabled"] and not cfg["formspreeEndpoint"]:
         print("WARNING: enabled but formspreeEndpoint is empty; the form stays closed.")
 
