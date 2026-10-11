@@ -193,6 +193,17 @@ To add a destination page: set its `page` in `DESTINATIONS`, add a render
 function modelled on `render_belek()` with its own content, and list it in
 `sitemap-destinations.xml`.
 
+## Market pages (UK agencies, German)
+
+```
+python3 tools/market_pages_build.py
+```
+
+Writes `/dmc-turkey-uk-agencies/` (English) and `/de/dmc-tuerkei/` (German,
+`lang="de"`). Only facts that already exist on the site are used. The German page is
+linked with hreflang (de / en / x-default) to `/dmc-turkey/`, which carries the
+reciprocal tags. Have a native speaker review the German copy before promoting it.
+
 ## COP31 news layer
 
 ```
