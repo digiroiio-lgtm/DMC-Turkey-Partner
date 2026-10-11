@@ -15,8 +15,10 @@ speaker before it is promoted. hreflang: de <-> en (/dmc-turkey/) + x-default;
 the reciprocal tags live in dmc-turkey/index.html.
 """
 
+import html as htmllib
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -105,8 +107,8 @@ def steps(items):
         "<li><h3>%s</h3><p>%s</p></li>" % (h, p) for h, p in items)
 
 
-def assemble(head_html, body):
-    return head_html + "\n" + HEADER + '<main id="main-content">\n' + body + "\n  </main>" + FOOTER
+def assemble(head_html, body, header=None, footer=None):
+    return head_html + "\n" + (header or HEADER) + '<main id="main-content">\n' + body + "\n  </main>" + (footer or FOOTER)
 
 
 def form_html(L, prefix):
@@ -156,6 +158,68 @@ def form_html(L, prefix):
       </section>
       <ul class="cta-expect">%(expect)s</ul>
     </section>''' % dict(L, p=prefix, dests=opt(dests), sizes=opt(sizes), types=opt(types), i18n_attr=i18n_attr)
+
+
+# --- German header and footer ---------------------------------------------------
+# The shared chrome is lifted from an English page; the German variant translates
+# its visible labels. Links keep pointing at the (English) pages that exist, except
+# "DMC Turkey", which goes to the German page. tools/site_footer.py and
+# tools/cop31_nav.py skip pages with <html lang="de">.
+
+CHROME_DE = {
+    "Skip to main content": "Zum Hauptinhalt springen", "Menu": "Men\u00fc", "Solutions": "L\u00f6sungen",
+    "DMC Turkey": "DMC T\u00fcrkei", "White-Label DMC": "White-Label-DMC", "MICE Turkey": "MICE T\u00fcrkei",
+    "Incentive Travel": "Incentive-Reisen", "Corporate Events": "Firmenevents", "Group Travel": "Gruppenreisen",
+    "Services": "Leistungen", "Services Overview": "Leistungs\u00fcbersicht", "Hotel Sourcing": "Hotelbeschaffung",
+    "Transportation & Logistics": "Transport & Logistik", "Venue Sourcing": "Venue-Beschaffung",
+    "Event Production": "Eventproduktion", "Incentive Programs": "Incentive-Programme",
+    "Meetings & Conferences": "Meetings & Konferenzen", "Destinations": "Zielorte",
+    "Destinations Overview": "Zielorte im \u00dcberblick", "Cappadocia": "Kappadokien",
+    "Plan Your COP31": "COP31 planen", "News & Latest Updates": "Neuigkeiten & aktuelle Updates",
+    "Participant Guide": "Teilnehmerleitfaden", "Dates & Programme": "Termine & Programm",
+    "Conference Programme": "Konferenzprogramm", "Venue & Location": "Veranstaltungsort & Lage",
+    "Registration": "Registrierung", "Group Accommodation": "Gruppenunterkunft",
+    "Restaurants & Dining": "Restaurants & Gastronomie", "Local Services": "Lokale Leistungen",
+    "Event Services": "Eventservices", "Exhibition Services": "Messeservices", "Exhibition Stands": "Messest\u00e4nde",
+    "Booth Builder": "Standbau", "Pavilion Services": "Pavillon-Services", "Printing & Collateral": "Druck & Werbematerial",
+    "Branding & Signage": "Branding & Beschilderung", "AV & Equipment Rental": "AV- & Technikverleih",
+    "Furniture Rental": "M\u00f6belverleih", "Coffee & Hospitality": "Kaffee & Hospitality", "Event Staff": "Eventpersonal",
+    "Hostesses": "Hostessen", "Interpreters": "Dolmetscher", "Private Transfers": "Privattransfers",
+    "Airport Transfers": "Flughafentransfers", "Urgent Support": "Dringende Unterst\u00fctzung",
+    "Last-Minute Services": "Last-Minute-Services", "Company": "Unternehmen", "About": "\u00dcber uns",
+    "Agency Partners": "Agenturpartner", "Selected Works": "Referenzen", "Why Turkey": "Warum T\u00fcrkei",
+    "Guides": "Leitf\u00e4den", "Insights": "Einblicke", "MICE Calendar": "MICE-Kalender", "Contact": "Kontakt",
+    "Book a Partner Call": "Partnergespr\u00e4ch buchen", "Request a Proposal": "Angebot anfragen",
+    "Local DMC, MICE and white-label event execution across Turkey.": "Lokale DMC-, MICE- und White-Label-Eventumsetzung in der T\u00fcrkei.",
+    "Solutions & Services": "L\u00f6sungen & Leistungen", "All Services": "Alle Leistungen", "All Destinations": "Alle Zielorte",
+    "Event Costs": "Eventkosten", "Guides & Insights": "Leitf\u00e4den & Einblicke", "COP31 Overview": "COP31 \u00dcberblick",
+    "Venue & Dates": "Veranstaltungsort & Termine", "Exhibition & Pavilion Services": "Messe- & Pavillon-Services",
+    "Last-Minute Support": "Last-Minute-Unterst\u00fctzung", "DMC Turkey Partner is operated by": "DMC Turkey Partner wird betrieben von",
+    "T\u00dcRSAB Agency No:": "T\u00dcRSAB-Agenturnummer:", "Published T\u00dcRSAB record": "Ver\u00f6ffentlichter T\u00dcRSAB-Eintrag",
+    "DmcTurkeyPartner.com. All rights reserved.": "DmcTurkeyPartner.com. Alle Rechte vorbehalten.",
+    "Privacy": "Datenschutz", "Terms": "Nutzungsbedingungen", "Cookie Settings": "Cookie-Einstellungen",
+}
+ARIA_DE = {"DMC Turkey Partner \u2014 home": "DMC Turkey Partner \u2014 Startseite", "Primary": "Hauptnavigation",
+           "Registered agency and contact details": "Registrierte Agentur- und Kontaktdaten"}
+
+
+def localise_chrome(fragment):
+    fragment = re.sub(r'(<a href=")/dmc-turkey/("[^>]*>)DMC Turkey(</a>)',
+                      lambda m: m.group(1) + DE_PATH + m.group(2) + "DMC T\u00fcrkei" + m.group(3), fragment)
+
+    def text_node(match):
+        raw = match.group(1)
+        key = htmllib.unescape(raw.strip())
+        if key in CHROME_DE:
+            return ">" + raw.replace(raw.strip(), htmllib.escape(CHROME_DE[key], quote=False)) + "<"
+        return match.group(0)
+
+    fragment = re.sub(r">([^<>]+)<", text_node, fragment)
+    for english, german in ARIA_DE.items():
+        fragment = fragment.replace('"%s"' % english, '"%s"' % german)
+    return fragment.replace(
+        '<li><a href="/terms/">Nutzungsbedingungen</a></li>',
+        '<li><a href="/terms/">Nutzungsbedingungen</a></li>\n          <li><a href="%s" hreflang="en" lang="en">English</a></li>' % EN_PEER)
 
 
 # --- UK page ---------------------------------------------------------------------
@@ -404,7 +468,8 @@ def render_de():
         '<a href="/corporate-events-turkey/">Corporate events</a></p></section>',
     ])
     return assemble(head("de", title, description, DE_PATH, "DE Landing", "DMC Tuerkei",
-                         schema("de", "DMC Türkei", DE_PATH, description, crumbs, DE_FAQ), hreflang), body)
+                         schema("de", "DMC Türkei", DE_PATH, description, crumbs, DE_FAQ), hreflang), body,
+                    localise_chrome(HEADER), localise_chrome(FOOTER))
 
 
 def write_page(rel, html):

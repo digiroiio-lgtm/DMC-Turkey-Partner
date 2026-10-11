@@ -208,6 +208,11 @@ Form and success-modal copy is English by default; a form can override it with a
 object in `data-i18n` (keys in `FORM_TEXT_DEFAULTS`, `assets/js/main.js`). The German page
 uses this for the button states, validation/error messages, the modal and the WhatsApp message.
 
+The German page also has a translated header and footer (`CHROME_DE` in the generator) and a
+German cookie banner (`assets/js/privacy.js`, chosen by `<html lang="de">`). `tools/site_footer.py`,
+`tools/cop31_nav.py` and `tools/site_seo.py` skip the chrome of `lang="de"` pages, so re-running
+them will not overwrite it. Adding a nav item means adding its German label to `CHROME_DE`.
+
 ## COP31 news layer
 
 ```

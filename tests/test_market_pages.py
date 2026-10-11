@@ -65,6 +65,21 @@ class MarketPageStaticTests(unittest.TestCase):
         self.assertIn('<option value="Cappadocia">Kappadokien</option>', page)
         self.assertIn('<option value="Not Confirmed Yet">', page)
 
+    def test_german_header_and_footer_are_translated_and_survive_the_sync_tools(self):
+        page = read(PAGES["de"])
+        header = page[page.index("<header"):page.index("</header>")]
+        footer = page[page.index("<footer"):]
+        for label in ("Leistungen", "Zielorte", "Unternehmen", "Angebot anfragen"):
+            self.assertIn(label, header)
+        for label in ("Alle Leistungen", "Datenschutz", "Nutzungsbedingungen", "Alle Rechte vorbehalten"):
+            self.assertIn(label, footer)
+        for english in (">Contact<", ">Company<", "All rights reserved", ">Terms<"):
+            self.assertNotIn(english, header + footer)
+        self.assertIn('href="/de/dmc-tuerkei/"', header)
+        self.assertIn('hreflang="en" lang="en">English</a>', footer)
+        # English pages keep the English chrome.
+        self.assertIn("Skip to main content", read(PAGES["uk"]))
+
     def test_pages_are_in_sitemap_and_llms(self):
         sitemap = (ROOT / "sitemap-pages.xml").read_text()
         llms = (ROOT / "llms.txt").read_text()
@@ -180,6 +195,19 @@ class MarketPageBrowserTests(unittest.TestCase):
         form.locator('[name="date_end"]').fill("2027-02-01")
         form.locator("button[type=submit]").click()
         expect(self.page.locator("[data-proposal-error]")).to_have_text("Das Enddatum darf nicht vor dem Startdatum liegen.")
+
+    def test_german_cookie_banner_and_english_default(self):
+        self.page.goto("%s/%s/" % (self.base_url, PAGES["de"]), wait_until="networkidle")
+        expect(self.page.locator(".cookie-banner h2")).to_have_text("Ihre Datenschutz-Einstellungen")
+        expect(self.page.locator("[data-cookie-reject]")).to_have_text("Optionale Analyse ablehnen")
+        self.page.goto("%s/%s/" % (self.base_url, PAGES["uk"]), wait_until="networkidle")
+        expect(self.page.locator(".cookie-banner h2")).to_have_text("Your privacy choices")
+
+    def test_german_mobile_menu_still_opens(self):
+        self.open(PAGES["de"], 390)
+        self.page.locator(".site-nav__toggle").click()
+        self.page.locator(".nav-group__trigger", has_text="Leistungen").click()
+        expect(self.page.get_by_role("link", name="Leistungsübersicht")).to_be_visible()
 
     def test_english_pages_keep_english_defaults(self):
         self.open(PAGES["uk"])

@@ -123,6 +123,9 @@ def main():
     for path in sorted(glob.glob(os.path.join(ROOT, "**", "*.html"), recursive=True)):
         if os.sep + ".git" + os.sep in path:
             continue
+        with open(path, encoding="utf-8") as handle:
+            if '<html lang="de"' in handle.read():
+                continue  # German pages carry a translated header/footer (tools/market_pages_build.py)
         total += 1
         if patch(path, nav):
             changed += 1
