@@ -273,6 +273,19 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
 * The pop-up/landing image is an owned event photo (`assets/img/mapfre-sigorta-antalya-gala-dinner*.webp`);
   replace it with a licensed Antalya/Belek resort photo when available.
 
+## Fam Trip search pages
+
+```
+python3 tools/fam_trip_pages_build.py && python3 tools/sitemaps.py
+```
+
+Writes `/antalya-fam-trips/` (permanent service page for agencies that want a fam trip organised) and
+`/antalya-fam-trip-2027/` (proposed 2027 programme, eligibility, FAQ). The invitation/application page stays
+`/agency-fam-trip-2027/` (`fam_trip_build.py`). Facts only: no dates, hotel names, prices, participant numbers or a
+2026 programme (the FAQ states that none is published). Inbound links live in the body of `/incentive-travel-turkey/`,
+the Antalya/Belek destination pages, `/agency-partners/`, `/white-label-dmc-turkey/` and the UK page (via
+`market_pages_build.py`); `llms.txt` lists all three. Add a 2026 page only if a real 2026 programme exists.
+
 ## COP31 news layer
 
 ```

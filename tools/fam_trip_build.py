@@ -214,6 +214,8 @@ def page_body(cfg):
         "      <p>Proposed hosted elements:</p>",
         "      <ul><li>Accommodation</li><li>Local transfers</li><li>Scheduled programme activities</li></ul>",
         "      <p>International flights are expected to be arranged by participants.</p>",
+        '      <p>Read the <a href="/antalya-fam-trip-2027/">2027 programme and eligibility details</a>, or see our '
+        '<a href="/antalya-fam-trips/">Antalya fam trip service</a> if you want a fam trip for your own group.</p>',
         '      <p class="price-note">All inclusions, exclusions, dates, eligibility and cancellation conditions remain subject to written confirmation.</p>',
         "    </section>",
         form_section(cfg),
