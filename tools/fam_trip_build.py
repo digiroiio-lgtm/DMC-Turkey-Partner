@@ -199,7 +199,7 @@ def form_section(cfg):
         ("_subject", "Agency Fam Trip 2027 application")])
     return '''    <section class="page-section fam-apply" id="apply" data-fam-apply>
       <h2>Apply for the 2027 Fam Trip</h2>
-      <p class="page-section__lede">Status: %(status)s. Proposed period: %(period)s. Applications are reviewed individually.</p>
+      <p class="page-section__lede">Status: %(status)s. Proposed period: %(period)s. Applications are reviewed individually. Our team will review your submission and contact shortlisted agencies with further programme details.</p>
       <div class="fam-closed" data-fam-closed>
         <p><strong>Applications are not open yet.</strong> We will open the application form once the programme and hosted arrangements are confirmed. To be told when it opens, email <a href="mailto:hello@dmcturkeypartner.com">hello@dmcturkeypartner.com</a>.</p>
       </div>
