@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from cop31_common import SITE, esc  # noqa: E402
 from cop31_render import FOOTER, HEADER, ROOT  # noqa: E402
+import site_header_cta  # noqa: E402
 import site_seo  # noqa: E402
 
 PATH = "/agency-fam-trip-2027/"
@@ -282,6 +283,8 @@ def main():
     site_seo.patch(path, site_seo.identity_block())
     print("wrote /agency-fam-trip-2027/ (%s)" % ("ENABLED" if cfg["enabled"] else "disabled, noindex"))
     print("%s assets/js/fam-trip-campaign.js" % ("updated" if write_js_config(cfg) else "unchanged"))
+    on, changed = site_header_cta.run()
+    print("header CTA %s: %d pages updated" % ("enabled" if on else "disabled", len(changed)))
     if cfg["enabled"] and not cfg["formspreeEndpoint"]:
         print("WARNING: enabled but formspreeEndpoint is empty; the form stays closed.")
 
