@@ -462,6 +462,9 @@ class FamTripTests(unittest.TestCase):
         self.assertNotIn("(proposed)", text)
         self.assertNotRegex(text, r"(?i)proposed[^.]{0,40}\(proposed\)")
         self.assertIn("Proposed period: January–March 2027. Applications", text)
+        self.assertIn("Applications are reviewed individually. Our team will review your submission and contact shortlisted agencies with further programme details.", text)
+        # No response time is promised.
+        self.assertNotRegex(text, r"(?i)within \d+|\d+\s*(business )?(days|hours)|\bby (monday|friday|january)")
         self.assertEqual(text.count("January–March 2027"), 2)  # facts row + form lede
 
     def test_personalisation_changes_only_the_invitation_line(self):
