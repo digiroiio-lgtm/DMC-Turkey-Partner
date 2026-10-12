@@ -408,6 +408,28 @@ class FamTripTests(unittest.TestCase):
         self.assertRegex(body, r'name="country"\r\n\r\nIreland')
         self.assertEqual(self.events("fam_lead_success")[0]["params"]["visitor_country"], "DE")
 
+    def test_faq_is_an_accordion_before_the_form_and_matches_the_schema(self):
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        blocks = [json.loads(b) for b in re.findall(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', page, re.S)]
+        faq = next(b for b in blocks if b.get("@type") == "FAQPage")
+        questions = [q["name"] for q in faq["mainEntity"]]
+        self.assertEqual(len(questions), 8)
+        # Cost, flights, eligibility and dates come first.
+        self.assertEqual(questions[:4], ["Is the Fam Trip free to attend?", "Do I need to book my own flights?",
+                                         "Who is eligible to apply?", "When will the Fam Trip take place?"])
+        self.assertLess(page.index('id="faq"'), page.index("data-fam-apply"))
+        self.assertGreater(page.index('id="faq"'), page.index("Participation"))
+        self.open(LANDING, clock=False)
+        items = self.page.locator("details.fam-faq__item")
+        self.assertEqual(items.count(), 8)
+        for entry in faq["mainEntity"]:
+            self.assertIn(entry["acceptedAnswer"]["text"], self.page.locator("#faq").text_content().replace("\n", " "))
+        first = items.first
+        self.assertFalse(first.evaluate("e => e.open"))
+        first.locator("summary").click()
+        self.assertTrue(first.evaluate("e => e.open"))
+        self.assertNotRegex(self.page.locator("#faq").text_content(), r"[€$£]\s?\d|\d+\s?%")
+
     def test_form_stays_closed_without_a_formspree_endpoint(self):
         self.context.route("**/assets/js/fam-trip-campaign.js", lambda route: route.fulfill(
             status=200, content_type="application/javascript", body=self.campaign_js(enabled=True, endpoint="")), times=1)

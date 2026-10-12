@@ -328,6 +328,7 @@ def render_uk():
         '<a href="/dmc-turkey/">DMC Turkey</a><a href="/mice-turkey/">MICE Turkey</a>'
         '<a href="/incentive-travel-turkey/">Incentive travel in Turkey</a>'
         '<a href="/corporate-events-turkey/">Corporate event management</a>'
+        '<a href="/antalya-fam-trips/">Antalya fam trips</a>'
         '<a href="/destinations/">Destinations</a></p></section>',
     ])
     return assemble(head("en", title, description, UK_PATH, "UK Agencies", "UK Agency Landing",
