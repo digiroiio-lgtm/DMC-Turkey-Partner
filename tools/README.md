@@ -255,6 +255,8 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
   "Exclusive MICE Agency Fam Trip Invitation", canonical. Only that one line is swapped client-side, so there are no
   per-country indexable pages. Unknown/untargeted/suspect geo = generic line. A facts row under it shows
   "Proposed: <campaignPeriod without '(proposed)'> · 3 nights · Selected agencies".
+  The form section's lede uses the same period text ("Proposed period: January–March 2027."), so "proposed"
+  is never printed twice (`period_label()` in `fam_trip_build.py`).
 * **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
   from the sitemap while disabled.
 * **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden

@@ -434,6 +434,59 @@ class FamTripTests(unittest.TestCase):
         self.assertTrue(first.evaluate("e => e.open"))
         self.assertNotRegex(self.page.locator("#faq").text_content(), r"[€$£]\s?\d|\d+\s?%")
 
+    def test_readme_matches_the_shipped_headline_markup_and_script(self):
+        readme = (ROOT / "tools/README.md").read_text()
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        js = (ROOT / "assets/js/fam-trip-campaign.js").read_text()
+        # What the README promises for the server-rendered HTML ...
+        for text in ('title and H1 "Antalya & Belek Fam Trip 2027 for MICE Agencies"',
+                     'generic invitation line\n  "Exclusive MICE Agency Fam Trip Invitation"',
+                     '"Proposed: <campaignPeriod without \'(proposed)\'> · 3 nights · Selected agencies"',
+                     "Only that one line is swapped client-side"):
+            self.assertIn(text, readme, text)
+        self.assertIn("<h1>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies</h1>", page)
+        self.assertIn("<title>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner</title>", page)
+        self.assertIn('<p class="fam-invite" data-fam-headline>%s</p>' % GENERIC, page)
+        self.assertEqual(page.count("data-fam-headline"), 1)
+        self.assertIn("<li>Proposed: January–March 2027</li><li>3 nights</li><li>Selected agencies</li>", page)
+        # ... and in the script: the adjectives it lists are exactly the 15 target countries.
+        self.assertIn('var GENERIC_HEADLINE = "%s"' % GENERIC, js)
+        self.assertIn('var SUBLINE = "%s"' % SUBLINE, js)
+        adjectives = dict(re.findall(r'\b([A-Z]{2}): "([^"]+)"', js[js.index("var ADJECTIVE"):js.index("function headline")]))
+        self.assertEqual(adjectives, HEADLINES)
+        self.assertEqual(sorted(adjectives), sorted(TARGETS))
+
+    def test_period_never_repeats_the_word_proposed(self):
+        page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
+        text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", re.search(r"<main.*?</main>", page, re.S).group(0)))
+        self.assertNotIn("(proposed)", text)
+        self.assertNotRegex(text, r"(?i)proposed[^.]{0,40}\(proposed\)")
+        self.assertIn("Proposed period: January–March 2027. Applications", text)
+        self.assertEqual(text.count("January–March 2027"), 2)  # facts row + form lede
+
+    def test_personalisation_changes_only_the_invitation_line(self):
+        for country, adjective in (("DE", "German"), ("TR", None)):
+            with self.subTest(country=country):
+                self.country = country
+                self.page.close()
+                self.page = self.context.new_page()
+                self.open(LANDING, clock=False)
+                expected = "Exclusive Invitation for %s MICE Agencies" % adjective if adjective else GENERIC
+                expect(self.page.locator("[data-fam-headline]")).to_have_text(expected)
+                snapshot = self.page.evaluate(
+                    """() => ({h1: document.querySelector('h1').textContent, title: document.title,
+                    canonical: document.querySelector('link[rel=canonical]').href,
+                    robots: document.querySelector('meta[name=robots]').content,
+                    sub: document.querySelector('.fam-subline').textContent,
+                    facts: document.querySelector('.fam-facts').textContent,
+                    desc: document.querySelector('meta[name=description]').content})""")
+                self.assertEqual(snapshot["h1"], "Antalya & Belek Fam Trip 2027 for MICE Agencies")
+                self.assertEqual(snapshot["sub"], SUBLINE)
+                self.assertEqual(snapshot["facts"], "Proposed: January–March 2027" + "3 nights" + "Selected agencies")
+                self.assertIn("Antalya & Belek Fam Trip 2027 for MICE Agencies", snapshot["title"])
+                self.assertEqual(snapshot["canonical"], "https://dmcturkeypartner.com/agency-fam-trip-2027/")
+                self.assertEqual(snapshot["robots"], "index, follow")
+
     def test_form_stays_closed_without_a_formspree_endpoint(self):
         self.context.route("**/assets/js/fam-trip-campaign.js", lambda route: route.fulfill(
             status=200, content_type="application/javascript", body=self.campaign_js(enabled=True, endpoint="")), times=1)

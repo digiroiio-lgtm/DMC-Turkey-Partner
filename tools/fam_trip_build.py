@@ -75,6 +75,11 @@ def faq_section():
             '      <div class="fam-faq__list">%s</div>\n    </section>' % items)
 
 
+def period_label(cfg):
+    """campaignPeriod without its '(proposed)' suffix; every place that prints it already says 'Proposed'."""
+    return cfg["campaignPeriod"].replace(" (proposed)", "")
+
+
 def load():
     with open(SETTINGS, encoding="utf-8") as handle:
         data = json.load(handle)
@@ -196,7 +201,7 @@ def form_section(cfg):
         <p>Your application has been received. Our team will review your details and contact shortlisted applicants with further information.</p>
       </section>
     </section>''' % dict(
-        status=esc(cfg["applicationStatus"]), period=esc(cfg["campaignPeriod"]), hidden=hidden,
+        status=esc(cfg["applicationStatus"]), period=esc(period_label(cfg)), hidden=hidden,
         name=field("Full name", "full_name", required=True, autocomplete="name"),
         email=field("Business email", "email", "email", True, ' inputmode="email"', "email"),
         agency=field("Agency / company name", "agency", required=True, autocomplete="organization"),
@@ -226,7 +231,7 @@ def page_body(cfg):
         '      <p class="fam-invite" data-fam-headline>Exclusive MICE Agency Fam Trip Invitation</p>',
         '      <p class="fam-subline"><strong>Experience Antalya &amp; Belek in 2027. Discover Your Local DMC Partner.</strong></p>',
         '      <ul class="fam-facts" aria-label="Fam trip at a glance"><li>Proposed: %s</li><li>3 nights</li>'
-        '<li>Selected agencies</li></ul>' % esc(cfg["campaignPeriod"].replace(" (proposed)", "")),
+        '<li>Selected agencies</li></ul>' % esc(period_label(cfg)),
         '      <p class="page-section__lede">Experience the destination, meet the people behind the operations and explore how '
         "DMC Turkey Partner can support your agency’s programmes in Türkiye.</p>",
         '      <div class="hero-actions"><a class="btn btn--primary" href="#apply">Register Your Interest</a></div>',
