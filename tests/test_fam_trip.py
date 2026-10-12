@@ -357,7 +357,9 @@ class FamTripTests(unittest.TestCase):
 
     def test_landing_page_content_and_open_form(self):
         self.open(LANDING, clock=False)
-        expect(self.page.locator("h1")).to_have_text("Exclusive Invitation for UK MICE Agencies")
+        expect(self.page.locator("h1")).to_have_text("Antalya & Belek Fam Trip 2027 for MICE Agencies")
+        expect(self.page.locator("[data-fam-headline]")).to_have_text("Exclusive Invitation for UK MICE Agencies")
+        expect(self.page.locator(".fam-facts")).to_have_text(re.compile(r"Proposed: January–March 2027\s*3 nights\s*Selected agencies"))
         for text in ("Why Join", "Proposed 3-Night Programme", "Indicative programme, subject to confirmation.",
                      "Who Should Apply", "at least two international group programmes annually",
                      "International flights are expected to be arranged by participants.",
@@ -369,7 +371,8 @@ class FamTripTests(unittest.TestCase):
 
     def test_landing_headline_is_personalised_per_country_but_seo_markup_is_fixed(self):
         page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
-        self.assertIn("<h1 data-fam-headline>%s</h1>" % GENERIC, page)
+        self.assertIn("<h1>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies</h1>", page)
+        self.assertIn('<p class="fam-invite" data-fam-headline>%s</p>' % GENERIC, page)
         self.assertIn('<link rel="canonical" href="https://dmcturkeypartner.com/agency-fam-trip-2027/">', page)
         for country, adjective in HEADLINES.items():
             with self.subTest(country=country):
@@ -377,7 +380,8 @@ class FamTripTests(unittest.TestCase):
                 self.page.close()
                 self.page = self.context.new_page()
                 self.open(LANDING, clock=False)
-                expect(self.page.locator("h1")).to_have_text("Exclusive Invitation for %s MICE Agencies" % adjective)
+                expect(self.page.locator("[data-fam-headline]")).to_have_text("Exclusive Invitation for %s MICE Agencies" % adjective)
+                expect(self.page.locator("h1")).to_have_text("Antalya & Belek Fam Trip 2027 for MICE Agencies")
                 expect(self.page.locator("main")).to_contain_text(SUBLINE)
                 self.assertIn(self.page.title(), "Antalya & Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner")
                 self.assertEqual(self.page.locator('link[rel="canonical"]').get_attribute("href"),
@@ -392,7 +396,7 @@ class FamTripTests(unittest.TestCase):
                 self.page = self.context.new_page()
                 self.open(LANDING, clock=False)
                 self.page.wait_for_timeout(400)
-                expect(self.page.locator("h1")).to_have_text(GENERIC)
+                expect(self.page.locator("[data-fam-headline]")).to_have_text(GENERIC)
                 # A valid but untargeted country is still reported; a suspect or unknown one is not.
                 params = self.events("fam_landing_view")[0]["params"]
                 self.assertEqual(params.get("visitor_country"), country if country in ("TR", "IN") else None)

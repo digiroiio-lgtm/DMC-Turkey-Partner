@@ -248,18 +248,13 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
   mismatch (typical for VPNs). Vercel does not expose ASN/data-centre data, so data-centre IPs that
   present a normal browser cannot be recognised here. For stronger filtering enable Vercel Firewall /
   BotID (or put the site behind Cloudflare with bot score + ASN rules) and keep the same client logic.
-* **Dynamic headline**: pop-up title and landing H1 read "Exclusive Invitation for [UK/Irish/German/…]
-  MICE Agencies" (adjectives in `ADJECTIVE` in the JS), with the fixed sub-line "Experience Antalya &
-  Belek in 2027. Discover Your Local DMC Partner." The server-rendered HTML (title, H1
-  "Exclusive MICE Agency Fam Trip Invitation", canonical) is generic and identical for everybody; the swap
-  is client-side only, so there are no per-country indexable pages. Unknown/untargeted/suspect geo = generic.
-* **Header CTA** (`tools/site_header_cta.py`, run by `fam_trip_build.py`): a dark "Fam Trip 2027" button between
-  "Book a Partner Call" and "Request a Proposal" on every page, a compact icon button in the phone bar (hidden
-  at 360 px and below) and a first row in the mobile drawer. It exists only while `enabled` is `true`; with
-  `enabled:false` the next build removes it. `python3 tools/site_header_cta.py --check` verifies every page.
-  Tracking: `fam_header_click` with `placement` (bar/menu), `campaign_name` and `visitor_country` (from the
-  session geo cache; omitted when not yet known). The link adds `?src=header` / `?src=header-menu`, which the
-  application form stores in `submission_source`.
+* **Dynamic headline**: the pop-up title and the invitation line under the landing H1 read "Exclusive Invitation
+  for [UK/Irish/German/…] MICE Agencies" (adjectives in `ADJECTIVE` in the JS), with the fixed sub-line
+  "Experience Antalya & Belek in 2027. Discover Your Local DMC Partner." The server-rendered HTML is identical for
+  everybody: title and H1 "Antalya & Belek Fam Trip 2027 for MICE Agencies", generic invitation line
+  "Exclusive MICE Agency Fam Trip Invitation", canonical. Only that one line is swapped client-side, so there are no
+  per-country indexable pages. Unknown/untargeted/suspect geo = generic line. A facts row under it shows
+  "Proposed: <campaignPeriod without '(proposed)'> · 3 nights · Selected agencies".
 * **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
   from the sitemap while disabled.
 * **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden
