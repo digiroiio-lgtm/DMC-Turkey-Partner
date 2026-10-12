@@ -92,9 +92,19 @@ def picture(img, sizes, eager=False, css=""):
     """<img> with a 640 px and a full-size source, explicit dimensions (no layout shift) and lazy loading
     below the fold. Only the first hero image is eager."""
     loading = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+    pos = img.get("pos", "50% 50%")
+    style = ' style="object-position:%s"' % pos if pos != "50% 50%" else ""
     return ('<img%s src="%s-640.webp" srcset="%s-640.webp 640w, %s.webp %dw" sizes="%s" width="%d" height="%d" '
-            'alt="%s" %s>' % (' class="%s"' % css if css else "", img["src"], img["src"], img["src"], img["width"],
-                              sizes, img["width"], img["height"], esc(img["alt"]), loading))
+            'alt="%s" %s%s>' % (' class="%s"' % css if css else "", img["src"], img["src"], img["src"], img["width"],
+                                sizes, img["width"], img["height"], esc(img["alt"]), loading, style))
+
+
+BADGES = {"previous": "Previous project in Antalya", "illustrative": "Illustrative image"}
+TAGS = {"previous": "Previous project", "illustrative": "Illustrative photo"}
+
+
+def badge(img):
+    return '<span class="fam-badge fam-badge--%s">%s</span>' % (img["label"], BADGES[img["label"]])
 
 
 def load():
@@ -239,22 +249,24 @@ SUITCASE_ICON = ('<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="t
 
 def page_body(cfg):
     im = load_images()
-    hero = ('<div class="fam-hero-media"><figure class="fam-hero-media__main">%s<figcaption>%s</figcaption></figure>'
-            '<figure class="fam-hero-media__side">%s<figcaption>%s</figcaption></figure></div>'
-            % (picture(im["hero_a"], "(max-width: 900px) 100vw, 560px", eager=True), esc(im["hero_a"]["caption"]),
-               picture(im["hero_b"], "280px"), esc(im["hero_b"]["caption"])))
+    hero = ('<div class="fam-hero-media"><figure class="fam-hero-media__main">%s%s</figure>'
+            '<figure class="fam-hero-media__side">%s%s</figure></div>'
+            % (picture(im["hero_a"], "(max-width: 900px) 100vw, 560px", eager=True), badge(im["hero_a"]),
+               picture(im["hero_b"], "280px"), badge(im["hero_b"])))
     why = [("why_hotels", "Hotels &amp; venues", "Explore Antalya and Belek hotels and event venues, and see what they can offer your future client programmes."),
            ("why_team", "Local team", "Meet the local operations and destination team who would run those programmes on the ground."),
            ("why_experiences", "Experiences", "Discover incentive activities and group experiences for memorable client programmes."),
            ("why_whitelabel", "White-label delivery", "Explore white-label programme delivery and RFP collaboration with your agency in the lead.")]
-    cards = "".join('<article class="fam-card">%s<div class="fam-card__body"><h3>%s</h3><p>%s</p></div></article>'
-                    % (picture(im[k], "(max-width: 640px) 100vw, 360px"), h, t) for k, h, t in why)
-    stage = lambda n, title, text, media: ('<li class="fam-stage"><div class="fam-stage__media">%s</div><div><span class="fam-stage__day">'
-                                           'Day %d</span><h3>%s</h3><p>%s</p></div></li>' % (media, n, title, text))
+    cards = "".join('<article class="fam-card"><div class="fam-card__media">%s%s</div><div class="fam-card__body">'
+                    '<h3>%s</h3><p>%s</p></div></article>'
+                    % (picture(im[k], "(max-width: 640px) 100vw, 50vw"), badge(im[k]), h, t) for k, h, t in why)
+    stage = lambda n, title, text, media, img=None: (
+        '<li class="fam-stage"><div class="fam-stage__media">%s</div><div><span class="fam-stage__day">Day %d</span><h3>%s</h3><p>%s</p>%s</div></li>'
+        % (media, n, title, text, '<span class="fam-stage__tag">%s</span>' % TAGS[img["label"]] if img else ""))
     timeline = "".join([
         stage(1, "Arrival &amp; welcome", "Arrival, hotel check-in and welcome dinner.", '<span class="fam-stage__icon">%s</span>' % PLANE_ICON),
-        stage(2, "Hotel &amp; venue inspections", "Hotel and venue inspections across Antalya and Belek.", picture(im["day2"], "96px")),
-        stage(3, "Experiences &amp; networking", "Incentive experience, operations presentation and networking dinner.", picture(im["day3"], "96px")),
+        stage(2, "Hotel &amp; venue inspections", "Hotel and venue inspections across Antalya and Belek.", picture(im["day2"], "96px"), im["day2"]),
+        stage(3, "Experiences &amp; networking", "Incentive experience, operations presentation and networking dinner.", picture(im["day3"], "96px"), im["day3"]),
         stage(4, "Departure", "Breakfast, airport transfer and departure.", '<span class="fam-stage__icon">%s</span>' % SUITCASE_ICON),
     ])
     glance = (
@@ -285,6 +297,8 @@ def page_body(cfg):
         glance,
         '    <section class="page-section">',
         "      <h2>Why Join</h2>",
+        '      <p class="fam-photo-note">Photos marked <strong>Illustrative image</strong> show the kind of experience we can arrange; '
+        "hotels and venues for the programme are not yet confirmed.</p>",
         '      <div class="fam-cards">' + cards + "</div>",
         "    </section>",
         '    <section class="page-section">',

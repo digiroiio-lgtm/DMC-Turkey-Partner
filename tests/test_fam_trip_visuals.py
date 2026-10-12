@@ -17,6 +17,18 @@ LANDING = "/agency-fam-trip-2027/"
 SLOTS = ["hero_a", "hero_b", "why_hotels", "why_team", "why_experiences", "why_whitelabel", "day2", "day3"]
 
 
+def webp_size(path):
+    """Width/height from the WebP header (no imaging library needed in the test environment)."""
+    head = path.read_bytes()[:40]
+    kind = head[12:16]
+    if kind == b"VP8 ":
+        return int.from_bytes(head[26:28], "little") & 0x3FFF, int.from_bytes(head[28:30], "little") & 0x3FFF
+    if kind == b"VP8X":
+        return int.from_bytes(head[24:27], "little") + 1, int.from_bytes(head[27:30], "little") + 1
+    bits = int.from_bytes(head[21:25], "little")  # VP8L
+    return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+
+
 def images():
     data = json.loads((ROOT / "campaign/fam-trip-images.json").read_text())
     return {k: v for k, v in data.items() if not k.startswith("_")}
@@ -43,6 +55,35 @@ class FamTripVisualStaticTests(unittest.TestCase):
                 self.assertTrue((ROOT / (img["src"].lstrip("/") + suffix)).exists(), (slot, suffix))
             self.assertGreater(len(img["alt"]), 25, slot)
             self.assertTrue(img["width"] > 0 and img["height"] > 0, slot)
+            self.assertIn(img["label"], ("previous", "illustrative"), slot)
+
+    def test_uploaded_photos_are_optimised_webp_and_pngs_are_gone(self):
+        data = images()
+        for slot in ("hero_a", "why_hotels", "why_experiences", "day3"):
+            base = ROOT / (data[slot]["src"].lstrip("/"))
+            full, small = base.with_name(base.name + ".webp"), base.with_name(base.name + "-640.webp")
+            self.assertLess(full.stat().st_size, 400 * 1024, full.name)
+            self.assertLess(small.stat().st_size, 100 * 1024, small.name)
+            self.assertEqual(webp_size(full), (data[slot]["width"], data[slot]["height"]), slot)
+            self.assertEqual(webp_size(small)[0], 640, slot)
+        big = [p.name for p in (ROOT / "assets/img").glob("*.png") if p.stat().st_size > 500 * 1024]
+        self.assertEqual(big, [], "unoptimised PNGs must not be published")
+
+    def test_every_photo_is_labelled_and_the_unconfirmed_note_is_present(self):
+        html = page_html()
+        data = images()
+        illustrative = sum(1 for v in data.values() if v["label"] == "illustrative")
+        previous = sum(1 for v in data.values() if v["label"] == "previous")
+        self.assertEqual((illustrative, previous), (4, 4))
+        # hero (2) + cards (4) carry badges; the two timeline thumbnails carry text tags.
+        self.assertEqual(html.count('class="fam-badge fam-badge--illustrative"'), 3)
+        self.assertEqual(html.count('class="fam-badge fam-badge--previous"'), 3)
+        self.assertEqual(html.count('class="fam-stage__tag"'), 2)
+        self.assertIn("hotels and venues for the programme are not yet confirmed", main_text())
+        # The yacht belongs on the Incentive experiences card and is never presented as our project.
+        card = html[html.index("<h3>Experiences</h3>") - 900:html.index("<h3>Experiences</h3>")]
+        self.assertIn("antalya-luxury-yacht-incentive-experience", card)
+        self.assertIn("fam-badge--illustrative", card)
 
     def test_image_markup_is_performance_safe(self):
         html = page_html()
@@ -51,7 +92,8 @@ class FamTripVisualStaticTests(unittest.TestCase):
         self.assertEqual(len(tags), 8)
         eager = [t for t in tags if "fetchpriority" in t]
         self.assertEqual(len(eager), 1)
-        self.assertIn("mapfre-sigorta-antalya-gala-dinner", eager[0])
+        self.assertIn("antalya-belek-fam-trip-2027-hero", eager[0])
+        self.assertNotIn("loading=", eager[0], "the hero image must not be lazy-loaded")
         for tag in tags:
             self.assertRegex(tag, r'width="\d+"')
             self.assertRegex(tag, r'height="\d+"')
@@ -97,7 +139,7 @@ class FamTripVisualStaticTests(unittest.TestCase):
         for name in ("Rixos", "Nirvana", "Kremlin", "Titanic", "Regnum", "Maxx Royal", "Calista"):
             self.assertNotIn(name, re.sub(r"<[^>]+>", " ", visible), name)
         for slot, img in images().items():
-            self.assertNotRegex(img["alt"], r"(?i)rixos|nirvana|kremlin|calista|titanic|regnum")
+            self.assertNotRegex(img["alt"], r"(?i)rixos|nirvana|kremlin|calista|titanic|regnum|\bela\b|excellence")
         self.assertIn("Previous project in Antalya", html)
 
     def test_cta_and_form_are_unchanged(self):
@@ -167,6 +209,14 @@ class FamTripVisualBrowserTests(unittest.TestCase):
         expect(page.locator(".fam-hero-media__side")).to_be_hidden()
         # The form stays reachable and below the new sections.
         self.assertGreater(page.locator("#apply").bounding_box()["y"], page.locator(".fam-glance").bounding_box()["y"])
+
+    def test_card_images_have_one_consistent_ratio(self):
+        for width in (1440, 390):
+            with self.subTest(width=width):
+                page = self.open(width)
+                ratios = page.evaluate("[...document.querySelectorAll('.fam-card__media')].map(e => { const r = e.getBoundingClientRect(); return Math.round(r.width / r.height * 100) / 100; })")
+                self.assertEqual(len(ratios), 4)
+                self.assertEqual(set(ratios), {1.33})
 
     def test_glance_button_jumps_to_the_form(self):
         page = self.open(1440)

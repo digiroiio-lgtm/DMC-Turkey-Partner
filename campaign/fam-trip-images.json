@@ -1,59 +1,67 @@
 {
-  "_comment": "Photos on /agency-fam-trip-2027/. To swap a photo, drop <name>.webp (about 1200 px wide) and <name>-640.webp into assets/img/ (or assets/img/showcase/), point 'src' at the path without the extension, update alt/caption/width/height, then run: python3 tools/fam_trip_build.py. Keep every image different (no repeats) and describe only what the photo shows. These are photos of previous projects, not of the proposed programme venues; do not name hotels as part of the programme.",
+  "_comment": "Photos on /agency-fam-trip-2027/. To swap a photo: run python3 tools/optimize_fam_trip_images.py SOURCE.png (writes assets/img/fam-trip/<name>.webp and <name>-640.webp), then point that slot's 'src' at the path without the extension and set width/height to the printed full-size values and a truthful 'alt'. 'label' is 'previous' (our own delivered project) or 'illustrative' (stock or marketing image that is NOT one of our projects); every image shows a badge for it. 'pos' is the CSS object-position used when the photo is cropped. Keep every image different (no repeats), describe only what the photo shows and never name a hotel as part of the programme; hotels and venues are not yet confirmed. Run python3 tools/fam_trip_build.py afterwards.",
   "hero_a": {
+    "src": "/assets/img/fam-trip/antalya-belek-fam-trip-2027-hero",
+    "width": 1600,
+    "height": 1063,
+    "alt": "Aerial view of a beachfront resort on the Belek coast with pools, gardens and a river marina beside the sea",
+    "label": "illustrative",
+    "pos": "50% 50%"
+  },
+  "hero_b": {
     "src": "/assets/img/mapfre-sigorta-antalya-gala-dinner",
     "width": 1179,
     "height": 798,
     "alt": "Gala dinner with stage lighting and LED screens at a corporate event in Antalya",
-    "caption": "Previous project in Antalya"
-  },
-  "hero_b": {
-    "src": "/assets/img/turk-telekom-business-partners-meeting-rixos-sungate-antalya-05",
-    "width": 1179,
-    "height": 1479,
-    "alt": "Illuminated LED globe and stage lighting at a business partners meeting in Antalya",
-    "caption": "Previous project in Antalya"
+    "label": "previous",
+    "pos": "60% 50%"
   },
   "why_hotels": {
-    "src": "/assets/img/turk-telekom-business-partners-meeting-rixos-sungate-antalya-07",
-    "width": 1179,
-    "height": 1481,
-    "alt": "Plenary meeting hall with theatre seating and a wide LED stage set up for a corporate meeting in Antalya",
-    "caption": ""
+    "src": "/assets/img/fam-trip/belek-luxury-hotel-venue-inspection",
+    "width": 1200,
+    "height": 1125,
+    "alt": "Meeting room set up in a U-shape with name cards, water bottles, a stage and a lectern at a resort hotel in Belek",
+    "label": "illustrative",
+    "pos": "50% 55%"
   },
   "why_team": {
     "src": "/assets/img/showcase/branded-registration-desk-cw-enerji-antalya",
     "width": 1024,
     "height": 658,
     "alt": "Event staff at a branded registration desk welcoming guests at a corporate event in Antalya",
-    "caption": ""
+    "label": "previous",
+    "pos": "50% 40%"
   },
   "why_experiences": {
-    "src": "/assets/img/mapfre-sigorta-antalya-awards-ceremony-stage",
-    "width": 1179,
-    "height": 781,
-    "alt": "Red-carpet stage steps with a lit star and branded backdrop for an awards and incentive evening in Antalya",
-    "caption": ""
+    "src": "/assets/img/fam-trip/antalya-luxury-yacht-incentive-experience",
+    "width": 1200,
+    "height": 1203,
+    "alt": "Motor yacht at sunset off the Antalya old town with four guests dining on the aft deck",
+    "label": "illustrative",
+    "pos": "50% 60%"
   },
   "why_whitelabel": {
     "src": "/assets/img/mapfre-sigorta-antalya-event-stage-production",
     "width": 1179,
     "height": 806,
     "alt": "Event stage with LED screens and red lighting, produced on site as part of a delivered programme",
-    "caption": ""
+    "label": "previous",
+    "pos": "50% 50%"
   },
   "day2": {
     "src": "/assets/img/showcase/plenary-conference-setup-cw-enerji-antalya",
     "width": 1024,
     "height": 683,
     "alt": "Conference hall with LED stage and classroom seating set up for a dealer meeting in Antalya",
-    "caption": ""
+    "label": "previous",
+    "pos": "50% 50%"
   },
   "day3": {
-    "src": "/assets/img/showcase/red-carpet-led-entrance-mapfre-sigorta-antalya",
-    "width": 1024,
-    "height": 683,
-    "alt": "Red carpet entrance with an LED screen for an evening reception in Antalya",
-    "caption": ""
+    "src": "/assets/img/fam-trip/antalya-mice-networking-event",
+    "width": 1200,
+    "height": 1196,
+    "alt": "Guests in business attire holding champagne glasses while networking on a yacht deck at sunset",
+    "label": "illustrative",
+    "pos": "50% 30%"
   }
 }

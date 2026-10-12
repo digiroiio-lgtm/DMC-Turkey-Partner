@@ -258,11 +258,16 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
   MICE agencies, the proposed-hosted / flights-by-participants lines and the written-confirmation note. The form
   section's lede uses the same period text ("Proposed period: January–March 2027."), so "proposed" is never printed
   twice (`period_label()` in `fam_trip_build.py`).
-* **Landing page photos** (`campaign/fam-trip-images.json`): 8 distinct photos of previous projects (2 hero, 4
-  Why Join cards, 2 timeline thumbnails; Day 1 and Day 4 use icons). Only the first hero image is eager; the rest are
-  lazy with explicit width/height. To swap a photo (for example for a licensed resort picture) put `<name>.webp`
-  and `<name>-640.webp` in `assets/img/`, edit that slot's `src`/`alt`/`width`/`height`, then run
-  `python3 tools/fam_trip_build.py`. Describe only what the photo shows and never name a hotel as part of the programme.
+* **Landing page photos** (`campaign/fam-trip-images.json`): 8 distinct photos (2 hero, 4 Why Join cards, 2 timeline
+  thumbnails; Day 1 and Day 4 use icons). Four are "illustrative" (resort aerial, meeting room, yacht, networking
+  deck; supplied images, not our projects) and four are "previous" (our MAPFRE / CW Enerji projects). Every photo shows
+  a badge or tag saying which, and a line under "Why Join" states that hotels and venues are not yet confirmed.
+  The hero image is the only eager one; the rest are lazy with explicit width/height; cards share one 4:3 box.
+  To add or swap a photo: `python3 tools/optimize_fam_trip_images.py SOURCE.png` (writes the WebP pair into
+  `assets/img/fam-trip/`), then edit that slot's `src`/`alt`/`width`/`height`/`label`/`pos` and run
+  `python3 tools/fam_trip_build.py`. Do not commit original PNGs (they would be served publicly); the first uploads
+  are kept in git history (commit `d06e8e1`). Describe only what the photo shows and never name a hotel as part of
+  the programme.
 * **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
   from the sitemap while disabled.
 * **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden
