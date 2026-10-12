@@ -35,6 +35,45 @@ DESCRIPTION = ("Register your interest in a curated Antalya and Belek familiaris
 IMAGE = "/assets/img/mapfre-sigorta-antalya-gala-dinner"
 
 
+# Ordered by what applicants ask first: cost, flights, eligibility, dates. Answers repeat only what the
+# campaign already states as proposed and subject to written confirmation; nothing new is promised.
+FAQ = [
+    ("Is the Fam Trip free to attend?",
+     "Selected participants are expected to receive hosted accommodation, local transfers and scheduled programme "
+     "activities. International flights and personal expenses are not included. Final arrangements will be confirmed "
+     "in writing."),
+    ("Do I need to book my own flights?",
+     "Yes. International flights are expected to be arranged and funded by participants. Proposed local transfers will "
+     "be subject to the final participation terms."),
+    ("Who is eligible to apply?",
+     "Agency owners, directors, decision-makers and professionals responsible for international MICE, incentive and "
+     "corporate group programmes. Priority is given to agencies organising at least two international group "
+     "programmes per year."),
+    ("When will the Fam Trip take place?",
+     "The proposed period is January to March 2027. Exact dates have not yet been confirmed and will be communicated "
+     "to shortlisted applicants."),
+    ("What is the Antalya & Belek Fam Trip 2027?",
+     "A proposed three-night familiarisation programme designed for international MICE and incentive travel agencies "
+     "to explore hotels, event venues, local experiences and potential DMC partnerships in Antalya and Belek."),
+    ("How many agencies will be selected?",
+     "Participation is expected to be limited to a small group of selected international agency representatives. "
+     "Final capacity and selection criteria are subject to confirmation."),
+    ("What will the three-night programme include?",
+     "The indicative programme includes hotel and venue inspections, meetings with the local DMC operations team, "
+     "incentive experiences and networking opportunities. The final itinerary may change."),
+    ("What happens after I submit my application?",
+     "The DMC Turkey Partner team will review your agency profile and contact shortlisted applicants with further "
+     "details. Submitting an application does not guarantee participation."),
+]
+
+
+def faq_section():
+    items = "".join('<details class="fam-faq__item"><summary>%s</summary><p>%s</p></details>' % (esc(q), esc(a))
+                    for q, a in FAQ)
+    return ('    <section class="page-section fam-faq" id="faq">\n      <h2>Frequently Asked Questions</h2>\n'
+            '      <div class="fam-faq__list">%s</div>\n    </section>' % items)
+
+
 def load():
     with open(SETTINGS, encoding="utf-8") as handle:
         data = json.load(handle)
@@ -60,8 +99,11 @@ def head(cfg):
     crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList",
               "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
                                   {"@type": "ListItem", "position": 2, "name": "Agency Fam Trip 2027", "item": URL}]}
+    faq = {"@context": "https://schema.org", "@type": "FAQPage",
+           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                          for q, a in FAQ]}
     ld = "\n".join('  <script type="application/ld+json">\n  %s\n  </script>' % json.dumps(d, ensure_ascii=False, separators=(",", ":"))
-                   for d in (web, crumbs))
+                   for d in (web, crumbs, faq))
     return "\n".join([
         "<!DOCTYPE html>", '<html lang="en">', "<head>",
         '  <meta charset="UTF-8">',
@@ -218,6 +260,7 @@ def page_body(cfg):
         '<a href="/antalya-fam-trips/">Antalya fam trip service</a> if you want a fam trip for your own group.</p>',
         '      <p class="price-note">All inclusions, exclusions, dates, eligibility and cancellation conditions remain subject to written confirmation.</p>',
         "    </section>",
+        faq_section(),
         form_section(cfg),
         '    <section class="page-section">',
         '      <div class="cta-banner"><h2>Register Your Interest for Our 2027 Antalya Fam Trip</h2>'

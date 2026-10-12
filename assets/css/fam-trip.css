@@ -278,3 +278,17 @@
   border-radius: 8px;
   background-color: var(--color-sand);
 }
+
+/* Landing page FAQ (accordion) */
+.fam-faq__list { display: grid; gap: 10px; margin-top: 18px; }
+.fam-faq__item { border: 1px solid var(--color-line, #d9dde3); border-radius: 12px; background: #fff; }
+.fam-faq__item summary {
+  cursor: pointer; list-style: none; padding: 16px 48px 16px 18px; font-weight: 700; position: relative;
+}
+.fam-faq__item summary::-webkit-details-marker { display: none; }
+.fam-faq__item summary::after {
+  content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 1.4rem; line-height: 1;
+}
+.fam-faq__item[open] summary::after { content: "–"; }
+.fam-faq__item summary:focus-visible { outline: 3px solid #1a1a1a; outline-offset: 2px; border-radius: 12px; }
+.fam-faq__item p { margin: 0; padding: 0 18px 18px; }
