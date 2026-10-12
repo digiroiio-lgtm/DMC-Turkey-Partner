@@ -253,6 +253,13 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
   Belek in 2027. Discover Your Local DMC Partner." The server-rendered HTML (title, H1
   "Exclusive MICE Agency Fam Trip Invitation", canonical) is generic and identical for everybody; the swap
   is client-side only, so there are no per-country indexable pages. Unknown/untargeted/suspect geo = generic.
+* **Header CTA** (`tools/site_header_cta.py`, run by `fam_trip_build.py`): a dark "Fam Trip 2027" button between
+  "Book a Partner Call" and "Request a Proposal" on every page, a compact icon button in the phone bar (hidden
+  at 360 px and below) and a first row in the mobile drawer. It exists only while `enabled` is `true`; with
+  `enabled:false` the next build removes it. `python3 tools/site_header_cta.py --check` verifies every page.
+  Tracking: `fam_header_click` with `placement` (bar/menu), `campaign_name` and `visitor_country` (from the
+  session geo cache; omitted when not yet known). The link adds `?src=header` / `?src=header-menu`, which the
+  application form stores in `submission_source`.
 * **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
   from the sitemap while disabled.
 * **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden

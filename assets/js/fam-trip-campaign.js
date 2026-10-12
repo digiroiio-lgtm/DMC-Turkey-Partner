@@ -80,6 +80,17 @@
     catch (error) { /* Storage can be unavailable; the pop-up is then limited to the session. */ }
   }
 
+  // Header CTA (tools/site_header_cta.py): one delegated listener. The country comes from the geo cache only,
+  // so a click never waits on (or triggers) a lookup; it is omitted when not yet known.
+  document.addEventListener("click", function (event) {
+    var link = event.target && event.target.closest ? event.target.closest("[data-fam-header]") : null;
+    if (!link) { return; }
+    if (!visitorCountry) {
+      try { visitorCountry = sessionStorage.getItem(GEO_KEY) || ""; } catch (error) { /* ignore */ }
+    }
+    track("fam_header_click", { placement: link.getAttribute("data-fam-header") });
+  });
+
   function markApplied() { writeState({ applied: true, appliedAt: Date.now() }); }
 
   // --- Landing page: application form ---------------------------------------------
