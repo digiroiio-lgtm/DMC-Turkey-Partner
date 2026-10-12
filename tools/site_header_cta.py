@@ -81,6 +81,12 @@ def pages():
     return sorted(p for p in found if has_header(p))
 
 
+def skipped(path):
+    """Czech pages carry no Fam Trip CTA (the Czech Republic is not a target country of the campaign)."""
+    with open(path, encoding="utf-8") as handle:
+        return '<html lang="cs"' in handle.read()
+
+
 def run(check=False):
     on = enabled()
     changed = []
@@ -88,7 +94,7 @@ def run(check=False):
         with open(path, encoding="utf-8") as handle:
             source = handle.read()
         current = os.path.relpath(path, ROOT) == os.path.join("agency-fam-trip-2027", "index.html")
-        updated = sync(source, on, current)
+        updated = sync(source, False if skipped(path) else on, current)
         if updated != source:
             changed.append(os.path.relpath(path, ROOT))
             if not check:

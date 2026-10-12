@@ -9,6 +9,7 @@
 const TO_ADDRESS = "hello@dmcturkeypartner.com";
 const FROM_ADDRESS = "DMC Turkey Partner <hello@dmcturkeypartner.com>";
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
+const { routeFor } = require("./_whatsapp-config");
 
 const REQUIRED_FIELDS = ["name", "company", "email", "destination", "group_size"];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,6 +29,13 @@ function sanitizeHeaderValue(value) {
 function readField(body, name) {
   const value = body ? body[name] : undefined;
   return typeof value === "string" ? value.trim() : "";
+}
+
+// Locale-specific routing note shown at the top of the email. The WhatsApp number is looked up server side
+// (api/_whatsapp-config.js, same source as /api/whatsapp) and only for locales that have a route (Czech).
+function whatsappRoute(locale) {
+  const route = routeFor(locale);
+  return route ? { label: route.label, page: route.page, number: route.number ? "+" + route.number : "" } : null;
 }
 
 function buildEmail(fields) {
@@ -51,6 +59,21 @@ function buildEmail(fields) {
     ["Submitted At", fields.timestamp || new Date().toISOString()]
   ];
 
+  // Optional context (locale pages): shown only when sent.
+  [
+    ["Locale", fields.locale],
+    ["Reference", fields.reference],
+    ["Phone", fields.phone],
+    ["Visitor Country (IP, reporting only)", fields.visitor_country]
+  ].forEach(function (row) {
+    if (row[1]) { rows.splice(rows.length - 1, 0, row); }
+  });
+  const route = whatsappRoute(fields.locale);
+  const routeNote = route
+    ? "Lead from the " + route.label + "-language page " + route.page + ". WhatsApp follow-up was offered on the " +
+      route.label + " number " + (route.number || "(not configured)") + (fields.reference ? " (reference " + fields.reference + ")." : ".")
+    : "";
+
   // Transfer quote fields (/antalya-transfer-prices/), shown only when sent.
   [
     ["Transfer Service", fields.service_type],
@@ -64,6 +87,7 @@ function buildEmail(fields) {
   });
 
   const html =
+    (routeNote ? "<p><strong>" + escapeHtml(routeNote) + "</strong></p>" : "") +
     "<h2>New Proposal Request</h2>" +
     "<table>" +
     rows
@@ -78,6 +102,7 @@ function buildEmail(fields) {
     (fields.brief ? "<h3>Project Brief</h3><p>" + escapeHtml(fields.brief).replace(/\n/g, "<br>") + "</p>" : "");
 
   const text =
+    (routeNote ? routeNote + "\n\n" : "") +
     rows.map(function (row) { return row[0] + ": " + row[1]; }).join("\n") +
     (fields.calculator_brief ? "\n\nCalculator Lead:\n" + fields.calculator_brief : "") +
     (fields.brief ? "\n\nProject Brief:\n" + fields.brief : "");
@@ -133,10 +158,21 @@ module.exports = async function handler(req, res) {
     "date_flexibility",
     "request_intent",
     "pickup",
-    "dropoff"
+    "dropoff",
+    "locale",
+    "reference",
+    "phone"
   ]).forEach(function (name) {
     fields[name] = readField(body, name);
   });
+  fields.locale = fields.locale.toLowerCase().slice(0, 5);
+  fields.reference = fields.reference.slice(0, 32);
+  fields.phone = fields.phone.slice(0, 32);
+  // Country as seen by the Vercel edge. Used for reporting in the email only; it never decides
+  // routing or which WhatsApp number is offered.
+  const countryHeader = req.headers && req.headers["x-vercel-ip-country"];
+  const country = String(Array.isArray(countryHeader) ? countryHeader[0] : countryHeader || "").toUpperCase();
+  fields.visitor_country = /^[A-Z]{2}$/.test(country) ? country : "";
 
   const missing = REQUIRED_FIELDS.filter(function (name) { return !fields[name]; });
   if (missing.length) {

@@ -119,8 +119,8 @@ def main():
         original = path.read_text(encoding="utf-8")
         if not FOOTER.search(original):
             continue
-        if '<html lang="de"' in original:
-            continue  # German pages carry a translated footer (tools/market_pages_build.py)
+        if re.search(r'<html lang="(de|cs)"', original):
+            continue  # German/Czech pages carry a translated footer (tools/market_pages_build.py, cs_pages_build.py)
         total += 1
         updated = replace_footer(original)
         if updated != original:

@@ -155,7 +155,7 @@ def patch_agency_details(html, path):
     for kind in ("footer", "section"):
         html = re.sub(r"[ \t]*<!-- agency-" + kind + r":begin -->.*?<!-- agency-" + kind + r":end -->\n?", "", html, flags=re.S)
     # The shared footer owns the agency band and Cookie Settings control.
-    if '<html lang="de"' not in html:  # German pages carry a translated footer
+    if not re.search(r'<html lang="(de|cs)"', html):  # German/Czech pages carry a translated footer
         html = replace_footer(html)
     relative = os.path.relpath(path, ROOT).replace(os.sep, "/")
     if relative in ("about/index.html", "contact/index.html"):

@@ -124,8 +124,8 @@ def main():
         if os.sep + ".git" + os.sep in path:
             continue
         with open(path, encoding="utf-8") as handle:
-            if '<html lang="de"' in handle.read():
-                continue  # German pages carry a translated header/footer (tools/market_pages_build.py)
+            if re.search(r'<html lang="(de|cs)"', handle.read()):
+                continue  # German/Czech pages carry a translated header/footer (tools/market_pages_build.py, cs_pages_build.py)
         total += 1
         if patch(path, nav):
             changed += 1

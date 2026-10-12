@@ -207,6 +207,8 @@
   function excludedPage() {
     var path = location.pathname;
     if (onLanding) { return true; }
+    // The Czech pages are not part of this campaign (the Czech Republic is not a target country).
+    if (document.documentElement.lang === "cs") { return true; }
     if (/^\/(cop31|request-proposal|contact|antalya-transfer-prices)/.test(path)) { return true; }
     if (document.querySelector("[data-proposal-form], [data-fam-form]")) { return true; }
     var lead = document.querySelector('meta[name="dmc:lead-source"]');

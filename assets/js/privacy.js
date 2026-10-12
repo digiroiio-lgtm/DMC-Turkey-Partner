@@ -109,14 +109,28 @@
   banner.className = "cookie-banner";
   banner.setAttribute("aria-labelledby", "cookie-banner-title");
   banner.hidden = choice !== null;
-  var BANNER_TEXT = document.documentElement.lang === "de" ? {
-    title: "Ihre Datenschutz-Einstellungen",
-    body: "Wir verwenden notwendige Speicherung f\u00fcr Ihre Einstellungen und angeforderte Funktionen. Mit Ihrer Erlaubnis hilft uns Google Analytics, die Nutzung der Website zu verstehen. Sie k\u00f6nnen die Website nutzen und eine Anfrage senden, auch ohne Analyse.",
-    cookies: "Cookie-Richtlinie (Englisch)",
-    privacy: "Datenschutzerkl\u00e4rung (Englisch)",
-    reject: "Optionale Analyse ablehnen",
-    accept: "Optionale Analyse akzeptieren"
-  } : {
+  var BANNER_LANG = document.documentElement.lang;
+  var BANNER_TEXTS = {
+    de: {
+      title: "Ihre Datenschutz-Einstellungen",
+      body: "Wir verwenden notwendige Speicherung f\u00fcr Ihre Einstellungen und angeforderte Funktionen. Mit Ihrer Erlaubnis hilft uns Google Analytics, die Nutzung der Website zu verstehen. Sie k\u00f6nnen die Website nutzen und eine Anfrage senden, auch ohne Analyse.",
+      cookies: "Cookie-Richtlinie (Englisch)",
+      privacy: "Datenschutzerkl\u00e4rung (Englisch)",
+      reject: "Optionale Analyse ablehnen",
+      accept: "Optionale Analyse akzeptieren"
+    },
+    cs: {
+      title: "Va\u0161e nastaven\u00ed soukrom\u00ed",
+      body: "Pou\u017e\u00edv\u00e1me nezbytn\u00e9 \u00fachovn\u00ed pro Va\u0161e preference a po\u017eadovan\u00e9 funkce. S Va\u0161\u00edm souhlasem n\u00e1m Google Analytics pom\u00e1h\u00e1 pochopit, jak se web pou\u017e\u00edv\u00e1. Web m\u016f\u017eete pou\u017e\u00edvat a odeslat popt\u00e1vku i bez analytiky.",
+      cookies: "Z\u00e1sady cookies",
+      privacy: "Z\u00e1sady ochrany osobn\u00edch \u00fadaj\u016f",
+      reject: "Odm\u00edtnout volitelnou analytiku",
+      accept: "Povolit volitelnou analytiku",
+      cookiesHref: "/cs/zasady-cookies/",
+      privacyHref: "/cs/zasady-ochrany-osobnich-udaju/"
+    }
+  };
+  var BANNER_TEXT = BANNER_TEXTS[BANNER_LANG] || {
     title: "Your privacy choices",
     body: "We use essential storage for your preferences and requested features. With your permission, Google Analytics helps us understand site use. You can use the site and send a brief without analytics.",
     cookies: "Cookie Policy",
@@ -126,7 +140,7 @@
   };
   banner.innerHTML = '<div><h2 id="cookie-banner-title">' + BANNER_TEXT.title + '</h2>' +
     '<p>' + BANNER_TEXT.body + '</p>' +
-    '<a href="/cookie-policy/">' + BANNER_TEXT.cookies + '</a> \u00b7 <a href="/privacy-policy/">' + BANNER_TEXT.privacy + '</a></div>' +
+    '<a href="' + (BANNER_TEXT.cookiesHref || "/cookie-policy/") + '">' + BANNER_TEXT.cookies + '</a> \u00b7 <a href="' + (BANNER_TEXT.privacyHref || "/privacy-policy/") + '">' + BANNER_TEXT.privacy + '</a></div>' +
     '<div class="cookie-banner__actions"><button type="button" class="btn btn--ghost" data-cookie-reject>' + BANNER_TEXT.reject + '</button>' +
     '<button type="button" class="btn btn--ghost" data-cookie-accept>' + BANNER_TEXT.accept + '</button></div>';
   document.body.appendChild(banner);
