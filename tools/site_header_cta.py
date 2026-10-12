@@ -74,7 +74,11 @@ def sync(html, on, current=False):
 
 def pages():
     found = glob.glob(os.path.join(ROOT, "**", "index.html"), recursive=True)
-    return sorted(p for p in found if 'class="site-header__cta"' in open(p, encoding="utf-8").read())
+    def has_header(path):
+        with open(path, encoding="utf-8") as handle:
+            return 'class="site-header__cta"' in handle.read()
+
+    return sorted(p for p in found if has_header(p))
 
 
 def run(check=False):
