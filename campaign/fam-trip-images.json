@@ -1,0 +1,59 @@
+{
+  "_comment": "Photos on /agency-fam-trip-2027/. To swap a photo, drop <name>.webp (about 1200 px wide) and <name>-640.webp into assets/img/ (or assets/img/showcase/), point 'src' at the path without the extension, update alt/caption/width/height, then run: python3 tools/fam_trip_build.py. Keep every image different (no repeats) and describe only what the photo shows. These are photos of previous projects, not of the proposed programme venues; do not name hotels as part of the programme.",
+  "hero_a": {
+    "src": "/assets/img/mapfre-sigorta-antalya-gala-dinner",
+    "width": 1179,
+    "height": 798,
+    "alt": "Gala dinner with stage lighting and LED screens at a corporate event in Antalya",
+    "caption": "Previous project in Antalya"
+  },
+  "hero_b": {
+    "src": "/assets/img/turk-telekom-business-partners-meeting-rixos-sungate-antalya-05",
+    "width": 1179,
+    "height": 1479,
+    "alt": "Illuminated LED globe and stage lighting at a business partners meeting in Antalya",
+    "caption": "Previous project in Antalya"
+  },
+  "why_hotels": {
+    "src": "/assets/img/turk-telekom-business-partners-meeting-rixos-sungate-antalya-07",
+    "width": 1179,
+    "height": 1481,
+    "alt": "Plenary meeting hall with theatre seating and a wide LED stage set up for a corporate meeting in Antalya",
+    "caption": ""
+  },
+  "why_team": {
+    "src": "/assets/img/showcase/branded-registration-desk-cw-enerji-antalya",
+    "width": 1024,
+    "height": 658,
+    "alt": "Event staff at a branded registration desk welcoming guests at a corporate event in Antalya",
+    "caption": ""
+  },
+  "why_experiences": {
+    "src": "/assets/img/mapfre-sigorta-antalya-awards-ceremony-stage",
+    "width": 1179,
+    "height": 781,
+    "alt": "Red-carpet stage steps with a lit star and branded backdrop for an awards and incentive evening in Antalya",
+    "caption": ""
+  },
+  "why_whitelabel": {
+    "src": "/assets/img/mapfre-sigorta-antalya-event-stage-production",
+    "width": 1179,
+    "height": 806,
+    "alt": "Event stage with LED screens and red lighting, produced on site as part of a delivered programme",
+    "caption": ""
+  },
+  "day2": {
+    "src": "/assets/img/showcase/plenary-conference-setup-cw-enerji-antalya",
+    "width": 1024,
+    "height": 683,
+    "alt": "Conference hall with LED stage and classroom seating set up for a dealer meeting in Antalya",
+    "caption": ""
+  },
+  "day3": {
+    "src": "/assets/img/showcase/red-carpet-led-entrance-mapfre-sigorta-antalya",
+    "width": 1024,
+    "height": 683,
+    "alt": "Red carpet entrance with an LED screen for an evening reception in Antalya",
+    "caption": ""
+  }
+}

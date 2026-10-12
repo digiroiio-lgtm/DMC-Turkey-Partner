@@ -253,10 +253,16 @@ history); after editing run `python3 tools/fam_trip_build.py && python3 tools/si
   "Experience Antalya & Belek in 2027. Discover Your Local DMC Partner." The server-rendered HTML is identical for
   everybody: title and H1 "Antalya & Belek Fam Trip 2027 for MICE Agencies", generic invitation line
   "Exclusive MICE Agency Fam Trip Invitation", canonical. Only that one line is swapped client-side, so there are no
-  per-country indexable pages. Unknown/untargeted/suspect geo = generic line. A facts row under it shows
-  "Proposed: <campaignPeriod without '(proposed)'> · 3 nights · Selected agencies".
-  The form section's lede uses the same period text ("Proposed period: January–March 2027."), so "proposed"
-  is never printed twice (`period_label()` in `fam_trip_build.py`).
+  per-country indexable pages. Unknown/untargeted/suspect geo = generic line. The "Your Fam Trip at a Glance"
+  panel under the hero shows "Proposed period: <campaignPeriod without '(proposed)'>", 3 nights, Antalya & Belek,
+  MICE agencies, the proposed-hosted / flights-by-participants lines and the written-confirmation note. The form
+  section's lede uses the same period text ("Proposed period: January–March 2027."), so "proposed" is never printed
+  twice (`period_label()` in `fam_trip_build.py`).
+* **Landing page photos** (`campaign/fam-trip-images.json`): 8 distinct photos of previous projects (2 hero, 4
+  Why Join cards, 2 timeline thumbnails; Day 1 and Day 4 use icons). Only the first hero image is eager; the rest are
+  lazy with explicit width/height. To swap a photo (for example for a licensed resort picture) put `<name>.webp`
+  and `<name>-640.webp` in `assets/img/`, edit that slot's `src`/`alt`/`width`/`height`, then run
+  `python3 tools/fam_trip_build.py`. Describe only what the photo shows and never name a hotel as part of the programme.
 * **Landing page** `/agency-fam-trip-2027/` (old `/uk-agency-fam-trip` redirects here): `noindex` and absent
   from the sitemap while disabled.
 * **Form**: submits to Formspree with `fetch`; success is shown only after Formspree answers 2xx. Hidden

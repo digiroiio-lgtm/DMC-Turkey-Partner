@@ -359,7 +359,7 @@ class FamTripTests(unittest.TestCase):
         self.open(LANDING, clock=False)
         expect(self.page.locator("h1")).to_have_text("Antalya & Belek Fam Trip 2027 for MICE Agencies")
         expect(self.page.locator("[data-fam-headline]")).to_have_text("Exclusive Invitation for UK MICE Agencies")
-        expect(self.page.locator(".fam-facts")).to_have_text(re.compile(r"Proposed: January–March 2027\s*3 nights\s*Selected agencies"))
+        expect(self.page.locator(".fam-glance__grid")).to_have_text(re.compile(r"Proposed period\s*January–March 2027\s*Duration\s*3 nights\s*Destinations\s*Antalya & Belek\s*Audience\s*MICE agencies"))
         for text in ("Why Join", "Proposed 3-Night Programme", "Indicative programme, subject to confirmation.",
                      "Who Should Apply", "at least two international group programmes annually",
                      "International flights are expected to be arranged by participants.",
@@ -441,14 +441,14 @@ class FamTripTests(unittest.TestCase):
         # What the README promises for the server-rendered HTML ...
         for text in ('title and H1 "Antalya & Belek Fam Trip 2027 for MICE Agencies"',
                      'generic invitation line\n  "Exclusive MICE Agency Fam Trip Invitation"',
-                     '"Proposed: <campaignPeriod without \'(proposed)\'> · 3 nights · Selected agencies"',
+                     '"Your Fam Trip at a Glance"',
                      "Only that one line is swapped client-side"):
             self.assertIn(text, readme, text)
         self.assertIn("<h1>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies</h1>", page)
         self.assertIn("<title>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner</title>", page)
         self.assertIn('<p class="fam-invite" data-fam-headline>%s</p>' % GENERIC, page)
         self.assertEqual(page.count("data-fam-headline"), 1)
-        self.assertIn("<li>Proposed: January–March 2027</li><li>3 nights</li><li>Selected agencies</li>", page)
+        self.assertIn("<dt>Proposed period</dt><dd>January–March 2027</dd>", page)
         # ... and in the script: the adjectives it lists are exactly the 15 target countries.
         self.assertIn('var GENERIC_HEADLINE = "%s"' % GENERIC, js)
         self.assertIn('var SUBLINE = "%s"' % SUBLINE, js)
@@ -478,11 +478,11 @@ class FamTripTests(unittest.TestCase):
                     canonical: document.querySelector('link[rel=canonical]').href,
                     robots: document.querySelector('meta[name=robots]').content,
                     sub: document.querySelector('.fam-subline').textContent,
-                    facts: document.querySelector('.fam-facts').textContent,
+                    facts: document.querySelector('.fam-glance__grid').textContent,
                     desc: document.querySelector('meta[name=description]').content})""")
                 self.assertEqual(snapshot["h1"], "Antalya & Belek Fam Trip 2027 for MICE Agencies")
                 self.assertEqual(snapshot["sub"], SUBLINE)
-                self.assertEqual(snapshot["facts"], "Proposed: January–March 2027" + "3 nights" + "Selected agencies")
+                self.assertEqual(snapshot["facts"], "Proposed periodJanuary–March 2027Duration3 nightsDestinationsAntalya & BelekAudienceMICE agencies")
                 self.assertIn("Antalya & Belek Fam Trip 2027 for MICE Agencies", snapshot["title"])
                 self.assertEqual(snapshot["canonical"], "https://dmcturkeypartner.com/agency-fam-trip-2027/")
                 self.assertEqual(snapshot["robots"], "index, follow")
