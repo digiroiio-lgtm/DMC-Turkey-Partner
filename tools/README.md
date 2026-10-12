@@ -303,6 +303,35 @@ Writes `/antalya-fam-trips/` (permanent service page for agencies that want a fa
 the Antalya/Belek destination pages, `/agency-partners/`, `/white-label-dmc-turkey/` and the UK page (via
 `market_pages_build.py`); `llms.txt` lists all three. Add a 2026 page only if a real 2026 programme exists.
 
+## Czech page (`/cs/dmc-turecko/`)
+
+```
+python3 tools/cs_pages_build.py && python3 tools/sitemaps.py
+```
+
+Czech copy of the German market page for Czech travel agencies and MICE planners (`cs/dmc-turecko/`), plus Czech
+privacy and cookie pages (`cs/zasady-ochrany-osobnich-udaju/`, `cs/zasady-cookies/`, translations in
+`tools/cs_legal_text.py`; **legal translation, needs legal/GDPR review**). `/cs` and `/cs/` redirect to the page;
+hreflang is cs / de / en / x-default on all three language pages. Header/footer are translated (`CHROME_CS`);
+`site_footer.py`, `cop31_nav.py`, `site_seo.py` and `site_header_cta.py` skip `lang="cs"` pages, and the Czech
+pages carry no Fam Trip CTA or pop-up (the Czech Republic is not a campaign target country).
+
+* **Form**: same component and endpoint as the German form (`/api/request-proposal`), Czech labels and messages via
+  `data-i18n`, plus an optional `phone` field (`+420 ` prefix on focus, cleared if untouched), hidden `locale=cs` and
+  `reference` (`CS-YYMMDD-XXXX`), `lead_source="CS / Czech"` (email subject "CS / Czech Lead — company (destination)")
+  and `source_page=/cs/dmc-turecko/` (`data-source-page`). The email adds Locale, Reference, Phone and the visitor
+  country from `x-vercel-ip-country` (**reporting only, never used for routing**) and a line saying the lead came from
+  the Czech page and was offered the Czech WhatsApp number.
+* **WhatsApp**: the Czech Business number is chosen by the page's locale, not by IP. It lives only in
+  `api/_whatsapp-config.js` (default) and the Vercel env variable `WHATSAPP_NUMBER_CS` (overrides the default); the
+  page asks `GET /api/whatsapp?locale=cs`. The thank-you modal button (Czech text, `wa.me` link with the prefilled
+  Czech message containing name, company, enquiry summary and the reference) and the floating button
+  (`assets/js/cs-whatsapp.js`, loaded only by the Czech page) use it. No number in any HTML/JS/CSS file; if the endpoint
+  fails the modal simply shows no WhatsApp block. The main-site and German number (`main.js`) is unchanged. A test
+  scans the repository to make sure the Czech number appears nowhere else.
+* **Czech copy**: formal "Vy", only facts already on the site, EUR reference ranges shown as "500–750 €", dates as
+  `d. M. yyyy`. Have a native speaker review it before promoting the page (as for the German one).
+
 ## COP31 news layer
 
 ```

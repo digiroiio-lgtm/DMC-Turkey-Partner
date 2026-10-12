@@ -30,6 +30,7 @@ import site_seo  # noqa: E402
 UPDATED_ISO = "2026-10-11"
 UK_PATH = "/dmc-turkey-uk-agencies/"
 DE_PATH = "/de/dmc-tuerkei/"
+CS_PATH = "/cs/dmc-turecko/"
 EN_PEER = "/dmc-turkey/"
 
 
@@ -37,7 +38,7 @@ EN_PEER = "/dmc-turkey/"
 
 def head(lang, title, description, path, lead_source, service_interest, schema_blocks, hreflang=""):
     url = SITE + path
-    locale = '  <meta property="og:locale" content="de_DE">' if lang == "de" else ""
+    locale = {"de": '  <meta property="og:locale" content="de_DE">', "cs": '  <meta property="og:locale" content="cs_CZ">'}.get(lang, "")
     return "\n".join(filter(None, [
         "<!DOCTYPE html>", '<html lang="%s">' % lang, "<head>",
         '  <meta charset="UTF-8">',
@@ -123,14 +124,14 @@ def form_html(L, prefix):
     i18n = L.get("i18n")
     i18n_attr = ' data-i18n="%s"' % esc(json.dumps(i18n, ensure_ascii=False, separators=(",", ":"))) if i18n else ""
     opt = lambda pairs: "".join('<option value="%s">%s</option>' % (v, esc(t)) for v, t in pairs)
-    return '''    <section class="page-section" id="anfrage">
+    return '''    <section class="page-section" id="%(anchor)s">
       <h2>%(h2)s</h2>
       <p class="page-section__lede">%(lede)s</p>
-      <form name="%(name)s" method="POST" action="/api/request-proposal" data-proposal-form%(i18n_attr)s>
-        <p class="sr-only"><label>Company website <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+      <form name="%(name)s" method="POST" action="/api/request-proposal" data-proposal-form%(i18n_attr)s%(form_attrs)s>
+        <p class="sr-only"><label>%(honeypot)s <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
         <input type="hidden" name="source_page"><input type="hidden" name="landing_page"><input type="hidden" name="submission_page"><input type="hidden" name="timestamp">
         <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content"><input type="hidden" name="utm_term">
-        <input type="hidden" name="lead_source"><input type="hidden" name="campaign"><input type="hidden" name="service_interest"><input type="hidden" name="page_type">
+        <input type="hidden" name="lead_source"><input type="hidden" name="campaign"><input type="hidden" name="service_interest"><input type="hidden" name="page_type">%(hidden_extra)s
         <div class="form-grid">
           <div class="form-field"><label for="%(p)s-name">%(name_l)s</label><input type="text" id="%(p)s-name" name="name" autocomplete="name" required></div>
           <div class="form-field"><label for="%(p)s-company">%(company_l)s</label><input type="text" id="%(p)s-company" name="company" autocomplete="organization" required></div>
@@ -140,7 +141,7 @@ def form_html(L, prefix):
           <div class="form-field"><label for="%(p)s-group">%(group_l)s</label>
             <select id="%(p)s-group" name="group_size" required><option value="">%(group_ph)s</option>%(sizes)s</select></div>
           <div class="form-field"><label for="%(p)s-type">%(type_l)s</label>
-            <select id="%(p)s-type" name="project_type"><option value="">%(type_ph)s</option>%(types)s</select></div>
+            <select id="%(p)s-type" name="project_type"><option value="">%(type_ph)s</option>%(types)s</select></div>%(extra_fields)s
           <fieldset class="form-field"><legend>%(dates_l)s</legend>
             <div class="date-range"><label for="%(p)s-ds" class="sr-only">%(start)s</label><input type="date" id="%(p)s-ds" name="date_start">
               <label for="%(p)s-de" class="sr-only">%(end)s</label><input type="date" id="%(p)s-de" name="date_end"></div>
@@ -157,7 +158,7 @@ def form_html(L, prefix):
         <p>%(ok_p)s</p>
       </section>
       <ul class="cta-expect">%(expect)s</ul>
-    </section>''' % dict(L, p=prefix, dests=opt(dests), sizes=opt(sizes), types=opt(types), i18n_attr=i18n_attr)
+    </section>''' % dict({"anchor": "anfrage", "honeypot": "Company website", "form_attrs": "", "hidden_extra": "", "extra_fields": ""}, **dict(L, p=prefix, dests=opt(dests), sizes=opt(sizes), types=opt(types), i18n_attr=i18n_attr))
 
 
 # --- German header and footer ---------------------------------------------------
@@ -359,6 +360,7 @@ def render_de():
     crumbs = [("Startseite", "/"), ("DMC Türkei", DE_PATH)]
     hreflang = "\n".join([
         '  <link rel="alternate" hreflang="de" href="%s%s">' % (SITE, DE_PATH),
+        '  <link rel="alternate" hreflang="cs" href="%s%s">' % (SITE, CS_PATH),
         '  <link rel="alternate" hreflang="en" href="%s%s">' % (SITE, EN_PEER),
         '  <link rel="alternate" hreflang="x-default" href="%s%s">' % (SITE, EN_PEER),
     ])

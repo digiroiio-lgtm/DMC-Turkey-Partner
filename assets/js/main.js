@@ -355,7 +355,13 @@
     modalWhatsapp: "Continue on WhatsApp",
     modalBack: "Back to Website",
     modalNote: "Your request has already been submitted. No need to send it again.",
-    whatsappMessage: SUCCESS_WHATSAPP_MESSAGE
+    whatsappMessage: SUCCESS_WHATSAPP_MESSAGE,
+    // Optional, used by locale pages (data-i18n): validation messages and the word shown in the
+    // WhatsApp summary when no dates were entered. Empty = keep the browser's own message.
+    datesUnknown: "dates not confirmed",
+    fieldRequired: "",
+    emailInvalid: "",
+    phoneInvalid: ""
   };
 
   function formText(form) {
@@ -776,6 +782,8 @@
     }
     // `src` carries the originating page; GA4 treats a bare `source` parameter as a campaign source.
     form.elements.source_page.value = params.get("src") || params.get("source") || "direct";
+    // Locale pages (e.g. /cs/dmc-turecko/) name themselves, so the notification always shows where the lead came from.
+    if (form.getAttribute("data-source-page")) { form.elements.source_page.value = form.getAttribute("data-source-page"); }
     form.elements.landing_page.value = landingPage;
     form.elements.submission_page.value = window.location.origin + window.location.pathname;
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
@@ -827,6 +835,75 @@
       });
     });
     var text = formText(form);
+    var whatsappLocale = form.getAttribute("data-whatsapp-locale");
+    var reference = "";
+    if (whatsappLocale && form.elements.reference) {
+      // Short reference shown in the WhatsApp message and the notification email so the chat can be matched to the enquiry.
+      var d = new Date();
+      var two = function (n) { return (n < 10 ? "0" : "") + n; };
+      var random = "";
+      while (random.length < 4) { random += "ABCDEFGHJKLMNPQRSTUVWXYZ23456789".charAt(Math.floor(Math.random() * 32)); }
+      reference = (form.getAttribute("data-reference-prefix") || "WEB") + "-" + String(d.getFullYear()).slice(2) + two(d.getMonth() + 1) + two(d.getDate()) + "-" + random;
+      form.elements.reference.value = reference;
+    }
+    // The locale's WhatsApp number comes from the server (/api/whatsapp), chosen by the page's locale, never by IP.
+    var whatsappNumber = whatsappLocale
+      ? fetch("/api/whatsapp?locale=" + encodeURIComponent(whatsappLocale), { cache: "no-store", credentials: "omit" })
+          .then(function (response) { return response.ok ? response.json() : null; })
+          .then(function (data) { return data && /^[0-9]{8,15}$/.test(data.number || "") ? data.number : null; })
+          .catch(function () { return null; })
+      : null;
+    // Localised validation messages (only when the page provides them in data-i18n).
+    if (text.fieldRequired || text.emailInvalid || text.phoneInvalid) {
+      Array.prototype.forEach.call(form.elements, function (field) {
+        if (!field.name || !field.addEventListener) { return; }
+        field.addEventListener("invalid", function () {
+          var message = "";
+          if (field.validity.valueMissing) { message = text.fieldRequired; }
+          else if (field.validity.typeMismatch && field.type === "email") { message = text.emailInvalid; }
+          else if (field.validity.patternMismatch && field.name === "phone") { message = text.phoneInvalid; }
+          field.setCustomValidity(message || "");
+        });
+        var clear = function () { field.setCustomValidity(""); };
+        field.addEventListener("input", clear);
+        field.addEventListener("change", clear);
+      });
+    }
+    // A phone field with data-prefix (e.g. "+420 ") shows the country prefix on focus and is cleared again if left untouched.
+    var phoneField = form.elements.phone;
+    if (phoneField && phoneField.getAttribute && phoneField.getAttribute("data-prefix")) {
+      var phonePrefix = phoneField.getAttribute("data-prefix");
+      phoneField.addEventListener("focus", function () { if (!phoneField.value) { phoneField.value = phonePrefix; } });
+      phoneField.addEventListener("blur", function () {
+        if (phoneField.value.trim() === phonePrefix.trim()) { phoneField.value = ""; }
+      });
+      // Pasting or typing a full international number after the prefix must not double it.
+      phoneField.addEventListener("input", function () {
+        var doubled = phoneField.value.replace(/^\+420\s*(?=\+420)/, "");
+        if (doubled !== phoneField.value) { phoneField.value = doubled; }
+      });
+    }
+    function formatDate(iso) {
+      var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+      if (!match) { return iso || ""; }
+      return document.documentElement.lang === "cs"
+        ? parseInt(match[3], 10) + ". " + parseInt(match[2], 10) + ". " + match[1]
+        : iso;
+    }
+    function optionLabel(name) {
+      var field = form.elements[name];
+      return field && field.selectedOptions && field.selectedOptions[0] && field.value ? field.selectedOptions[0].text : "";
+    }
+    // Fills {name} {company} {summary} {ref} in the page's WhatsApp message (templates without tokens stay as they are).
+    function whatsappText() {
+      var dates = datesUnconfirmed.checked || !form.elements.date_start.value
+        ? text.datesUnknown
+        : formatDate(form.elements.date_start.value) + " \u2013 " + formatDate(form.elements.date_end.value);
+      var summary = [optionLabel("destination"), optionLabel("group_size"), dates, optionLabel("project_type")]
+        .filter(Boolean).join(", ");
+      var values = { name: form.elements.name.value.trim(), company: form.elements.company.value.trim(), summary: summary, ref: reference };
+      return text.whatsappMessage.replace(/\{(name|company|summary|ref)\}/g, function (all, key) { return values[key]; });
+    }
     var submitting = false;
     var sent = false;
     var button = form.querySelector('button[type="submit"]');
@@ -886,19 +963,29 @@
             lead_source:      form.elements.lead_source ? form.elements.lead_source.value : "",
             service_interest: form.elements.service_interest ? form.elements.service_interest.value : ""
           };
-          if (!form.hasAttribute("data-success-inline") && openSuccessModal(context, button, text)) {
-            // The form stays where it is; it is locked so the same brief cannot be sent twice.
-            // aria-disabled (not disabled) keeps the button focusable so focus can return to it.
-            button.disabled = false;
-            button.setAttribute("aria-disabled", "true");
-            button.textContent = text.sent;
+          var showSuccess = function (whatsappHref) {
+            if (!form.hasAttribute("data-success-inline") && openSuccessModal(context, button, text, whatsappHref)) {
+              // The form stays where it is; it is locked so the same brief cannot be sent twice.
+              // aria-disabled (not disabled) keeps the button focusable so focus can return to it.
+              button.disabled = false;
+              button.setAttribute("aria-disabled", "true");
+              button.textContent = text.sent;
+            } else {
+              // Fallback: inline thank-you section (no dialog support, or inline form).
+              button.textContent = buttonLabel;
+              form.hidden = true;
+              document.querySelector("[data-proposal-success]").hidden = false;
+            }
+            form.dispatchEvent(new CustomEvent("proposal:success"));
+          };
+          if (whatsappNumber) {
+            // Locale page: the WhatsApp link is built from the locale's number; without it the modal shows no WhatsApp block.
+            whatsappNumber.then(function (number) {
+              showSuccess(number ? "https://wa.me/" + number + "?text=" + encodeURIComponent(whatsappText()) : null);
+            });
           } else {
-            // Fallback: inline thank-you section (no dialog support, or inline form).
-            button.textContent = buttonLabel;
-            form.hidden = true;
-            document.querySelector("[data-proposal-success]").hidden = false;
+            showSuccess();
           }
-          form.dispatchEvent(new CustomEvent("proposal:success"));
         }).catch(function (failure) {
           submitting = false;
           button.disabled = false;
@@ -923,13 +1010,25 @@
   // browser has no dialog support so the caller can use the inline fallback.
   var successDialog = null;
 
-  function buildSuccessDialog(text) {
+  // whatsappHref: undefined = the main-site number (default, unchanged); a string = a locale-specific
+  // link; null = no WhatsApp block (the locale number could not be fetched).
+  function buildSuccessDialog(text, whatsappHref) {
     var dialog = document.createElement("dialog");
     dialog.className = "success-modal";
     dialog.setAttribute("aria-modal", "true");
     dialog.setAttribute("aria-labelledby", "success-modal-title");
     dialog.setAttribute("aria-describedby", "success-modal-desc");
-    var whatsapp = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text.whatsappMessage);
+    var whatsapp = whatsappHref === undefined
+      ? "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text.whatsappMessage)
+      : whatsappHref;
+    var faster = whatsapp === null ? "" :
+      '<hr class="success-modal__divider">' +
+      '<h3 class="success-modal__heading">' + escapeHtmlText(text.modalFasterTitle) + '</h3>' +
+      '<p class="success-modal__text">' + escapeHtmlText(text.modalFasterText) + '</p>';
+    var whatsappLink = whatsapp === null ? "" :
+      '<a class="btn success-modal__whatsapp" href="' + escapeHtmlText(whatsapp) + '" target="_blank" rel="noopener" data-success-whatsapp>' +
+        '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#fff" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.97L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.3 14.96l-.3-.19-3.07.89.92-3-.2-.31A8.1 8.1 0 0 1 12.04 3.8zm-3.1 3.9c-.2 0-.52.08-.8.38-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.07 3.3 5.1 4.5 2.53 1 3.04.8 3.59.75.55-.05 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35-.3-.15-1.77-.87-2.04-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46.13-.6.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.5z"/></svg>' +
+        '<span>' + escapeHtmlText(text.modalWhatsapp) + '</span></a>';
     dialog.innerHTML =
       '<div class="success-modal__panel">' +
         '<button type="button" class="success-modal__close" aria-label="' + escapeHtmlText(text.modalClose) + '" data-success-close="close_button">' +
@@ -939,13 +1038,9 @@
         '<h2 id="success-modal-title" class="success-modal__title" tabindex="-1">' + escapeHtmlText(text.modalTitle) + '</h2>' +
         '<p class="success-modal__sub">' + escapeHtmlText(text.modalSub) + '</p>' +
         '<p id="success-modal-desc" class="success-modal__text">' + escapeHtmlText(text.modalDesc) + '</p>' +
-        '<hr class="success-modal__divider">' +
-        '<h3 class="success-modal__heading">' + escapeHtmlText(text.modalFasterTitle) + '</h3>' +
-        '<p class="success-modal__text">' + escapeHtmlText(text.modalFasterText) + '</p>' +
+        faster +
         '<div class="success-modal__actions">' +
-          '<a class="btn success-modal__whatsapp" href="' + whatsapp + '" target="_blank" rel="noopener" data-success-whatsapp>' +
-            '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#fff" d="M12.04 2a9.9 9.9 0 0 0-8.5 14.97L2 22l5.17-1.5A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.3 14.96l-.3-.19-3.07.89.92-3-.2-.31A8.1 8.1 0 0 1 12.04 3.8zm-3.1 3.9c-.2 0-.52.08-.8.38-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.07 3.3 5.1 4.5 2.53 1 3.04.8 3.59.75.55-.05 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35-.3-.15-1.77-.87-2.04-.97-.28-.1-.48-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46.13-.6.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.5z"/></svg>' +
-            '<span>' + escapeHtmlText(text.modalWhatsapp) + '</span></a>' +
+          whatsappLink +
           '<button type="button" class="btn btn--ghost success-modal__back" data-success-close="back_to_website">' + escapeHtmlText(text.modalBack) + '</button>' +
         '</div>' +
         '<p class="success-modal__note">' + escapeHtmlText(text.modalNote) + '</p>' +
@@ -953,12 +1048,12 @@
     return dialog;
   }
 
-  function openSuccessModal(context, returnFocusTo, text) {
+  function openSuccessModal(context, returnFocusTo, text, whatsappHref) {
     var closeMethod = "dismiss";
     if (typeof HTMLDialogElement !== "function" || typeof HTMLDialogElement.prototype.showModal !== "function") { return false; }
     try {
       if (!successDialog) {
-        successDialog = buildSuccessDialog(text || FORM_TEXT_DEFAULTS);
+        successDialog = buildSuccessDialog(text || FORM_TEXT_DEFAULTS, whatsappHref);
         document.body.appendChild(successDialog);
       }
       var dialog = successDialog;

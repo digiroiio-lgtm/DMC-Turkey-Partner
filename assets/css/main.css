@@ -3296,3 +3296,19 @@ body.offpeak-open {
     display: none;
   }
 }
+
+/* Floating WhatsApp button (locale pages only; added by assets/js/cs-whatsapp.js) */
+.wa-float {
+  position: fixed; right: 16px; bottom: 16px; z-index: 90;
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 52px; padding: 0 18px 0 14px; border-radius: 999px;
+  background: #25d366; color: #fff; font-weight: 700; text-decoration: none;
+  box-shadow: 0 8px 22px rgba(20, 23, 28, 0.28);
+}
+.wa-float:hover, .wa-float:focus-visible { color: #fff; text-decoration: none; transform: translateY(-1px); }
+.wa-float:focus-visible { outline: 3px solid #14171c; outline-offset: 3px; }
+@media (max-width: 520px) {
+  .wa-float { padding: 0; width: 56px; justify-content: center; }
+  .wa-float__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) { .wa-float:hover, .wa-float:focus-visible { transform: none; } }

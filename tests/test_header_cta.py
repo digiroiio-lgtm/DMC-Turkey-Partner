@@ -44,7 +44,8 @@ class HeaderCtaStaticTests(unittest.TestCase):
         for path in pages:
             source = open(path, encoding="utf-8").read()
             current = os.path.relpath(path, ROOT) == "agency-fam-trip-2027/index.html"
-            self.assertEqual(site_header_cta.sync(source, on, current), source, path)
+            # Czech pages carry no Fam Trip CTA (the Czech Republic is not a target country).
+            self.assertEqual(site_header_cta.sync(source, False if site_header_cta.skipped(path) else on, current), source, path)
 
     def test_order_in_the_bar_and_first_item_in_the_menu(self):
         for rel in ("index.html", "destinations/antalya/index.html", "de/dmc-tuerkei/index.html"):
