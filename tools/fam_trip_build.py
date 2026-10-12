@@ -80,6 +80,33 @@ def period_label(cfg):
     return cfg["campaignPeriod"].replace(" (proposed)", "")
 
 
+IMAGES = os.path.join(ROOT, "campaign", "fam-trip-images.json")
+
+
+def load_images():
+    with open(IMAGES, encoding="utf-8") as handle:
+        return {k: v for k, v in json.load(handle).items() if not k.startswith("_")}
+
+
+def picture(img, sizes, eager=False, css=""):
+    """<img> with a 640 px and a full-size source, explicit dimensions (no layout shift) and lazy loading
+    below the fold. Only the first hero image is eager."""
+    loading = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+    pos = img.get("pos", "50% 50%")
+    style = ' style="object-position:%s"' % pos if pos != "50% 50%" else ""
+    return ('<img%s src="%s-640.webp" srcset="%s-640.webp 640w, %s.webp %dw" sizes="%s" width="%d" height="%d" '
+            'alt="%s" %s%s>' % (' class="%s"' % css if css else "", img["src"], img["src"], img["src"], img["width"],
+                                sizes, img["width"], img["height"], esc(img["alt"]), loading, style))
+
+
+BADGES = {"previous": "Previous project in Antalya", "illustrative": "Illustrative image"}
+TAGS = {"previous": "Previous project", "illustrative": "Illustrative photo"}
+
+
+def badge(img):
+    return '<span class="fam-badge fam-badge--%s">%s</span>' % (img["label"], BADGES[img["label"]])
+
+
 def load():
     with open(SETTINGS, encoding="utf-8") as handle:
         data = json.load(handle)
@@ -214,12 +241,44 @@ def form_section(cfg):
         period_field=select("Preferred travel period", "travel_period", ["January", "February", "March 2027", "Flexible"], False))
 
 
+PLANE_ICON = ('<svg width="28" height="28" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 10.5l15-7-4 13-3.2-4.2'
+              '-3.3 2.2.5-3.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>')
+SUITCASE_ICON = ('<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h16v11H4zM9 8V5h6v3" '
+                 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>')
+
+
 def page_body(cfg):
-    img = ('<img class="fam-hero-image" src="%s-640.webp" srcset="%s-640.webp 640w, %s.webp 1179w" '
-           'sizes="(max-width: 900px) 100vw, 760px" width="1179" height="798" '
-           'alt="Gala dinner with stage lighting and LED screens at a corporate event in Antalya" fetchpriority="high">'
-           % (IMAGE, IMAGE, IMAGE))
-    card = lambda h, p: '<article class="card"><h3>%s</h3><p>%s</p></article>' % (h, p)
+    im = load_images()
+    hero = ('<div class="fam-hero-media"><figure class="fam-hero-media__main">%s%s</figure>'
+            '<figure class="fam-hero-media__side">%s%s</figure></div>'
+            % (picture(im["hero_a"], "(max-width: 900px) 100vw, 560px", eager=True), badge(im["hero_a"]),
+               picture(im["hero_b"], "280px"), badge(im["hero_b"])))
+    why = [("why_hotels", "Hotels &amp; venues", "Explore Antalya and Belek hotels and event venues, and see what they can offer your future client programmes."),
+           ("why_team", "Local team", "Meet the local operations and destination team who would run those programmes on the ground."),
+           ("why_experiences", "Experiences", "Discover incentive activities and group experiences for memorable client programmes."),
+           ("why_whitelabel", "White-label delivery", "Explore white-label programme delivery and RFP collaboration with your agency in the lead.")]
+    cards = "".join('<article class="fam-card"><div class="fam-card__media">%s%s</div><div class="fam-card__body">'
+                    '<h3>%s</h3><p>%s</p></div></article>'
+                    % (picture(im[k], "(max-width: 640px) 100vw, 50vw"), badge(im[k]), h, t) for k, h, t in why)
+    stage = lambda n, title, text, media, img=None: (
+        '<li class="fam-stage"><div class="fam-stage__media">%s</div><div><span class="fam-stage__day">Day %d</span><h3>%s</h3><p>%s</p>%s</div></li>'
+        % (media, n, title, text, '<span class="fam-stage__tag">%s</span>' % TAGS[img["label"]] if img else ""))
+    timeline = "".join([
+        stage(1, "Arrival &amp; welcome", "Arrival, hotel check-in and welcome dinner.", '<span class="fam-stage__icon">%s</span>' % PLANE_ICON),
+        stage(2, "Hotel &amp; venue inspections", "Hotel and venue inspections across Antalya and Belek.", picture(im["day2"], "96px"), im["day2"]),
+        stage(3, "Experiences &amp; networking", "Incentive experience, operations presentation and networking dinner.", picture(im["day3"], "96px"), im["day3"]),
+        stage(4, "Departure", "Breakfast, airport transfer and departure.", '<span class="fam-stage__icon">%s</span>' % SUITCASE_ICON),
+    ])
+    glance = (
+        '    <section class="fam-glance" aria-labelledby="fam-glance-title">\n'
+        '      <h2 id="fam-glance-title">Your Fam Trip at a Glance</h2>\n'
+        '      <dl class="fam-glance__grid"><div><dt>Proposed period</dt><dd>%s</dd></div><div><dt>Duration</dt><dd>3 nights</dd></div>'
+        '<div><dt>Destinations</dt><dd>Antalya &amp; Belek</dd></div><div><dt>Audience</dt><dd>MICE agencies</dd></div></dl>\n'
+        '      <ul class="fam-glance__notes"><li>Proposed hosted accommodation and local programme</li>'
+        '<li>International flights arranged by participants</li></ul>\n'
+        '      <p class="fam-glance__fine">All arrangements are subject to written confirmation.</p>\n'
+        '      <a class="btn btn--primary" href="#apply">Register Your Interest</a>\n'
+        '    </section>' % esc(period_label(cfg)))
     return "\n".join([
         '      <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>'
         '<li aria-current="page">Agency Fam Trip 2027</li></ol></nav>',
@@ -230,30 +289,22 @@ def page_body(cfg):
         '      <h1>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies</h1>',
         '      <p class="fam-invite" data-fam-headline>Exclusive MICE Agency Fam Trip Invitation</p>',
         '      <p class="fam-subline"><strong>Experience Antalya &amp; Belek in 2027. Discover Your Local DMC Partner.</strong></p>',
-        '      <ul class="fam-facts" aria-label="Fam trip at a glance"><li>Proposed: %s</li><li>3 nights</li>'
-        '<li>Selected agencies</li></ul>' % esc(period_label(cfg)),
         '      <p class="page-section__lede">Experience the destination, meet the people behind the operations and explore how '
         "DMC Turkey Partner can support your agency’s programmes in Türkiye.</p>",
         '      <div class="hero-actions"><a class="btn btn--primary" href="#apply">Register Your Interest</a></div>',
-        "      " + img,
+        "      " + hero,
         "    </section>",
+        glance,
         '    <section class="page-section">',
         "      <h2>Why Join</h2>",
-        '      <div class="card-grid">' + "".join([
-            card("Hotels &amp; venues", "Explore Antalya and Belek hotels and event venues."),
-            card("Local team", "Meet the local operations and destination team."),
-            card("Experiences", "Discover incentive activities and group experiences."),
-            card("White-label delivery", "Explore white-label programme delivery and RFP collaboration."),
-        ]) + "</div>",
+        '      <p class="fam-photo-note">Photos marked <strong>Illustrative image</strong> show the kind of experience we can arrange; '
+        "hotels and venues for the programme are not yet confirmed.</p>",
+        '      <div class="fam-cards">' + cards + "</div>",
         "    </section>",
         '    <section class="page-section">',
         "      <h2>Proposed 3-Night Programme</h2>",
         '      <p class="page-section__lede">Indicative programme, subject to confirmation.</p>',
-        '      <ol class="fam-programme">'
-        "<li><strong>Day 1</strong>Arrival, hotel check-in and welcome dinner.</li>"
-        "<li><strong>Day 2</strong>Hotel and venue inspections across Antalya and Belek.</li>"
-        "<li><strong>Day 3</strong>Incentive experience, operations presentation and networking dinner.</li>"
-        "<li><strong>Day 4</strong>Breakfast, airport transfer and departure.</li></ol>",
+        '      <ol class="fam-timeline">' + timeline + "</ol>",
         "    </section>",
         '    <section class="page-section">',
         "      <h2>Who Should Apply</h2>",
@@ -262,10 +313,14 @@ def page_body(cfg):
         "<li>Professionals managing international group programmes.</li></ul>",
         "      <p>Priority is given to applicants whose agencies organise at least two international group programmes annually.</p>",
         "    </section>",
-        '    <section class="page-section">',
+        '    <section class="page-section fam-participation">',
         "      <h2>Participation</h2>",
-        "      <p>Proposed hosted elements:</p>",
-        "      <ul><li>Accommodation</li><li>Local transfers</li><li>Scheduled programme activities</li></ul>",
+        '      <div class="fam-participation__grid">'
+        '<div class="fam-participation__col"><h3>Proposed hosted</h3><ul><li>Accommodation</li><li>Local transfers</li>'
+        "<li>Scheduled programme activities</li></ul></div>"
+        '<div class="fam-participation__col"><h3>Not included</h3><ul><li>International flights</li><li>Personal expenses</li></ul></div>'
+        '<div class="fam-participation__col"><h3>Eligibility</h3><ul><li>Agency owners, directors and decision-makers</li>'
+        "<li>Priority for agencies with at least two international group programmes a year</li></ul></div></div>",
         "      <p>International flights are expected to be arranged by participants.</p>",
         '      <p>Read the <a href="/antalya-fam-trip-2027/">2027 programme and eligibility details</a>, or see our '
         '<a href="/antalya-fam-trips/">Antalya fam trip service</a> if you want a fam trip for your own group.</p>',
