@@ -99,8 +99,8 @@ def picture(img, sizes, eager=False, css=""):
                                 sizes, img["width"], img["height"], esc(img["alt"]), loading, style))
 
 
+HERO_SIZES = "(max-width: 900px) 100vw, 890px"
 BADGES = {"previous": "Previous project in Antalya", "illustrative": "Illustrative image"}
-TAGS = {"previous": "Previous project", "illustrative": "Illustrative photo"}
 
 
 def badge(img):
@@ -123,6 +123,9 @@ def write_js_config(cfg):
         with open(JS, "w", encoding="utf-8") as handle:
             handle.write(updated)
     return updated != source
+
+
+HERO = load_images()["hero_a"]
 
 
 def head(cfg):
@@ -161,6 +164,8 @@ def head(cfg):
         '  <meta name="twitter:image" content="%s%s.webp">' % (SITE, IMAGE),
         '  <meta name="dmc:lead-source" content="Agency Fam Trip">',
         '  <meta name="dmc:page-type" content="campaign-landing">',
+        '  <link rel="preload" as="image" href="%s-640.webp" imagesrcset="%s-640.webp 640w, %s.webp %dw" imagesizes="%s" fetchpriority="high">'
+        % (HERO["src"], HERO["src"], HERO["src"], HERO["width"], HERO_SIZES),
         '  <link rel="stylesheet" href="/assets/css/main.css">',
         '  <link rel="stylesheet" href="/assets/css/forms.css">',
         '  <link rel="stylesheet" href="/assets/css/fam-trip.css">',
@@ -241,33 +246,40 @@ def form_section(cfg):
         period_field=select("Preferred travel period", "travel_period", ["January", "February", "March 2027", "Flexible"], False))
 
 
-PLANE_ICON = ('<svg width="28" height="28" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M2.5 10.5l15-7-4 13-3.2-4.2'
-              '-3.3 2.2.5-3.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>')
-SUITCASE_ICON = ('<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h16v11H4zM9 8V5h6v3" '
-                 'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>')
+def _icon(body):
+    return ('<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" '
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg>' % body)
+
+
+# One icon system for the four programme stages: same grid, stroke and tile.
+STAGE_ICONS = {
+    "arrival": _icon('<path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/>'),
+    "inspections": _icon('<path d="M5 21V4h9v17M14 9h5v12M3 21h18M8 8h2M8 12h2M8 16h2"/>'),
+    "networking": _icon('<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.6 14.3a4.6 4.6 0 0 1 5.4 4.2"/>'),
+    "departure": _icon('<path d="M3 11.5l17-7.5-4.6 15-3.7-4.8-3.8 2.5.6-4.1z"/>'),
+}
 
 
 def page_body(cfg):
     im = load_images()
     hero = ('<div class="fam-hero-media"><figure class="fam-hero-media__main">%s%s</figure>'
             '<figure class="fam-hero-media__side">%s%s</figure></div>'
-            % (picture(im["hero_a"], "(max-width: 900px) 100vw, 560px", eager=True), badge(im["hero_a"]),
+            % (picture(im["hero_a"], HERO_SIZES, eager=True), badge(im["hero_a"]),
                picture(im["hero_b"], "280px"), badge(im["hero_b"])))
     why = [("why_hotels", "Hotels &amp; venues", "Explore Antalya and Belek hotels and event venues, and see what they can offer your future client programmes."),
-           ("why_team", "Local team", "Meet the local operations and destination team who would run those programmes on the ground."),
+           ("why_team", "On-the-Ground Operations", "Meet the local operations team behind registration, guest handling and event-day coordination, shown here at a previous project."),
            ("why_experiences", "Experiences", "Discover incentive activities and group experiences for memorable client programmes."),
            ("why_whitelabel", "White-label delivery", "Explore white-label programme delivery and RFP collaboration with your agency in the lead.")]
     cards = "".join('<article class="fam-card"><div class="fam-card__media">%s%s</div><div class="fam-card__body">'
                     '<h3>%s</h3><p>%s</p></div></article>'
                     % (picture(im[k], "(max-width: 640px) 100vw, 50vw"), badge(im[k]), h, t) for k, h, t in why)
-    stage = lambda n, title, text, media, img=None: (
-        '<li class="fam-stage"><div class="fam-stage__media">%s</div><div><span class="fam-stage__day">Day %d</span><h3>%s</h3><p>%s</p>%s</div></li>'
-        % (media, n, title, text, '<span class="fam-stage__tag">%s</span>' % TAGS[img["label"]] if img else ""))
+    stage = lambda n, title, text, icon: ('<li class="fam-stage"><span class="fam-stage__icon">%s</span><div><span class="fam-stage__day">'
+                                          'Day %d</span><h3>%s</h3><p>%s</p></div></li>' % (STAGE_ICONS[icon], n, title, text))
     timeline = "".join([
-        stage(1, "Arrival &amp; welcome", "Arrival, hotel check-in and welcome dinner.", '<span class="fam-stage__icon">%s</span>' % PLANE_ICON),
-        stage(2, "Hotel &amp; venue inspections", "Hotel and venue inspections across Antalya and Belek.", picture(im["day2"], "96px"), im["day2"]),
-        stage(3, "Experiences &amp; networking", "Incentive experience, operations presentation and networking dinner.", picture(im["day3"], "96px"), im["day3"]),
-        stage(4, "Departure", "Breakfast, airport transfer and departure.", '<span class="fam-stage__icon">%s</span>' % SUITCASE_ICON),
+        stage(1, "Arrival &amp; welcome", "Arrival, hotel check-in and welcome dinner.", "arrival"),
+        stage(2, "Hotel &amp; venue inspections", "Hotel and venue inspections across Antalya and Belek.", "inspections"),
+        stage(3, "Experiences &amp; networking", "Incentive experience, operations presentation and networking dinner.", "networking"),
+        stage(4, "Departure", "Breakfast, airport transfer and departure.", "departure"),
     ])
     glance = (
         '    <section class="fam-glance" aria-labelledby="fam-glance-title">\n'
@@ -291,7 +303,7 @@ def page_body(cfg):
         '      <p class="fam-subline"><strong>Experience Antalya &amp; Belek in 2027. Discover Your Local DMC Partner.</strong></p>',
         '      <p class="page-section__lede">Experience the destination, meet the people behind the operations and explore how '
         "DMC Turkey Partner can support your agency’s programmes in Türkiye.</p>",
-        '      <div class="hero-actions"><a class="btn btn--primary" href="#apply">Register Your Interest</a></div>',
+        '      <div class="hero-actions"><a class="btn btn--primary fam-hero-cta" href="#apply">Register Your Interest <span aria-hidden="true">&rarr;</span></a></div>',
         "      " + hero,
         "    </section>",
         glance,

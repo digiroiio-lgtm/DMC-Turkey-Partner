@@ -14,7 +14,7 @@ from playwright.sync_api import expect, sync_playwright
 from test_calculator_proposal import ROOT, StaticHandler
 
 LANDING = "/agency-fam-trip-2027/"
-SLOTS = ["hero_a", "hero_b", "why_hotels", "why_team", "why_experiences", "why_whitelabel", "day2", "day3"]
+SLOTS = ["hero_a", "hero_b", "why_hotels", "why_team", "why_experiences", "why_whitelabel"]
 
 
 def webp_size(path):
@@ -45,11 +45,11 @@ def main_text():
 
 
 class FamTripVisualStaticTests(unittest.TestCase):
-    def test_registry_has_eight_distinct_existing_images(self):
+    def test_registry_has_six_distinct_existing_images(self):
         data = images()
         self.assertEqual(list(data), SLOTS)
         sources = [v["src"] for v in data.values()]
-        self.assertEqual(len(set(sources)), 8, "no photo may be used twice")
+        self.assertEqual(len(set(sources)), 6, "no photo may be used twice")
         for slot, img in data.items():
             for suffix in (".webp", "-640.webp"):
                 self.assertTrue((ROOT / (img["src"].lstrip("/") + suffix)).exists(), (slot, suffix))
@@ -59,7 +59,7 @@ class FamTripVisualStaticTests(unittest.TestCase):
 
     def test_uploaded_photos_are_optimised_webp_and_pngs_are_gone(self):
         data = images()
-        for slot in ("hero_a", "why_hotels", "why_experiences", "day3"):
+        for slot in ("hero_a", "why_hotels", "why_experiences"):
             base = ROOT / (data[slot]["src"].lstrip("/"))
             full, small = base.with_name(base.name + ".webp"), base.with_name(base.name + "-640.webp")
             self.assertLess(full.stat().st_size, 400 * 1024, full.name)
@@ -74,11 +74,11 @@ class FamTripVisualStaticTests(unittest.TestCase):
         data = images()
         illustrative = sum(1 for v in data.values() if v["label"] == "illustrative")
         previous = sum(1 for v in data.values() if v["label"] == "previous")
-        self.assertEqual((illustrative, previous), (4, 4))
-        # hero (2) + cards (4) carry badges; the two timeline thumbnails carry text tags.
+        self.assertEqual((illustrative, previous), (3, 3))
+        # hero (2) + cards (4) carry badges; the timeline uses icons only.
         self.assertEqual(html.count('class="fam-badge fam-badge--illustrative"'), 3)
         self.assertEqual(html.count('class="fam-badge fam-badge--previous"'), 3)
-        self.assertEqual(html.count('class="fam-stage__tag"'), 2)
+        self.assertNotIn("fam-stage__tag", html)
         self.assertIn("hotels and venues for the programme are not yet confirmed", main_text())
         # The yacht belongs on the Incentive experiences card and is never presented as our project.
         card = html[html.index("<h3>Experiences</h3>") - 900:html.index("<h3>Experiences</h3>")]
@@ -89,7 +89,7 @@ class FamTripVisualStaticTests(unittest.TestCase):
         html = page_html()
         main = re.search(r"<main.*?</main>", html, re.S).group(0)
         tags = re.findall(r"<img [^>]+>", main)
-        self.assertEqual(len(tags), 8)
+        self.assertEqual(len(tags), 6)
         eager = [t for t in tags if "fetchpriority" in t]
         self.assertEqual(len(eager), 1)
         self.assertIn("antalya-belek-fam-trip-2027-hero", eager[0])
@@ -217,6 +217,73 @@ class FamTripVisualBrowserTests(unittest.TestCase):
                 ratios = page.evaluate("[...document.querySelectorAll('.fam-card__media')].map(e => { const r = e.getBoundingClientRect(); return Math.round(r.width / r.height * 100) / 100; })")
                 self.assertEqual(len(ratios), 4)
                 self.assertEqual(set(ratios), {1.33})
+
+    def test_hero_cta_is_above_the_fold_and_prominent(self):
+        for width, height in ((1440, 900), (1024, 768), (390, 844)):
+            with self.subTest(width=width):
+                page = self.open(width, height)
+                box = page.locator("[data-cta-location=hero] .fam-hero-cta").bounding_box()
+                self.assertLessEqual(box["y"] + box["height"], height, "CTA must be fully visible in the first viewport")
+                self.assertGreaterEqual(box["height"], 50)
+                other = page.locator(".site-header__cta .btn--primary").bounding_box()
+                self.assertGreater(box["height"], other["height"])
+                self.assertEqual(page.locator("[data-cta-location=hero] .fam-hero-cta").get_attribute("href"), "#apply")
+
+    def test_hero_media_height_is_controlled_on_desktop_and_tablet(self):
+        for width in (1440, 1100, 900):
+            with self.subTest(width=width):
+                page = self.open(width)
+                self.assertLessEqual(page.locator(".fam-hero-media").bounding_box()["height"], 321)
+        page = self.open(390)
+        self.assertEqual(page.locator(".fam-hero-media__main img").evaluate("e => getComputedStyle(e).objectFit"), "cover")
+
+    def test_timeline_is_one_consistent_icon_system(self):
+        page = self.open(1440)
+        stages = page.locator(".fam-stage")
+        self.assertEqual(stages.count(), 4)
+        self.assertEqual(page.locator(".fam-timeline img").count(), 0)
+        boxes = page.evaluate("[...document.querySelectorAll('.fam-stage__icon')].map(e => { const r = e.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height), e.querySelectorAll('svg').length]; })")
+        self.assertEqual(boxes, [[48, 48, 1]] * 4)
+        heights = page.evaluate("[...document.querySelectorAll('.fam-stage')].map(e => Math.round(e.getBoundingClientRect().height))")
+        self.assertEqual(len(set(heights)), 1)
+
+    def test_local_team_card_matches_its_photo(self):
+        html = page_html()
+        card = html[html.index("<h3>On-the-Ground Operations</h3>"):html.index("<h3>Experiences</h3>")]
+        self.assertIn("registration, guest handling and event-day coordination", card)
+        self.assertIn("previous project", card)
+        self.assertNotIn("<h3>Local team</h3>", html)
+        self.assertIn("branded-registration-desk-cw-enerji-antalya", html)
+        self.assertIn("fam-badge--previous", html[html.index("branded-registration-desk"):html.index("<h3>On-the-Ground Operations</h3>")])
+
+    def test_spare_networking_photo_is_kept_but_unused(self):
+        self.assertTrue((ROOT / "assets/img/fam-trip/antalya-mice-networking-event.webp").exists())
+        self.assertNotIn("antalya-mice-networking-event", page_html())
+
+    def test_body_copy_is_readable(self):
+        page = self.open(390)
+        sizes = page.evaluate("""() => ['.fam-card__body p', '.fam-stage p', '.fam-participation__col li', '.fam-glance__fine',
+            '.fam-photo-note', '[data-cta-location=hero] .page-section__lede'].map(s => [s, parseFloat(getComputedStyle(document.querySelector(s)).fontSize)])""")
+        for selector, size in sizes:
+            self.assertGreaterEqual(size, 15, selector)
+
+    def test_lcp_is_the_hero_image_and_layout_is_stable(self):
+        for width, height in ((390, 844), (768, 1024), (1440, 900)):
+            with self.subTest(width=width):
+                context = self.browser.new_context(viewport={"width": width, "height": height})
+                self.addCleanup(context.close)
+                context.add_init_script("""
+                  window.__lcp = null; window.__cls = 0;
+                  new PerformanceObserver(l => { const e = l.getEntries().pop(); window.__lcp = e.url || e.element && e.element.tagName; }).observe({type: 'largest-contentful-paint', buffered: true});
+                  new PerformanceObserver(l => { l.getEntries().forEach(e => { if (!e.hadRecentInput) window.__cls += e.value; }); }).observe({type: 'layout-shift', buffered: true});
+                """)
+                context.route("**/*", lambda r: r.continue_() if r.request.url.startswith(self.base_url) else r.abort())
+                page = context.new_page()
+                page.goto(self.base_url + LANDING, wait_until="networkidle")
+                page.wait_for_timeout(300)
+                self.assertIn("antalya-belek-fam-trip-2027-hero", page.evaluate("window.__lcp") or "")
+                self.assertLess(page.evaluate("window.__cls"), 0.02)
+                self.assertEqual(page.locator('link[rel="preload"][as="image"]').count(), 1)
 
     def test_glance_button_jumps_to_the_form(self):
         page = self.open(1440)

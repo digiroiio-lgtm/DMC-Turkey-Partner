@@ -1,12 +1,12 @@
 {
-  "_comment": "Photos on /agency-fam-trip-2027/. To swap a photo: run python3 tools/optimize_fam_trip_images.py SOURCE.png (writes assets/img/fam-trip/<name>.webp and <name>-640.webp), then point that slot's 'src' at the path without the extension and set width/height to the printed full-size values and a truthful 'alt'. 'label' is 'previous' (our own delivered project) or 'illustrative' (stock or marketing image that is NOT one of our projects); every image shows a badge for it. 'pos' is the CSS object-position used when the photo is cropped. Keep every image different (no repeats), describe only what the photo shows and never name a hotel as part of the programme; hotels and venues are not yet confirmed. Run python3 tools/fam_trip_build.py afterwards.",
+  "_comment": "Photos on /agency-fam-trip-2027/. To swap a photo: run python3 tools/optimize_fam_trip_images.py SOURCE.png (writes assets/img/fam-trip/<name>.webp and <name>-640.webp), then point that slot's 'src' at the path without the extension and set width/height to the printed full-size values and a truthful 'alt'. 'label' is 'previous' (our own delivered project) or 'illustrative' (stock or marketing image that is NOT one of our projects); every image shows a badge for it. 'pos' is the CSS object-position used when the photo is cropped. Keep every image different (no repeats), describe only what the photo shows and never name a hotel as part of the programme; hotels and venues are not yet confirmed. Run python3 tools/fam_trip_build.py afterwards. Spare (not used on the page): /assets/img/fam-trip/antalya-mice-networking-event (+ -640), a networking-on-a-yacht-deck photo (illustrative).",
   "hero_a": {
     "src": "/assets/img/fam-trip/antalya-belek-fam-trip-2027-hero",
     "width": 1600,
     "height": 1063,
     "alt": "Aerial view of a beachfront resort on the Belek coast with pools, gardens and a river marina beside the sea",
     "label": "illustrative",
-    "pos": "50% 50%"
+    "pos": "50% 42%"
   },
   "hero_b": {
     "src": "/assets/img/mapfre-sigorta-antalya-gala-dinner",
@@ -14,7 +14,7 @@
     "height": 798,
     "alt": "Gala dinner with stage lighting and LED screens at a corporate event in Antalya",
     "label": "previous",
-    "pos": "60% 50%"
+    "pos": "55% 50%"
   },
   "why_hotels": {
     "src": "/assets/img/fam-trip/belek-luxury-hotel-venue-inspection",
@@ -47,21 +47,5 @@
     "alt": "Event stage with LED screens and red lighting, produced on site as part of a delivered programme",
     "label": "previous",
     "pos": "50% 50%"
-  },
-  "day2": {
-    "src": "/assets/img/showcase/plenary-conference-setup-cw-enerji-antalya",
-    "width": 1024,
-    "height": 683,
-    "alt": "Conference hall with LED stage and classroom seating set up for a dealer meeting in Antalya",
-    "label": "previous",
-    "pos": "50% 50%"
-  },
-  "day3": {
-    "src": "/assets/img/fam-trip/antalya-mice-networking-event",
-    "width": 1200,
-    "height": 1196,
-    "alt": "Guests in business attire holding champagne glasses while networking on a yacht deck at sunset",
-    "label": "illustrative",
-    "pos": "50% 30%"
   }
 }
