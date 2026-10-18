@@ -405,8 +405,7 @@ def render_hub():
 
 def render_belek():
     title = "Off-Season Events in Belek | Off-Peak Resort Dates &amp; Costs"
-    description = ("Off-peak dates for resort meetings, dealer meetings and golf incentives in Belek. See the planning "
-                   "window, reference costs and operating conditions, and compare dates side by side.")
+    description = ("Off-peak dates for resort meetings, dealer meetings and golf incentives in Belek, with planning windows, reference costs and date comparison.")
     faqs = faq_belek()
     crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Belek", BELEK_PATH)]
     ref_rows = [list(r) for r in BELEK_REFERENCE]
@@ -477,8 +476,7 @@ def render_belek():
 
 def render_antalya():
     title = "Off-Season Events in Antalya | Off-Peak Dates &amp; Costs"
-    description = ("Off-peak dates for conferences, corporate events and city-and-coast incentives in Antalya. See the "
-                   "planning window, reference costs and operating conditions, and compare dates side by side.")
+    description = ("Off-peak dates for conferences, corporate events and city-and-coast incentives in Antalya, with planning windows, reference costs and date comparison.")
     faqs = faq_antalya()
     crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Antalya", ANTALYA_PATH)]
     ref_rows = [list(r) for r in ANTALYA_REFERENCE]
@@ -550,8 +548,7 @@ def render_antalya():
 
 def render_istanbul():
     title = "Off-Season Events in Istanbul | Off-Peak Dates &amp; Costs"
-    description = ("Off-peak dates for conferences, executive meetings and corporate events in Istanbul. See the "
-                   "planning window, reference costs and operating conditions, and compare dates side by side.")
+    description = ("Off-peak dates for conferences, executive meetings and corporate events in Istanbul, with planning windows, reference costs and date comparison.")
     faqs = faq_istanbul()
     crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Istanbul", ISTANBUL_PATH)]
     ref_rows = [list(r) for r in ISTANBUL_REFERENCE]
@@ -622,8 +619,7 @@ def render_istanbul():
 
 def render_bodrum():
     title = "Off-Season Events in Bodrum | Off-Peak Dates &amp; Costs"
-    description = ("Off-peak dates for premium incentives, executive retreats and private group programmes in Bodrum. "
-                   "See the planning window, reference costs and operating conditions, and compare dates side by side.")
+    description = ("Off-peak dates for premium incentives, executive retreats and private groups in Bodrum, with planning windows, reference costs and date comparison.")
     faqs = faq_bodrum()
     crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Bodrum", BODRUM_PATH)]
     ref_rows = [list(r) for r in BODRUM_REFERENCE]
@@ -694,8 +690,7 @@ def render_bodrum():
 
 def render_cappadocia():
     title = "Off-Season Events in Cappadocia | Off-Peak Dates &amp; Costs"
-    description = ("Off-peak dates for incentives and executive groups in Cappadocia. See the planning window, "
-                   "reference costs and operating conditions, including balloon reliability, and compare dates side by side.")
+    description = ("Off-peak dates for incentives and executive groups in Cappadocia, with planning windows, reference costs, balloon reliability and date comparison.")
     faqs = faq_cappadocia()
     crumbs = [("Home", "/"), ("Off-Season Events", data.HUB), ("Cappadocia", CAPPADOCIA_PATH)]
     ref_rows = [list(r) for r in CAPPADOCIA_REFERENCE]

@@ -124,7 +124,7 @@ VENUE = {
             ]),
         ),
         section(
-            "Exhibiting or Organising an Event at COP31?",
+            "Support for Exhibitors and Event Organisers",
             lede(
                 "If you are responsible for a physical presence at the venue or a programme "
                 "around it, these are the relevant service pages."

@@ -388,7 +388,7 @@ DATES = {
             ),
         ),
         section(
-            "Planning Your COP31 Operations?",
+            "Where to Go Next: COP31 Planning Guides",
             lede(
                 "The pages below cover the decisions that follow from the dates."
             ),

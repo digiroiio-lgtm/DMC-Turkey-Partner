@@ -104,7 +104,7 @@ REGISTRATION = {
             ]),
         ),
         section(
-            "Already Registered? Need Local Support in Antalya?",
+            "What We Can Help With After Registration",
             lede(
                 "Accreditation is the one thing we cannot help with. Everything after it is what "
                 "we do."
@@ -352,7 +352,7 @@ RESTAURANTS = {
             ]),
         ),
         section(
-            "Need a Group Dinner or Private Event?",
+            "Group Dining and Private Event Options",
             lede(
                 "We handle the booking, the negotiation, the menu, the transport and the "
                 "on-the-night coordination as one scope rather than leaving you to assemble it "
