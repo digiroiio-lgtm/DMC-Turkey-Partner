@@ -45,6 +45,7 @@ def main():
 
     # Order matters below. Pages are regenerated from scratch, so anything that
     # patches them has to run afterwards or its edits are silently discarded.
+    import cop31_commercial_links
     import cop31_evergreen_link
     import cop31_nav
     import cop31_news
@@ -60,6 +61,7 @@ def main():
     site_seo.main()
     # 4. The news -> evergreen loop, which edits the guides just regenerated.
     cop31_evergreen_link.main()
+    cop31_commercial_links.main()
     # 5. Sitemap coverage and lastmod, last so it sees the final state.
     sitemaps.main()
 
