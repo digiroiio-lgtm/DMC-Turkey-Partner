@@ -4832,7 +4832,7 @@ Hostesses, crew and interpreters can be confirmed later than production, but the
 COP31 is not simply a busy fortnight in Antalya — it concentrates demand for the same finite resources across the whole region at once. Hotel rates, vehicle availability, crew rates and production lead times all respond to that concentration. Teams that lock their requirements early are not just buying certainty; they are buying at a different point on the availability curve.
 If your dates are still moving, the useful thing to lock first is the shape of the requirement — how many people, how much stand, how many vehicle days — rather than the exact schedule. That is enough to hold capacity.
 
-### Planning Your COP31 Operations?
+### Where to Go Next: COP31 Planning Guides
 The pages below cover the decisions that follow from the dates.
 
 #### COP31 Hotels
@@ -5045,7 +5045,7 @@ Stock, giveaways, spare graphics and empty cases all need somewhere to live for 
 #### Dismantling is a real project
 Removal, disposal, equipment return and freight collection after 20 November need the same planning as the build.
 
-### Exhibiting or Organising an Event at COP31?
+### Support for Exhibitors and Event Organisers
 If you are responsible for a physical presence at the venue or a programme around it, these are the relevant service pages.
 
 #### Exhibition Services
@@ -5251,7 +5251,7 @@ Nomination and confirmation deadlines differ by participant category and are pub
 - Venue access rules govern what suppliers, contractors and crew can do inside controlled areas, and depend on accreditation your organisation holds.
 - Visa requirements are separate from accreditation and depend on nationality — start them early, not once your badge is confirmed.
 
-### Already Registered? Need Local Support in Antalya?
+### What We Can Help With After Registration
 Accreditation is the one thing we cannot help with. Everything after it is what we do.
 
 #### Accommodation and placement
@@ -5683,7 +5683,7 @@ Standing format, higher numbers, hospitality equipment and staff rather than a s
 #### Team dinner
 Crew and staff after a build day — simple, close to the hotel, and genuinely appreciated.
 
-### Need a Group Dinner or Private Event?
+### Group Dining and Private Event Options
 We handle the booking, the negotiation, the menu, the transport and the on-the-night coordination as one scope rather than leaving you to assemble it across a language barrier and a time zone.
 - Tell us the shape Numbers, date, area, format, budget guidance, whether you need privacy and whether there will be remarks.
 
