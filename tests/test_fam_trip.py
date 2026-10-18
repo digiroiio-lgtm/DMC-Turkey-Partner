@@ -383,7 +383,7 @@ class FamTripTests(unittest.TestCase):
                 expect(self.page.locator("[data-fam-headline]")).to_have_text("Exclusive Invitation for %s MICE Agencies" % adjective)
                 expect(self.page.locator("h1")).to_have_text("Antalya & Belek Fam Trip 2027 for MICE Agencies")
                 expect(self.page.locator("main")).to_contain_text(SUBLINE)
-                self.assertIn(self.page.title(), "Antalya & Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner")
+                self.assertIn(self.page.title(), "Antalya & Belek Fam Trip 2027 for Agencies | DMC Turkey Partner")
                 self.assertEqual(self.page.locator('link[rel="canonical"]').get_attribute("href"),
                                  "https://dmcturkeypartner.com/agency-fam-trip-2027/")
                 self.assertEqual(self.events("fam_landing_view")[0]["params"]["visitor_country"], country)
@@ -445,7 +445,7 @@ class FamTripTests(unittest.TestCase):
                      "Only that one line is swapped client-side"):
             self.assertIn(text, readme, text)
         self.assertIn("<h1>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies</h1>", page)
-        self.assertIn("<title>Antalya &amp; Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner</title>", page)
+        self.assertIn("<title>Antalya &amp; Belek Fam Trip 2027 for Agencies | DMC Turkey Partner</title>", page)
         self.assertIn('<p class="fam-invite" data-fam-headline>%s</p>' % GENERIC, page)
         self.assertEqual(page.count("data-fam-headline"), 1)
         self.assertIn("<dt>Proposed period</dt><dd>January–March 2027</dd>", page)
@@ -596,7 +596,7 @@ class FamTripStaticTests(unittest.TestCase):
     def test_landing_page_metadata(self):
         page = (ROOT / "agency-fam-trip-2027/index.html").read_text()
         self.assertIn('<link rel="canonical" href="https://dmcturkeypartner.com/agency-fam-trip-2027/">', page)
-        self.assertIn("Antalya &amp; Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner", page)
+        self.assertIn("Antalya &amp; Belek Fam Trip 2027 for Agencies | DMC Turkey Partner", page)
         self.assertIn('property="og:title"', page)
 
 
