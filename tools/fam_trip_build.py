@@ -31,8 +31,7 @@ JS_BEGIN = "/* fam-config:begin */"
 JS_END = "/* fam-config:end */"
 
 TITLE = "Antalya & Belek Fam Trip 2027 for MICE Agencies | DMC Turkey Partner"
-DESCRIPTION = ("Register your interest in a curated Antalya and Belek familiarisation trip for incentive and MICE "
-               "agencies. Explore venues, local operations and white-label partnerships.")
+DESCRIPTION = ("Register your interest in a curated Antalya and Belek fam trip for incentive and MICE agencies: venues, local operations and white-label partnerships.")
 IMAGE = "/assets/img/mapfre-sigorta-antalya-gala-dinner"
 
 
