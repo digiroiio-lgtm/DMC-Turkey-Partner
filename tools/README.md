@@ -372,3 +372,7 @@ a near-duplicate URL; a new URL is only justified by genuinely independent
 search intent. One story gets one article however many outlets carry it. Each
 article declares the `evergreen` guides it feeds, and the linker points those
 guides at the newest article feeding them and refreshes their Last updated date.
+
+## Group hotel offers cluster
+
+`python3 tools/hotel_offers_build.py [--today YYYY-MM-DD]` builds `/group-hotel-offers-turkey/` (hub, `lara/`, `belek/` and one page per hotel) from `tools/hotel_offers_data.py`, and refreshes the managed `<!-- hotel-offers:begin/end -->` link blocks on the home page and related pages. No prices are published. Window status (open / upcoming / closed) is computed from the build date, so rebuild regularly and after every data change, then run `site_seo.py`, `site_footer.py` and `sitemaps.py`. Tests: `tests/test_hotel_offers.py`.

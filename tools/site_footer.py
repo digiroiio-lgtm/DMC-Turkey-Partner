@@ -21,6 +21,7 @@ COLUMNS = (
         ("/mice-turkey/", "MICE Turkey"),
         ("/services/event-production/", "Event Production"),
         ("/services/transportation-logistics/", "Transportation & Logistics"),
+        ("/group-hotel-offers-turkey/", "Group Hotel Offers 2026"),
         ("/services/", "All Services"),
     )),
     ("Destinations", (
