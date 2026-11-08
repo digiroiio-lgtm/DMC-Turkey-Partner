@@ -325,11 +325,7 @@ def render_hub():
         '      <div class="cluster-links">'
         '<a href="/cop31-antalya/">COP31 Antalya 2026</a>'
         '<a href="/cop31-antalya-participant-guide/">Participant Guide</a>'
-        '<a href="/cop31-antalya-dates/">Dates</a>'
-        '<a href="/cop31-antalya-program/">Programme</a>'
         '<a href="/cop31-antalya-venue/">Venue</a>'
-        '<a href="/cop31-antalya-expo-center/">Antalya EXPO Center</a>'
-        '<a href="/cop31-antalya-registration/">Registration</a>'
         '<a href="/cop31-antalya-hotels/">Hotels</a>'
         '<a href="/cop31-antalya-transport/">Transport</a></div>',
         "    </section>",

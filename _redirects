@@ -21,3 +21,41 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 # /events/germany/ merged into /events/frankfurt/ (Frankfurt IS the Germany MICE market).
 /events/germany/* /events/frankfurt/ 301!
 /events/germany /events/frankfurt/ 301!
+
+# COP31 cluster consolidation (Nov 2026): satellite pages folded into their main page.
+/cop31-antalya-dates/* /cop31-antalya/ 301!
+/cop31-antalya-dates /cop31-antalya/ 301!
+/cop31-antalya-program/* /cop31-antalya/ 301!
+/cop31-antalya-program /cop31-antalya/ 301!
+/cop31-antalya-registration/* /cop31-antalya/ 301!
+/cop31-antalya-registration /cop31-antalya/ 301!
+/cop31-antalya-expo-center/* /cop31-antalya-venue/ 301!
+/cop31-antalya-expo-center /cop31-antalya-venue/ 301!
+/cop31-antalya-accommodation/* /cop31-antalya-hotels/ 301!
+/cop31-antalya-accommodation /cop31-antalya-hotels/ 301!
+/cop31-antalya-airport-transfer/* /cop31-antalya-transport/ 301!
+/cop31-antalya-airport-transfer /cop31-antalya-transport/ 301!
+/cop31-private-transfers/* /cop31-antalya-transport/ 301!
+/cop31-private-transfers /cop31-antalya-transport/ 301!
+/cop31-antalya-restaurants/* /cop31-antalya-participant-guide/ 301!
+/cop31-antalya-restaurants /cop31-antalya-participant-guide/ 301!
+/cop31-exhibition-stands/* /cop31-exhibition-services/ 301!
+/cop31-exhibition-stands /cop31-exhibition-services/ 301!
+/cop31-booth-builder-antalya/* /cop31-exhibition-services/ 301!
+/cop31-booth-builder-antalya /cop31-exhibition-services/ 301!
+/cop31-pavilion-services/* /cop31-exhibition-services/ 301!
+/cop31-pavilion-services /cop31-exhibition-services/ 301!
+/cop31-furniture-rental/* /cop31-exhibition-services/ 301!
+/cop31-furniture-rental /cop31-exhibition-services/ 301!
+/cop31-coffee-machine-rental/* /cop31-exhibition-services/ 301!
+/cop31-coffee-machine-rental /cop31-exhibition-services/ 301!
+/cop31-branding-signage/* /cop31-exhibition-services/ 301!
+/cop31-branding-signage /cop31-exhibition-services/ 301!
+/cop31-printing-services/* /cop31-exhibition-services/ 301!
+/cop31-printing-services /cop31-exhibition-services/ 301!
+/cop31-av-equipment-rental/* /cop31-event-production/ 301!
+/cop31-av-equipment-rental /cop31-event-production/ 301!
+/cop31-hostess-staff/* /cop31-event-staff/ 301!
+/cop31-hostess-staff /cop31-event-staff/ 301!
+/cop31-interpreters/* /cop31-event-staff/ 301!
+/cop31-interpreters /cop31-event-staff/ 301!

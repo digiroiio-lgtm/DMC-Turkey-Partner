@@ -20,14 +20,24 @@ def collect():
     import importlib
 
     here = os.path.dirname(os.path.abspath(__file__))
+    from cop31_merge_map import MERGED_TO
+
     pages = []
     for path in sorted(glob.glob(os.path.join(here, "cop31_pages_*.py"))):
         module = importlib.import_module(os.path.basename(path)[:-3])
         pages.extend(module.PAGES)
-    return pages
+    # Merged pages are 301 redirects now; never write them back to disk.
+    return [p for p in pages if p["slug"] not in MERGED_TO]
 
 
 def main():
+    if "--force" not in sys.argv:
+        raise SystemExit(
+            "The COP31 HTML has been edited directly since October 2026 (SEO fixes and the\n"
+            "November consolidation, see cop31_consolidate.py). Regenerating from these\n"
+            "modules would revert that work. Port the HTML changes into the page modules\n"
+            "first, then run with --force."
+        )
     pages = collect()
     slugs = [p["slug"] for p in pages]
     duplicates = {s for s in slugs if slugs.count(s) > 1}

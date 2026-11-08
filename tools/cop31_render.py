@@ -202,7 +202,7 @@ def conversion_block(slug, service_interest, page_type, services, heading=None, 
 
 
 DEFAULT_PLANNING_CONTEXT = [
-    ("/cop31-antalya-dates/", "COP31 Dates 2026"),
+    ("/cop31-antalya/#cop31-antalya-dates", "COP31 Dates 2026"),
     ("/cop31-antalya-venue/", "Venue &amp; Location"),
     ("/cop31-antalya-participant-guide/", "Participant Guide"),
 ]

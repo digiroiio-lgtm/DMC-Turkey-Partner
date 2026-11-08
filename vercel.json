@@ -64,6 +64,186 @@
       "source": "/events/germany/:path*",
       "destination": "/events/frankfurt/",
       "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-dates",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-dates/:path*",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-program",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-program/:path*",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-registration",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-registration/:path*",
+      "destination": "/cop31-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-expo-center",
+      "destination": "/cop31-antalya-venue/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-expo-center/:path*",
+      "destination": "/cop31-antalya-venue/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-accommodation",
+      "destination": "/cop31-antalya-hotels/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-accommodation/:path*",
+      "destination": "/cop31-antalya-hotels/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-airport-transfer",
+      "destination": "/cop31-antalya-transport/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-airport-transfer/:path*",
+      "destination": "/cop31-antalya-transport/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-private-transfers",
+      "destination": "/cop31-antalya-transport/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-private-transfers/:path*",
+      "destination": "/cop31-antalya-transport/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-restaurants",
+      "destination": "/cop31-antalya-participant-guide/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-antalya-restaurants/:path*",
+      "destination": "/cop31-antalya-participant-guide/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-exhibition-stands",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-exhibition-stands/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-booth-builder-antalya",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-booth-builder-antalya/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-pavilion-services",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-pavilion-services/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-furniture-rental",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-furniture-rental/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-coffee-machine-rental",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-coffee-machine-rental/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-branding-signage",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-branding-signage/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-printing-services",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-printing-services/:path*",
+      "destination": "/cop31-exhibition-services/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-av-equipment-rental",
+      "destination": "/cop31-event-production/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-av-equipment-rental/:path*",
+      "destination": "/cop31-event-production/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-hostess-staff",
+      "destination": "/cop31-event-staff/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-hostess-staff/:path*",
+      "destination": "/cop31-event-staff/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-interpreters",
+      "destination": "/cop31-event-staff/",
+      "statusCode": 301
+    },
+    {
+      "source": "/cop31-interpreters/:path*",
+      "destination": "/cop31-event-staff/",
+      "statusCode": 301
     }
   ],
   "headers": [
