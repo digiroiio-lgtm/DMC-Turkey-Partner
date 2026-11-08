@@ -43,7 +43,7 @@ URL = SITE + "/" + SLUG + "/"
 TITLE = "Antalya Transfer Prices | Airport, Shuttle &amp; Driver"
 H1 = "Antalya Airport and Group Transfer Prices"
 DESCRIPTION = (
-    "Indicative Antalya transfer prices per vehicle in EUR: airport transfers, daily "
+    "Indicative Antalya transfer prices per vehicle in EUR: airport transfers, "
     "conference shuttles and full-day vehicles with driver, from sedans to 50-seat coaches."
 )
 
@@ -51,9 +51,9 @@ DESCRIPTION = (
 TARGETS = {
     "event-costs/index.html": ["event-costs"],
     "services/transportation-logistics/index.html": ["transport-logistics"],
-    "cop31-antalya-airport-transfer/index.html": ["airport"],
-    "cop31-private-transfers/index.html": ["shuttle-full-day"],
-    "cop31-antalya-transport/index.html": ["cop31-transport"],
+    # The airport and private-transfer pages were merged into the transport
+    # guide in November 2026, so it now carries all three COP31 blocks.
+    "cop31-antalya-transport/index.html": ["cop31-transport", "airport", "shuttle-full-day"],
 }
 
 FAQS = [
@@ -313,8 +313,8 @@ def render_page():
         '    <section class="page-section">',
         "      <h2>Related</h2>",
         '      <div class="cluster-links"><a href="/services/transportation-logistics/">'
-        "Group Transportation in Turkey</a><a href=\"/cop31-antalya-airport-transfer/\">COP31 "
-        "Airport Transfers</a><a href=\"/cop31-private-transfers/\">COP31 Private Transfers</a>"
+        "Group Transportation in Turkey</a><a href=\"/cop31-antalya-transport/#cop31-antalya-airport-transfer\">COP31 "
+        "Airport Transfers</a>"
         '<a href="/destinations/antalya/">Antalya DMC</a><a href="/event-costs/antalya/">'
         "Antalya Event Costs</a></div>",
         "    </section>",

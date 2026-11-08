@@ -52,6 +52,22 @@ COP31 organising bodies. The disclaimer in `cop31_common.py` renders on every
 page.
 
 
+## COP31 consolidation (November 2026)
+
+The cluster went from 28 indexable evergreen pages to 10: 18 overlapping pages were folded
+into their main page (`tools/cop31_merge_map.py` lists which went where). Each
+merged page's distinctive sections now live on the target under an anchor named
+after the old slug (e.g. `/cop31-antalya-transport/#cop31-antalya-airport-transfer`),
+and the old URLs 301 to the target in `vercel.json` and `_redirects`.
+
+`python3 tools/cop31_consolidate.py` performed the migration and is a no-op once
+applied; it also maintains the "local proof" section on each COP31 page.
+
+`cop31_build.py` now refuses to run without `--force`: the HTML has been edited
+directly since October 2026, so regenerating from the page modules would revert
+that work. Port HTML changes into the modules before forcing a rebuild.
+
+
 ## Site-wide identity, analytics and verification
 
 ### Shared footer

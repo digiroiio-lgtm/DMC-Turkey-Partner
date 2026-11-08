@@ -146,13 +146,11 @@ ARTICLES = [
              "around a controlled perimeter rather than kerbside access."),
         ],
         "evergreen": [
-            ("/cop31-antalya-expo-center/", "COP31 Antalya EXPO Center guide"),
-            ("/cop31-antalya-venue/", "COP31 venue and location guide"),
+            ("/cop31-antalya-venue/", "COP31 Antalya EXPO Center guide"),
         ],
         "services": [
             ("/cop31-exhibition-services/", "Exhibition services"),
             ("/cop31-event-production/", "Event production"),
-            ("/cop31-av-equipment-rental/", "AV equipment rental"),
         ],
         "sources": ["iklim_meeting", "tr_venue", "yenialanya_expo", "yenialanya_kurum",
                     "korfez_expo", "istiklal_expo"],
@@ -220,8 +218,7 @@ ARTICLES = [
             ("/cop31-antalya-hotels/", "COP31 hotels guide"),
         ],
         "services": [
-            ("/cop31-private-transfers/", "Private transfers"),
-            ("/cop31-antalya-airport-transfer/", "Antalya airport transfers"),
+            ("/cop31-antalya-transport/", "Private transfers"),
         ],
         "sources": ["unfccc_ifp", "tr_media_news", "yenialanya_roads", "tr_accommodation"],
     },
@@ -285,9 +282,7 @@ ARTICLES += [
             ("/cop31-antalya-venue/", "COP31 venue and location guide"),
         ],
         "services": [
-            ("/cop31-pavilion-services/", "Pavilion services"),
-            ("/cop31-exhibition-services/", "Exhibition services"),
-            ("/cop31-exhibition-stands/", "Exhibition stands"),
+            ("/cop31-exhibition-services/", "Pavilion services"),
         ],
         "sources": ["tr_zones", "tr_home", "unfccc_ifp", "unfccc_obs"],
     },
@@ -345,12 +340,11 @@ ARTICLES += [
              "before fixing a date-specific spend."),
         ],
         "evergreen": [
-            ("/cop31-antalya-program/", "COP31 Antalya programme guide"),
-            ("/cop31-antalya-dates/", "COP31 dates and planning timeline"),
+            ("/cop31-antalya/", "COP31 Antalya programme guide"),
         ],
         "services": [
             ("/cop31-event-services/", "COP31 event services"),
-            ("/cop31-interpreters/", "Interpreters and language support"),
+            ("/cop31-event-staff/", "Interpreters and language support"),
         ],
         "sources": ["tr_thematic_news", "tr_thematic", "tr_programme", "tr_media_news",
                     "unfccc_cop31"],
@@ -407,11 +401,10 @@ ARTICLES += [
         ],
         "evergreen": [
             ("/cop31-antalya-hotels/", "COP31 hotels guide"),
-            ("/cop31-antalya-accommodation/", "COP31 group accommodation guide"),
         ],
         "services": [
-            ("/cop31-antalya-accommodation/", "Delegation accommodation sourcing"),
-            ("/cop31-private-transfers/", "Private transfers"),
+            ("/cop31-antalya-hotels/", "Delegation accommodation sourcing"),
+            ("/cop31-antalya-transport/", "Private transfers"),
         ],
         "sources": ["unfccc_ifp", "tr_accommodation", "tr_media_news", "tr_guide"],
     },

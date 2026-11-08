@@ -43,15 +43,40 @@ URGENT = [
     ("/cop31-last-minute-services/", "Last-Minute Services"),
 ]
 
+# Labels stay defined for merged pages so older page modules still import;
+# menus below only list pages that still exist (see cop31_merge_map.py).
+LABEL = dict(PLAN + SERVICES + URGENT)
+
+from cop31_merge_map import MERGED_TO  # noqa: E402
+
+
+def _live(items):
+    return [(href, label) for href, label in items if href.strip("/") not in MERGED_TO]
+
+
+PLAN = _live(PLAN)
+SERVICES = _live(SERVICES)
 ALL = PLAN + SERVICES + URGENT
-LABEL = dict(ALL)
+
+
+def _href(path):
+    slug = path.strip("/")
+    if slug in MERGED_TO:
+        return "/%s/#%s" % (MERGED_TO[slug], slug)
+    return path
 
 
 def L(*paths):
     """Build a list of (href, label) pairs for the given cluster paths."""
-    return [(p, LABEL[p]) for p in paths]
+    out, seen = [], set()
+    for p in paths:
+        page = _href(p).split("#")[0]
+        if page not in seen:
+            seen.add(page)
+            out.append((_href(p), LABEL[p]))
+    return out
 
 
 def A(path, text=None):
     """Inline anchor to a cluster page."""
-    return '<a href="%s">%s</a>' % (path, text or LABEL[path])
+    return '<a href="%s">%s</a>' % (_href(path), text or LABEL[path])
