@@ -38,6 +38,13 @@ DISCLAIMER = ("Windows are limited and availability and rate validity are confir
 # --- helpers -------------------------------------------------------------------
 
 def hotel_path(h):
+    # Hotels no longer have their own pages (Nov 2026: 9 near-identical pages
+    # folded into the Lara/Belek area pages); each hotel is a card there.
+    return area_path(h["area"]) + "#" + h["slug"]
+
+
+# Old per-hotel URLs, now 301 redirects to the hotel's card on its area page.
+def old_hotel_path(h):
     return data.HUB + h["slug"] + "/"
 
 
@@ -117,22 +124,6 @@ def item_list(entries):
             "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "url": SITE + p}
                                 for i, (n, p) in enumerate(entries)]}
 
-
-def offer_service(h, ws, url):
-    """Service > OfferCatalog > Offer, the site's existing pattern. No price, no rating."""
-    hotel_node = {"@type": "Hotel", "@id": url + "#hotel", "name": h["name"],
-                  "address": {"@type": "PostalAddress", "addressRegion": "Antalya", "addressCountry": "TR"}}
-    offers = [{"@type": "Offer", "name": "%s group offer window, %s" % (h["name"], w["label"]),
-               "itemOffered": {"@id": url + "#hotel"}, "seller": {"@id": SITE + "/#organization"},
-               "availabilityStarts": w["start"].isoformat(), "availabilityEnds": w["end"].isoformat(),
-               "url": url}
-              for w in live(ws)]
-    service = {"@type": "Service", "@id": url + "#service", "name": "Group hotel rates at %s" % h["name"],
-               "serviceType": "Group hotel accommodation sourcing",
-               "provider": {"@id": SITE + "/#organization"}, "areaServed": {"@type": "Country", "name": "Turkey"},
-               "hasOfferCatalog": {"@type": "OfferCatalog", "name": "%s offer windows" % h["name"],
-                                   "itemListElement": offers}}
-    return {"@context": "https://schema.org", "@graph": [hotel_node, service]}
 
 
 # --- request form ----------------------------------------------------------------
@@ -226,18 +217,6 @@ def faq_area(key, ws):
     ]
 
 
-def faq_hotel(h, ws):
-    dates = "; ".join(w["label"] for w in ws)
-    return [
-        ("When are the group offer windows at %s?" % h["name"], "%s: %s." % (h["name"], dates)),
-        ("Are %s rates published?" % h["name"],
-         "No. We confirm availability and rate validity per request and reply with an itemised proposal."),
-        ("Can we stay at %s outside these dates?" % h["name"],
-         "Other dates can be requested, but the offer basis may not apply. We confirm what applies to your dates."),
-        ("What should I send to request a quote?",
-         "Group size, preferred dates, event type and whether you need meeting space. We reply within 24 hours."),
-    ]
-
 
 # --- page assembly -------------------------------------------------------------------
 
@@ -266,8 +245,8 @@ def hotel_cards(ws_all, hotels):
     for h in hotels:
         hws = [w for w in ws_all if w["hotel"] is h]
         dates = " · ".join(esc(data.short_range(w["start"], w["end"])) for w in hws)
-        out.append(('<article class="card"><h3>%s</h3><p>%s · %s</p><p>%s</p></article>')
-                   % (link(h), data.AREAS[h["area"]]["name"], dates, " ".join(badge(w) for w in hws[:1])))
+        out.append(('<article class="card" id="%s"><h3>%s</h3><p>%s · %s</p><p>%s</p></article>')
+                   % (h["slug"], hname(h), data.AREAS[h["area"]]["name"], dates, " ".join(badge(w) for w in hws[:1])))
     return '      <div class="card-grid">' + "".join(out) + "</div>"
 
 
@@ -370,56 +349,6 @@ def render_area(key, ws, today):
                      schema("%s Group Hotel Offers" % a["name"], url, desc, crumbs, faqs, "CollectionPage", extra)), body)
 
 
-def render_hotel(h, ws, today):
-    hws = [w for w in ws if w["hotel"] is h]
-    a = data.AREAS[h["area"]]
-    url = SITE + hotel_path(h)
-    nm = h["name"]
-    lbls = " &amp; ".join(esc(data.short_range(w["start"], w["end"])) for w in live(hws)) or "2026 windows closed"
-    title = "%s Group Rates 2026 | %s Hotel Offer Windows" % (esc(nm), a["name"])
-    desc = ("%s group offer windows in %s, Antalya: %s 2026. Request group rates for meetings and incentives."
-            % (nm, a["name"], "; ".join(w["label"] for w in live(hws)) or "dates on request"))
-    crumbs = [("Home", "/"), ("Group Hotel Offers", data.HUB), (nm, hotel_path(h))]
-    faqs = faq_hotel(h, hws)
-    first = live(hws)[:1]
-    others = [w for w in live(ws) if w["hotel"] is not h and any(
-        w["start"] <= x["end"] and w["end"] >= x["start"] for x in live(hws))]
-    alt = h.get("alt")
-    lede = ("%s%s offers %d limited group stay window%s in %s. Send your group size and we confirm availability and "
-            "rate validity for the dates. Rates are on request." %
-            (esc(nm), " (%s)" % esc(alt) if alt else "", len(hws), "" if len(hws) == 1 else "s", a["name"]))
-    body = "\n".join([
-        osb.crumbs_html(crumbs),
-        hero("%s Group Offer: %s 2026" % (hname(h), lbls), lede,
-             wa_link("Hi, I would like group rates for %s." % nm)),
-        '    <section class="page-section">\n      <h2>%s Offer Windows</h2>\n      %s\n    </section>' % (
-            hname(h), table("%s offer windows" % esc(nm), ["Stay dates", "Nights", "Status"],
-                            [[esc(w["label"]), "%d" % w["nights"], badge(w) + cop_note(w)] for w in hws])),
-        '    <section class="page-section">\n      <h2>What Your Request Includes</h2>\n' + cards([
-            ("Availability check", "We confirm the room block for your dates before you commit."),
-            ("Rate validity", "Rates are confirmed per request and are not published."),
-            ("Itemised proposal", "Accommodation, meeting space, transfers and programme, line by line."),
-        ]) + "\n    </section>",
-        '    <section class="page-section">\n      <h2>Compare Other Windows</h2>\n      '
-        + ("<p>Other hotels with windows on the same dates:</p>\n      " + table(
-            "Windows on overlapping dates", ["Stay dates", "Hotel", "Area", "Nights", "Status"], window_rows(others))
-           if others else "<p>See all windows in the <a href=\"%s\">%d-window calendar</a> or the <a href=\"%s\">%s overview</a>.</p>" % (data.HUB, len(ws), area_path(h["area"]), a["name"]))
-        + '\n      <p class="price-note">%s</p>\n    </section>' % DISCLAIMER,
-        faq_html(faqs),
-        form_html("Belek" if h["area"] == "belek" else "Antalya",
-                  brief="Interested in %s. Window: %s. Group size and programme: " % (nm, "; ".join(w["label"] for w in live(hws))),
-                  date_start=first[0]["start"].isoformat() if first else "",
-                  date_end=first[0]["end"].isoformat() if first else "", note_hotel=nm),
-        '    <section class="page-section"><h2>Related</h2><p class="cluster-links">'
-        '<a href="%s">All group hotel offers</a><a href="%s">%s offers</a><a href="/services/hotel-sourcing/">Hotel sourcing</a>'
-        '<a href="/destinations/%s/">%s destination guide</a></p></section>'
-        % (data.HUB, area_path(h["area"]), a["name"], "belek" if h["area"] == "belek" else "antalya", "Belek" if h["area"] == "belek" else "Antalya"),
-    ])
-    extra = offer_service(h, hws, url)
-    return page(head(title, desc, url, "Hotel Offer: %s" % nm,
-                     schema("%s Group Offer Windows" % nm, url, desc, crumbs, faqs, extra=extra)), body)
-
-
 # --- managed link blocks on existing pages --------------------------------------------
 
 BEGIN, END = "<!-- hotel-offers:begin -->", "<!-- hotel-offers:end -->"
@@ -481,8 +410,6 @@ def main():
     write_page("group-hotel-offers-turkey/index.html", render_hub(ws, today))
     for key in data.AREAS:
         write_page("group-hotel-offers-turkey/%s/index.html" % data.AREAS[key]["slug"], render_area(key, ws, today))
-    for h in data.HOTELS:
-        write_page("group-hotel-offers-turkey/%s/index.html" % h["slug"], render_hotel(h, ws, today))
     link_blocks(ws)
     print("today=%s open/upcoming=%d closed=%d" % (today, len(live(ws)), len(ws) - len(live(ws))))
 

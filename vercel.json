@@ -444,6 +444,96 @@
       "source": "/events/web-summit-2026/:path*",
       "destination": "/events/",
       "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/trendy-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#trendy-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/trendy-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#trendy-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adalya-elit",
+      "destination": "/group-hotel-offers-turkey/lara/#adalya-elit",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adalya-elit/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#adalya-elit",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adam-eve-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#adam-eve-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adam-eve-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#adam-eve-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#titanic-deluxe-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#titanic-deluxe-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/ducale-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#ducale-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/ducale-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#ducale-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#voyage-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#voyage-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#voyage-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#voyage-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/mardan-palace",
+      "destination": "/group-hotel-offers-turkey/lara/#mardan-palace",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/mardan-palace/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#mardan-palace",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#titanic-deluxe-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#titanic-deluxe-belek",
+      "statusCode": 301
     }
   ],
   "headers": [

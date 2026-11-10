@@ -101,3 +101,23 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /events/the-meetings-show-2026 /events/ 301!
 /events/web-summit-2026/* /events/ 301!
 /events/web-summit-2026 /events/ 301!
+
+# Group hotel offers consolidation (Nov 2026): hotel pages folded into their area page.
+/group-hotel-offers-turkey/trendy-lara/* /group-hotel-offers-turkey/lara/#trendy-lara 301!
+/group-hotel-offers-turkey/trendy-lara /group-hotel-offers-turkey/lara/#trendy-lara 301!
+/group-hotel-offers-turkey/adalya-elit/* /group-hotel-offers-turkey/lara/#adalya-elit 301!
+/group-hotel-offers-turkey/adalya-elit /group-hotel-offers-turkey/lara/#adalya-elit 301!
+/group-hotel-offers-turkey/adam-eve-belek/* /group-hotel-offers-turkey/belek/#adam-eve-belek 301!
+/group-hotel-offers-turkey/adam-eve-belek /group-hotel-offers-turkey/belek/#adam-eve-belek 301!
+/group-hotel-offers-turkey/titanic-deluxe-lara/* /group-hotel-offers-turkey/lara/#titanic-deluxe-lara 301!
+/group-hotel-offers-turkey/titanic-deluxe-lara /group-hotel-offers-turkey/lara/#titanic-deluxe-lara 301!
+/group-hotel-offers-turkey/ducale-lara/* /group-hotel-offers-turkey/lara/#ducale-lara 301!
+/group-hotel-offers-turkey/ducale-lara /group-hotel-offers-turkey/lara/#ducale-lara 301!
+/group-hotel-offers-turkey/voyage-lara/* /group-hotel-offers-turkey/lara/#voyage-lara 301!
+/group-hotel-offers-turkey/voyage-lara /group-hotel-offers-turkey/lara/#voyage-lara 301!
+/group-hotel-offers-turkey/voyage-belek/* /group-hotel-offers-turkey/belek/#voyage-belek 301!
+/group-hotel-offers-turkey/voyage-belek /group-hotel-offers-turkey/belek/#voyage-belek 301!
+/group-hotel-offers-turkey/mardan-palace/* /group-hotel-offers-turkey/lara/#mardan-palace 301!
+/group-hotel-offers-turkey/mardan-palace /group-hotel-offers-turkey/lara/#mardan-palace 301!
+/group-hotel-offers-turkey/titanic-deluxe-belek/* /group-hotel-offers-turkey/belek/#titanic-deluxe-belek 301!
+/group-hotel-offers-turkey/titanic-deluxe-belek /group-hotel-offers-turkey/belek/#titanic-deluxe-belek 301!
