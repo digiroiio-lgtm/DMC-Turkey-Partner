@@ -19,8 +19,8 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /cop31-emergency-event-support /cop31-last-minute-services/ 301!
 
 # /events/germany/ merged into /events/frankfurt/ (Frankfurt IS the Germany MICE market).
-/events/germany/* /events/frankfurt/ 301!
-/events/germany /events/frankfurt/ 301!
+/events/germany/* /events/imex-frankfurt/ 301!
+/events/germany /events/imex-frankfurt/ 301!
 
 # COP31 cluster consolidation (Nov 2026): satellite pages folded into their main page.
 /cop31-antalya-dates/* /cop31-antalya/ 301!
@@ -59,3 +59,45 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /cop31-hostess-staff /cop31-event-staff/ 301!
 /cop31-interpreters/* /cop31-event-staff/ 301!
 /cop31-interpreters /cop31-event-staff/ 301!
+
+# Events section consolidation (Nov 2026): 25 pages reduced to 5.
+/events/imex-frankfurt-2026/* /events/imex-frankfurt/ 301!
+/events/imex-frankfurt-2026 /events/imex-frankfurt/ 301!
+/events/imex-frankfurt-2027/* /events/imex-frankfurt/ 301!
+/events/imex-frankfurt-2027 /events/imex-frankfurt/ 301!
+/events/frankfurt/* /events/imex-frankfurt/ 301!
+/events/frankfurt /events/imex-frankfurt/ 301!
+/events/berlin/* /events/itb-berlin-2026/ 301!
+/events/berlin /events/itb-berlin-2026/ 301!
+/events/london/* /events/wtm-london-2026/ 301!
+/events/london /events/wtm-london-2026/ 301!
+/events/2026/* /events/ 301!
+/events/2026 /events/ 301!
+/events/2027/* /events/ 301!
+/events/2027 /events/ 301!
+/events/mice/* /events/ 301!
+/events/mice /events/ 301!
+/events/conferences/* /events/ 301!
+/events/conferences /events/ 301!
+/events/incentive-travel/* /events/ 301!
+/events/incentive-travel /events/ 301!
+/events/business-travel/* /events/ 301!
+/events/business-travel /events/ 301!
+/events/aime-2026/* /events/ 301!
+/events/aime-2026 /events/ 301!
+/events/atm-dubai-2026/* /events/ 301!
+/events/atm-dubai-2026 /events/ 301!
+/events/business-travel-show-europe-2026/* /events/ 301!
+/events/business-travel-show-europe-2026 /events/ 301!
+/events/international-confex-2026/* /events/ 301!
+/events/international-confex-2026 /events/ 301!
+/events/itb-asia-2026/* /events/ 301!
+/events/itb-asia-2026 /events/ 301!
+/events/imex-america-2026/* /events/ 301!
+/events/imex-america-2026 /events/ 301!
+/events/money20-20-europe-2026/* /events/ 301!
+/events/money20-20-europe-2026 /events/ 301!
+/events/the-meetings-show-2026/* /events/ 301!
+/events/the-meetings-show-2026 /events/ 301!
+/events/web-summit-2026/* /events/ 301!
+/events/web-summit-2026 /events/ 301!

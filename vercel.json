@@ -57,12 +57,12 @@
     },
     {
       "source": "/events/germany",
-      "destination": "/events/frankfurt/",
+      "destination": "/events/imex-frankfurt/",
       "statusCode": 301
     },
     {
       "source": "/events/germany/:path*",
-      "destination": "/events/frankfurt/",
+      "destination": "/events/imex-frankfurt/",
       "statusCode": 301
     },
     {
@@ -243,6 +243,206 @@
     {
       "source": "/cop31-interpreters/:path*",
       "destination": "/cop31-event-staff/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-frankfurt-2026",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-frankfurt-2026/:path*",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-frankfurt-2027",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-frankfurt-2027/:path*",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/frankfurt",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/frankfurt/:path*",
+      "destination": "/events/imex-frankfurt/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/berlin",
+      "destination": "/events/itb-berlin-2026/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/berlin/:path*",
+      "destination": "/events/itb-berlin-2026/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/london",
+      "destination": "/events/wtm-london-2026/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/london/:path*",
+      "destination": "/events/wtm-london-2026/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/2027",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/2027/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/mice",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/mice/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/conferences",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/conferences/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/incentive-travel",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/incentive-travel/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/business-travel",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/business-travel/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/aime-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/aime-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/atm-dubai-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/atm-dubai-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/business-travel-show-europe-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/business-travel-show-europe-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/international-confex-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/international-confex-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/itb-asia-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/itb-asia-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-america-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/imex-america-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/money20-20-europe-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/money20-20-europe-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/the-meetings-show-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/the-meetings-show-2026/:path*",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/web-summit-2026",
+      "destination": "/events/",
+      "statusCode": 301
+    },
+    {
+      "source": "/events/web-summit-2026/:path*",
+      "destination": "/events/",
       "statusCode": 301
     }
   ],
