@@ -6,8 +6,9 @@ Two jobs:
 1. Coverage — every indexable page must appear in exactly one sitemap, and no
    sitemap may list a page that is noindex or missing. Search Console reports
    both as errors.
-2. Freshness — <lastmod> is taken from the file's last git commit date, so it
-   reflects when the content actually changed. Google uses it to prioritise
+2. Freshness — <lastmod> is the page's own dateModified / "Last updated"
+   date, omitted when the page carries no date, so it only moves when content
+   changes (commit dates move on every site-wide nav/footer patch). Google uses it to prioritise
    recrawls; a stamp that is invented or always "today" is worse than none.
 
 Usage: python3 tools/sitemaps.py [--check]
@@ -26,19 +27,66 @@ SITE = "https://dmcturkeypartner.com"
 DEFAULT_SITEMAP = "sitemap-pages.xml"
 
 
+def _shallow_roots():
+    """Commits at the edge of a shallow clone. Their dates say nothing about
+    when a file last changed, so a file whose last commit is one of them has
+    no trustworthy git date."""
+    path = os.path.join(ROOT, ".git", "shallow")
+    if not os.path.exists(path):
+        return set()
+    with open(path) as handle:
+        return {line.strip() for line in handle if line.strip()}
+
+
+SHALLOW_ROOTS = _shallow_roots()
+# Pages carrying a date before the site launched are placeholders, not edits.
+EARLIEST = "2026-08-01"
+
+
 def git_lastmod(rel_path):
-    """Last commit date for a file, or None if it is not committed yet."""
+    """Last commit date for a file, or None if unknown or not committed yet."""
     try:
         out = subprocess.run(
-            ["git", "log", "-1", "--format=%cs", "--", rel_path],
+            ["git", "log", "-1", "--format=%H %cs", "--", rel_path],
             cwd=ROOT,
             capture_output=True,
             text=True,
             check=True,
         ).stdout.strip()
-        return out or None
     except subprocess.CalledProcessError:
         return None
+    if not out:
+        return None
+    sha, date = out.split()
+    return None if sha in SHALLOW_ROOTS else date
+
+
+MONTHS = {m: i for i, m in enumerate(
+    "January February March April May June July August September October November December".split(), 1)}
+
+
+def page_lastmod(rel_path):
+    """The page's own modification date: JSON-LD dateModified, else a visible
+    "Last updated: 6 September 2026" line."""
+    with open(os.path.join(ROOT, rel_path), encoding="utf-8") as handle:
+        text = handle.read()
+    dates = re.findall(r'"dateModified":\s*"(\d{4}-\d{2}-\d{2})', text)
+    for day, month, year in re.findall(r"Last updated:?\s*(?:<[^>]+>\s*)*(\d{1,2}) ([A-Z][a-z]+) (\d{4})", text):
+        if month in MONTHS:
+            dates.append("%s-%02d-%02d" % (year, MONTHS[month], int(day)))
+    dates = [d for d in dates if d >= EARLIEST]
+    return max(dates) if dates else None
+
+
+def lastmod_for(rel_path):
+    """The page's own date, or no <lastmod> at all.
+
+    Commit dates over-report freshness: site-wide nav/footer patches touch
+    every file, which stamped 120+ pages with the same day, and search engines
+    learn to ignore lastmod that moves without content changes. A missing
+    lastmod is harmless; a misleading one is not. git_lastmod is kept for
+    callers that want the raw commit date."""
+    return page_lastmod(rel_path)
 
 
 def url_for(path):
@@ -71,7 +119,7 @@ def write_sitemap(name, urls, pages):
         lines.append("  <url>")
         lines.append("    <loc>%s%s</loc>" % (SITE, url))
         source = pages.get(url)
-        lastmod = git_lastmod(source) if source else None
+        lastmod = lastmod_for(source) if source else None
         if lastmod:
             lines.append("    <lastmod>%s</lastmod>" % lastmod)
         lines.append("  </url>")
