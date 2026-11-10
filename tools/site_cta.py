@@ -13,8 +13,9 @@ Two marker-delimited, idempotent blocks:
 
 Not touched: Czech/German pages (own WhatsApp routing and language), legal
 pages, the proposal form itself, COP31 pages (they already carry WhatsApp
-and a COP31-specific reply window) and the group-hotel-offer pages, which
-tools/hotel_offers_build.py regenerates in full (they have WhatsApp and a form).
+and a COP31-specific reply window), the group-hotel-offer and transfer-price pages, which
+hotel_offers_build.py / transfer_prices_build.py regenerate in full (they have WhatsApp and a form),
+and the Fam Trip 2027 pages, which deliberately promise no response time.
 
 Usage: python3 tools/site_cta.py
 """
@@ -33,7 +34,7 @@ PROMISE = "We reply within 1 business day."
 CLOSE_BEGIN, CLOSE_END = "<!-- site-cta-close:begin -->", "<!-- site-cta-close:end -->"
 HERO_BEGIN, HERO_END = "<!-- site-cta-hero:begin -->", "<!-- site-cta-hero:end -->"
 
-EXCLUDE = re.compile(r"^(cs|de|cop31-[^/]+|cookie-policy|privacy-policy|terms|request-proposal|group-hotel-offers-turkey)(/|$)")
+EXCLUDE = re.compile(r"^(cs|de|cop31-[^/]+|cookie-policy|privacy-policy|terms|request-proposal|group-hotel-offers-turkey|agency-fam-trip-2027|antalya-fam-trip-2027|antalya-transfer-prices)(/|$)")
 HERO_PAGES = re.compile(
     r"^(mice-turkey|incentive-travel-turkey|corporate-events-turkey|group-travel-turkey|about|"
     r"event-costs(/[^/]+)?|destinations(/[^/]+)?|events(/[^/]+)?|insights/[^/]+)$"
@@ -105,8 +106,10 @@ def main():
         if not main_m:
             continue
         main_html = main_m.group(1)
-        first_h2 = main_html.find("<h2")
-        hero_html = main_html if first_h2 == -1 else main_html[:first_h2]
+        # "Above the fold" = up to the second <h2>: many pages open with a
+        # short intro section whose CTA sits right under its first heading.
+        heads = [m.start() for m in re.finditer(r"<h2", main_html)]
+        hero_html = main_html if len(heads) < 2 else main_html[:heads[1]]
         if HERO_PAGES.match(rel) and not any(is_conversion(h) for h in re.findall(r'href="([^"]+)"', hero_html)):
             text = hero(text)
         text = closing(text, rel, main_html)

@@ -577,6 +577,77 @@
     return select;
   }
 
+  function emailEstimateForm(state, result) {
+    var box = el("form", "calc__email");
+    box.setAttribute("novalidate", "");
+    box.appendChild(el("h3", "calc__heading", "Email Me This Estimate"));
+    box.appendChild(el("p", null, "Get this budget range and breakdown in your inbox to share with your team."));
+    var fieldWrap = el("div", "form-field");
+    var label = el("label", null, "Work email");
+    label.setAttribute("for", "calc-email");
+    var input = el("input");
+    input.type = "email"; input.id = "calc-email"; input.name = "email"; input.required = true; input.autocomplete = "email";
+    fieldWrap.appendChild(label); fieldWrap.appendChild(input);
+    box.appendChild(fieldWrap);
+    var trap = el("input");
+    trap.type = "text"; trap.name = "company-website"; trap.tabIndex = -1; trap.autocomplete = "off";
+    trap.setAttribute("aria-hidden", "true");
+    trap.style.position = "absolute"; trap.style.left = "-9999px";
+    box.appendChild(trap);
+    var consent = el("label", "form-check");
+    var check = el("input");
+    check.type = "checkbox"; check.name = "consent"; check.required = true;
+    consent.appendChild(check);
+    consent.appendChild(document.createTextNode(" Email me this estimate. DMC Turkey Partner may follow up once about this programme. "));
+    var privacy = el("a", null, "Privacy Policy");
+    privacy.setAttribute("href", "/privacy-policy/");
+    consent.appendChild(privacy);
+    box.appendChild(consent);
+    var button = el("button", "btn btn--primary", "Email Me the Estimate");
+    button.type = "submit";
+    box.appendChild(button);
+    var status = el("p", "form-note");
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    box.appendChild(status);
+
+    box.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!input.value || !input.checkValidity()) { status.textContent = "Please enter a valid email address."; input.focus(); return; }
+      if (!check.checked) { status.textContent = "Please tick the box so we can email the estimate."; return; }
+      button.disabled = true;
+      status.textContent = "Sending…";
+      trackEvent("calculator_email_submit", analyticsContext(state));
+      fetch("/api/email-estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: input.value.trim(),
+          consent: true,
+          "company-website": trap.value,
+          state: {
+            destination: state.destination, eventType: state.eventType, accommodation: state.accommodation,
+            programmeLevel: state.programmeLevel, guests: state.guests, nights: state.nights, gala: !!state.gala
+          },
+          estimate: { total: result.total, perGuest: result.perGuest, components: result.components }
+        })
+      }).then(function (response) {
+        return response.json().catch(function () { return {}; }).then(function (data) {
+          if (!response.ok || !data.ok) { throw new Error(data.error || "send failed"); }
+        });
+      }).then(function () {
+        status.textContent = "Sent. Check your inbox — and reply any time to turn it into a proposal. We reply within 1 business day.";
+        input.disabled = true; check.disabled = true;
+        trackEvent("generate_lead", Object.assign({ lead_type: "estimate_email" }, analyticsContext(state)));
+      }).catch(function (err) {
+        button.disabled = false;
+        status.textContent = (err && err.message && err.message !== "send failed") ? err.message : "We could not send the email. Please try again.";
+        trackEvent("calculator_email_error", analyticsContext(state));
+      });
+    });
+    return box;
+  }
+
   function renderResults(root, state, result) {
     var container = root.querySelector("[data-calc-results]");
     container.textContent = "";
@@ -643,6 +714,10 @@
       worksSection.appendChild(grid);
       container.appendChild(worksSection);
     }
+
+    // Lead magnet: email the estimate (api/email-estimate.js). Only allowlisted
+    // selections and the computed numbers are sent — no free text.
+    container.appendChild(emailEstimateForm(state, result));
 
     // Conversion CTA — shown only after the estimate has been delivered.
     var cta = el("div", "calc__cta");
