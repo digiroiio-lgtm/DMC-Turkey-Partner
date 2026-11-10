@@ -1168,9 +1168,11 @@
   }
 
   function initBookCallTracking() {
-    document.querySelectorAll('a[href="/contact/"]').forEach(function (link) {
+    // "Book a Partner Call" opens the Calendly booking page (data-partner-call);
+    // older contact-page links with "book"/"call" wording are still counted.
+    document.querySelectorAll('a[data-partner-call], a[href="/contact/"]').forEach(function (link) {
       var text = link.textContent.trim().toLowerCase();
-      if (text.indexOf("book") === -1 && text.indexOf("call") === -1) { return; }
+      if (!link.hasAttribute("data-partner-call") && text.indexOf("book") === -1 && text.indexOf("call") === -1) { return; }
       link.addEventListener("click", function () {
         trackEvent("book_partner_call_click", {
           cta_name:     link.textContent.trim(),

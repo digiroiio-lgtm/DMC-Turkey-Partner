@@ -52,7 +52,9 @@ class HeaderCtaStaticTests(unittest.TestCase):
             page = (ROOT / rel).read_text(encoding="utf-8")
             bar = re.search(r'<div class="site-header__cta">(.*?)</div>', page, re.S).group(1)
             hrefs = re.findall(r'href="([^"]+)"', bar)
-            self.assertEqual([h.split("?")[0] for h in hrefs], ["/contact/", "/agency-fam-trip-2027/", "/request-proposal/"], rel)
+            # "Book a Partner Call" opens Calendly on English pages; localized pages keep /contact/.
+            call = "/contact/" if rel.startswith("de/") else "https://calendly.com/digiroiio/dmc-turkey-partner-30-min-partner-call"
+            self.assertEqual([h.split("?")[0] for h in hrefs], [call, "/agency-fam-trip-2027/", "/request-proposal/"], rel)
             menu = re.search(r'id="primary-nav">\s*(.*?)</li>', page, re.S).group(1)
             self.assertIn('class="nav-fam-item"', menu, rel)
 
