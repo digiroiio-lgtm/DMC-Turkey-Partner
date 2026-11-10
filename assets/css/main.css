@@ -3341,3 +3341,9 @@ body.offpeak-open {
   .wa-float__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .wa-float:hover, .wa-float:focus-visible { transform: none; } }
+
+/* Closing CTA note: WhatsApp alternative and reply promise (tools/site_cta.py). */
+.cta-banner__note {
+  margin-top: 1rem;
+  font-size: var(--text-sm);
+}

@@ -608,6 +608,12 @@
   // commercial-routing links, without exposing internal event names in
   // any public-facing page copy.
   function initEventTracking() {
+    // WhatsApp links without their own data-track still count as whatsapp_click.
+    document.querySelectorAll('a[href^="https://wa.me/"]:not([data-track])').forEach(function (el) {
+      el.addEventListener("click", function () {
+        trackEvent("whatsapp_click", { href: el.getAttribute("href").split("?")[0], page_path: window.location.pathname });
+      });
+    });
     document.querySelectorAll("[data-track]").forEach(function (el) {
       el.addEventListener("click", function () {
         var params = { href: el.getAttribute("href") };
@@ -748,10 +754,19 @@
     return "body";
   }
 
+  // Every proposal link is tracked and attributed. Links that already carry a
+  // query string (e.g. ?src=... or ?intent=compare-dates) keep it; page context
+  // only fills the keys they lack. Links with data-track are reported by
+  // initEventTracking() instead, so they are not counted twice.
   function initProposalCtas() {
-    document.querySelectorAll('a[href="/request-proposal/"]').forEach(function (link) {
+    document.querySelectorAll('a[href^="/request-proposal/"]:not([data-track])').forEach(function (link) {
+      var original = link.getAttribute("href");
       link.addEventListener("click", function () {
-        var params = new URLSearchParams(proposalContext(window.location.pathname));
+        var params = new URLSearchParams(original.indexOf("?") === -1 ? "" : original.split("?")[1]);
+        var context = proposalContext(window.location.pathname);
+        Object.keys(context).forEach(function (key) {
+          if (!params.has(key)) { params.set(key, context[key]); }
+        });
         ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (key) {
           var value = new URLSearchParams(window.location.search).get(key);
           if (value && window.dmcPrivacy && window.dmcPrivacy.analyticsAllowed()) { params.set(key, value); }
