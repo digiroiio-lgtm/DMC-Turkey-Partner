@@ -139,3 +139,7 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /event-costs/incentive-travel /event-costs/#incentive-travel 301!
 /event-costs/conferences/* /event-costs/#conferences 301!
 /event-costs/conferences /event-costs/#conferences 301!
+
+# Old Swarovski project URL (linked from the incentive travel guide).
+/selected-works/swarovski-b2b-incentive-trip/* /selected-works/swarovski-meeting-akra-antalya/ 301!
+/selected-works/swarovski-b2b-incentive-trip /selected-works/swarovski-meeting-akra-antalya/ 301!
