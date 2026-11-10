@@ -3341,3 +3341,20 @@ body.offpeak-open {
   .wa-float__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .wa-float:hover, .wa-float:focus-visible { transform: none; } }
+
+/* Closing CTA note: WhatsApp alternative and reply promise (tools/site_cta.py). */
+.cta-banner__note {
+  margin-top: 1rem;
+  font-size: var(--text-sm);
+}
+
+/* Calculator lead magnet: email the estimate. */
+.calc__email {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-sand);
+  max-width: 40rem;
+}
+.calc__email .form-field input { width: 100%; }
+.calc__email .form-check { display: block; margin: 0.75rem 0 1rem; font-size: var(--text-sm); }

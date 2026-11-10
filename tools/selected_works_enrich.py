@@ -107,6 +107,31 @@ def related(slug, f, all_facts):
     return "".join('<a href="/selected-works/%s/">%s</a>' % (s, html.escape(g["name"], quote=False)) for s, g in pick)
 
 
+def cost_page(f):
+    dest = f["rows"].get("Destination", "")
+    if "Belek" in dest:
+        return "/event-costs/belek/", "Belek event costs"
+    if "Istanbul" in dest:
+        return "/event-costs/istanbul/", "Istanbul event costs"
+    if "Antalya" in dest or "Kemer" in dest:
+        return "/event-costs/antalya/", "Antalya event costs"
+    return "/event-costs/", "Turkey event costs"
+
+
+def budget_html(f):
+    href, label = cost_page(f)
+    return (
+        '    <section class="page-section" id="budget-similar">\n'
+        "      <h2>Budget a Similar Event</h2>\n"
+        '      <p>See indicative per-person ranges in <a href="%s">%s</a>, or get a budget range for your own '
+        "group size and dates in under a minute.</p>\n"
+        '      <div class="hero-actions"><a class="btn btn--primary" href="/event-cost-calculator/" '
+        'data-track="work_calculator_click">Estimate Your Budget</a>'
+        '<a class="btn btn--ghost" href="/request-proposal/">Request a Proposal</a></div>\n'
+        "    </section>\n"
+    ) % (href, label)
+
+
 def block(slug, f, all_facts, faqs):
     faq = "".join('<div class="faq-item"><h3>%s</h3><p>%s</p></div>' % (html.escape(q, quote=False), html.escape(a, quote=False))
                   for q, a in faqs)
@@ -114,6 +139,7 @@ def block(slug, f, all_facts, faqs):
         "    %s\n"
         '    <section class="page-section" id="services">\n'
         "      <h2>Services on This Project</h2>\n      %s\n    </section>\n"
+        + budget_html(f) +
         '    <section class="page-section" id="faq">\n'
         "      <h2>Frequently Asked Questions</h2>\n"
         '      <div class="faq-list">%s</div>\n'
