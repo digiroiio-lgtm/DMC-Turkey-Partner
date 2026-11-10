@@ -147,6 +147,29 @@ def fix_links(text, own):
     return ANCHOR.sub(inline, text)
 
 
+def prune_filters(text):
+    """Drop calendar filter options that no longer match any card."""
+    cards = re.findall(r'<li class="event-card"[^>]*>', text)
+    present = {"year": set(), "city": set(), "category": set()}
+    for c in cards:
+        for key in present:
+            m = re.search(r'data-%s="([^"]*)"' % key, c)
+            if m:
+                present[key].update(m.group(1).split())
+                present[key].add(m.group(1))
+
+    def option(m):
+        value = m.group(1)
+        if not value:
+            return m.group(0)
+        for values in present.values():
+            if value in values:
+                return m.group(0)
+        return ""
+
+    return re.sub(r'[ \t]*<option value="([^"]*)">[^<]*</option>\n', option, text)
+
+
 def html_files():
     for base, dirs, files in os.walk(ROOT):
         dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
@@ -198,6 +221,8 @@ def main():
         own = "/" + os.path.dirname(rel) + "/"
         text = read(rel)
         new = fix_links(text, own)
+        if rel == "events/index.html":
+            new = prune_filters(new)
         if new != text:
             write(rel, new)
             changed += 1
