@@ -534,6 +534,86 @@
       "source": "/group-hotel-offers-turkey/titanic-deluxe-belek/:path*",
       "destination": "/group-hotel-offers-turkey/belek/#titanic-deluxe-belek",
       "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/60-person-corporate-event",
+      "destination": "/event-costs/antalya/#60-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/60-person-corporate-event/:path*",
+      "destination": "/event-costs/antalya/#60-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/100-person-incentive-trip",
+      "destination": "/event-costs/antalya/#100-person-incentive-trip",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/100-person-incentive-trip/:path*",
+      "destination": "/event-costs/antalya/#100-person-incentive-trip",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/200-person-conference",
+      "destination": "/event-costs/antalya/#200-person-conference",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/200-person-conference/:path*",
+      "destination": "/event-costs/antalya/#200-person-conference",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/belek/100-person-corporate-retreat",
+      "destination": "/event-costs/belek/#100-person-corporate-retreat",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/belek/100-person-corporate-retreat/:path*",
+      "destination": "/event-costs/belek/#100-person-corporate-retreat",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/istanbul/100-person-corporate-event",
+      "destination": "/event-costs/istanbul/#100-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/istanbul/100-person-corporate-event/:path*",
+      "destination": "/event-costs/istanbul/#100-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/corporate-events",
+      "destination": "/event-costs/#corporate-events",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/corporate-events/:path*",
+      "destination": "/event-costs/#corporate-events",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/incentive-travel",
+      "destination": "/event-costs/#incentive-travel",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/incentive-travel/:path*",
+      "destination": "/event-costs/#incentive-travel",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/conferences",
+      "destination": "/event-costs/#conferences",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/conferences/:path*",
+      "destination": "/event-costs/#conferences",
+      "statusCode": 301
     }
   ],
   "headers": [
