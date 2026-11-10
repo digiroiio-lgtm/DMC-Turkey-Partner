@@ -101,3 +101,41 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /events/the-meetings-show-2026 /events/ 301!
 /events/web-summit-2026/* /events/ 301!
 /events/web-summit-2026 /events/ 301!
+
+# Group hotel offers consolidation (Nov 2026): hotel pages folded into their area page.
+/group-hotel-offers-turkey/trendy-lara/* /group-hotel-offers-turkey/lara/#trendy-lara 301!
+/group-hotel-offers-turkey/trendy-lara /group-hotel-offers-turkey/lara/#trendy-lara 301!
+/group-hotel-offers-turkey/adalya-elit/* /group-hotel-offers-turkey/lara/#adalya-elit 301!
+/group-hotel-offers-turkey/adalya-elit /group-hotel-offers-turkey/lara/#adalya-elit 301!
+/group-hotel-offers-turkey/adam-eve-belek/* /group-hotel-offers-turkey/belek/#adam-eve-belek 301!
+/group-hotel-offers-turkey/adam-eve-belek /group-hotel-offers-turkey/belek/#adam-eve-belek 301!
+/group-hotel-offers-turkey/titanic-deluxe-lara/* /group-hotel-offers-turkey/lara/#titanic-deluxe-lara 301!
+/group-hotel-offers-turkey/titanic-deluxe-lara /group-hotel-offers-turkey/lara/#titanic-deluxe-lara 301!
+/group-hotel-offers-turkey/ducale-lara/* /group-hotel-offers-turkey/lara/#ducale-lara 301!
+/group-hotel-offers-turkey/ducale-lara /group-hotel-offers-turkey/lara/#ducale-lara 301!
+/group-hotel-offers-turkey/voyage-lara/* /group-hotel-offers-turkey/lara/#voyage-lara 301!
+/group-hotel-offers-turkey/voyage-lara /group-hotel-offers-turkey/lara/#voyage-lara 301!
+/group-hotel-offers-turkey/voyage-belek/* /group-hotel-offers-turkey/belek/#voyage-belek 301!
+/group-hotel-offers-turkey/voyage-belek /group-hotel-offers-turkey/belek/#voyage-belek 301!
+/group-hotel-offers-turkey/mardan-palace/* /group-hotel-offers-turkey/lara/#mardan-palace 301!
+/group-hotel-offers-turkey/mardan-palace /group-hotel-offers-turkey/lara/#mardan-palace 301!
+/group-hotel-offers-turkey/titanic-deluxe-belek/* /group-hotel-offers-turkey/belek/#titanic-deluxe-belek 301!
+/group-hotel-offers-turkey/titanic-deluxe-belek /group-hotel-offers-turkey/belek/#titanic-deluxe-belek 301!
+
+# Event cost consolidation (Nov 2026): scenario and programme-type pages folded in.
+/event-costs/antalya/60-person-corporate-event/* /event-costs/antalya/#60-person-corporate-event 301!
+/event-costs/antalya/60-person-corporate-event /event-costs/antalya/#60-person-corporate-event 301!
+/event-costs/antalya/100-person-incentive-trip/* /event-costs/antalya/#100-person-incentive-trip 301!
+/event-costs/antalya/100-person-incentive-trip /event-costs/antalya/#100-person-incentive-trip 301!
+/event-costs/antalya/200-person-conference/* /event-costs/antalya/#200-person-conference 301!
+/event-costs/antalya/200-person-conference /event-costs/antalya/#200-person-conference 301!
+/event-costs/belek/100-person-corporate-retreat/* /event-costs/belek/#100-person-corporate-retreat 301!
+/event-costs/belek/100-person-corporate-retreat /event-costs/belek/#100-person-corporate-retreat 301!
+/event-costs/istanbul/100-person-corporate-event/* /event-costs/istanbul/#100-person-corporate-event 301!
+/event-costs/istanbul/100-person-corporate-event /event-costs/istanbul/#100-person-corporate-event 301!
+/event-costs/corporate-events/* /event-costs/#corporate-events 301!
+/event-costs/corporate-events /event-costs/#corporate-events 301!
+/event-costs/incentive-travel/* /event-costs/#incentive-travel 301!
+/event-costs/incentive-travel /event-costs/#incentive-travel 301!
+/event-costs/conferences/* /event-costs/#conferences 301!
+/event-costs/conferences /event-costs/#conferences 301!

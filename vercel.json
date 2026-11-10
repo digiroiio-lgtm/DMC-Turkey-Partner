@@ -444,6 +444,176 @@
       "source": "/events/web-summit-2026/:path*",
       "destination": "/events/",
       "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/trendy-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#trendy-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/trendy-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#trendy-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adalya-elit",
+      "destination": "/group-hotel-offers-turkey/lara/#adalya-elit",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adalya-elit/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#adalya-elit",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adam-eve-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#adam-eve-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/adam-eve-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#adam-eve-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#titanic-deluxe-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#titanic-deluxe-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/ducale-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#ducale-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/ducale-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#ducale-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-lara",
+      "destination": "/group-hotel-offers-turkey/lara/#voyage-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-lara/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#voyage-lara",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#voyage-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/voyage-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#voyage-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/mardan-palace",
+      "destination": "/group-hotel-offers-turkey/lara/#mardan-palace",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/mardan-palace/:path*",
+      "destination": "/group-hotel-offers-turkey/lara/#mardan-palace",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-belek",
+      "destination": "/group-hotel-offers-turkey/belek/#titanic-deluxe-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/group-hotel-offers-turkey/titanic-deluxe-belek/:path*",
+      "destination": "/group-hotel-offers-turkey/belek/#titanic-deluxe-belek",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/60-person-corporate-event",
+      "destination": "/event-costs/antalya/#60-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/60-person-corporate-event/:path*",
+      "destination": "/event-costs/antalya/#60-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/100-person-incentive-trip",
+      "destination": "/event-costs/antalya/#100-person-incentive-trip",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/100-person-incentive-trip/:path*",
+      "destination": "/event-costs/antalya/#100-person-incentive-trip",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/200-person-conference",
+      "destination": "/event-costs/antalya/#200-person-conference",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/antalya/200-person-conference/:path*",
+      "destination": "/event-costs/antalya/#200-person-conference",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/belek/100-person-corporate-retreat",
+      "destination": "/event-costs/belek/#100-person-corporate-retreat",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/belek/100-person-corporate-retreat/:path*",
+      "destination": "/event-costs/belek/#100-person-corporate-retreat",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/istanbul/100-person-corporate-event",
+      "destination": "/event-costs/istanbul/#100-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/istanbul/100-person-corporate-event/:path*",
+      "destination": "/event-costs/istanbul/#100-person-corporate-event",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/corporate-events",
+      "destination": "/event-costs/#corporate-events",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/corporate-events/:path*",
+      "destination": "/event-costs/#corporate-events",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/incentive-travel",
+      "destination": "/event-costs/#incentive-travel",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/incentive-travel/:path*",
+      "destination": "/event-costs/#incentive-travel",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/conferences",
+      "destination": "/event-costs/#conferences",
+      "statusCode": 301
+    },
+    {
+      "source": "/event-costs/conferences/:path*",
+      "destination": "/event-costs/#conferences",
+      "statusCode": 301
     }
   ],
   "headers": [

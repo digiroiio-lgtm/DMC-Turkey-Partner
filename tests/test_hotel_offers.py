@@ -13,7 +13,8 @@ sys.path.insert(0, str(ROOT / "tools"))
 import hotel_offers_data as data  # noqa: E402
 
 SITE = "https://dmcturkeypartner.com"
-SLUGS = [""] + [a["slug"] + "/" for a in data.AREAS.values()] + [h["slug"] + "/" for h in data.HOTELS]
+# Hotels are cards on their area page (the 9 per-hotel pages were folded in, Nov 2026).
+SLUGS = [""] + [a["slug"] + "/" for a in data.AREAS.values()]
 
 
 def read(sub):
@@ -65,20 +66,27 @@ class HotelOfferTests(unittest.TestCase):
                 self.assertIn(item["name"], text, sub)
                 self.assertIn(item["acceptedAnswer"]["text"], text, sub)
 
-    def test_hotel_pages_list_exactly_their_windows(self):
+    def test_area_pages_carry_each_hotel_card_and_windows(self):
         for h in data.HOTELS:
-            page = read(h["slug"] + "/")
+            page = read(data.AREAS[h["area"]]["slug"] + "/")
+            self.assertIn('<article class="card" id="%s">' % h["slug"], page, h["slug"])
             text = visible_text(page)
-            mine = [w for w in data.windows() if w["hotel"] is h]
-            for w in mine:
+            for w in [w for w in data.windows() if w["hotel"] is h]:
                 self.assertIn(data.date_range(w["start"], w["end"]), text, h["slug"])
-            graph = next(b for b in jsonld(page) if "@graph" in b)["@graph"]
-            self.assertTrue(any(n["@type"] == "Hotel" and n["name"] == h["name"] for n in graph))
+
+    def test_old_hotel_pages_redirect_to_their_card(self):
+        redirects = {r["source"]: r["destination"]
+                     for r in json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))["redirects"]}
+        for h in data.HOTELS:
+            self.assertFalse((ROOT / "group-hotel-offers-turkey" / h["slug"]).exists(), h["slug"])
+            target = "%s%s/#%s" % (data.HUB, data.AREAS[h["area"]]["slug"], h["slug"])
+            self.assertEqual(redirects.get("%s%s" % (data.HUB, h["slug"])), target)
 
     def test_hub_lists_all_windows_and_hotels(self):
         page = read("")
         for w in data.windows():
-            self.assertIn('href="%s%s/"' % (data.HUB, w["hotel"]["slug"]), page)
+            area = data.AREAS[w["hotel"]["area"]]["slug"]
+            self.assertIn('href="%s%s/#%s"' % (data.HUB, area, w["hotel"]["slug"]), page)
             self.assertIn(htmllib.escape(w["label"]), page.replace("&#x27;", "'"))
         self.assertEqual(len(re.findall(r'<td><span class="offer-badge[^>]*>', page)) >= 13, True)
 
