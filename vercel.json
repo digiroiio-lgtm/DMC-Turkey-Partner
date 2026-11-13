@@ -614,6 +614,16 @@
       "source": "/event-costs/conferences/:path*",
       "destination": "/event-costs/#conferences",
       "statusCode": 301
+    },
+    {
+      "source": "/selected-works/swarovski-b2b-incentive-trip",
+      "destination": "/selected-works/swarovski-meeting-akra-antalya/",
+      "statusCode": 301
+    },
+    {
+      "source": "/selected-works/swarovski-b2b-incentive-trip/:path*",
+      "destination": "/selected-works/swarovski-meeting-akra-antalya/",
+      "statusCode": 301
     }
   ],
   "headers": [

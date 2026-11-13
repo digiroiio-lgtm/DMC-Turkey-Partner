@@ -68,6 +68,21 @@ directly since October 2026, so regenerating from the page modules would revert
 that work. Port HTML changes into the modules before forcing a rebuild.
 
 
+## Visual–text balance
+
+```
+python3 tools/visual_enhance.py
+```
+
+Adds visual structure without changing copy: original line icons
+(`assets/img/icons.svg`) on text cards, question panels for planning Q&A
+sections, one own project photo on 16 key pages, an "On this page" list on long
+pages, and splits paragraphs over 80 words at a sentence boundary. Fully
+generated pages (hotel offers, off-season, transfer prices, Fam Trip, Czech/German,
+legal, showcase, calculator) are skipped. Idempotent. Image sources and licences:
+`assets/ASSET_SOURCES.md`.
+
+
 ## Site-wide identity, analytics and verification
 
 ### Shared footer
