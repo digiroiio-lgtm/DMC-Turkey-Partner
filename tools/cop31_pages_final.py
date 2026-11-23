@@ -112,18 +112,18 @@ REGISTRATION = {
             cards([
                 ("Accommodation and placement", "/cop31-antalya-accommodation/", "Group sourcing, room blocks, meeting rooms and staff accommodation once your team is confirmed."),
                 ("Transport", "/cop31-private-transfers/", "Airport arrivals, hotel–venue movement and dedicated vehicles for the conference period."),
-                ("Exhibition and pavilion support", "/cop31-exhibition-services/", "Build, graphics, furniture, AV, storage and on-site support for a physical presence."),
+                ("Exhibition and pavilion support", "/exhibition-stands-antalya/", "Build, graphics, furniture, AV, storage and on-site support for a physical presence."),
                 ("Event services", "/cop31-event-services/", "Side events, meeting rooms, production, staffing and hospitality around the official programme."),
                 ("Printing and collateral", "/cop31-printing-services/", "Delegation material produced locally, including reprints during the conference."),
-                ("Urgent local support", "/cop31-last-minute-services/", "Fast local sourcing when something is missing, delayed or damaged."),
+                ("Urgent local support", "/last-minute-event-services-antalya/", "Fast local sourcing when something is missing, delayed or damaged."),
             ]),
             BACK,
         ),
     ],
     "cta_services": L(
         "/cop31-antalya-accommodation/", "/cop31-private-transfers/",
-        "/cop31-exhibition-services/", "/cop31-event-services/", "/cop31-printing-services/",
-        "/cop31-event-staff/", "/cop31-last-minute-services/",
+        "/exhibition-stands-antalya/", "/cop31-event-services/", "/cop31-printing-services/",
+        "/event-staff-antalya/", "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Already Registered? Need Local Support in Antalya?",
     "faqs": [
@@ -146,8 +146,8 @@ REGISTRATION = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-participant-guide/", "/cop31-antalya-dates/",
-        "/cop31-antalya-venue/", "/cop31-antalya-accommodation/", "/cop31-antalya-transport/",
-        "/cop31-event-services/", "/cop31-exhibition-services/",
+        "/cop31-antalya-venue/", "/cop31-antalya-accommodation/", "/antalya-airport-transfers-group-transport/",
+        "/cop31-event-services/", "/exhibition-stands-antalya/",
     ),
 }
 
@@ -210,7 +210,7 @@ EXPO = {
             para(
                 "See " + A("/cop31-antalya-airport-transfer/", "COP31 airport transfers")
                 + " for arrivals, and the "
-                + A("/cop31-antalya-transport/", "transport guide") + " for daily movement."
+                + A("/antalya-airport-transfers-group-transport/", "transport guide") + " for daily movement."
             ),
         ),
         section(
@@ -248,9 +248,9 @@ EXPO = {
         ),
     ],
     "cta_services": L(
-        "/cop31-exhibition-services/", "/cop31-exhibition-stands/", "/cop31-pavilion-services/",
-        "/cop31-event-production/", "/cop31-furniture-rental/", "/cop31-av-equipment-rental/",
-        "/cop31-last-minute-services/",
+        "/exhibition-stands-antalya/", "/cop31-exhibition-stands/", "/cop31-pavilion-services/",
+        "/antalya-event-production/", "/cop31-furniture-rental/", "/cop31-av-equipment-rental/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Operating at the Antalya EXPO Center?",
     "faqs": [
@@ -271,7 +271,7 @@ EXPO = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-venue/", "/cop31-antalya-participant-guide/",
-        "/cop31-antalya-transport/", "/cop31-antalya-hotels/", "/cop31-exhibition-services/",
+        "/antalya-airport-transfers-group-transport/", "/cop31-antalya-hotels/", "/exhibition-stands-antalya/",
         "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
     ),
 }
@@ -346,7 +346,7 @@ RESTAURANTS = {
                 ("Business dinner", "Small numbers, a quiet table or private room, and a location that does not consume the evening in transport."),
                 ("Delegation dinner", "A larger group, usually with a host, seating plan and sometimes remarks — which changes the venue requirement entirely."),
                 ("Bilateral lunch or dinner", "Two delegations, privacy, discretion and an interpreter where needed — see " + A("/cop31-interpreters/", "interpreters") + "."),
-                ("Side-event dinner", "A dinner attached to a programme item, needing AV, a backdrop and a run of show — see " + A("/cop31-event-production/", "event production") + "."),
+                ("Side-event dinner", "A dinner attached to a programme item, needing AV, a backdrop and a run of show — see " + A("/antalya-event-production/", "event production") + "."),
                 ("Reception", "Standing format, higher numbers, hospitality equipment and staff rather than a seating plan."),
                 ("Team dinner", "Crew and staff after a build day — simple, close to the hotel, and genuinely appreciated."),
             ]),
@@ -369,7 +369,7 @@ RESTAURANTS = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-services/", "/cop31-private-transfers/", "/cop31-event-production/",
+        "/cop31-event-services/", "/cop31-private-transfers/", "/antalya-event-production/",
         "/cop31-hostess-staff/", "/cop31-interpreters/", "/cop31-antalya-accommodation/",
         "/cop31-branding-signage/",
     ),
@@ -393,7 +393,7 @@ RESTAURANTS = {
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-participant-guide/", "/cop31-antalya-hotels/",
         "/cop31-antalya-accommodation/", "/cop31-private-transfers/", "/cop31-event-services/",
-        "/cop31-event-production/", "/cop31-interpreters/",
+        "/antalya-event-production/", "/cop31-interpreters/",
     ),
 }
 

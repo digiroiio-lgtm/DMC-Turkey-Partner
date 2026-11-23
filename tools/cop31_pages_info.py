@@ -15,9 +15,9 @@ from cop31_render import (
 )
 
 INFO_CTA = L(
-    "/cop31-event-services/", "/cop31-exhibition-services/", "/cop31-printing-services/",
-    "/cop31-av-equipment-rental/", "/cop31-event-staff/", "/cop31-private-transfers/",
-    "/cop31-last-minute-services/",
+    "/cop31-event-services/", "/exhibition-stands-antalya/", "/cop31-printing-services/",
+    "/cop31-av-equipment-rental/", "/event-staff-antalya/", "/cop31-private-transfers/",
+    "/last-minute-event-services-antalya/",
 )
 
 
@@ -65,7 +65,7 @@ PARTICIPANT_GUIDE = {
                 ("Where you sleep",
                  "Hotel choice determines your daily commute and whether you can use complimentary shuttles at all. See " + A("/cop31-antalya-hotels/", "COP31 hotels") + "."),
                 ("How you move",
-                 "Shuttle, taxi or a dedicated vehicle. The right answer depends on group size, schedule density and how much of your day is off-site. See " + A("/cop31-antalya-transport/", "COP31 transport") + "."),
+                 "Shuttle, taxi or a dedicated vehicle. The right answer depends on group size, schedule density and how much of your day is off-site. See " + A("/antalya-airport-transfers-group-transport/", "COP31 transport") + "."),
                 ("What you need physically present",
                  "Printed material, stand elements, screens, furniture, staff, interpreters. Anything shipped internationally needs a fallback; anything produced locally needs a lead time."),
             ]),
@@ -180,7 +180,7 @@ PARTICIPANT_GUIDE = {
                 + " are worth pre-booking because arrival peaks are concentrated in the days "
                 "before the opening. For programme movement, "
                 + A("/cop31-private-transfers/", "private transfers") + " and the broader "
-                + A("/cop31-antalya-transport/", "transport guide") + " cover the options."
+                + A("/antalya-airport-transfers-group-transport/", "transport guide") + " cover the options."
             ),
         ),
         section(
@@ -238,7 +238,7 @@ PARTICIPANT_GUIDE = {
                 ("Transport planned per journey, not per day",
                  "Booking individual transfers works until the schedule slips. A vehicle on disposal for the day absorbs changes; single bookings do not."),
                 ("No local contact after hours",
-                 "Problems appear during build nights and early mornings. Having a briefed local contact in advance is what makes them solvable — see " + A("/cop31-last-minute-services/", "last-minute COP31 services") + "."),
+                 "Problems appear during build nights and early mornings. Having a briefed local contact in advance is what makes them solvable — see " + A("/last-minute-event-services-antalya/", "last-minute COP31 services") + "."),
             ]),
         ),
     ],
@@ -264,9 +264,9 @@ PARTICIPANT_GUIDE = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-dates/", "/cop31-antalya-venue/",
-        "/cop31-antalya-registration/", "/cop31-antalya-hotels/", "/cop31-antalya-transport/",
+        "/cop31-antalya-registration/", "/cop31-antalya-hotels/", "/antalya-airport-transfers-group-transport/",
         "/cop31-antalya-restaurants/", "/cop31-event-services/", "/cop31-printing-services/",
-        "/cop31-interpreters/", "/cop31-private-transfers/", "/cop31-last-minute-services/",
+        "/cop31-interpreters/", "/cop31-private-transfers/", "/last-minute-event-services-antalya/",
     ),
 }
 
@@ -353,7 +353,7 @@ DATES = {
                 "finite and will be shared across every exhibitor and pavilion in the same "
                 "fortnight; so are vehicles, drivers and event staff. Late requests are still "
                 "workable — that is what "
-                + A("/cop31-last-minute-services/", "last-minute services") + " exist for — but "
+                + A("/last-minute-event-services-antalya/", "last-minute services") + " exist for — but "
                 "they are workable at whatever is left, not at whatever you would have chosen."
             ),
         ),
@@ -395,10 +395,10 @@ DATES = {
             cards([
                 ("COP31 Hotels", "/cop31-antalya-hotels/", "Where to stay, area by area, and how hotel choice affects the daily commute."),
                 ("Group Accommodation", "/cop31-antalya-accommodation/", "Room blocks, delegation placement and staff accommodation for teams rather than individuals."),
-                ("COP31 Transport", "/cop31-antalya-transport/", "Official shuttles, airport arrivals and when a dedicated vehicle is the right call."),
+                ("COP31 Transport", "/antalya-airport-transfers-group-transport/", "Official shuttles, airport arrivals and when a dedicated vehicle is the right call."),
                 ("Private Transfers", "/cop31-private-transfers/", "Chauffeured vehicles and delegation movement for the conference period."),
                 ("COP31 Event Services", "/cop31-event-services/", "The broad local operations scope for agencies, delegations and exhibitors."),
-                ("Exhibition Services", "/cop31-exhibition-services/", "Build, graphics, furniture, AV, storage and on-site exhibitor support."),
+                ("Exhibition Services", "/exhibition-stands-antalya/", "Build, graphics, furniture, AV, storage and on-site exhibitor support."),
             ]),
         ),
     ],
@@ -422,7 +422,7 @@ DATES = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-program/", "/cop31-antalya-participant-guide/",
-        "/cop31-antalya-venue/", "/cop31-antalya-hotels/", "/cop31-antalya-transport/",
+        "/cop31-antalya-venue/", "/cop31-antalya-hotels/", "/antalya-airport-transfers-group-transport/",
         "/cop31-event-services/", "/cop31-exhibition-stands/", "/cop31-private-transfers/",
     ),
 }

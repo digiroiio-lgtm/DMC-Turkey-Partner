@@ -3,7 +3,7 @@
 
 A thin strip above the site header on the homepage and every COP31 page,
 pointing urgent requests to the Antalya operations desk on WhatsApp and to
-/cop31-last-minute-services/. Styles are inline in the marker block so the
+/last-minute-event-services-antalya/. Styles are inline in the marker block so the
 strip needs no CSS deploy and disappears completely when removed.
 
 Usage:
@@ -52,7 +52,7 @@ def block():
         + RESPONSE + "</span>"
         '<a href="' + whatsapp_url(WA_MESSAGE) + '" target="_blank" rel="noopener" '
         'data-track="cop31_whatsapp_click">WhatsApp the Antalya desk</a>'
-        '<a href="/cop31-last-minute-services/">Last-minute services</a>'
+        '<a href="/last-minute-event-services-antalya/">Last-minute services</a>'
         "</div></div>\n"
         "  " + END + "\n"
     )

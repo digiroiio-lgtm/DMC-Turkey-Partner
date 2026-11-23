@@ -149,8 +149,8 @@ ARTICLES = [
             ("/cop31-antalya-venue/", "COP31 Antalya EXPO Center guide"),
         ],
         "services": [
-            ("/cop31-exhibition-services/", "Exhibition services"),
-            ("/cop31-event-production/", "Event production"),
+            ("/exhibition-stands-antalya/", "Exhibition services"),
+            ("/antalya-event-production/", "Event production"),
         ],
         "sources": ["iklim_meeting", "tr_venue", "yenialanya_expo", "yenialanya_kurum",
                     "korfez_expo", "istiklal_expo"],
@@ -214,11 +214,10 @@ ARTICLES = [
             "separately from the official arrangements described above."
         ),
         "evergreen": [
-            ("/cop31-antalya-transport/", "COP31 Antalya transport guide"),
             ("/cop31-antalya-hotels/", "COP31 hotels guide"),
         ],
         "services": [
-            ("/cop31-antalya-transport/", "Private transfers"),
+            ("/antalya-airport-transfers-group-transport/", "Airport transfers and group transport"),
         ],
         "sources": ["unfccc_ifp", "tr_media_news", "yenialanya_roads", "tr_accommodation"],
     },
@@ -282,7 +281,7 @@ ARTICLES += [
             ("/cop31-antalya-venue/", "COP31 venue and location guide"),
         ],
         "services": [
-            ("/cop31-exhibition-services/", "Pavilion services"),
+            ("/exhibition-stands-antalya/", "Pavilion services"),
         ],
         "sources": ["tr_zones", "tr_home", "unfccc_ifp", "unfccc_obs"],
     },
@@ -344,7 +343,7 @@ ARTICLES += [
         ],
         "services": [
             ("/cop31-event-services/", "COP31 event services"),
-            ("/cop31-event-staff/", "Interpreters and language support"),
+            ("/event-staff-antalya/", "Interpreters and language support"),
         ],
         "sources": ["tr_thematic_news", "tr_thematic", "tr_programme", "tr_media_news",
                     "unfccc_cop31"],
@@ -404,7 +403,7 @@ ARTICLES += [
         ],
         "services": [
             ("/cop31-antalya-hotels/", "Delegation accommodation sourcing"),
-            ("/cop31-antalya-transport/", "Private transfers"),
+            ("/antalya-airport-transfers-group-transport/", "Airport transfers and group transport"),
         ],
         "sources": ["unfccc_ifp", "tr_accommodation", "tr_media_news", "tr_guide"],
     },

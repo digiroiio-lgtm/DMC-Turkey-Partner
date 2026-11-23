@@ -9,13 +9,13 @@ BACK = para(
     "This page is part of the "
     + A("/cop31-antalya/", "COP31 Antalya 2026 guide and services hub")
     + ". For how official shuttles and general movement work, see the "
-    + A("/cop31-antalya-transport/", "COP31 transport guide") + "."
+    + A("/antalya-airport-transfers-group-transport/", "COP31 transport guide") + "."
 )
 
 TRANSPORT_CTA = L(
     "/cop31-private-transfers/", "/cop31-antalya-airport-transfer/", "/cop31-event-services/",
-    "/cop31-antalya-accommodation/", "/cop31-event-staff/", "/cop31-antalya-restaurants/",
-    "/cop31-last-minute-services/",
+    "/cop31-antalya-accommodation/", "/event-staff-antalya/", "/cop31-antalya-restaurants/",
+    "/last-minute-event-services-antalya/",
 )
 
 
@@ -131,7 +131,7 @@ AIRPORT = {
          "As early as your flights are confirmed. Vehicles and drivers across the arrival peak are a finite local pool."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-antalya-transport/", "/cop31-private-transfers/",
+        "/cop31-antalya/", "/antalya-airport-transfers-group-transport/", "/cop31-private-transfers/",
         "/cop31-antalya-hotels/", "/cop31-antalya-accommodation/",
         "/cop31-antalya-participant-guide/", "/cop31-antalya-venue/",
     ),
@@ -218,7 +218,7 @@ PRIVATE = {
                 "For arrivals and departures specifically, see "
                 + A("/cop31-antalya-airport-transfer/", "COP31 airport transfers")
                 + ". For how official shuttles fit alongside private vehicles, see the "
-                + A("/cop31-antalya-transport/", "transport guide") + "."
+                + A("/antalya-airport-transfers-group-transport/", "transport guide") + "."
             ),
             BACK,
         ),
@@ -242,7 +242,7 @@ PRIVATE = {
          "Often yes, subject to what remains available at the time. It is materially easier if we are already running vehicles for you."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-antalya-transport/", "/cop31-antalya-airport-transfer/",
+        "/cop31-antalya/", "/antalya-airport-transfers-group-transport/", "/cop31-antalya-airport-transfer/",
         "/cop31-antalya-accommodation/", "/cop31-antalya-restaurants/",
         "/cop31-event-services/", "/cop31-antalya-participant-guide/", "/cop31-interpreters/",
     ),

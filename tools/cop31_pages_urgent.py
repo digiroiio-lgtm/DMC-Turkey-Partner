@@ -19,13 +19,13 @@ BACK = para(
 
 URGENT_CTA = L(
     "/cop31-printing-services/", "/cop31-av-equipment-rental/", "/cop31-furniture-rental/",
-    "/cop31-branding-signage/", "/cop31-event-staff/", "/cop31-private-transfers/",
-    "/cop31-event-production/",
+    "/cop31-branding-signage/", "/event-staff-antalya/", "/cop31-private-transfers/",
+    "/antalya-event-production/",
 )
 
 
 LAST_MINUTE = {
-    "slug": "cop31-last-minute-services",
+    "slug": "last-minute-event-services-antalya",
     "breadcrumb": "Last-Minute Services",
     "title": "Last-Minute COP31 Services in Antalya | Urgent Local Sourcing 2026",
     "description": (
@@ -84,7 +84,7 @@ LAST_MINUTE = {
                 ("Missing furniture", "The space is under-furnished or a delivery is short. Additional chairs, tables and counters from local rental stock — see " + A("/cop31-furniture-rental/", "furniture rental") + "."),
                 ("Print material has run out or is wrong", "Reprints and replacements produced in Antalya from approved artwork — see " + A("/cop31-printing-services/", "printing services") + "."),
                 ("Damaged graphics", "Panels, fascia and backdrops damaged in transit or on site, reproduced and reinstalled — see " + A("/cop31-branding-signage/", "branding and signage") + "."),
-                ("Staffing gaps", "Someone is ill, a shift is uncovered, or the space needs more hands than planned — see " + A("/cop31-event-staff/", "event staff") + "."),
+                ("Staffing gaps", "Someone is ill, a shift is uncovered, or the space needs more hands than planned — see " + A("/event-staff-antalya/", "event staff") + "."),
                 ("Transport failures", "A vehicle does not arrive, a schedule collapses, or an unplanned movement is needed — see " + A("/cop31-private-transfers/", "private transfers") + "."),
                 ("Missing technical equipment", "Cables, power distribution, stands, adapters and the small items that stop everything else working."),
                 ("Supplier no-show", "A booked supplier does not appear. We source a local replacement and take over coordination."),
@@ -229,8 +229,8 @@ LAST_MINUTE = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-printing-services/", "/cop31-av-equipment-rental/",
-        "/cop31-furniture-rental/", "/cop31-branding-signage/", "/cop31-exhibition-services/",
-        "/cop31-event-staff/", "/cop31-private-transfers/", "/cop31-event-production/",
+        "/cop31-furniture-rental/", "/cop31-branding-signage/", "/exhibition-stands-antalya/",
+        "/event-staff-antalya/", "/cop31-private-transfers/", "/antalya-event-production/",
     ),
 }
 

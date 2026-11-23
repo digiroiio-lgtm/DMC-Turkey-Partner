@@ -407,3 +407,15 @@ guides at the newest article feeding them and refreshes their Last updated date.
 ## Group hotel offers cluster
 
 `python3 tools/hotel_offers_build.py [--today YYYY-MM-DD]` builds `/group-hotel-offers-turkey/` (hub, `lara/`, `belek/` and one page per hotel) from `tools/hotel_offers_data.py`, and refreshes the managed `<!-- hotel-offers:begin/end -->` link blocks on the home page and related pages. No prices are published. Window status (open / upcoming / closed) is computed from the build date, so rebuild regularly and after every data change, then run `site_seo.py`, `site_footer.py` and `sitemaps.py`. Tests: `tests/test_hotel_offers.py`.
+
+## After COP31 (21 November 2026)
+
+COP31 ended on 20 November. The site does not claim it delivered COP31 work.
+
+| Tool | What it does |
+|---|---|
+| `cop31_live_banner.py --remove` | Removed the live-period strip. |
+| `cop31_post_event.py` (+ `cop31_post_event_copy.py`) | Moved the five COP31 service pages to permanent Antalya URLs (`/antalya-event-production/`, `/exhibition-stands-antalya/`, `/event-staff-antalya/`, `/antalya-airport-transfers-group-transport/`, `/last-minute-event-services-antalya/`), rewrote their COP31 copy, regenerated FAQ JSON-LD, relinked the site and tools, and added 301s. Refuses to finish if a moved page still mentions COP31. Safe to re-run. |
+| `cop31_archive_note.py` | "COP31 took place… kept as an archive" note under the H1 of every remaining COP31 page. |
+| `cop31_sitewide_after.py` | Past tense and no COP31 service claims on evergreen pages (Antalya, DMC Turkey, corporate events, events, request form). |
+| `cop31_nav.py` / `site_footer.py` | Menu and footer now lead with Antalya event services; COP31 pages sit in a "COP31 2026 Archive" column. |

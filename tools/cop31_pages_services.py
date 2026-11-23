@@ -53,12 +53,12 @@ EVENT_SERVICES = {
                 ("Side events and receptions", "Format, venue, production, catering coordination, staffing and guest movement for events held around the conference schedule."),
                 ("Venue and meeting-room sourcing", "Hotel meeting rooms, private spaces and event venues across Aksu, Lara, Belek and Antalya city for briefings, bilaterals and delegation sessions."),
                 ("Delegation dinners and hospitality", "Private dining, group reservations and hosted evening programmes, including the constrained Leaders Summit window."),
-                ("Local production and technical", "Staging, sound, screens, lighting and crew for anything from a panel session to a full reception — see " + A("/cop31-event-production/", "event production") + "."),
-                ("Staffing", "Hostesses, registration staff, crew, runners and interpreters for build days and live days — see " + A("/cop31-event-staff/", "event staff") + "."),
+                ("Local production and technical", "Staging, sound, screens, lighting and crew for anything from a panel session to a full reception — see " + A("/antalya-event-production/", "event production") + "."),
+                ("Staffing", "Hostesses, registration staff, crew, runners and interpreters for build days and live days — see " + A("/event-staff-antalya/", "event staff") + "."),
                 ("Print, branding and signage", "Collateral, roll-ups, wayfinding, backdrops and branded environments produced locally in Antalya."),
                 ("Equipment rental", "AV, furniture, hospitality and coffee equipment delivered, installed and collected on your schedule."),
                 ("Transport", "Airport arrivals, hotel–venue movement, executive vehicles and coach operations across the conference period."),
-                ("Urgent sourcing", "Same-period local sourcing when something is missing, damaged, delayed or simply never ordered — see " + A("/cop31-last-minute-services/", "last-minute services") + "."),
+                ("Urgent sourcing", "Same-period local sourcing when something is missing, damaged, delayed or simply never ordered — see " + A("/last-minute-event-services-antalya/", "last-minute services") + "."),
             ]),
         ),
         section(
@@ -70,7 +70,7 @@ EVENT_SERVICES = {
                     ["International event agency", "A local execution partner who can quote, produce and deliver in Antalya while you keep the client and the creative"],
                     ["National or organisational delegation", "Accommodation placement, vehicles, meeting rooms, interpreters and a hosting programme"],
                     ["Pavilion owner", "Production, furniture, AV, hospitality and staffing for a two-week operating space — see " + A("/cop31-pavilion-services/", "pavilion services")],
-                    ["Exhibitor", "Stand build or stand support, graphics, furniture, storage and on-site help — see " + A("/cop31-exhibition-services/", "exhibition services")],
+                    ["Exhibitor", "Stand build or stand support, graphics, furniture, storage and on-site help — see " + A("/exhibition-stands-antalya/", "exhibition services")],
                     ["NGO or observer organisation", "Cost-controlled print, staffing and meeting space, often decided late"],
                     ["Corporate or media team", "Vehicles, crew support, equipment rental and a fixer-style local contact"],
                 ],
@@ -125,8 +125,8 @@ EVENT_SERVICES = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-production/", "/cop31-exhibition-services/", "/cop31-pavilion-services/",
-        "/cop31-printing-services/", "/cop31-av-equipment-rental/", "/cop31-event-staff/",
+        "/antalya-event-production/", "/exhibition-stands-antalya/", "/cop31-pavilion-services/",
+        "/cop31-printing-services/", "/cop31-av-equipment-rental/", "/event-staff-antalya/",
         "/cop31-private-transfers/",
     ),
     "cta_heading": "Tell Us What You Need in Antalya",
@@ -147,15 +147,15 @@ EVENT_SERVICES = {
          "Dates, location or area, headcount, format, what already exists and what is missing, and any budget guidance. Anything unknown can be flagged as unknown."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-exhibition-services/", "/cop31-pavilion-services/",
-        "/cop31-event-production/", "/cop31-antalya-participant-guide/",
-        "/cop31-antalya-venue/", "/cop31-last-minute-services/", "/cop31-private-transfers/",
+        "/cop31-antalya/", "/exhibition-stands-antalya/", "/cop31-pavilion-services/",
+        "/antalya-event-production/", "/cop31-antalya-participant-guide/",
+        "/cop31-antalya-venue/", "/last-minute-event-services-antalya/", "/cop31-private-transfers/",
     ),
 }
 
 
 EXHIBITION_SERVICES = {
-    "slug": "cop31-exhibition-services",
+    "slug": "exhibition-stands-antalya",
     "breadcrumb": "Exhibition Services",
     "title": "COP31 Exhibition Services in Antalya | Exhibitor Support 2026",
     "description": (
@@ -259,8 +259,8 @@ EXHIBITION_SERVICES = {
     ],
     "cta_services": L(
         "/cop31-exhibition-stands/", "/cop31-booth-builder-antalya/", "/cop31-printing-services/",
-        "/cop31-furniture-rental/", "/cop31-av-equipment-rental/", "/cop31-event-staff/",
-        "/cop31-last-minute-services/",
+        "/cop31-furniture-rental/", "/cop31-av-equipment-rental/", "/event-staff-antalya/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Exhibiting at COP31 Antalya?",
     "faqs": [
@@ -282,7 +282,7 @@ EXHIBITION_SERVICES = {
     "related": L(
         "/cop31-antalya/", "/cop31-exhibition-stands/", "/cop31-booth-builder-antalya/",
         "/cop31-pavilion-services/", "/cop31-antalya-expo-center/", "/cop31-antalya-venue/",
-        "/cop31-furniture-rental/", "/cop31-printing-services/", "/cop31-last-minute-services/",
+        "/cop31-furniture-rental/", "/cop31-printing-services/", "/last-minute-event-services-antalya/",
     ),
 }
 

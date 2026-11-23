@@ -86,7 +86,8 @@ def windows(today=None):
         out.append({
             "n": n, "hotel": h, "start": start, "end": end, "nights": (end - start).days,
             "status": status, "days_until": days,
-            "cop31": start <= COP31_END and end >= COP31_START,
+            # Flag only while COP31 is still ahead or running; after it the note is noise.
+            "cop31": today <= COP31_END and start <= COP31_END and end >= COP31_START,
             "label": date_range(start, end),
         })
     return out

@@ -504,7 +504,6 @@ def render_antalya():
             [PEAK, "Peak MICE months", "The comparison baseline: the busiest conference and incentive months."],
             ["July – August", "Summer leisure peak", "Published rates carry a 15–25% premium."],
         ]),
-        '      <p class="section-more">Demand in Antalya is higher around COP31 (9–20 November 2026, Antalya EXPO Center). See the <a href="/cop31-antalya/">COP31 Antalya guide</a> before planning dates near it.</p>',
         "    </section>",
         '    <section class="page-section">',
         "      <h2>Events That Fit the Off-Peak Window</h2>",

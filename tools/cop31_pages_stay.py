@@ -113,7 +113,7 @@ HOTELS = {
     "cta_services": L(
         "/cop31-antalya-accommodation/", "/cop31-private-transfers/",
         "/cop31-antalya-airport-transfer/", "/cop31-event-services/",
-        "/cop31-antalya-restaurants/", "/cop31-event-staff/", "/cop31-last-minute-services/",
+        "/cop31-antalya-restaurants/", "/event-staff-antalya/", "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Need Help Placing a Group in Antalya?",
     "faqs": [
@@ -133,7 +133,7 @@ HOTELS = {
          "Yes. Group sourcing, room blocks, delegation placement and staff accommodation are covered on our COP31 accommodation page."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-antalya-accommodation/", "/cop31-antalya-transport/",
+        "/cop31-antalya/", "/cop31-antalya-accommodation/", "/antalya-airport-transfers-group-transport/",
         "/cop31-antalya-participant-guide/", "/cop31-antalya-venue/",
         "/cop31-antalya-airport-transfer/", "/cop31-antalya-restaurants/",
         "/cop31-private-transfers/",
@@ -226,7 +226,7 @@ ACCOMMODATION = {
     ],
     "cta_services": L(
         "/cop31-private-transfers/", "/cop31-antalya-airport-transfer/", "/cop31-event-services/",
-        "/cop31-antalya-restaurants/", "/cop31-event-staff/", "/cop31-hostess-staff/",
+        "/cop31-antalya-restaurants/", "/event-staff-antalya/", "/cop31-hostess-staff/",
         "/cop31-antalya-hotels/",
     ),
     "cta_heading": "Placing a Delegation or Team in Antalya?",
@@ -247,9 +247,9 @@ ACCOMMODATION = {
          "Only if the hotel appears on the official COP31 accommodation list. Where it does not, we plan dedicated transport alongside the accommodation so the commute is solved from the start."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-antalya-hotels/", "/cop31-antalya-transport/",
+        "/cop31-antalya/", "/cop31-antalya-hotels/", "/antalya-airport-transfers-group-transport/",
         "/cop31-private-transfers/", "/cop31-antalya-airport-transfer/",
-        "/cop31-event-services/", "/cop31-antalya-restaurants/", "/cop31-event-staff/",
+        "/cop31-event-services/", "/cop31-antalya-restaurants/", "/event-staff-antalya/",
     ),
 }
 

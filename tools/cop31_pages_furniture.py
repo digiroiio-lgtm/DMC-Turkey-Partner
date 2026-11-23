@@ -87,15 +87,15 @@ FURNITURE = {
             para(
                 "Furniture is one of the most common last-minute requests during a conference, "
                 "and one of the more likely to be available — see "
-                + A("/cop31-last-minute-services/", "last-minute services") + "."
+                + A("/last-minute-event-services-antalya/", "last-minute services") + "."
             ),
             BACK,
         ),
     ],
     "cta_services": L(
         "/cop31-exhibition-stands/", "/cop31-pavilion-services/", "/cop31-av-equipment-rental/",
-        "/cop31-coffee-machine-rental/", "/cop31-exhibition-services/", "/cop31-event-services/",
-        "/cop31-last-minute-services/",
+        "/cop31-coffee-machine-rental/", "/exhibition-stands-antalya/", "/cop31-event-services/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Need Furniture in Antalya for COP31?",
     "faqs": [
@@ -115,7 +115,7 @@ FURNITURE = {
     "related": L(
         "/cop31-antalya/", "/cop31-exhibition-stands/", "/cop31-pavilion-services/",
         "/cop31-av-equipment-rental/", "/cop31-coffee-machine-rental/",
-        "/cop31-exhibition-services/", "/cop31-last-minute-services/",
+        "/exhibition-stands-antalya/", "/last-minute-event-services-antalya/",
     ),
 }
 
@@ -196,8 +196,8 @@ COFFEE = {
         ),
     ],
     "cta_services": L(
-        "/cop31-pavilion-services/", "/cop31-furniture-rental/", "/cop31-event-staff/",
-        "/cop31-exhibition-services/", "/cop31-event-services/", "/cop31-last-minute-services/",
+        "/cop31-pavilion-services/", "/cop31-furniture-rental/", "/event-staff-antalya/",
+        "/exhibition-stands-antalya/", "/cop31-event-services/", "/last-minute-event-services-antalya/",
         "/cop31-branding-signage/",
     ),
     "cta_heading": "Need a Coffee Station for Your COP31 Space?",
@@ -217,8 +217,8 @@ COFFEE = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-pavilion-services/", "/cop31-furniture-rental/",
-        "/cop31-event-services/", "/cop31-exhibition-services/", "/cop31-event-staff/",
-        "/cop31-last-minute-services/",
+        "/cop31-event-services/", "/exhibition-stands-antalya/", "/event-staff-antalya/",
+        "/last-minute-event-services-antalya/",
     ),
 }
 

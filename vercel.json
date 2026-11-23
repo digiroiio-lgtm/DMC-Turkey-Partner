@@ -37,22 +37,22 @@
     },
     {
       "source": "/cop31-rapid-response-services",
-      "destination": "/cop31-last-minute-services/",
+      "destination": "/last-minute-event-services-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-rapid-response-services/:path*",
-      "destination": "/cop31-last-minute-services/",
+      "destination": "/last-minute-event-services-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-emergency-event-support",
-      "destination": "/cop31-last-minute-services/",
+      "destination": "/last-minute-event-services-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-emergency-event-support/:path*",
-      "destination": "/cop31-last-minute-services/",
+      "destination": "/last-minute-event-services-antalya/",
       "statusCode": 301
     },
     {
@@ -117,22 +117,22 @@
     },
     {
       "source": "/cop31-antalya-airport-transfer",
-      "destination": "/cop31-antalya-transport/",
+      "destination": "/antalya-airport-transfers-group-transport/",
       "statusCode": 301
     },
     {
       "source": "/cop31-antalya-airport-transfer/:path*",
-      "destination": "/cop31-antalya-transport/",
+      "destination": "/antalya-airport-transfers-group-transport/",
       "statusCode": 301
     },
     {
       "source": "/cop31-private-transfers",
-      "destination": "/cop31-antalya-transport/",
+      "destination": "/antalya-airport-transfers-group-transport/",
       "statusCode": 301
     },
     {
       "source": "/cop31-private-transfers/:path*",
-      "destination": "/cop31-antalya-transport/",
+      "destination": "/antalya-airport-transfers-group-transport/",
       "statusCode": 301
     },
     {
@@ -147,102 +147,102 @@
     },
     {
       "source": "/cop31-exhibition-stands",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-exhibition-stands/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-booth-builder-antalya",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-booth-builder-antalya/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-pavilion-services",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-pavilion-services/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-furniture-rental",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-furniture-rental/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-coffee-machine-rental",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-coffee-machine-rental/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-branding-signage",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-branding-signage/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-printing-services",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-printing-services/:path*",
-      "destination": "/cop31-exhibition-services/",
+      "destination": "/exhibition-stands-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-av-equipment-rental",
-      "destination": "/cop31-event-production/",
+      "destination": "/antalya-event-production/",
       "statusCode": 301
     },
     {
       "source": "/cop31-av-equipment-rental/:path*",
-      "destination": "/cop31-event-production/",
+      "destination": "/antalya-event-production/",
       "statusCode": 301
     },
     {
       "source": "/cop31-hostess-staff",
-      "destination": "/cop31-event-staff/",
+      "destination": "/event-staff-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-hostess-staff/:path*",
-      "destination": "/cop31-event-staff/",
+      "destination": "/event-staff-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-interpreters",
-      "destination": "/cop31-event-staff/",
+      "destination": "/event-staff-antalya/",
       "statusCode": 301
     },
     {
       "source": "/cop31-interpreters/:path*",
-      "destination": "/cop31-event-staff/",
+      "destination": "/event-staff-antalya/",
       "statusCode": 301
     },
     {
@@ -624,6 +624,56 @@
       "source": "/selected-works/swarovski-b2b-incentive-trip/:path*",
       "destination": "/selected-works/swarovski-meeting-akra-antalya/",
       "statusCode": 301
+    },
+    {
+      "source": "/cop31-event-production",
+      "destination": "/antalya-event-production/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-event-production/:path*",
+      "destination": "/antalya-event-production/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-exhibition-services",
+      "destination": "/exhibition-stands-antalya/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-exhibition-services/:path*",
+      "destination": "/exhibition-stands-antalya/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-event-staff",
+      "destination": "/event-staff-antalya/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-event-staff/:path*",
+      "destination": "/event-staff-antalya/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-antalya-transport",
+      "destination": "/antalya-airport-transfers-group-transport/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-antalya-transport/:path*",
+      "destination": "/antalya-airport-transfers-group-transport/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-last-minute-services",
+      "destination": "/last-minute-event-services-antalya/",
+      "permanent": true
+    },
+    {
+      "source": "/cop31-last-minute-services/:path*",
+      "destination": "/last-minute-event-services-antalya/",
+      "permanent": true
     }
   ],
   "headers": [
