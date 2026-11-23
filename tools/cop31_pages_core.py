@@ -35,7 +35,7 @@ SERVICE_CARDS = cards([
      "Brochures, roll-ups, banners, foam board, desk graphics and event collateral produced locally in Antalya, including short-notice runs during the conference."),
     ("Exhibition Stands", "/cop31-exhibition-stands/",
      "Modular and custom stand production, graphics, installation, on-site support and dismantling for exhibitors at the venue and at side-event locations."),
-    ("Event Production", "/cop31-event-production/",
+    ("Event Production", "/antalya-event-production/",
      "Staging, sound, screens, lighting and technical crew for side events, receptions, briefings, press moments and breakout sessions."),
     ("Furniture Rental", "/cop31-furniture-rental/",
      "Meeting tables, chairs, stools, counters, lounge and exhibition furniture delivered, installed and collected to your schedule."),
@@ -49,9 +49,9 @@ SERVICE_CARDS = cards([
      "LED screens, monitors, projection, sound, microphones, presentation equipment and technicians for stands, pavilions and meeting rooms."),
     ("Branding &amp; Signage", "/cop31-branding-signage/",
      "Wayfinding, venue dressing, counters, backdrops, sponsor boards and branded environments produced and installed locally."),
-    ("Temporary Staff", "/cop31-event-staff/",
+    ("Temporary Staff", "/event-staff-antalya/",
      "Setup crews, runners, logistics and operational staff for build days, live days and dismantling."),
-    ("Last-Minute Production", "/cop31-last-minute-services/",
+    ("Last-Minute Production", "/last-minute-event-services-antalya/",
      "Fast local sourcing, production and on-site problem-solving when a shipment is delayed, an item is missing or a requirement appears during COP31."),
 ])
 
@@ -152,7 +152,7 @@ HUB = {
                  "Who can register, how the UNFCCC Online Registration System works, and where the official nomination and badge rules live."),
                 ("COP31 Hotels", "/cop31-antalya-hotels/",
                  "Where to stay: the Aksu, Lara, Belek, airport and city-centre options, and the trade-off between distance and shuttle access."),
-                ("COP31 Transport", "/cop31-antalya-transport/",
+                ("COP31 Transport", "/antalya-airport-transfers-group-transport/",
                  "How official shuttles, airport arrivals and hotel–venue movement work, and when a dedicated vehicle is the better answer."),
             ]),
         ),
@@ -178,7 +178,7 @@ HUB = {
                     ["Typical trigger", "A confirmed stand, pavilion, side event or delegation programme", "A delayed shipment, a missing item, a damaged graphic, a supplier no-show"],
                     ["Lead time", "Weeks to months before 9 November", "Hours to a day, usually during 9–20 November"],
                     ["What matters most", "Specification, drawings, approvals, budget, build schedule", "Local availability, access to the venue, someone physically in Antalya"],
-                    ["Where to start", A("/cop31-event-services/", "COP31 Event Services"), A("/cop31-last-minute-services/", "Last-Minute COP31 Services")],
+                    ["Where to start", A("/cop31-event-services/", "COP31 Event Services"), A("/last-minute-event-services-antalya/", "Last-Minute COP31 Services")],
                 ],
             ),
             para(
@@ -186,7 +186,7 @@ HUB = {
                 "then discover they have no route to the second. Having a local operations "
                 "contact already briefed before the conference opens is usually the difference "
                 "between a fixable problem and a visible one. See "
-                + A("/cop31-last-minute-services/", "last-minute COP31 services") + " for the "
+                + A("/last-minute-event-services-antalya/", "last-minute COP31 services") + " for the "
                 "full scope of urgent local support."
             ),
         ),
@@ -195,7 +195,7 @@ HUB = {
             cards([
                 ("COP31 Event Services", "/cop31-event-services/",
                  "The broad local operations scope: side events, dinners, meeting spaces, staffing, AV, printing, transport and supplier coordination in one plan."),
-                ("COP31 Exhibition Services", "/cop31-exhibition-services/",
+                ("COP31 Exhibition Services", "/exhibition-stands-antalya/",
                  "Exhibitor support across setup, graphics, furniture, AV, storage, on-site troubleshooting and dismantling."),
                 ("COP31 Pavilion Services", "/cop31-pavilion-services/",
                  "Production, branding, furniture, AV, hospitality, staffing and technical support for country, organisation and initiative pavilions."),
@@ -244,9 +244,9 @@ HUB = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-production/", "/cop31-exhibition-stands/", "/cop31-printing-services/",
-        "/cop31-av-equipment-rental/", "/cop31-event-staff/", "/cop31-private-transfers/",
-        "/cop31-last-minute-services/",
+        "/antalya-event-production/", "/cop31-exhibition-stands/", "/cop31-printing-services/",
+        "/cop31-av-equipment-rental/", "/event-staff-antalya/", "/cop31-private-transfers/",
+        "/last-minute-event-services-antalya/",
     ),
     "faqs": [
         ("When and where is COP31?",
@@ -269,14 +269,14 @@ HUB = {
     "related": L(
         "/cop31-antalya-participant-guide/", "/cop31-antalya-dates/", "/cop31-antalya-venue/",
         "/cop31-antalya-program/", "/cop31-antalya-registration/", "/cop31-antalya-hotels/",
-        "/cop31-antalya-accommodation/", "/cop31-antalya-transport/",
+        "/cop31-antalya-accommodation/", "/antalya-airport-transfers-group-transport/",
         "/cop31-antalya-airport-transfer/", "/cop31-antalya-restaurants/",
-        "/cop31-event-services/", "/cop31-exhibition-services/", "/cop31-exhibition-stands/",
-        "/cop31-booth-builder-antalya/", "/cop31-pavilion-services/", "/cop31-event-production/",
+        "/cop31-event-services/", "/exhibition-stands-antalya/", "/cop31-exhibition-stands/",
+        "/cop31-booth-builder-antalya/", "/cop31-pavilion-services/", "/antalya-event-production/",
         "/cop31-printing-services/", "/cop31-branding-signage/", "/cop31-av-equipment-rental/",
-        "/cop31-furniture-rental/", "/cop31-coffee-machine-rental/", "/cop31-event-staff/",
+        "/cop31-furniture-rental/", "/cop31-coffee-machine-rental/", "/event-staff-antalya/",
         "/cop31-hostess-staff/", "/cop31-interpreters/", "/cop31-private-transfers/",
-        "/cop31-last-minute-services/",
+        "/last-minute-event-services-antalya/",
     ),
     "related_heading": "The Full COP31 Antalya Cluster",
     "related_lede": "Every page in this section, grouped from planning to execution to urgent support.",

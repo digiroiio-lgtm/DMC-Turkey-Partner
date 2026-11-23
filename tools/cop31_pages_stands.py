@@ -129,9 +129,9 @@ STANDS = {
         ),
     ],
     "cta_services": L(
-        "/cop31-booth-builder-antalya/", "/cop31-exhibition-services/", "/cop31-branding-signage/",
+        "/cop31-booth-builder-antalya/", "/exhibition-stands-antalya/", "/cop31-branding-signage/",
         "/cop31-furniture-rental/", "/cop31-av-equipment-rental/", "/cop31-printing-services/",
-        "/cop31-event-staff/",
+        "/event-staff-antalya/",
     ),
     "cta_heading": "Need a Stand Built in Antalya for COP31?",
     "faqs": [
@@ -153,9 +153,9 @@ STANDS = {
          "Only if specified. Furniture, AV and lighting are quoted as named line items rather than assumed, so you can see exactly what is included."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-booth-builder-antalya/", "/cop31-exhibition-services/",
+        "/cop31-antalya/", "/cop31-booth-builder-antalya/", "/exhibition-stands-antalya/",
         "/cop31-pavilion-services/", "/cop31-antalya-expo-center/", "/cop31-antalya-venue/",
-        "/cop31-furniture-rental/", "/cop31-branding-signage/", "/cop31-last-minute-services/",
+        "/cop31-furniture-rental/", "/cop31-branding-signage/", "/last-minute-event-services-antalya/",
     ),
 }
 
@@ -235,15 +235,15 @@ BOOTH = {
                 "If your requirement extends beyond a booth into a two-week hosting space, the "
                 + A("/cop31-pavilion-services/", "pavilion services page")
                 + " is the better fit. For build support around a booth you already have, see "
-                + A("/cop31-exhibition-services/", "exhibition services") + "."
+                + A("/exhibition-stands-antalya/", "exhibition services") + "."
             ),
             BACK,
         ),
     ],
     "cta_services": L(
-        "/cop31-exhibition-stands/", "/cop31-exhibition-services/", "/cop31-furniture-rental/",
+        "/cop31-exhibition-stands/", "/exhibition-stands-antalya/", "/cop31-furniture-rental/",
         "/cop31-av-equipment-rental/", "/cop31-branding-signage/", "/cop31-printing-services/",
-        "/cop31-last-minute-services/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Send Your Booth Size and Dates",
     "cta_copy": (
@@ -265,7 +265,7 @@ BOOTH = {
          "Yes, and it is quoted up front. Breakdown, removal, rented-equipment return and disposal are included in the scope rather than negotiated at the end."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-exhibition-stands/", "/cop31-exhibition-services/",
+        "/cop31-antalya/", "/cop31-exhibition-stands/", "/exhibition-stands-antalya/",
         "/cop31-pavilion-services/", "/cop31-antalya-expo-center/", "/cop31-furniture-rental/",
         "/cop31-av-equipment-rental/", "/cop31-branding-signage/",
     ),
@@ -273,7 +273,7 @@ BOOTH = {
 
 
 PRODUCTION = {
-    "slug": "cop31-event-production",
+    "slug": "antalya-event-production",
     "breadcrumb": "Event Production",
     "title": "COP31 Event Production in Antalya | Staging, Sound & Crew",
     "description": (
@@ -351,8 +351,8 @@ PRODUCTION = {
     ],
     "cta_services": L(
         "/cop31-event-services/", "/cop31-av-equipment-rental/", "/cop31-furniture-rental/",
-        "/cop31-branding-signage/", "/cop31-event-staff/", "/cop31-interpreters/",
-        "/cop31-last-minute-services/",
+        "/cop31-branding-signage/", "/event-staff-antalya/", "/cop31-interpreters/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Producing an Event Around COP31?",
     "faqs": [
@@ -372,7 +372,7 @@ PRODUCTION = {
     "related": L(
         "/cop31-antalya/", "/cop31-event-services/", "/cop31-av-equipment-rental/",
         "/cop31-pavilion-services/", "/cop31-antalya-program/", "/cop31-antalya-restaurants/",
-        "/cop31-event-staff/", "/cop31-interpreters/",
+        "/event-staff-antalya/", "/cop31-interpreters/",
     ),
 }
 

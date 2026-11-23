@@ -12,13 +12,13 @@ BACK = para(
 
 STAFF_CTA = L(
     "/cop31-hostess-staff/", "/cop31-interpreters/", "/cop31-event-services/",
-    "/cop31-exhibition-services/", "/cop31-pavilion-services/", "/cop31-event-production/",
-    "/cop31-last-minute-services/",
+    "/exhibition-stands-antalya/", "/cop31-pavilion-services/", "/antalya-event-production/",
+    "/last-minute-event-services-antalya/",
 )
 
 
 EVENT_STAFF = {
-    "slug": "cop31-event-staff",
+    "slug": "event-staff-antalya",
     "breadcrumb": "Event Staff",
     "title": "COP31 Event Staff in Antalya | Crew, Setup Teams & Operational Support",
     "description": (
@@ -52,7 +52,7 @@ EVENT_STAFF = {
                 ("Registration and desk support", "Staffing your own registration or welcome desk at a side event or hotel — distinct from official COP31 accreditation, which is handled by UNFCCC."),
                 ("Logistics crew", "Loading, unloading, storage handling and delivery coordination."),
                 ("Operational staff", "Restocking, daily reset, tidying and the routine work that keeps a two-week space presentable."),
-                ("Technicians", "AV and technical crew where required — see " + A("/cop31-event-production/", "event production") + " for full production crewing."),
+                ("Technicians", "AV and technical crew where required — see " + A("/antalya-event-production/", "event production") + " for full production crewing."),
                 ("Supervisors", "A shift lead who reports to your team, so you are not supervising staff yourself."),
             ]),
         ),
@@ -127,8 +127,8 @@ EVENT_STAFF = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-hostess-staff/", "/cop31-interpreters/",
-        "/cop31-exhibition-services/", "/cop31-pavilion-services/", "/cop31-event-production/",
-        "/cop31-event-services/", "/cop31-last-minute-services/",
+        "/exhibition-stands-antalya/", "/cop31-pavilion-services/", "/antalya-event-production/",
+        "/cop31-event-services/", "/last-minute-event-services-antalya/",
     ),
 }
 
@@ -246,8 +246,8 @@ HOSTESS = {
          "Yes, and it makes a visible difference. A short brief and a one-page FAQ turn a greeter into someone who represents you properly."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-event-staff/", "/cop31-interpreters/",
-        "/cop31-pavilion-services/", "/cop31-exhibition-services/", "/cop31-event-services/",
+        "/cop31-antalya/", "/event-staff-antalya/", "/cop31-interpreters/",
+        "/cop31-pavilion-services/", "/exhibition-stands-antalya/", "/cop31-event-services/",
         "/cop31-antalya-participant-guide/",
     ),
 }
@@ -292,7 +292,7 @@ INTERPRETERS = {
                 ("Consecutive interpreting", "The standard mode for meetings, bilaterals, site visits and small groups."),
                 ("Meeting interpretation", "Support for structured meetings, negotiations with local counterparts and supplier discussions."),
                 ("Delegation support", "An interpreter attached to a delegation for a day or for the conference period, rather than booked per meeting."),
-                ("Event support", "Interpretation at side events, receptions and briefings, coordinated with " + A("/cop31-event-production/", "event production") + " where equipment is involved."),
+                ("Event support", "Interpretation at side events, receptions and briefings, coordinated with " + A("/antalya-event-production/", "event production") + " where equipment is involved."),
             ]),
         ),
         section(
@@ -349,9 +349,9 @@ INTERPRETERS = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-services/", "/cop31-hostess-staff/", "/cop31-event-staff/",
-        "/cop31-event-production/", "/cop31-private-transfers/", "/cop31-antalya-restaurants/",
-        "/cop31-last-minute-services/",
+        "/cop31-event-services/", "/cop31-hostess-staff/", "/event-staff-antalya/",
+        "/antalya-event-production/", "/cop31-private-transfers/", "/cop31-antalya-restaurants/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Need an Interpreter in Antalya?",
     "faqs": [
@@ -373,9 +373,9 @@ INTERPRETERS = {
          "Yes. We only list combinations that are genuinely available or sourceable, and we will decline rather than take a booking we cannot staff."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-hostess-staff/", "/cop31-event-staff/",
+        "/cop31-antalya/", "/cop31-hostess-staff/", "/event-staff-antalya/",
         "/cop31-antalya-participant-guide/", "/cop31-event-services/",
-        "/cop31-event-production/", "/cop31-antalya-restaurants/",
+        "/antalya-event-production/", "/cop31-antalya-restaurants/",
     ),
 }
 

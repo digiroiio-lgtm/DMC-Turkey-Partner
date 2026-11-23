@@ -13,10 +13,10 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /cop31-antalya-services /cop31-antalya/ 301!
 
 # Three near-identical COP31 urgency pages consolidated into one primary URL.
-/cop31-rapid-response-services/* /cop31-last-minute-services/ 301!
-/cop31-rapid-response-services /cop31-last-minute-services/ 301!
-/cop31-emergency-event-support/* /cop31-last-minute-services/ 301!
-/cop31-emergency-event-support /cop31-last-minute-services/ 301!
+/cop31-rapid-response-services/* /last-minute-event-services-antalya/ 301!
+/cop31-rapid-response-services /last-minute-event-services-antalya/ 301!
+/cop31-emergency-event-support/* /last-minute-event-services-antalya/ 301!
+/cop31-emergency-event-support /last-minute-event-services-antalya/ 301!
 
 # /events/germany/ merged into /events/frankfurt/ (Frankfurt IS the Germany MICE market).
 /events/germany/* /events/imex-frankfurt/ 301!
@@ -33,32 +33,32 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 /cop31-antalya-expo-center /cop31-antalya-venue/ 301!
 /cop31-antalya-accommodation/* /cop31-antalya-hotels/ 301!
 /cop31-antalya-accommodation /cop31-antalya-hotels/ 301!
-/cop31-antalya-airport-transfer/* /cop31-antalya-transport/ 301!
-/cop31-antalya-airport-transfer /cop31-antalya-transport/ 301!
-/cop31-private-transfers/* /cop31-antalya-transport/ 301!
-/cop31-private-transfers /cop31-antalya-transport/ 301!
+/cop31-antalya-airport-transfer/* /antalya-airport-transfers-group-transport/ 301!
+/cop31-antalya-airport-transfer /antalya-airport-transfers-group-transport/ 301!
+/cop31-private-transfers/* /antalya-airport-transfers-group-transport/ 301!
+/cop31-private-transfers /antalya-airport-transfers-group-transport/ 301!
 /cop31-antalya-restaurants/* /cop31-antalya-participant-guide/ 301!
 /cop31-antalya-restaurants /cop31-antalya-participant-guide/ 301!
-/cop31-exhibition-stands/* /cop31-exhibition-services/ 301!
-/cop31-exhibition-stands /cop31-exhibition-services/ 301!
-/cop31-booth-builder-antalya/* /cop31-exhibition-services/ 301!
-/cop31-booth-builder-antalya /cop31-exhibition-services/ 301!
-/cop31-pavilion-services/* /cop31-exhibition-services/ 301!
-/cop31-pavilion-services /cop31-exhibition-services/ 301!
-/cop31-furniture-rental/* /cop31-exhibition-services/ 301!
-/cop31-furniture-rental /cop31-exhibition-services/ 301!
-/cop31-coffee-machine-rental/* /cop31-exhibition-services/ 301!
-/cop31-coffee-machine-rental /cop31-exhibition-services/ 301!
-/cop31-branding-signage/* /cop31-exhibition-services/ 301!
-/cop31-branding-signage /cop31-exhibition-services/ 301!
-/cop31-printing-services/* /cop31-exhibition-services/ 301!
-/cop31-printing-services /cop31-exhibition-services/ 301!
-/cop31-av-equipment-rental/* /cop31-event-production/ 301!
-/cop31-av-equipment-rental /cop31-event-production/ 301!
-/cop31-hostess-staff/* /cop31-event-staff/ 301!
-/cop31-hostess-staff /cop31-event-staff/ 301!
-/cop31-interpreters/* /cop31-event-staff/ 301!
-/cop31-interpreters /cop31-event-staff/ 301!
+/cop31-exhibition-stands/* /exhibition-stands-antalya/ 301!
+/cop31-exhibition-stands /exhibition-stands-antalya/ 301!
+/cop31-booth-builder-antalya/* /exhibition-stands-antalya/ 301!
+/cop31-booth-builder-antalya /exhibition-stands-antalya/ 301!
+/cop31-pavilion-services/* /exhibition-stands-antalya/ 301!
+/cop31-pavilion-services /exhibition-stands-antalya/ 301!
+/cop31-furniture-rental/* /exhibition-stands-antalya/ 301!
+/cop31-furniture-rental /exhibition-stands-antalya/ 301!
+/cop31-coffee-machine-rental/* /exhibition-stands-antalya/ 301!
+/cop31-coffee-machine-rental /exhibition-stands-antalya/ 301!
+/cop31-branding-signage/* /exhibition-stands-antalya/ 301!
+/cop31-branding-signage /exhibition-stands-antalya/ 301!
+/cop31-printing-services/* /exhibition-stands-antalya/ 301!
+/cop31-printing-services /exhibition-stands-antalya/ 301!
+/cop31-av-equipment-rental/* /antalya-event-production/ 301!
+/cop31-av-equipment-rental /antalya-event-production/ 301!
+/cop31-hostess-staff/* /event-staff-antalya/ 301!
+/cop31-hostess-staff /event-staff-antalya/ 301!
+/cop31-interpreters/* /event-staff-antalya/ 301!
+/cop31-interpreters /event-staff-antalya/ 301!
 
 # Events section consolidation (Nov 2026): 25 pages reduced to 5.
 /events/imex-frankfurt-2026/* /events/imex-frankfurt/ 301!
@@ -143,3 +143,13 @@ http://www.dmcturkeypartner.com/* https://dmcturkeypartner.com/:splat 301!
 # Old Swarovski project URL (linked from the incentive travel guide).
 /selected-works/swarovski-b2b-incentive-trip/* /selected-works/swarovski-meeting-akra-antalya/ 301!
 /selected-works/swarovski-b2b-incentive-trip /selected-works/swarovski-meeting-akra-antalya/ 301!
+/cop31-event-production /antalya-event-production/ 301
+/cop31-event-production/* /antalya-event-production/ 301
+/cop31-exhibition-services /exhibition-stands-antalya/ 301
+/cop31-exhibition-services/* /exhibition-stands-antalya/ 301
+/cop31-event-staff /event-staff-antalya/ 301
+/cop31-event-staff/* /event-staff-antalya/ 301
+/cop31-antalya-transport /antalya-airport-transfers-group-transport/ 301
+/cop31-antalya-transport/* /antalya-airport-transfers-group-transport/ 301
+/cop31-last-minute-services /last-minute-event-services-antalya/ 301
+/cop31-last-minute-services/* /last-minute-event-services-antalya/ 301

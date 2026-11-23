@@ -92,9 +92,9 @@ PRINTING = {
         ),
     ],
     "cta_services": L(
-        "/cop31-branding-signage/", "/cop31-exhibition-services/", "/cop31-pavilion-services/",
-        "/cop31-exhibition-stands/", "/cop31-event-services/", "/cop31-last-minute-services/",
-        "/cop31-event-production/",
+        "/cop31-branding-signage/", "/exhibition-stands-antalya/", "/cop31-pavilion-services/",
+        "/cop31-exhibition-stands/", "/cop31-event-services/", "/last-minute-event-services-antalya/",
+        "/antalya-event-production/",
     ),
     "cta_heading": "Need Printing for COP31 Antalya?",
     "cta_copy": (
@@ -118,9 +118,9 @@ PRINTING = {
          "Yes, and we recommend it. Having approved files already with us removes the slowest step from an urgent reprint."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-branding-signage/", "/cop31-exhibition-services/",
-        "/cop31-pavilion-services/", "/cop31-last-minute-services/",
-        "/cop31-event-production/", "/cop31-event-services/",
+        "/cop31-antalya/", "/cop31-branding-signage/", "/exhibition-stands-antalya/",
+        "/cop31-pavilion-services/", "/last-minute-event-services-antalya/",
+        "/antalya-event-production/", "/cop31-event-services/",
     ),
 }
 
@@ -200,7 +200,7 @@ BRANDING = {
     ],
     "cta_services": L(
         "/cop31-printing-services/", "/cop31-exhibition-stands/", "/cop31-pavilion-services/",
-        "/cop31-event-production/", "/cop31-exhibition-services/", "/cop31-last-minute-services/",
+        "/antalya-event-production/", "/exhibition-stands-antalya/", "/last-minute-event-services-antalya/",
         "/cop31-event-services/",
     ),
     "cta_heading": "Need Branding or Signage in Antalya?",
@@ -220,8 +220,8 @@ BRANDING = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-printing-services/", "/cop31-exhibition-stands/",
-        "/cop31-pavilion-services/", "/cop31-event-production/", "/cop31-exhibition-services/",
-        "/cop31-last-minute-services/",
+        "/cop31-pavilion-services/", "/antalya-event-production/", "/exhibition-stands-antalya/",
+        "/last-minute-event-services-antalya/",
     ),
 }
 
@@ -263,7 +263,7 @@ AV = {
                 ("Lighting", "Stage, functional and atmospheric lighting for sessions, receptions and stand illumination."),
                 ("Presentation equipment", "Switching, clickers, cabling, adapters, monitors for presenters and the connection kit that is always missing."),
                 ("Laptops and playback", "Playback machines and presentation laptops where required, subject to availability."),
-                ("Technicians", "Operators for the live event and crew for setup and derig — see " + A("/cop31-event-production/", "event production") + " for full production."),
+                ("Technicians", "Operators for the live event and crew for setup and derig — see " + A("/antalya-event-production/", "event production") + " for full production."),
                 ("On-site setup", "Delivery, installation, testing and collection, scheduled around venue and hotel access windows."),
             ]),
         ),
@@ -323,7 +323,7 @@ AV = {
             ),
             para(
                 "For equipment needed at short notice during the conference, see "
-                + A("/cop31-last-minute-services/", "last-minute services")
+                + A("/last-minute-event-services-antalya/", "last-minute services")
                 + ". We will tell you what is genuinely available rather than take an order we "
                 "cannot fill."
             ),
@@ -331,9 +331,9 @@ AV = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-production/", "/cop31-furniture-rental/", "/cop31-exhibition-stands/",
-        "/cop31-pavilion-services/", "/cop31-event-services/", "/cop31-last-minute-services/",
-        "/cop31-event-staff/",
+        "/antalya-event-production/", "/cop31-furniture-rental/", "/cop31-exhibition-stands/",
+        "/cop31-pavilion-services/", "/cop31-event-services/", "/last-minute-event-services-antalya/",
+        "/event-staff-antalya/",
     ),
     "cta_heading": "Need AV Equipment in Antalya for COP31?",
     "faqs": [
@@ -355,9 +355,9 @@ AV = {
          "Yes. Repeatable small-room kits with a technician covering multiple rooms is a standard arrangement for multi-session days."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-event-production/", "/cop31-furniture-rental/",
-        "/cop31-exhibition-services/", "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
-        "/cop31-last-minute-services/", "/cop31-event-staff/",
+        "/cop31-antalya/", "/antalya-event-production/", "/cop31-furniture-rental/",
+        "/exhibition-stands-antalya/", "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
+        "/last-minute-event-services-antalya/", "/event-staff-antalya/",
     ),
 }
 

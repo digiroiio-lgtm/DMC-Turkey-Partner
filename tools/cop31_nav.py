@@ -15,7 +15,21 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from cop31_links import PLAN, SERVICES, URGENT  # noqa: E402
+from cop31_links import PLAN  # noqa: E402
+
+# After COP31 (20 November 2026) the menu leads with the permanent Antalya
+# service pages; the COP31 guides stay reachable as an archive column.
+ANTALYA_SERVICES = [
+    ("/destinations/antalya/", "Antalya DMC"),
+    ("/antalya-event-production/", "Event Production &amp; AV"),
+    ("/exhibition-stands-antalya/", "Exhibition Stands"),
+    ("/event-staff-antalya/", "Event Staff"),
+    ("/antalya-airport-transfers-group-transport/", "Airport Transfers &amp; Transport"),
+    ("/last-minute-event-services-antalya/", "Last-Minute Support"),
+    ("/antalya-transfer-prices/", "Transfer Prices"),
+]
+ARCHIVE = [(href, label) for href, label in PLAN if href.startswith("/cop31-")] + [
+    ("/cop31-event-services/", "Event Services")]
 from site_footer import replace_footer  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,15 +80,14 @@ def _menu_column(title, links, panel_id, first=False):
 
 def nav_block():
     columns = (
-        _menu_column("Plan Your COP31", PLAN, "nav-cop31-plan", first=True)
-        + _menu_column("Local Services", SERVICES, "nav-cop31-services")
-        + _menu_column("Urgent Support", URGENT, "nav-cop31-urgent")
+        _menu_column("Event Services", ANTALYA_SERVICES, "nav-cop31-services", first=True)
+        + _menu_column("COP31 2026 Archive", ARCHIVE, "nav-cop31-plan")
     )
     return (
         "          " + NAV_BEGIN + "\n"
         '          <li class="nav-group nav-group--mega">\n'
         '            <button type="button" class="nav-group__trigger"'
-        ' aria-expanded="false" aria-controls="nav-cop31">COP31</button>\n'
+        ' aria-expanded="false" aria-controls="nav-cop31">Antalya</button>\n'
         '            <div class="nav-group__menu nav-group__menu--mega" id="nav-cop31">\n'
         '              <div class="nav-mega">' + columns + "\n"
         "              </div>\n"

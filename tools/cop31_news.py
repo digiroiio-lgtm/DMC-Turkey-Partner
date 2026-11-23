@@ -327,7 +327,7 @@ def render_hub():
         '<a href="/cop31-antalya-participant-guide/">Participant Guide</a>'
         '<a href="/cop31-antalya-venue/">Venue</a>'
         '<a href="/cop31-antalya-hotels/">Hotels</a>'
-        '<a href="/cop31-antalya-transport/">Transport</a></div>',
+        '<a href="/antalya-airport-transfers-group-transport/">Transport</a></div>',
         "    </section>",
         _cta("hub"),
         '    <section class="page-section"><p class="disclaimer">%s</p></section>' % DISCLAIMER,

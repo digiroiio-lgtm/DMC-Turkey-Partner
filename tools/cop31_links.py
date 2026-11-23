@@ -16,23 +16,23 @@ PLAN = [
     ("/cop31-antalya-registration/", "Registration"),
     ("/cop31-antalya-hotels/", "Hotels"),
     ("/cop31-antalya-accommodation/", "Group Accommodation"),
-    ("/cop31-antalya-transport/", "Transport"),
+    ("/antalya-airport-transfers-group-transport/", "Transport"),
     ("/cop31-antalya-restaurants/", "Restaurants &amp; Dining"),
 ]
 
 SERVICES = [
     ("/cop31-event-services/", "Event Services"),
-    ("/cop31-exhibition-services/", "Exhibition Services"),
+    ("/exhibition-stands-antalya/", "Exhibition Services"),
     ("/cop31-exhibition-stands/", "Exhibition Stands"),
     ("/cop31-booth-builder-antalya/", "Booth Builder"),
     ("/cop31-pavilion-services/", "Pavilion Services"),
-    ("/cop31-event-production/", "Event Production"),
+    ("/antalya-event-production/", "Event Production"),
     ("/cop31-printing-services/", "Printing &amp; Collateral"),
     ("/cop31-branding-signage/", "Branding &amp; Signage"),
     ("/cop31-av-equipment-rental/", "AV &amp; Equipment Rental"),
     ("/cop31-furniture-rental/", "Furniture Rental"),
     ("/cop31-coffee-machine-rental/", "Coffee &amp; Hospitality"),
-    ("/cop31-event-staff/", "Event Staff"),
+    ("/event-staff-antalya/", "Event Staff"),
     ("/cop31-hostess-staff/", "Hostesses"),
     ("/cop31-interpreters/", "Interpreters"),
     ("/cop31-private-transfers/", "Private Transfers"),
@@ -40,7 +40,7 @@ SERVICES = [
 ]
 
 URGENT = [
-    ("/cop31-last-minute-services/", "Last-Minute Services"),
+    ("/last-minute-event-services-antalya/", "Last-Minute Services"),
 ]
 
 # Labels stay defined for merged pages so older page modules still import;

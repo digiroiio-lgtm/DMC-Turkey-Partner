@@ -72,7 +72,7 @@ PAVILION = {
                 ("Furniture", "Seating for sessions, meeting tables, lounge areas, counters and storage furniture — see " + A("/cop31-furniture-rental/", "furniture rental") + "."),
                 ("AV and technical", "Screens, sound, microphones, presentation systems, recording support and a technician for session days — see " + A("/cop31-av-equipment-rental/", "AV rental") + "."),
                 ("Hospitality", "Coffee machines and stations, water, refrigeration, cups and supplies, and catering coordination — see " + A("/cop31-coffee-machine-rental/", "coffee and hospitality equipment") + "."),
-                ("Staffing", "Hosts, session support, technical crew and daily reset staff — see " + A("/cop31-event-staff/", "event staff") + " and " + A("/cop31-hostess-staff/", "hostesses") + "."),
+                ("Staffing", "Hosts, session support, technical crew and daily reset staff — see " + A("/event-staff-antalya/", "event staff") + " and " + A("/cop31-hostess-staff/", "hostesses") + "."),
                 ("Printing", "Session programmes, signage, reports, name cards and reprints during the conference — see " + A("/cop31-printing-services/", "printing services") + "."),
                 ("Transport", "Speaker and delegation movement to and from the pavilion, and supply runs — see " + A("/cop31-private-transfers/", "private transfers") + "."),
                 ("Daily operational support", "A local contact who resets the space, restocks supplies, chases faults and reports each day."),
@@ -120,8 +120,8 @@ PAVILION = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-production/", "/cop31-branding-signage/", "/cop31-furniture-rental/",
-        "/cop31-av-equipment-rental/", "/cop31-coffee-machine-rental/", "/cop31-event-staff/",
+        "/antalya-event-production/", "/cop31-branding-signage/", "/cop31-furniture-rental/",
+        "/cop31-av-equipment-rental/", "/cop31-coffee-machine-rental/", "/event-staff-antalya/",
         "/cop31-printing-services/",
     ),
     "cta_heading": "Running a Pavilion at COP31 Antalya?",
@@ -142,15 +142,15 @@ PAVILION = {
          "No. We are an independent local operations provider. Pavilion allocation, venue rules and accreditation are handled by the official COP31 and UNFCCC bodies."),
     ],
     "related": L(
-        "/cop31-antalya/", "/cop31-exhibition-services/", "/cop31-exhibition-stands/",
-        "/cop31-event-production/", "/cop31-antalya-venue/", "/cop31-antalya-expo-center/",
-        "/cop31-coffee-machine-rental/", "/cop31-event-staff/", "/cop31-last-minute-services/",
+        "/cop31-antalya/", "/exhibition-stands-antalya/", "/cop31-exhibition-stands/",
+        "/antalya-event-production/", "/cop31-antalya-venue/", "/cop31-antalya-expo-center/",
+        "/cop31-coffee-machine-rental/", "/event-staff-antalya/", "/last-minute-event-services-antalya/",
     ),
 }
 
 
 TRANSPORT = {
-    "slug": "cop31-antalya-transport",
+    "slug": "antalya-airport-transfers-group-transport",
     "breadcrumb": "Transport",
     "title": "COP31 Antalya Transport Guide 2026 | Shuttles, Airport & Venue Travel",
     "description": (
@@ -277,7 +277,7 @@ TRANSPORT = {
     ],
     "cta_services": L(
         "/cop31-private-transfers/", "/cop31-antalya-airport-transfer/", "/cop31-event-services/",
-        "/cop31-event-staff/", "/cop31-antalya-accommodation/", "/cop31-last-minute-services/",
+        "/event-staff-antalya/", "/cop31-antalya-accommodation/", "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Need Dedicated Transport for COP31?",
     "faqs": [

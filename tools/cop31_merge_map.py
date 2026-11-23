@@ -34,7 +34,7 @@ MERGES = {
             ("How We Work", "How We Place Delegations and Event Teams"),
         ]}),
     ],
-    "cop31-antalya-transport": [
+    "antalya-airport-transfers-group-transport": [
         ("cop31-antalya-airport-transfer", {"sections": [
             ("Routes We Cover", "Airport Transfer Routes We Cover"),
             ("Vehicle Types", "Vehicle Types and Capacities"),
@@ -53,7 +53,7 @@ MERGES = {
             "Group Dining and Private Event Options",
         ]}),
     ],
-    "cop31-exhibition-services": [
+    "exhibition-stands-antalya": [
         ("cop31-exhibition-stands", {"sections": [
             ("Modular or Custom?", "Exhibition Stands: Modular or Custom?"),
             "Stand Sizes and Typical Cost Ranges",
@@ -85,7 +85,7 @@ MERGES = {
             ("Turnaround", "Print Turnaround"),
         ]}),
     ],
-    "cop31-event-production": [
+    "antalya-event-production": [
         ("cop31-av-equipment-rental", {"sections": [
             ("Equipment We Supply", "AV Equipment We Supply"),
             ("Typical Hire Ranges", "Typical AV Hire Ranges"),
@@ -93,7 +93,7 @@ MERGES = {
             "Rental Availability During COP31",
         ]}),
     ],
-    "cop31-event-staff": [
+    "event-staff-antalya": [
         ("cop31-hostess-staff", {"sections": [
             "Where Hostess Staff Are Used",
             "How Many Hostesses?",
@@ -115,7 +115,7 @@ RETITLE = {
         "title": "COP31 Antalya Hotels &amp; Group Accommodation 2026",
         "h1": "COP31 Antalya Hotels and Group Accommodation 2026",
     },
-    "cop31-antalya-transport": {
+    "antalya-airport-transfers-group-transport": {
         "title": "COP31 Antalya Transport 2026 | Airport Transfers &amp; Prices",
         "h1": "COP31 Antalya Transport, Airport Transfers and Private Vehicles",
         "description": (
@@ -127,7 +127,7 @@ RETITLE = {
         "title": "COP31 Venue: Antalya EXPO Center 2026 | Location &amp; Access",
         "h1": "COP31 Venue – Antalya EXPO Center Location, Access and Logistics",
     },
-    "cop31-exhibition-services": {
+    "exhibition-stands-antalya": {
         "title": "COP31 Exhibition Services Antalya | Stands, Pavilions &amp; Print",
         "h1": "COP31 Exhibition Services in Antalya – Stands, Pavilions, Furniture and Print",
         "description": (
@@ -135,7 +135,7 @@ RETITLE = {
             "furniture, coffee stations, branding, signage and print, built and run locally."
         ),
     },
-    "cop31-event-production": {
+    "antalya-event-production": {
         "title": "Event Production &amp; AV Rental Antalya | COP31 &amp; Corporate",
         "h1": "COP31 Event Production and AV Rental in Antalya",
         "description": (
@@ -143,7 +143,7 @@ RETITLE = {
             "events: staging, LED screens, sound, lighting, technicians and hire ranges."
         ),
     },
-    "cop31-event-staff": {
+    "event-staff-antalya": {
         "title": "Event Staff Antalya | Hostesses, Interpreters &amp; Crew for COP31",
         "h1": "COP31 Event Staff in Antalya – Crew, Hostesses and Interpreters",
         "description": (
@@ -212,7 +212,7 @@ PROOF = {
         "Resort-based corporate programmes in Belek delivered by our Antalya team:",
         _GROUPS,
     ),
-    "cop31-antalya-transport": _proof(
+    "antalya-airport-transfers-group-transport": _proof(
         "Resort Programmes We Have Delivered Around Antalya",
         "Resort-based corporate programmes our Antalya team delivered across the region:",
         _GROUPS,
@@ -222,17 +222,17 @@ PROOF = {
         "Dinners, receptions and hosted programmes for corporate clients in Antalya:",
         _HOSPITALITY,
     ),
-    "cop31-exhibition-services": _proof(
+    "exhibition-stands-antalya": _proof(
         "Special Projects Our Antalya Production Network Delivered",
         "Recent special projects and experiential events produced locally in Antalya and Belek:",
         _BUILD,
     ),
-    "cop31-event-production": _proof(
+    "antalya-event-production": _proof(
         "Productions We Have Delivered in Antalya",
         "Recent corporate events and shows our Antalya production network delivered:",
         _PRODUCTION,
     ),
-    "cop31-event-staff": _proof(
+    "event-staff-antalya": _proof(
         "Recent Antalya Projects Our Team Delivered",
         "Recent Antalya programmes delivered by our team and local network:",
         _STAFF,
@@ -242,7 +242,7 @@ PROOF = {
         "Recent corporate programmes our Antalya team delivered:",
         _CORPORATE + _PRODUCTION[:1],
     ),
-    "cop31-last-minute-services": _proof(
+    "last-minute-event-services-antalya": _proof(
         "Why We Can Source Fast in Antalya",
         "Fast sourcing depends on a standing local network. The same Antalya production network delivered:",
         _PRODUCTION[:2] + _CONGRESS[:1],

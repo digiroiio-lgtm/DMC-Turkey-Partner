@@ -5,8 +5,8 @@ from cop31_links import A, L
 from cop31_render import cards, checklist, lede, para, section, steps, table
 
 INFO_CTA = L(
-    "/cop31-exhibition-services/", "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
-    "/cop31-event-production/", "/cop31-av-equipment-rental/", "/cop31-furniture-rental/",
+    "/exhibition-stands-antalya/", "/cop31-pavilion-services/", "/cop31-exhibition-stands/",
+    "/antalya-event-production/", "/cop31-av-equipment-rental/", "/cop31-furniture-rental/",
     "/cop31-printing-services/",
 )
 
@@ -76,7 +76,7 @@ VENUE = {
             para(
                 "See " + A("/cop31-antalya-airport-transfer/", "COP31 Antalya airport transfers")
                 + " for how arrivals are usually structured, and "
-                + A("/cop31-antalya-transport/", "the transport guide")
+                + A("/antalya-airport-transfers-group-transport/", "the transport guide")
                 + " for shuttle and daily movement."
             ),
         ),
@@ -116,7 +116,7 @@ VENUE = {
                 ("Local production beats international freight for the small stuff",
                  "Graphics, print, signage and furniture are faster and cheaper to produce in Antalya than to ship. Reserve freight for what genuinely cannot be made locally."),
                 ("Plan a fallback before you need one",
-                 "The teams that cope with a delayed shipment are the ones who identified a local production route in advance — see " + A("/cop31-last-minute-services/", "last-minute services") + "."),
+                 "The teams that cope with a delayed shipment are the ones who identified a local production route in advance — see " + A("/last-minute-event-services-antalya/", "last-minute services") + "."),
                 ("Storage matters more than people expect",
                  "Stock, giveaways, spare graphics and empty cases all need somewhere to live for two weeks. Plan it rather than discovering it on build day."),
                 ("Dismantling is a real project",
@@ -130,9 +130,9 @@ VENUE = {
                 "around it, these are the relevant service pages."
             ),
             cards([
-                ("Exhibition Services", "/cop31-exhibition-services/", "Setup, dismantling, graphics, furniture, AV, storage, logistics and on-site troubleshooting for exhibitors."),
+                ("Exhibition Services", "/exhibition-stands-antalya/", "Setup, dismantling, graphics, furniture, AV, storage, logistics and on-site troubleshooting for exhibitors."),
                 ("Pavilion Services", "/cop31-pavilion-services/", "Production, branding, hospitality, staffing and technical support for country and organisation pavilions."),
-                ("Event Production", "/cop31-event-production/", "Staging, sound, screens, lighting and technical crew for side events and briefings."),
+                ("Event Production", "/antalya-event-production/", "Staging, sound, screens, lighting and technical crew for side events and briefings."),
                 ("AV &amp; Equipment Rental", "/cop31-av-equipment-rental/", "Screens, sound, microphones, presentation equipment and technicians."),
                 ("Furniture Rental", "/cop31-furniture-rental/", "Exhibition, meeting, lounge and hospitality furniture delivered to your schedule."),
                 ("Printing &amp; Collateral", "/cop31-printing-services/", "Local print production for stands, delegations and short-notice reprints."),
@@ -157,8 +157,8 @@ VENUE = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-expo-center/", "/cop31-antalya-participant-guide/",
-        "/cop31-antalya-transport/", "/cop31-antalya-hotels/", "/cop31-exhibition-services/",
-        "/cop31-pavilion-services/", "/cop31-event-production/", "/cop31-exhibition-stands/",
+        "/antalya-airport-transfers-group-transport/", "/cop31-antalya-hotels/", "/exhibition-stands-antalya/",
+        "/cop31-pavilion-services/", "/antalya-event-production/", "/cop31-exhibition-stands/",
     ),
 }
 
@@ -247,7 +247,7 @@ PROGRAMME = {
                 ("Finance and trade activity",
                  "Executive meetings, bilaterals and private dinners dominate. The recurring needs are meeting rooms, discreet dining, interpreters and vehicles on disposal rather than per-journey transfers. See " + A("/cop31-antalya-restaurants/", "private dining") + " and " + A("/cop31-private-transfers/", "private transfers") + "."),
                 ("Science, industry and technology activity",
-                 "Demonstration-heavy. Screens, power, technical crew, exhibition production and interpretation carry the weight — see " + A("/cop31-av-equipment-rental/", "AV rental") + " and " + A("/cop31-event-production/", "event production") + "."),
+                 "Demonstration-heavy. Screens, power, technical crew, exhibition production and interpretation carry the weight — see " + A("/cop31-av-equipment-rental/", "AV rental") + " and " + A("/antalya-event-production/", "event production") + "."),
                 ("Energy, transport and industrial themes",
                  "Larger stands and pavilions, physical exhibits, heavier build requirements and more logistics around delivery and installation — see " + A("/cop31-exhibition-stands/", "exhibition stands") + "."),
                 ("Cities, built environment and resilience themes",
@@ -275,9 +275,9 @@ PROGRAMME = {
         ),
     ],
     "cta_services": L(
-        "/cop31-event-services/", "/cop31-event-production/", "/cop31-av-equipment-rental/",
+        "/cop31-event-services/", "/antalya-event-production/", "/cop31-av-equipment-rental/",
         "/cop31-interpreters/", "/cop31-private-transfers/", "/cop31-printing-services/",
-        "/cop31-last-minute-services/",
+        "/last-minute-event-services-antalya/",
     ),
     "cta_heading": "Building a Programme Around COP31?",
     "faqs": [
@@ -296,7 +296,7 @@ PROGRAMME = {
     ],
     "related": L(
         "/cop31-antalya/", "/cop31-antalya-dates/", "/cop31-antalya-participant-guide/",
-        "/cop31-antalya-venue/", "/cop31-event-services/", "/cop31-event-production/",
+        "/cop31-antalya-venue/", "/cop31-event-services/", "/antalya-event-production/",
         "/cop31-interpreters/", "/cop31-private-transfers/", "/cop31-antalya-restaurants/",
     ),
 }

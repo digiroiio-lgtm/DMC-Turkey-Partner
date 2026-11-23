@@ -64,7 +64,7 @@ ORG_KNOWS_ABOUT = [
     "Group travel operations",
     "Ground handling Turkey",
     "White-label DMC services",
-    "COP31 Antalya 2026 local event services",
+    "Antalya conference and exhibition services",
 ]
 
 # Registered travel agency operating the DMC Turkey Partner brand.

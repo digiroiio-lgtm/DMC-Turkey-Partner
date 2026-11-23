@@ -40,13 +40,13 @@ COLUMNS = (
         ("/insights/", "Guides & Insights"),
         ("/contact/", "Contact"),
     )),
-    ("COP31 Antalya", (
-        ("/cop31-antalya/", "COP31 Overview"),
-        ("/cop31-antalya-participant-guide/", "Participant Guide"),
-        ("/cop31-antalya-venue/", "Venue & Dates"),
-        ("/cop31-event-services/", "Event Services"),
-        ("/cop31-exhibition-services/", "Exhibition & Pavilion Services"),
-        ("/cop31-last-minute-services/", "Last-Minute Support"),
+    ("Antalya Event Services", (
+        ("/antalya-event-production/", "Event Production & AV"),
+        ("/exhibition-stands-antalya/", "Exhibition Stands"),
+        ("/event-staff-antalya/", "Event Staff"),
+        ("/antalya-airport-transfers-group-transport/", "Airport Transfers & Transport"),
+        ("/last-minute-event-services-antalya/", "Last-Minute Support"),
+        ("/cop31-antalya/", "COP31 2026 Archive"),
     )),
 )
 

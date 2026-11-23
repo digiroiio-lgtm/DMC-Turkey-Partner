@@ -52,8 +52,8 @@ TARGETS = {
     "event-costs/index.html": ["event-costs"],
     "services/transportation-logistics/index.html": ["transport-logistics"],
     # The airport and private-transfer pages were merged into the transport
-    # guide in November 2026, so it now carries all three COP31 blocks.
-    "cop31-antalya-transport/index.html": ["cop31-transport", "airport", "shuttle-full-day"],
+    # guide in November 2026; after COP31 it moved to a permanent Antalya URL.
+    "antalya-airport-transfers-group-transport/index.html": ["cop31-transport", "airport", "shuttle-full-day"],
 }
 
 FAQS = [
@@ -313,8 +313,8 @@ def render_page():
         '    <section class="page-section">',
         "      <h2>Related</h2>",
         '      <div class="cluster-links"><a href="/services/transportation-logistics/">'
-        "Group Transportation in Turkey</a><a href=\"/cop31-antalya-transport/#cop31-antalya-airport-transfer\">COP31 "
-        "Airport Transfers</a>"
+        "Group Transportation in Turkey</a><a href=\"/antalya-airport-transfers-group-transport/#cop31-antalya-airport-transfer\">Antalya "
+        "Airport Transfers &amp; Group Transport</a>"
         '<a href="/destinations/antalya/">Antalya DMC</a><a href="/event-costs/antalya/">'
         "Antalya Event Costs</a></div>",
         "    </section>",
