@@ -10,7 +10,12 @@ from html import escape
 import site_config as cfg
 
 ROOT = Path(__file__).resolve().parent.parent
-UPDATED = "8 October 2026"
+# Review date per notice: only a notice whose text changed gets a newer date.
+REVIEWED = {
+    "privacy-policy": ("24 November 2026", "2026-11-24"),  # Calendly, Google Meet, UK/EU GDPR rights
+    "cookie-policy": ("8 October 2026", "2026-10-08"),
+    "terms": ("8 October 2026", "2026-10-08"),
+}
 IDENTITY = f'''<p><strong>{escape(cfg.ORG_COMPANY_NAME)}</strong> operates the registered travel agency <strong>{escape(cfg.ORG_AGENCY_NAME)}</strong> (TÜRSAB Agency No. {cfg.ORG_TURSAB_NUMBER}), through which the DMC Turkey Partner website and enquiries are handled.</p>
 <p>Address: Güzeloba, 2268 Sok No:33, 07230 Muratpaşa/Antalya, Türkiye.<br>Email: <a href="mailto:{cfg.ORG_EMAIL}">{cfg.ORG_EMAIL}</a><br>Telephone: <a href="tel:{cfg.ORG_PHONE}">{cfg.ORG_PHONE_DISPLAY}</a>.</p>
 <p>The agency and company names are listed together in the <a href="{cfg.ORG_AGENCY_RECORD_URL}" target="_blank" rel="noopener">published TÜRSAB agency record</a> (page 19). This published list is an identity reference, rather than a live certificate-status check.</p>'''
@@ -23,6 +28,7 @@ PRIVACY = f'''<div class="legal-summary"><p><strong>Your enquiry stays an enquir
 <ul><li><strong>Information you submit:</strong> your name, company, work email, destination, approximate group size, travel or event dates, project type and the brief you choose to provide. A calculator enquiry may also include your selected programme assumptions and estimated budget. If you ask us to email a calculator estimate, we collect your email address, your selected assumptions and the estimated budget.</li>
 <li><strong>Enquiry context:</strong> the page or service from which you requested a proposal, submission page and submission time. Optional campaign attribution is stored in your browser only after analytics permission.</li>
 <li><strong>Technical information:</strong> hosting and email providers may process network addresses, browser or device information, delivery records and security logs needed to serve the site, prevent misuse and deliver your enquiry.</li>
+<li><strong>Partner call bookings:</strong> if you book a partner call, the scheduling service <strong>Calendly</strong> collects the name, email address and any answers you give in the booking form, plus the time you choose. Calls are held on <strong>Google Meet</strong>; we do not record calls.</li>
 <li><strong>Optional usage information:</strong> after analytics permission, Google Analytics receives information about page views, selected features, proposal interactions and browser or device characteristics. We do not send your name, email or written brief as analytics event fields.</li></ul>
 <p>The initial form does not ask for passport copies, card information, health information or passenger lists. Please do not put these in the free-text brief. If later planning requires participant information, we will explain the purpose and the appropriate way to provide it separately.</p>
 <h2>3. Why do we process information, and on what basis?</h2>
@@ -30,17 +36,19 @@ PRIVACY = f'''<div class="legal-summary"><p><strong>Your enquiry stays an enquir
 <li><strong>Emailing a calculator estimate:</strong> to send the estimate you requested and, as stated next to the form, to follow up once about that programme. The basis is your request; we do not add you to a newsletter or mailing list.</li>
 <li><strong>Website operation, security and delivery:</strong> to keep the website available, identify misuse and deliver messages. The basis is the legitimate interest in operating and protecting the service, subject to applicable legal conditions.</li>
 <li><strong>Records and legal matters:</strong> to meet applicable legal obligations or establish, exercise or defend legal rights.</li>
+<li><strong>Partner calls:</strong> to hold the call you booked. The basis is your request, or our legitimate interest in answering a business enquiry.</li>
 <li><strong>Optional analytics:</strong> your consent. You may refuse or withdraw it without losing access to the website or enquiry form.</li></ul>
 <p>We do not treat submitting a brief as consent to unrelated promotional emails. Any separate marketing activity requiring permission must be handled separately from your enquiry. The applicable Turkish framework includes Law No. 6698 (KVKK); other privacy laws may also apply depending on the circumstances.</p>
+<p>If you are in the United Kingdom or the European Economic Area and the UK GDPR or EU GDPR applies to our processing, you also have the rights given by that law where its conditions are met: access, correction, deletion, restriction, objection, data portability and withdrawal of consent, and the right to complain to your local data protection authority (in the UK, the Information Commissioner’s Office).</p>
 <h2>4. Who receives information?</h2>
-<p>Enquiries are sent to our business inbox using <strong>Resend</strong>. <strong>Vercel</strong> provides website hosting and the server-side enquiry endpoint. These providers process information necessary to deliver their services. Optional analytics uses <strong>Google Analytics</strong> after your permission.</p>
+<p>Enquiries are sent to our business inbox using <strong>Resend</strong>. <strong>Vercel</strong> provides website hosting and the server-side enquiry endpoint. These providers process information necessary to deliver their services. Optional analytics uses <strong>Google Analytics</strong> after your permission. Partner call bookings are handled by <strong>Calendly</strong>, and calls take place on <strong>Google Meet</strong>.</p>
 <p>Applications to the Agency Fam Trip 2027, when that programme is open, are submitted through <strong>Formspree</strong>, which delivers them to our business inbox and keeps them in our Formspree account. We also derive your approximate country from your IP address (it is not stored) to tailor the invitation wording, and record that country code with your application. We use the details to assess the application and contact shortlisted applicants. Email updates are sent only if you tick the separate optional box.</p>
 <p>Our team uses enquiry information to assess the project. When needed to prepare a requested proposal, relevant requirements may be shared with hotels, venues, transport providers or event suppliers. We aim to share programme requirements rather than identifying guest details at this initial stage. Information may also be disclosed to professional advisers or competent authorities where necessary for legal matters or a legal obligation.</p>
 <p>External WhatsApp links open a separate service only when you choose to follow them. Information you send there is also subject to that service’s privacy terms.</p>
 <h2>5. Processing outside Türkiye</h2>
-<p>Hosting, email delivery and optional analytics can involve processing outside Türkiye. Resend states that its primary processing and stored customer data are in the United States. The location and subprocessors used by Vercel and Google depend on their services and configurations.</p>
+<p>Hosting, email delivery, call scheduling and optional analytics can involve processing outside Türkiye. Resend states that its primary processing and stored customer data are in the United States. The location and subprocessors used by Vercel, Calendly and Google depend on their services and configurations.</p>
 <p>Cross-border processing is subject to the transfer requirements of the applicable law, including KVKK Article 9 where it applies. A provider’s privacy policy alone does not establish the controller’s transfer arrangements. Contact us to request information about the arrangements applicable to your data.</p>
-<p>Provider information: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Vercel Privacy Policy</a>, <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">Resend Privacy Policy</a>, <a href="https://resend.com/legal/dpa" target="_blank" rel="noopener">Resend Data Processing Addendum</a>, <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Formspree Privacy Policy</a>, and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
+<p>Provider information: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Vercel Privacy Policy</a>, <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">Resend Privacy Policy</a>, <a href="https://resend.com/legal/dpa" target="_blank" rel="noopener">Resend Data Processing Addendum</a>, <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Formspree Privacy Policy</a>, <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">Calendly Privacy Notice</a>, and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
 <h2>6. How long is information kept?</h2>
 <p>Enquiry correspondence is retained for the time needed to respond, prepare and follow up on your requested proposal. If a project proceeds, relevant records may be retained for delivery, accounting, applicable statutory retention requirements and legal claims. Retention depends on the record and purpose; information should be deleted or anonymised when those purposes and obligations no longer require it.</p>
 <p>Browser storage lifetimes and how to withdraw analytics permission are described in our <a href="/cookie-policy/">Cookie Policy</a>. Provider-held delivery and technical logs have separate provider retention settings.</p>
@@ -117,7 +125,7 @@ def main():
         body = f'''<main id="main-content" class="page--legal">
     <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">{escape(title)}</li></ol></nav>
     <h1>{escape(title)}</h1>
-    <p class="legal-updated">Last reviewed: <time datetime="2026-10-08">{UPDATED}</time></p>
+    <p class="legal-updated">Last reviewed: <time datetime="{REVIEWED[slug][1]}">{REVIEWED[slug][0]}</time></p>
     {content}
   </main>'''
         updated = re.sub(r'<main\b.*?</main>', lambda _: body, original, count=1, flags=re.S)

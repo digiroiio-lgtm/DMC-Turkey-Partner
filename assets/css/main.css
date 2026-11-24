@@ -419,7 +419,7 @@ main {
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) repeat(4, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.3fr) repeat(5, minmax(0, 1fr));
   align-items: start;
   gap: 32px;
 }
@@ -3469,3 +3469,9 @@ body.offpeak-open {
   font-size: var(--text-sm);
 }
 .page-toc li { break-inside: avoid; margin-bottom: 0.35rem; }
+
+/* Footer language links (Sprint 1, Nov 2026) */
+.site-footer__languages {
+  margin-top: var(--space-2, 12px);
+  font-size: 0.875rem;
+}
