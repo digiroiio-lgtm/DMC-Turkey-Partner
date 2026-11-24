@@ -21,7 +21,6 @@ COLUMNS = (
         ("/mice-turkey/", "MICE Turkey"),
         ("/services/event-production/", "Event Production"),
         ("/services/transportation-logistics/", "Transportation & Logistics"),
-        ("/group-hotel-offers-turkey/", "Group Hotel Offers 2026"),
         ("/services/", "All Services"),
     )),
     ("Destinations", (
@@ -31,6 +30,14 @@ COLUMNS = (
         ("/destinations/cappadocia/", "Cappadocia"),
         ("/destinations/bodrum/", "Bodrum"),
         ("/destinations/", "All Destinations"),
+    )),
+    ("Planning Guides", (
+        ("/guides/mice-in-turkey/", "MICE in Turkey Guide"),
+        ("/event-costs/", "Event Cost Guide"),
+        ("/off-season-events-turkey/", "Off-Season Events"),
+        ("/group-hotel-offers-turkey/", "Group Hotel Offers"),
+        ("/events/", "MICE Events Calendar"),
+        ("/why-turkey/", "Why Turkey"),
     )),
     ("Company", (
         ("/about/", "About"),
@@ -73,6 +80,7 @@ def render():
           <a class="site-logo site-logo--footer" href="/" aria-label="DMC Turkey Partner — home"><img src="/assets/img/brand/dmc-turkey-partner-logo.svg" width="1214" height="410" alt="DMC Turkey Partner" loading="lazy"></a>
           <p>Local DMC, MICE and white-label event execution across Turkey.</p>
           <a class="btn btn--primary" href="/request-proposal/">Request a Proposal</a>
+          <p class="site-footer__languages"><a href="/de/dmc-tuerkei/" hreflang="de" lang="de">Deutsch</a> · <a href="/cs/dmc-turecko/" hreflang="cs" lang="cs">Čeština</a></p>
         </div>
 ''' + "\n".join(columns) + f'''
       </div>

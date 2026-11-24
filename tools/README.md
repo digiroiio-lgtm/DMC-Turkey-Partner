@@ -419,3 +419,12 @@ COP31 ended on 20 November. The site does not claim it delivered COP31 work.
 | `cop31_archive_note.py` | "COP31 took place… kept as an archive" note under the H1 of every remaining COP31 page. |
 | `cop31_sitewide_after.py` | Past tense and no COP31 service claims on evergreen pages (Antalya, DMC Turkey, corporate events, events, request form). |
 | `cop31_nav.py` / `site_footer.py` | Menu and footer now lead with Antalya event services; COP31 pages sit in a "COP31 2026 Archive" column. |
+
+## Sprint 1 — internal links and quick wins (24 November 2026)
+
+| Tool | What it does |
+|---|---|
+| `related_guides.py` | "Planning Guides" block (3–6 guide links) after the FAQ on 28 service, destination and Antalya pages. Idempotent. |
+| `gsc_quickwins.py` | Titles and headings for queries already ranking 10–30 (Antalya AV rental, Bodrum incentive, Turkey incentive travel). |
+| `site_footer.py` | New "Planning Guides" column; Deutsch · Čeština links in the brand column. |
+| `legal_pages.py` | Privacy notice covers Calendly and Google Meet and UK/EU GDPR rights; review date is per notice. |
